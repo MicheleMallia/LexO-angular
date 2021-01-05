@@ -7,6 +7,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LexiconViewComponent } from './views/lexicon-view/lexicon-view.component';
 import { LoginPageComponent } from './views/login-page/login-page.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
+import { HomePageComponent } from './views/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { PageNotFoundComponent } from './views/page-not-found/page-not-found.com
     NavbarComponent,
     LexiconViewComponent,
     LoginPageComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
