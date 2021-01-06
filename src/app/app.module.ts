@@ -8,6 +8,9 @@ import { LexiconViewComponent } from './views/lexicon-view/lexicon-view.componen
 import { LoginPageComponent } from './views/login-page/login-page.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 import { HomePageComponent } from './views/home-page/home-page.component';
+import { ProfilePageComponent } from './views/profile-page/profile-page.component';
+import { StatisticsPageComponent } from './views/statistics-page/statistics-page.component';
+import { ExtensionsPageComponent } from './views/extensions-page/extensions-page.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { HomePageComponent } from './views/home-page/home-page.component';
     LexiconViewComponent,
     LoginPageComponent,
     PageNotFoundComponent,
-    HomePageComponent
+    HomePageComponent,
+    ProfilePageComponent,
+    StatisticsPageComponent,
+    ExtensionsPageComponent
   ],
   imports: [
     BrowserModule,
