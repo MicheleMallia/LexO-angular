@@ -5,16 +5,46 @@
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
-        </form>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Advanced Search<i class="fa fa-filter"></i></button>
+                <a class="nav-link" routerLink="/home" routerLinkActive="active">
+                    <i class="fa fa-home fa-2x" aria-hidden="true"></i>
+                </a>
             </li>
             <li class="nav-item">
-                <button class="btn btn-light my-2 my-sm-0" type="submit"><i class="fa fa-question-circle"></i></button>
+                <a class="nav-link" routerLink="/user" routerLinkActive="active">
+                    <i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/lexicon" routerLinkActive="active">
+                    <i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/statistics" routerLinkActive="active">
+                    <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/extensions" routerLinkActive="active">
+                    <i class="fa fa-puzzle-piece fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <div class="dropdown">
+                <button class="btn btn-light btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    LexO-Admin
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#"><i class="fa fa-power-off" aria-hidden="true"></i> Logout</a>
+                </div>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="https://docs.google.com/document/d/1rTzEKBU7a_nvG3_paDKcyBitgIn06XW7von883NKnn0/edit" target="_blank">
+                    <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                </a>
             </li>
         </ul>
     </div>
