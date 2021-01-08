@@ -11,6 +11,9 @@ import { HomePageComponent } from './views/home-page/home-page.component';
 import { ProfilePageComponent } from './views/profile-page/profile-page.component';
 import { StatisticsPageComponent } from './views/statistics-page/statistics-page.component';
 import { ExtensionsPageComponent } from './views/extensions-page/extensions-page.component';
+import { LexiconPanelComponent } from './components/lexicon-panel/lexicon-panel.component';
+import { MetadataPanelComponent } from './components/metadata-panel/metadata-panel.component';
+import { ReferencePanelComponent } from './components/reference-panel/reference-panel.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { ExtensionsPageComponent } from './views/extensions-page/extensions-page
     HomePageComponent,
     ProfilePageComponent,
     StatisticsPageComponent,
-    ExtensionsPageComponent
+    ExtensionsPageComponent,
+    LexiconPanelComponent,
+    MetadataPanelComponent,
+    ReferencePanelComponent
   ],
   imports: [
     BrowserModule,
