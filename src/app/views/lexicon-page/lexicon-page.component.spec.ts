@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LexiconViewComponent } from './lexicon-view.component';
+import { LexiconPageComponent } from './lexicon-page.component';
 
-describe('LexiconViewComponent', () => {
-  let component: LexiconViewComponent;
-  let fixture: ComponentFixture<LexiconViewComponent>;
+describe('LexiconPageComponent', () => {
+  let component: LexiconPageComponent;
+  let fixture: ComponentFixture<LexiconPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LexiconViewComponent ]
+      declarations: [ LexiconPageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LexiconViewComponent);
+    fixture = TestBed.createComponent(LexiconPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
