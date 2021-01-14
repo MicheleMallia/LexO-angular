@@ -5,6 +5,7 @@ import { LexiconPageComponent } from './views/lexicon-page/lexicon-page.componen
 import { LoginPageComponent } from './views/login-page/login-page.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 import { ProfilePageComponent } from './views/profile-page/profile-page.component';
+import { SearchPageComponent } from './views/search-page/search-page.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   {path: 'lexicon', component: LexiconPageComponent},
   {path: 'user', component: ProfilePageComponent},
+  {path: 'search', component: SearchPageComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 
