@@ -13,6 +13,7 @@ import { LexiconPanelComponent } from './components/lexicon-panel/lexicon-panel.
 import { MetadataPanelComponent } from './components/metadata-panel/metadata-panel.component';
 import { ReferencePanelComponent } from './components/reference-panel/reference-panel.component';
 import { SearchPageComponent } from './views/search-page/search-page.component';
+import { DataSearchFormComponent } from './components/data-search-form/data-search-form.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SearchPageComponent } from './views/search-page/search-page.component';
     LexiconPanelComponent,
     MetadataPanelComponent,
     ReferencePanelComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    DataSearchFormComponent
   ],
   imports: [
     BrowserModule,
