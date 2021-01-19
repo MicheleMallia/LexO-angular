@@ -69,6 +69,7 @@
             </div>
         </div>
 
+        <!-- SUPPORTO -->
         <div class="card">
             <div class="card-header" id="headingThree">
                 <h5 class="mb-0">
@@ -81,8 +82,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <label for="supportType">Tipo di iscrizione: </label>
-                            <select class="form-control" id="supportType">
+                            <label for="inscriptionType">Tipo di iscrizione: </label>
+                            <select class="form-control" id="inscriptionType">
                                 <option>Funeraria</option>
                                 <option>Ode</option>
                                 <option>Mercantile</option>
@@ -91,8 +92,8 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <label for="materialType">Materiale dell'iscrizione: </label>
-                            <select class="form-control" id="materialType">
+                            <label for="objectType">Tipo di oggetto: </label>
+                            <select class="form-control" id="objectType">
                                 <option>Marmo</option>
                                 <option>Papiro</option>
                                 <option>Pietra</option>
@@ -109,6 +110,39 @@
                         <div class="form-group col-md-8">
                             <label for="modernPlaceName">Luogo di rinvenimento (nome moderno): </label>
                             <input type="text" class="form-control" id="modernPlaceName" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRONOLOGIA -->
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <i class="fa"></i>&nbsp;Cronologia
+                    </a>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" >
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="intervalDate" onchange="document.getElementById('toDate').disabled = !this.checked;">
+                            <label class="form-check-label" for="intervalDate">
+                            Intervallo
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group mb-2">
+                            <label for="fromDate">Da:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="number" class="form-control" id="fromDate" placeholder="-100">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="toDate">A:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="number" class="form-control" id="toDate" placeholder="100">
                         </div>
                     </div>
                 </div>
