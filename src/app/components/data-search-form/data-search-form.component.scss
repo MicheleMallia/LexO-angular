@@ -1,7 +1,9 @@
+//minus
 [data-toggle="collapse"] i:before{
-    content: "\f062";
+    content: "\f146";
 }
 
+//plus
 [data-toggle="collapse"].collapsed i:before{
-    content: "\f063";
+    content: "\f0fe";
 }
