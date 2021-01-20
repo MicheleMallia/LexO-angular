@@ -1,8 +1,8 @@
 <form>
-    <!-- FIXED CARD -->
+    <!-- FULL TEXT -->
     <div class="card">
         
-        <!-- FULL TEXT -->
+        
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
                 <a class="btn" aria-expanded="true">
@@ -24,14 +24,6 @@
                         <option>La frase esatta</option>
                     </select>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="selectFullText">Versione del testo:</label>
-                    <select class="form-control" id="selectFullText">
-                        <option>Diplomatica</option>
-                        <option>Interpretativa</option>
-                        <option>Entrambe</option>
-                    </select>
-                </div>
             </div>
         </div>
     </div>
@@ -40,14 +32,14 @@
 
         <!-- DATI GENERALI -->
         <div class="card">
-            <div class="card-header" id="headingTwo">
+            <div class="card-header" id="generalDataHeading">
                 <h5 class="mb-0">
-                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#generalDataCollapse" aria-expanded="false" aria-controls="generalDataCollapse">
                         <i class="fa"></i>&nbsp;Dati generali
                     </a>
                 </h5>
             </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
+            <div id="generalDataCollapse" class="collapse" aria-labelledby="generalDataHeading" >
                 <div class="card-body form-row">
                     <div class="form-group col-md-2">
                         <label for="idText">Identificativo:</label>
@@ -71,14 +63,14 @@
 
         <!-- SUPPORTO -->
         <div class="card">
-            <div class="card-header" id="headingThree">
+            <div class="card-header" id="supportHeading">
                 <h5 class="mb-0">
-                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#supportCollapse" aria-expanded="false" aria-controls="supportCollapse">
                         <i class="fa"></i>&nbsp;Supporto
                     </a>
                 </h5>
             </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
+            <div id="supportCollapse" class="collapse" aria-labelledby="supportHeading" >
                 <div class="card-body">
                     <div class="row">
                         <div class="form-group col-md-8">
@@ -118,14 +110,14 @@
 
         <!-- CRONOLOGIA -->
         <div class="card">
-            <div class="card-header" id="headingFour">
+            <div class="card-header" id="chronologyHeading">
                 <h5 class="mb-0">
-                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#chronologyCollapse" aria-expanded="false" aria-controls="chronologyCollapse">
                         <i class="fa"></i>&nbsp;Cronologia
                     </a>
                 </h5>
             </div>
-            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" >
+            <div id="chronologyCollapse" class="collapse" aria-labelledby="chronologyHeading" >
                 <div class="card-body">
                     <div class="form-group">
                         <div class="form-check">
@@ -148,5 +140,84 @@
                 </div>
             </div>
         </div>
+
+        <!-- TESTO -->
+        <div class="card">
+            <div class="card-header" id="textHeading">
+                <h5 class="mb-0">
+                    <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#textCollapse" aria-expanded="false" aria-controls="textCollapse">
+                        <i class="fa"></i>&nbsp;Testo
+                    </a>
+                </h5>
+            </div>
+            <div id="textCollapse" class="collapse" aria-labelledby="textHeading" >
+                <div class="card-body">
+                    <div class="form-row align-items-center">
+                        <div class="col-sm-3 my-1">
+                            <label class="sr-only" for="searchText">Testo:</label>
+                            <input type="text" class="form-control" id="searchText" placeholder="Cerca nel testo">
+                        </div> 
+                        <div class="col-sm-2 my-1">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="transliteratorSwitcher">
+                                <label class="custom-control-label" for="transliteratorSwitcher">Greek char</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-3 my-2">
+                            <label class="sr-only" for="editionSelect">Example select</label>
+                            <select class="form-control" id="editionSelect">
+                                <option>Diplomatica</option>
+                                <option>Interpretativa</option>
+                                <option>Entrambe</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                        <div class="col-sm-3 mt-sm-5">
+                            <label for="langSelect">Lingua</label>
+                            <select class="form-control" id="langSelect">
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3 mt-sm-5">
+                            <label for="alfaSelect">Alfabeto</label>
+                            <select class="form-control" id="alfaSelect">
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3 mt-sm-5">
+                            <label for="ducSelect">Ductus</label>
+                            <select class="form-control" id="ducSelect">
+                                <option>...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- BUTTONS -->
+        <div class="card" style="border:none;">
+            <div class="card-body">
+                <div class="form-row align-items-center">
+                    <div class="col-sm-2">
+    
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-danger btn-block" type="reset" value="Reset"><i class="fa fa-eraser"></i> Cancella tutto</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-primary btn-block" type="submit" value="Submit"><i class="fa fa-search"></i> Cerca</button>
+                    </div>
+                    <div class="col-sm-2">
+    
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    
+    
 </form>
