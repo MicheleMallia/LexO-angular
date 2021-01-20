@@ -14,6 +14,7 @@ import { MetadataPanelComponent } from './components/metadata-panel/metadata-pan
 import { ReferencePanelComponent } from './components/reference-panel/reference-panel.component';
 import { SearchPageComponent } from './views/search-page/search-page.component';
 import { DataSearchFormComponent } from './components/data-search-form/data-search-form.component';
+import { BibliographySearchFormComponent } from './components/bibliography-search-form/bibliography-search-form.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DataSearchFormComponent } from './components/data-search-form/data-sear
     MetadataPanelComponent,
     ReferencePanelComponent,
     SearchPageComponent,
-    DataSearchFormComponent
+    DataSearchFormComponent,
+    BibliographySearchFormComponent
   ],
   imports: [
     BrowserModule,
