@@ -12,11 +12,11 @@
         </div>
         <div  class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="fullTextInput">Testo: </label>
                     <input type="text" class="form-control" id="fullTextInput" placeholder="">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="selectFullText">Cerca le schede che contengono:</label>
                     <select class="form-control" id="selectFullText">
                         <option>Tutte le parole</option>
@@ -41,7 +41,7 @@
             </div>
             <div id="generalDataCollapse" class="collapse" aria-labelledby="generalDataHeading" >
                 <div class="card-body form-row">
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-6">
                         <label for="idText">Identificativo:</label>
                         <input type="text" class="form-control" id="idText" placeholder="">
                     </div>
@@ -49,7 +49,7 @@
                         <label for="titleInput">Titolo: </label>
                         <input type="text" class="form-control" id="titleInput" placeholder="">
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                         <label for="selectTitle">Cerca le schede che contengono:</label>
                         <select class="form-control" id="selectTitle">
                             <option>Tutte le parole</option>
@@ -126,16 +126,16 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-inline">
-                        <div class="form-group mb-2">
-                            <label for="fromDate">Da:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input type="number" class="form-control" id="fromDate" placeholder="-100">
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="toDate">A:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input type="number" class="form-control" id="toDate" placeholder="100">
-                        </div>
+                    
+                    <div class="form-group mb-2">
+                        <label for="fromDate">Da:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input type="number" class="form-control" id="fromDate" placeholder="-100">
                     </div>
+                    <div class="form-group mb-2">
+                        <label for="toDate">A:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input type="number" class="form-control" id="toDate" placeholder="100" disabled>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -152,17 +152,17 @@
             <div id="textCollapse" class="collapse" aria-labelledby="textHeading" >
                 <div class="card-body">
                     <div class="form-row align-items-center">
-                        <div class="col-sm-3 my-1">
+                        <div class="col-sm-6 my-1">
                             <label class="sr-only" for="searchText">Testo:</label>
                             <input type="text" class="form-control" id="searchText" placeholder="Cerca nel testo">
                         </div> 
-                        <div class="col-sm-2 my-1">
+                        <div class="col-sm-6 my-1">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="transliteratorSwitcher">
                                 <label class="custom-control-label" for="transliteratorSwitcher">Greek char</label>
                               </div>
                         </div>
-                        <div class="col-sm-3 my-2">
+                        <div class="col-sm-6 my-2">
                             <label class="sr-only" for="editionSelect">Example select</label>
                             <select class="form-control" id="editionSelect">
                                 <option>Diplomatica</option>
@@ -172,19 +172,19 @@
                         </div>
                     </div>
                     <div class="form-row align-items-center">
-                        <div class="col-sm-3 mt-sm-5">
+                        <div class="col-md-4 col-sm-12">
                             <label for="langSelect">Lingua</label>
                             <select class="form-control" id="langSelect">
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="col-sm-3 mt-sm-5">
+                        <div class="col-md-4 col-sm-12">
                             <label for="alfaSelect">Alfabeto</label>
                             <select class="form-control" id="alfaSelect">
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="col-sm-3 mt-sm-5">
+                        <div class="col-md-4 col-sm-12">
                             <label for="ducSelect">Ductus</label>
                             <select class="form-control" id="ducSelect">
                                 <option>...</option>
