@@ -15,6 +15,7 @@ import { ReferencePanelComponent } from './components/reference-panel/reference-
 import { SearchPageComponent } from './views/search-page/search-page.component';
 import { DataSearchFormComponent } from './components/data-search-form/data-search-form.component';
 import { BibliographySearchFormComponent } from './components/bibliography-search-form/bibliography-search-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { BibliographySearchFormComponent } from './components/bibliography-searc
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
