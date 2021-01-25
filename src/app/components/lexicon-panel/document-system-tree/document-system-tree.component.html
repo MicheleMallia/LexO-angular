@@ -1,5 +1,13 @@
 <div class="card">
     <div class="card-body">
+        <input id="filter" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="filter nodes"/>
+        <tree-root
+            #tree
+            [nodes]="nodes"
+            [options]="options"
+            [focused]="true"
+            (activate)="onEvent($event)">
+      </tree-root>
     </div>
     <div class="card-footer">
         Card footer
