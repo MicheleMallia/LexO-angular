@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { TreeModule } from '@circlon/angular-tree-component';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +40,8 @@ import { DocumentSystemTreeComponent } from './components/lexicon-panel/document
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
