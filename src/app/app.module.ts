@@ -1,9 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTreeModule } from '@angular/material/tree';
-import { MatButtonModule } from "@angular/material/button";
-
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,10 +38,7 @@ import { DocumentSystemTreeComponent } from './components/lexicon-panel/document
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTreeModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
