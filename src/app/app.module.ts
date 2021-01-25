@@ -1,5 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatButtonModule } from "@angular/material/button";
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +20,7 @@ import { SearchPageComponent } from './views/search-page/search-page.component';
 import { DataSearchFormComponent } from './components/data-search-form/data-search-form.component';
 import { BibliographySearchFormComponent } from './components/bibliography-search-form/bibliography-search-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DocumentSystemTreeComponent } from './components/lexicon-panel/document-system-tree/document-system-tree.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +36,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReferencePanelComponent,
     SearchPageComponent,
     DataSearchFormComponent,
-    BibliographySearchFormComponent
+    BibliographySearchFormComponent,
+    DocumentSystemTreeComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    MatIconModule,
+    MatButtonModule,
+    MatTreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
