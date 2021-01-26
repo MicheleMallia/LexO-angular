@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
+import { v4 } from 'uuid';
+
 
 
 const actionMapping: IActionMapping = {
   mouse: {
+    /*
     contextMenu: (tree, node, $event) => {
       $event.preventDefault();
       alert(`context menu for ${node.data.name}`);
     },
+    */
     dblClick: (tree, node, $event) => {
       if (node.hasChildren) {
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
@@ -37,7 +41,9 @@ const actionMapping: IActionMapping = {
   styleUrls: ['./document-system-tree.component.scss']
 })
 export class DocumentSystemTreeComponent implements OnInit {
-  
+
+  show = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -48,61 +54,65 @@ export class DocumentSystemTreeComponent implements OnInit {
       id: 1,
       name: 'root1',
       children: [
-        { id: 2, name: 'child1' },
-        { id: 3, name: 'child2' }
+        { 
+          name: 'child1' 
+        },
+        { 
+          name: 'child2' 
+        }
       ]
     },
     {
-      id: 4,
       name: 'root2',
+      id: 2,
       children: [
-        { id: 5, name: 'child2.1' },
-        {
-          id: 6,
-          name: 'child2.2',
-          children: [
-            { id: 7, name: 'subsub' }
-          ]
+        { 
+          name: 'child2.1', 
+          children: [] 
+        },
+        { 
+          name: 'child2.2', children: [
+            {
+              name: 'grandchild2.2.1'
+            }
+          ] 
         }
       ]
+    },
+    { 
+      name: 'root3' 
+    },
+    { 
+      name: 'root4', 
+      children: [] 
+    },
+    { 
+      name: 'root5', 
+      children: null 
     }
   ];
+
   options: ITreeOptions = {
-    actionMapping
+    actionMapping,
+    allowDrag: (node) => node.isLeaf,
+    getNodeClone: (node) => ({
+      ...node.data,
+      id: v4(),
+      name: `copy of ${node.data.name}`
+    })
   };
 
   onEvent = ($event: any) => console.log($event);
 
-  filterFn(value: string, treeModel: TreeModel) {
-    treeModel.filterNodes((node: TreeNode) => fuzzysearch(value, node.data.name));
-  }
-  
-
-}
-
-
-function fuzzysearch (needle: string, haystack: string) {
-  const haystackLC = haystack.toLowerCase();
-  const needleLC = needle.toLowerCase();
-
-  const hlen = haystack.length;
-  const nlen = needleLC.length;
-
-  if (nlen > hlen) {
-    return false;
-  }
-  if (nlen === hlen) {
-    return needleLC === haystackLC;
-  }
-  outer: for (let i = 0, j = 0; i < nlen; i++) {
-    const nch = needleLC.charCodeAt(i);
-
-    while (j < hlen) {
-      if (haystackLC.charCodeAt(j++) === nch) {
-        continue outer;
+  onKey = ($event:any) => {
+    var that = this;
+    setTimeout(function(){ 
+      var results = document.body.querySelectorAll('tree-node-collection > div')[0].children.length;
+      if(results == 0){
+        that.show = true;
+      } else {
+        that.show = false;
       }
-    }
-    return false;
-  }
-  return true;
+    }, 5);  
+  };
 }

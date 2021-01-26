@@ -1,15 +1,29 @@
 <div class="card">
     <div class="card-body">
-        <input id="filter" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="filter nodes"/>
-        <tree-root
-            #tree
-            [nodes]="nodes"
-            [options]="options"
-            [focused]="true"
-            (activate)="onEvent($event)">
-      </tree-root>
+        <div class="col-md-12 mt-3">
+            <input id="filter" type="text" (keyup)="onKey($event)" class="form-control" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search"/>
+        </div>
+        <div class="col-md-12 mt-3 rounded border border-secondary">
+            <tree-root
+                #tree
+                [nodes]="nodes"
+                [options]="options"
+                [focused]="true"
+                (activate)="onEvent($event)">
+            </tree-root>
+            <p *ngIf="show">Nessun risultato</p>
+        </div>
     </div>
     <div class="card-footer">
-        Card footer
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Language
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>          
     </div>
 </div>
