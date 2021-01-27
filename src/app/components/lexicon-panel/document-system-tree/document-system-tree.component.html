@@ -1,17 +1,73 @@
-<div class="card">
+<div class="card" style="height:100%;">
     <div class="card-body">
-        <div class="col-md-12 mt-3">
-            <input id="filter" type="text" (keyup)="onKey($event)" class="form-control" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search"/>
-        </div>
-        <div class="col-md-12 mt-3 rounded border border-secondary">
-            <tree-root
-                #tree
-                [nodes]="nodes"
-                [options]="options"
-                [focused]="true"
-                (activate)="onEvent($event)">
-            </tree-root>
-            <p *ngIf="show">Nessun risultato</p>
+
+        <!-- ACCORDION -->
+        <div id="accordion">
+
+
+            <!-- EPIGRAFIE -->
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#epigrafie" aria-expanded="true" aria-controls="epigrafie">
+                            Epigrafie
+                        </button>
+                    </h5>
+                </div>
+                <div id="epigrafie" class="collapse show" aria-labelledby="headingOne">
+                    <div class="card-body">
+                        <app-text-tree></app-text-tree>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LEXICAL ENTRIES -->
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#entrate-lessicali" aria-expanded="false" aria-controls="entrate-lessicali">
+                            Entrate Lessicali
+                        </button>
+                    </h5>
+                </div>
+                <div id="entrate-lessicali" class="collapse" aria-labelledby="headingTwo">
+                    <div class="card-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMS -->
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#forme" aria-expanded="false" aria-controls="forme">
+                            Forme
+                        </button>
+                    </h5>
+                </div>
+                <div id="forme" class="collapse" aria-labelledby="headingThree">
+                    <div class="card-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+
+            <!-- ONTOLOGY -->
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ontologia" aria-expanded="false" aria-controls="ontologia">
+                            Ontologia
+                        </button>
+                    </h5>
+                </div>
+                <div id="ontologia" class="collapse" aria-labelledby="headingFour">
+                    <div class="card-body">
+                        ...
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card-footer">
