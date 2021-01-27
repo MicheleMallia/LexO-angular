@@ -1,0 +1,13 @@
+<div class="col-md-12 mt-3">
+    <input id="filter" type="text" (keyup)="onKey($event)" class="form-control" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search"/>
+</div>
+<div class="col-md-12 mt-3 rounded border border-secondary" style="height:70%;">
+    <tree-root
+        #tree
+        [nodes]="nodes"
+        [options]="options"
+        [focused]="true"
+        (activate)="onEvent($event)">
+    </tree-root>
+    <p *ngIf="show">Nessun risultato</p>
+</div>

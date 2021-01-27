@@ -19,6 +19,7 @@ import { DataSearchFormComponent } from './components/data-search-form/data-sear
 import { BibliographySearchFormComponent } from './components/bibliography-search-form/bibliography-search-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentSystemTreeComponent } from './components/lexicon-panel/document-system-tree/document-system-tree.component';
+import { TextTreeComponent } from './components/lexicon-panel/document-system-tree/text-tree/text-tree.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DocumentSystemTreeComponent } from './components/lexicon-panel/document
     SearchPageComponent,
     DataSearchFormComponent,
     BibliographySearchFormComponent,
-    DocumentSystemTreeComponent
+    DocumentSystemTreeComponent,
+    TextTreeComponent
   ],
   imports: [
     BrowserModule,
