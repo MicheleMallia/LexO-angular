@@ -20,6 +20,7 @@ import { BibliographySearchFormComponent } from './components/bibliography-searc
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentSystemTreeComponent } from './components/lexicon-panel/document-system-tree/document-system-tree.component';
 import { TextTreeComponent } from './components/lexicon-panel/document-system-tree/text-tree/text-tree.component';
+import { TextDetailComponent } from './components/lexicon-panel/text-detail/text-detail.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { TextTreeComponent } from './components/lexicon-panel/document-system-tr
     DataSearchFormComponent,
     BibliographySearchFormComponent,
     DocumentSystemTreeComponent,
-    TextTreeComponent
+    TextTreeComponent,
+    TextDetailComponent
   ],
   imports: [
     BrowserModule,
