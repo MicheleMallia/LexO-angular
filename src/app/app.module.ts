@@ -26,6 +26,8 @@ import { EditDetailComponent } from './components/lexicon-panel/text-detail/edit
 import { EpigraphyTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/epigraphy-tab/epigraphy-tab.component';
 import { EditTabComponent } from './components/lexicon-panel/text-detail/edit-detail/edit-tab/edit-tab.component';
 import { DictionaryTabComponent } from './components/lexicon-panel/text-detail/edit-detail/dictionary-tab/dictionary-tab.component';
+import { MetadataTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/metadata-tab/metadata-tab.component';
+import { BibliographyTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/bibliography-tab/bibliography-tab.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { DictionaryTabComponent } from './components/lexicon-panel/text-detail/e
     EditDetailComponent,
     EpigraphyTabComponent,
     EditTabComponent,
-    DictionaryTabComponent
+    DictionaryTabComponent,
+    MetadataTabComponent,
+    BibliographyTabComponent
   ],
   imports: [
     BrowserModule,
