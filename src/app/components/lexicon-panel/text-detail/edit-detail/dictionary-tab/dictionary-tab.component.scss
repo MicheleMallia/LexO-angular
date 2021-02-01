@@ -1,0 +1,10 @@
+$font-size-icon: 24px;
+$font-size-list: 14px;
+
+.fa {
+    font-size: $font-size-icon;
+}
+
+ul > li {
+    font-size: $font-size-list;
+}

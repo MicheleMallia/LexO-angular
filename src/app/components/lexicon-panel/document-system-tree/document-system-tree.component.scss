@@ -1,0 +1,8 @@
+$font-size-btn: 14px;
+
+.btn,
+.btn-link,
+.card-body,
+.dropdown-menu > * {
+    font-size: $font-size-btn !important;
+}

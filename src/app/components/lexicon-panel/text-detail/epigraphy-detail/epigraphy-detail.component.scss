@@ -1,3 +1,5 @@
+$font-size-items: 14px;
+
 //minus
 [data-toggle="collapse"] i:before{
     content: "\f146";
@@ -6,4 +8,9 @@
 //plus
 [data-toggle="collapse"].collapsed i:before{
     content: "\f0fe";
+}
+
+.nav-item,
+.fa {
+    font-size: $font-size-items;
 }
