@@ -1,8 +1,6 @@
 <form>
     <!-- FULL TEXT -->
-    <div class="card">
-        
-        
+    <div class="card">      
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
                 <a class="btn" aria-expanded="true">
@@ -11,19 +9,24 @@
             </h5>
         </div>
         <div  class="collapse show" aria-labelledby="headingOne" data-parent="#search-accordion">
-            <div class="card-body form-row">
-                <div class="form-group col-md-6">
-                    <label for="fullTextInput">Testo: </label>
-                    <input type="text" class="form-control" id="fullTextInput" placeholder="">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="fullTextInput">Testo: </label>
+                        <input type="text" class="form-control" id="fullTextInput" placeholder="">
+                    </div>
                 </div>
-                <div class="form-group col-md-6">
-                    <label for="selectFullText">Cerca le schede che contengono:</label>
-                    <select class="form-control" id="selectFullText">
-                        <option>Tutte le parole</option>
-                        <option>Una qualsiasi delle parole</option>
-                        <option>La frase esatta</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="selectFullText">Cerca le schede che contengono:</label>
+                        <select class="form-control" id="selectFullText">
+                            <option>Tutte le parole</option>
+                            <option>Una qualsiasi delle parole</option>
+                            <option>La frase esatta</option>
+                        </select>
+                    </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -49,7 +52,7 @@
                         <label for="titleInput">Titolo: </label>
                         <input type="text" class="form-control" id="titleInput" placeholder="">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8">
                         <label for="selectTitle">Cerca le schede che contengono:</label>
                         <select class="form-control" id="selectTitle">
                             <option>Tutte le parole</option>
@@ -194,7 +197,7 @@
                             <input type="text" class="form-control" id="searchText" placeholder="Cerca nel testo">
                         </div> 
                         <div class="col-sm-6 my-1">
-                            <div class="custom-control custom-switch">
+                            <div class="custom-control custom-switch custom-switch-lg">
                                 <input type="checkbox" class="custom-control-input" id="transliteratorSwitcher">
                                 <label class="custom-control-label" for="transliteratorSwitcher">Greek char</label>
                               </div>
