@@ -3,3 +3,7 @@ $font-size-input: 14px;
 .form-control {
     font-size: $font-size-input;
 }
+
+.tree-view {
+    height: calc(100vh - 500px);
+}
