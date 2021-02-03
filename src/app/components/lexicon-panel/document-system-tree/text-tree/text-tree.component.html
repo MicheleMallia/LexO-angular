@@ -1,13 +1,13 @@
 <div class="col-md-12 mt-3">
-    <input id="filter" type="text" (keyup)="onKey($event)" class="form-control" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search"/>
+    <input id="filterText" type="text" (keyup)="onKey($event)" class="form-control" #filterText (keyup)="treeText.treeModel.filterNodes(filterText.value)" placeholder="Search"/>
 </div>
 <div class="col-md-12 mt-3 rounded border border-secondary tree-view" >
+    <p *ngIf="show">Nessun risultato</p>
     <tree-root
-        #tree
+        #treeText
         [nodes]="nodes"
         [options]="options"
         [focused]="true"
         (activate)="onEvent($event)">
     </tree-root>
-    <p *ngIf="show">Nessun risultato</p>
 </div>
