@@ -28,6 +28,7 @@ import { EditTabComponent } from './components/lexicon-panel/text-detail/edit-de
 import { DictionaryTabComponent } from './components/lexicon-panel/text-detail/edit-detail/dictionary-tab/dictionary-tab.component';
 import { MetadataTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/metadata-tab/metadata-tab.component';
 import { BibliographyTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/bibliography-tab/bibliography-tab.component';
+import { LexicalEntryTreeComponent } from './components/lexicon-panel/document-system-tree/lexical-entry-tree/lexical-entry-tree.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BibliographyTabComponent } from './components/lexicon-panel/text-detail
     EditTabComponent,
     DictionaryTabComponent,
     MetadataTabComponent,
-    BibliographyTabComponent
+    BibliographyTabComponent,
+    LexicalEntryTreeComponent
   ],
   imports: [
     BrowserModule,
