@@ -24,10 +24,7 @@ import { TextDetailComponent } from './components/lexicon-panel/text-detail/text
 import { EpigraphyDetailComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/epigraphy-detail.component';
 import { EditDetailComponent } from './components/lexicon-panel/text-detail/edit-detail/edit-detail.component';
 import { EpigraphyTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/epigraphy-tab/epigraphy-tab.component';
-import { EditTabComponent } from './components/lexicon-panel/text-detail/edit-detail/edit-tab/edit-tab.component';
 import { DictionaryTabComponent } from './components/lexicon-panel/text-detail/edit-detail/dictionary-tab/dictionary-tab.component';
-import { MetadataTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/metadata-tab/metadata-tab.component';
-import { BibliographyTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/bibliography-tab/bibliography-tab.component';
 import { LexicalEntryTreeComponent } from './components/lexicon-panel/document-system-tree/lexical-entry-tree/lexical-entry-tree.component';
 
 @NgModule({
@@ -51,10 +48,7 @@ import { LexicalEntryTreeComponent } from './components/lexicon-panel/document-s
     EpigraphyDetailComponent,
     EditDetailComponent,
     EpigraphyTabComponent,
-    EditTabComponent,
     DictionaryTabComponent,
-    MetadataTabComponent,
-    BibliographyTabComponent,
     LexicalEntryTreeComponent
   ],
   imports: [
