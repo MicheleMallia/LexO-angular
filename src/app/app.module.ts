@@ -26,6 +26,10 @@ import { EditDetailComponent } from './components/lexicon-panel/text-detail/edit
 import { EpigraphyTabComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/epigraphy-tab/epigraphy-tab.component';
 import { DictionaryTabComponent } from './components/lexicon-panel/text-detail/edit-detail/dictionary-tab/dictionary-tab.component';
 import { LexicalEntryTreeComponent } from './components/lexicon-panel/document-system-tree/lexical-entry-tree/lexical-entry-tree.component';
+import { CoreTabComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/core-tab.component';
+import { VartransTabComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/vartrans-tab.component';
+import { SynsemTabComponent } from './components/lexicon-panel/text-detail/edit-detail/synsem-tab/synsem-tab.component';
+import { DecompositionTabComponent } from './components/lexicon-panel/text-detail/edit-detail/decomposition-tab/decomposition-tab.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,11 @@ import { LexicalEntryTreeComponent } from './components/lexicon-panel/document-s
     EditDetailComponent,
     EpigraphyTabComponent,
     DictionaryTabComponent,
-    LexicalEntryTreeComponent
+    LexicalEntryTreeComponent,
+    CoreTabComponent,
+    VartransTabComponent,
+    SynsemTabComponent,
+    DecompositionTabComponent
   ],
   imports: [
     BrowserModule,
