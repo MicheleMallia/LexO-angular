@@ -1,13 +1,83 @@
 <div class="col-md-12 mt-3">
-    <input id="filterLexicalEntry" type="text" (keyup)="onKey($event)" class="form-control" #filterLexicalEntry (keyup)="lexicalEntry.treeModel.filterNodes(filterLexicalEntry.value)" placeholder="Search"/>
+    <input id="filterLexicalEntry" type="text" (keyup)="onKey($event)" class="form-control" #filterLexicalEntry (keyup)="lexicalFilter(filterLexicalEntry.value, lexicalEntry.treeModel, $event)" placeholder="Search"/>
 </div>
-<div class="col-md-12 mt-3 rounded border border-secondary" >
+<div class="d-flex flex-wrap mt-3">
+    <div class="col-md-6 col-sm-12">
+        <select #tipo class="form-control" id="type" (change)="lexicalFilter(tipo.value, lexicalEntry.treeModel, $event)">
+            <option>Tipo</option>
+            <option>Word</option>
+            <option>Multiword</option>
+        </select>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="d-md-none mt-3"></div>
+        <select #pos class="form-control" id="pos" (change)="lexicalFilter(pos.value, lexicalEntry.treeModel, $event)">
+            <option>Pos</option>
+            <option>Verb</option>
+            <option>Adj</option>
+            <option>Noun</option>
+        </select>
+    </div>
+</div>
+<div class="col-md-12 mt-3">
+    <div class="form-check">
+        <input #pending class="form-check-input" type="checkbox" value="pending" id="pending" (change)="lexicalFilter(pending.value, lexicalEntry.treeModel, $event)" checked>
+        <label class="form-check-label" for="pending">
+        Pending
+        </label>
+    </div>
+    <div class="form-check">
+        <input #processing class="form-check-input" type="checkbox" value="processing" id="processing" (change)="lexicalFilter(processing.value, lexicalEntry.treeModel, $event)" checked>
+        <label class="form-check-label" for="processing">
+        In lavorazione
+        </label>
+    </div>
+    <div class="form-check">
+        <input #ready class="form-check-input" type="checkbox" value="ready" id="ready" (change)="lexicalFilter(ready.value, lexicalEntry.treeModel, $event)" checked>
+        <label class="form-check-label" for="ready">
+        Pronte
+        </label>
+    </div>
+</div>
+<div class="col-md-12 mt-3 rounded border border-secondary tree-view">
     <p *ngIf="show">Nessun risultato</p>
-    <tree-root
-        #lexicalEntry
-        [nodes]="nodes"
+    <tree-root #lexicalEntry 
+        [(state)]="state"
+        [nodes]="nodes" 
         [options]="options"
         [focused]="true"
         (activate)="onEvent($event)">
-    </tree-root>
+        <ng-template #treeNodeWrapperTemplate let-node let-index="index">
+          <div class="node-wrapper" [style.padding-left]="node.getNodePadding()"
+            [class.node-content-wrapper-active]="node.isActive"
+            [class.node-content-wrapper-focused]="node.isFocused"
+            (click)="node.mouseAction('click', $event)"
+            (dblclick)="node.mouseAction('dblClick', $event)"
+            (contextmenu)="node.mouseAction('contextMenu', $event)"
+            (treeDrop)="node.onDrop($event)"
+            [treeAllowDrop]="node.allowDrop"
+            [treeDrag]="node"
+            [treeDragEnabled]="node.allowDrag()">
+            <div class="node-content-wrapper"    
+              style="padding-top:0;">
+              <tree-node-expander [node]="node" 
+                [ngClass]="{
+                    'pending' : node.data.pending && !node.data.validated,
+                    'lavorazione': !node.data.pending && !node.data.validated,
+                    'pronta': !node.data.pending && node.data.validated
+                }">
+            </tree-node-expander>
+              <span>{{ node.data.name }}</span>
+              <sub>{{node.data.pos}}</sub>
+              <span class="lang">@{{node.data.lang}}</span>
+            </div>
+            <span>
+                <div>
+                    <i *ngIf="!node.data.pending && !node.data.validated" class="fa fa-unlock"></i>
+                    <i *ngIf="!node.data.pending && node.data.validated" class="fa fa-lock"></i>
+                </div>
+            </span>
+          </div>
+        </ng-template>
+      </tree-root>
 </div>

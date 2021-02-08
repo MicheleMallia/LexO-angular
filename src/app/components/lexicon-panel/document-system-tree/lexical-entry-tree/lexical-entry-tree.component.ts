@@ -1,16 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
-import { v4 } from 'uuid';
-
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, ITreeState } from '@circlon/angular-tree-component';
+import * as _ from 'underscore';
 
 const actionMapping: IActionMapping = {
   mouse: {
-    /*
-    contextMenu: (tree, node, $event) => {
-      $event.preventDefault();
-      alert(`context menu for ${node.data.name}`);
-    },
-    */
     dblClick: (tree, node, $event) => {
       if (node.hasChildren) {
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
@@ -20,21 +13,12 @@ const actionMapping: IActionMapping = {
       $event.shiftKey
         ? TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(tree, node, $event)
         : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
-    },
-    mouseOver: (tree, node, $event) => {
-      $event.preventDefault();
-      console.log(`mouseOver ${node.data.name}`);
-    },
-    mouseOut: (tree, node, $event) => {
-      $event.preventDefault();
-      console.log(`mouseOut ${node.data.name}`);
     }
   },
   keys: {
     [KEYS.ENTER]: (tree, node, $event) => alert(`This is ${node.data.name}`)
   }
 };
-
 
 @Component({
   selector: 'app-lexical-entry-tree',
@@ -43,66 +27,86 @@ const actionMapping: IActionMapping = {
 })
 
 export class LexicalEntryTreeComponent implements OnInit {
-
+  state!: ITreeState;
+  word = false;
+  multiword = false;
   show = false;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  pending = true;
+  validated = true;
+  searchText = '';
+  typeField = 'node.type.includes(\'\')';
+  posField = 'node.pos.includes(\'\')';
+  
   nodes = [
     {
       id: 1,
-      name: 'root1',
-      children: [
-        { 
-          name: 'child1' 
-        },
-        { 
-          name: 'child2' 
-        }
-      ]
+      name: 'mangiare',
+      pending: true,
+      validated: false,
+      pos: 'verb',
+      lang: 'it',
+      type: 'word'
     },
     {
-      name: 'root2',
       id: 2,
-      children: [
-        { 
-          name: 'child2.1', 
-          children: [] 
-        },
-        { 
-          name: 'child2.2', children: [
-            {
-              name: 'grandchild2.2.1'
-            }
-          ] 
-        }
-      ]
+      name: 'mangime',
+      pending: true,
+      validated: false,
+      pos: 'noun',
+      lang: 'it',
+      type: 'word'
     },
     { 
-      name: 'root3' 
+      id: 3,
+      name: 'whales',
+      pos: 'noun',
+      pending: false,
+      validated: false,
+      lang: 'en',
+      type: 'word'
     },
     { 
-      name: 'root4', 
-      children: [] 
+      id: 4,
+      name: 'avvezzo', 
+      pending: false,
+      validated: true,
+      pos: 'adj',
+      lang: 'it',
+      type: 'word'
     },
     { 
-      name: 'root5', 
-      children: null 
+      id: 5,
+      name: 'puentes', 
+      pending: true,
+      validated: false,
+      pos: 'noun',
+      lang: 'es',
+      type: 'word'
+    },
+    { 
+      id: 6,
+      name: 'casa di cura', 
+      pending: false,
+      validated: false,
+      pos: 'noun',
+      lang: 'es',
+      type: 'multiword'
     }
   ];
 
   options: ITreeOptions = {
-    actionMapping,
-    allowDrag: (node) => node.isLeaf,
-    getNodeClone: (node) => ({
-      ...node.data,
-      id: v4(),
-      name: `copy of ${node.data.name}`
-    })
+    actionMapping
   };
+
+  @ViewChild('lexicalEntry') lexicalEntryTree: any;
+  
+  @ViewChild('pending') pendingCheckbox: any;
+  @ViewChild('processing') processingCheckbox: any;
+  @ViewChild('ready') readyCheckbox: any;
+
+  constructor() { }
+
+  ngOnInit(): void {  }
 
   onEvent = ($event: any) => console.log($event);
 
@@ -117,5 +121,117 @@ export class LexicalEntryTreeComponent implements OnInit {
       }
     }, 5);  
   };
-}
 
+  lexicalFilter(value: string, treeModel: TreeModel, event:any){
+    
+      
+    var id = event.currentTarget.id;
+    var results; 
+
+    if(event instanceof KeyboardEvent){
+      this.searchText = value;
+    }else{
+      if(id == 'type' && value != 'Tipo'){
+        this.typeField = 'node.type == \''+value.toLowerCase()+'\'';
+        
+      }else if(id == 'type' && value == 'Tipo'){
+        this.typeField = 'node.type.includes(\'\')';
+      }  
+      if(id == 'pos' && value != 'Pos'){
+        this.posField = 'node.pos == \''+value.toLowerCase()+'\'';
+      }else if(id == 'pos' && value == 'Pos'){
+        this.posField = 'node.pos.includes(\'\')';
+      }
+      
+      
+    }
+
+    if(event.target.localName == 'input'){
+      
+      if(id == 'pending'){
+        if(this.pendingCheckbox.nativeElement.checked == false){
+          this.pending = false;
+          
+        }else{
+          this.pending = true;
+          
+        }
+      }     
+      if(id == 'ready'){
+        if(this.readyCheckbox.nativeElement.checked == false){
+          this.validated = false;
+          
+        }else{
+          this.validated = true;
+          
+        }
+      }  
+    }
+    
+    
+    results = _.filter(treeModel.nodes, (node) =>{
+
+      if(this.processingCheckbox.nativeElement.checked && (this.readyCheckbox.nativeElement.checked || this.pendingCheckbox.nativeElement.checked)){
+        
+        return node.name.includes(this.searchText)
+            && eval(this.typeField)
+            && eval(this.posField)
+            && (node.pending == this.pending || node.pending == false)
+            && (node.validated == this.validated || node.validated == false);
+      }else if(this.processingCheckbox.nativeElement.checked && !(this.readyCheckbox.nativeElement.checked && this.pendingCheckbox.nativeElement.checked)){
+        
+        return node.name.includes(this.searchText)
+            && eval(this.typeField)
+            && eval(this.posField)
+            && node.pending == false
+            && node.validated == false;
+      }else if(!this.processingCheckbox.nativeElement.checked && !(this.readyCheckbox.nativeElement.checked || this.pendingCheckbox.nativeElement.checked)){
+        
+        return node.name.includes(this.searchText)
+            && eval(this.typeField)
+            && eval(this.posField)
+            && node.pending == null
+            && node.validated == null;
+      }
+      else if(!this.processingCheckbox.nativeElement.checked && (this.readyCheckbox.nativeElement.checked && this.pendingCheckbox.nativeElement.checked)){ 
+        
+        return node.name.includes(this.searchText)
+            && eval(this.typeField)
+            && eval(this.posField)
+            && ((node.pending == true && node.validated == false)
+            || (node.pending == false && node.validated == true));
+      }
+      else {
+       
+        return node.name.includes(this.searchText)
+            && eval(this.typeField)
+            && eval(this.posField)
+            && node.pending == this.pending
+            && node.validated == this.validated 
+      }
+      
+    });
+
+    console.log(results)
+    if(results.length > 0){
+      for(var i = 0; i < results.length; i++){
+        var nodeResults = results[i];
+        for(var j = i; j < treeModel.nodes.length; j++){
+          var nodeTree = treeModel.nodes[j];
+          if(nodeTree.id != nodeResults.id && !treeModel.isHidden({id: nodeTree.id})){
+            treeModel.setIsHidden({id: nodeTree.id}, true);
+          }else if(nodeTree.id == nodeResults.id && treeModel.isHidden({id: nodeTree.id})){
+            treeModel.setIsHidden({id: nodeTree.id}, false);
+          }
+        }
+      }
+      this.show = false;
+    }else{
+      for(var i = 0; i < treeModel.nodes.length; i++){
+        var node = treeModel.nodes[i];
+        treeModel.setIsHidden({id: node.id}, true);
+        this.show = true;
+      }
+    }
+  }
+}
