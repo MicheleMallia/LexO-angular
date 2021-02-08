@@ -4,6 +4,10 @@ $font-size-items: 14px;
     font-size: $font-size-items;
 }
 
+.nav-tabs {
+    border-bottom: none;
+}
+
 .card-header {
     padding: 5px 18px;
 }
