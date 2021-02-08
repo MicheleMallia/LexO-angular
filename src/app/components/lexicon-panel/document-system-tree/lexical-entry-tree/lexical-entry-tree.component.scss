@@ -5,5 +5,15 @@ $font-size-input: 14px;
 }
 
 .tree-view {
+    padding-top: 15px;
     height: calc(100vh - 500px);
+}
+
+.lang {
+    color: blue;
+}
+
+
+.node-wrapper {
+    justify-content: space-between;
 }
