@@ -5,12 +5,6 @@ import { v4 } from 'uuid';
 
 const actionMapping: IActionMapping = {
   mouse: {
-    /*
-    contextMenu: (tree, node, $event) => {
-      $event.preventDefault();
-      alert(`context menu for ${node.data.name}`);
-    },
-    */
     dblClick: (tree, node, $event) => {
       if (node.hasChildren) {
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
@@ -20,14 +14,6 @@ const actionMapping: IActionMapping = {
       $event.shiftKey
         ? TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(tree, node, $event)
         : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
-    },
-    mouseOver: (tree, node, $event) => {
-      $event.preventDefault();
-      console.log(`mouseOver ${node.data.name}`);
-    },
-    mouseOut: (tree, node, $event) => {
-      $event.preventDefault();
-      console.log(`mouseOut ${node.data.name}`);
     }
   },
   keys: {
