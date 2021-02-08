@@ -30,6 +30,7 @@ import { CoreTabComponent } from './components/lexicon-panel/text-detail/edit-de
 import { VartransTabComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/vartrans-tab.component';
 import { SynsemTabComponent } from './components/lexicon-panel/text-detail/edit-detail/synsem-tab/synsem-tab.component';
 import { DecompositionTabComponent } from './components/lexicon-panel/text-detail/edit-detail/decomposition-tab/decomposition-tab.component';
+import { ProfilesTableComponent } from './components/profiles-table/profiles-table.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { DecompositionTabComponent } from './components/lexicon-panel/text-detai
     CoreTabComponent,
     VartransTabComponent,
     SynsemTabComponent,
-    DecompositionTabComponent
+    DecompositionTabComponent,
+    ProfilesTableComponent
   ],
   imports: [
     BrowserModule,
