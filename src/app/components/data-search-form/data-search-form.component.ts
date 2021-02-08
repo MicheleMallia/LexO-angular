@@ -12,4 +12,10 @@ export class DataSearchFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onSubmit(): void {
+    // Process checkout data here
+    
+    console.warn('Your order has been submitted');
+    
+  }
 }
