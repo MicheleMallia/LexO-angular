@@ -5,6 +5,10 @@ nav {
     font-size: $font-size;
 }
 
+.dropdown-menu{
+    left: -90px;
+}
+
 .dropdown-toggle::after {
     font-size: 14px;
 }
