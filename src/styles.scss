@@ -1,6 +1,57 @@
 @import '~@circlon/angular-tree-component/css/angular-tree-component.css';
-@import '~@circlon/angular-tree-component/css/angular-tree-component.css';
 
 html, body {
     height: 100%;
 }
+
+
+// OVERRIDING STYLE FOR LEXICAL TREE VIEW
+.pending::after {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    content: "\f111";
+    color: red;
+    float: left;
+}
+
+.lavorazione::after {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    content: "\f111";
+    color: yellow;
+    float: left;
+}
+
+.pronta::after {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    content: "\f111";
+    color: green;
+    float: left;
+}
+
+.node-content-wrapper:hover {
+    background: #beebff;
+    box-shadow: none;
+}
+
+.node-content-wrapper-focused {
+    box-shadow: none;
+    background: none;
+}
+
