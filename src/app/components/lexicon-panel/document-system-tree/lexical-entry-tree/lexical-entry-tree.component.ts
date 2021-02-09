@@ -212,15 +212,18 @@ export class LexicalEntryTreeComponent implements OnInit {
       
     });
 
-    console.log(results)
+    console.log(results);
+    for(let i = 0; i < treeModel.nodes.length; i++){
+      var nodeTree = treeModel.nodes[i];
+      treeModel.setIsHidden({id: nodeTree.id}, true);
+    }
+
     if(results.length > 0){
       for(var i = 0; i < results.length; i++){
         var nodeResults = results[i];
-        for(var j = i; j < treeModel.nodes.length; j++){
+        for(var j = 0; j < treeModel.nodes.length; j++){
           var nodeTree = treeModel.nodes[j];
-          if(nodeTree.id != nodeResults.id && !treeModel.isHidden({id: nodeTree.id})){
-            treeModel.setIsHidden({id: nodeTree.id}, true);
-          }else if(nodeTree.id == nodeResults.id && treeModel.isHidden({id: nodeTree.id})){
+          if(nodeResults.id == nodeTree.id){
             treeModel.setIsHidden({id: nodeTree.id}, false);
           }
         }
