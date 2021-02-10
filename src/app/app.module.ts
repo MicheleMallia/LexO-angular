@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { TreeModule } from '@circlon/angular-tree-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DataTablesModule } from "angular-datatables";
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -68,7 +70,8 @@ import { ProfilesTableComponent } from './components/profiles-table/profiles-tab
     AppRoutingModule,
     TreeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
