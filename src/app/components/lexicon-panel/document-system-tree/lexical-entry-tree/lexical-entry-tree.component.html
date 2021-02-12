@@ -58,25 +58,31 @@
             [treeAllowDrop]="node.allowDrop"
             [treeDrag]="node"
             [treeDragEnabled]="node.allowDrag()">
-            <div class="node-content-wrapper"    
-              style="padding-top:0;">
-              <tree-node-expander [node]="node" 
-                [ngClass]="{
+            <div class="node-content-wrapper" style="padding-top:0;">
+                <tree-node-expander [node]="node" class="lexicalEntryTreeNodeExpander">
+                </tree-node-expander>
+                <span *ngIf="node.data.pending != null ||  node.data.validated != null" [ngClass]="{
                     'pending' : node.data.pending && !node.data.validated,
                     'lavorazione': !node.data.pending && !node.data.validated,
                     'pronta': !node.data.pending && node.data.validated
-                }">
-            </tree-node-expander>
-              <span>{{ node.data.name }}</span>
-              <sub>{{node.data.pos}}</sub>
-              <span class="lang">@{{node.data.lang}}</span>
+                }"></span>
+                <span>{{ node.data.name }}</span>
+                <sub>{{node.data.pos}}</sub>
+                <span *ngIf="node.data.lang != null" class="lang">@{{node.data.lang}}</span>
             </div>
-            <span>
-                <div>
-                    <i *ngIf="!node.data.pending && !node.data.validated" class="fa fa-unlock"></i>
-                    <i *ngIf="!node.data.pending && node.data.validated" class="fa fa-lock"></i>
+            <div class="icons-container">
+                <div style="width: 30%;">
+                    <i *ngIf="node.data.notes != '' && node.data.notes != null" class="far fa-comment-dots"></i>
                 </div>
-            </span>
+                <div style="width: 30%;">
+                    <i *ngIf="node.data.author != '' && node.data.author != null" class="fas fa-user"></i>
+                </div>
+                <div style="width: 30%;">
+                    <i *ngIf="!node.data.pending && !node.data.validated && node.data.pending != null" class="fa fa-unlock"></i>
+                    <i *ngIf="!node.data.pending && node.data.validated && node.data.pending != null" class="fa fa-lock"></i>
+                </div>
+                
+            </div>
           </div>
         </ng-template>
       </tree-root>

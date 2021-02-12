@@ -45,7 +45,26 @@ export class LexicalEntryTreeComponent implements OnInit {
       validated: false,
       pos: 'verb',
       lang: 'it',
-      type: 'word'
+      type: 'word',
+      notes: '',
+      author: '',
+      children: [
+        {
+          name: 'mangio',
+          notes: '',
+          author: 'Antonio',
+        },
+        {
+          name: 'mangia',
+          notes: 'Forma femminile',
+          author: 'Francesca',
+        },
+        {
+          name: 'senso1',
+          notes: 'Forma femminile',
+          author: 'Francesca',
+        }
+      ]
     },
     {
       id: 2,
@@ -54,7 +73,9 @@ export class LexicalEntryTreeComponent implements OnInit {
       validated: false,
       pos: 'noun',
       lang: 'it',
-      type: 'word'
+      type: 'word',
+      notes: '',
+      author: ''
     },
     { 
       id: 3,
@@ -63,7 +84,9 @@ export class LexicalEntryTreeComponent implements OnInit {
       pending: false,
       validated: false,
       lang: 'en',
-      type: 'word'
+      type: 'word',
+      notes: '',
+      author: ''
     },
     { 
       id: 4,
@@ -72,7 +95,9 @@ export class LexicalEntryTreeComponent implements OnInit {
       validated: true,
       pos: 'adj',
       lang: 'it',
-      type: 'word'
+      type: 'word',
+      notes: 'asd',
+      author: '',
     },
     { 
       id: 5,
@@ -81,7 +106,9 @@ export class LexicalEntryTreeComponent implements OnInit {
       validated: false,
       pos: 'noun',
       lang: 'es',
-      type: 'word'
+      type: 'word',
+      notes: '',
+      author: ''
     },
     { 
       id: 6,
@@ -90,7 +117,9 @@ export class LexicalEntryTreeComponent implements OnInit {
       validated: false,
       pos: 'noun',
       lang: 'es',
-      type: 'multiword'
+      type: 'multiword',
+      notes: 'asd',
+      author: 'asd',    
     }
   ];
 
@@ -108,7 +137,9 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   ngOnInit(): void {  }
 
-  onEvent = ($event: any) => console.log($event);
+  onEvent = ($event: any) => {
+    console.log($event)
+  };
 
   onKey = ($event:any) => {
     var that = this;
@@ -126,8 +157,8 @@ export class LexicalEntryTreeComponent implements OnInit {
     
       
     var id = event.currentTarget.id;
-    var results; 
-
+    var results = []; 
+    var children: any[] = [];
     if(event instanceof KeyboardEvent){
       this.searchText = value;
     }else{
@@ -142,8 +173,6 @@ export class LexicalEntryTreeComponent implements OnInit {
       }else if(id == 'pos' && value == 'Pos'){
         this.posField = 'node.pos.includes(\'\')';
       }
-      
-      
     }
 
     if(event.target.localName == 'input'){
@@ -211,28 +240,67 @@ export class LexicalEntryTreeComponent implements OnInit {
       }
       
     });
+    
+    _.filter(treeModel.nodes, (node) =>{
+      if(node["children"] != undefined){
+        children = _.filter(node.children, (child) => {
+          return child.name.startsWith(this.searchText)
+                && eval(this.typeField)
+                && eval(this.posField);
+        })
+        if(children.length > 0 && this.searchText != ''){
+          results.unshift(node);
+        }
+      }
+    });
 
-    console.log(results);
+    console.log(children)
+    /* console.log(results);
+    console.log(children); */
+    
     for(let i = 0; i < treeModel.nodes.length; i++){
-      var nodeTree = treeModel.nodes[i];
+      let nodeTree = treeModel.nodes[i];
       treeModel.setIsHidden({id: nodeTree.id}, true);
+      if(nodeTree["children"] != undefined){
+        for(let j = 0; j < nodeTree.children.length; j++){
+          let childrenNodes = nodeTree.children[j];
+          treeModel.setIsHidden({id: childrenNodes.id}, true);
+        }
+      }
     }
 
     if(results.length > 0){
       for(var i = 0; i < results.length; i++){
-        var nodeResults = results[i];
+        let nodeResults = results[i];
         for(var j = 0; j < treeModel.nodes.length; j++){
-          var nodeTree = treeModel.nodes[j];
+          let nodeTree = treeModel.nodes[j];
           if(nodeResults.id == nodeTree.id){
             treeModel.setIsHidden({id: nodeTree.id}, false);
+            if(nodeTree["children"] != undefined){
+              for(var k = 0; k < nodeTree.children.length; k++){
+                let nodeChildren = nodeTree.children[k];
+                for(var l = 0; l < children.length; l++){
+                  let nodeResultsChildren = children[l];
+                  if(nodeChildren.id == nodeResultsChildren.id){
+                    treeModel.setIsHidden({id: nodeChildren.id}, false);
+                  }
+                }
+              }
+            }
           }
         }
       }
       this.show = false;
     }else{
       for(var i = 0; i < treeModel.nodes.length; i++){
-        var node = treeModel.nodes[i];
+        let node = treeModel.nodes[i];
         treeModel.setIsHidden({id: node.id}, true);
+        if(node["children"] != undefined){
+          for(var j = 0; j < node.children; j++){
+            let nodeChildren = node.children[j]; 
+            treeModel.setIsHidden({id: nodeChildren.id}, true);
+          }
+        }
         this.show = true;
       }
     }
