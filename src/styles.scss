@@ -16,7 +16,6 @@ html, body {
     font-weight: 900; 
     content: "\f111";
     color: red;
-    float: left;
 }
 
 .lavorazione::after {
@@ -29,7 +28,6 @@ html, body {
     font-weight: 900; 
     content: "\f111";
     color: yellow;
-    float: left;
 }
 
 .pronta::after {
@@ -42,7 +40,6 @@ html, body {
     font-weight: 900; 
     content: "\f111";
     color: green;
-    float: left;
 }
 
 .node-content-wrapper:hover {
@@ -50,9 +47,28 @@ html, body {
     box-shadow: none;
 }
 
+.node-wrapper:hover {
+    background: #beebff;
+    box-shadow: none;
+}
+
 .node-content-wrapper-focused {
     box-shadow: none;
     background: none;
+}
+
+.lexicalEntryTreeNodeExpander {
+
+    .toggle-children-wrapper {
+
+        padding: 2px 0px 5px 1px;
+
+        .toggle-children {
+            top: 0px !important;
+            left: -5px !important;
+        }
+    }
+    
 }
 
 
