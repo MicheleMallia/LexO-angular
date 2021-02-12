@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { TreeModule } from '@circlon/angular-tree-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataTablesModule } from "angular-datatables";
-
+import { DataTablesModule } from 'angular-datatables';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -71,7 +71,8 @@ import { ProfilesTableComponent } from './components/profiles-table/profiles-tab
     TreeModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    InfiniteScrollModule
   ],
   providers: [],
   bootstrap: [AppComponent]

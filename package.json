@@ -30,6 +30,7 @@
     "datatables.net-colreorder-dt": "^1.5.3",
     "datatables.net-dt": "^1.10.23",
     "jquery": "^3.5.1",
+    "ngx-infinite-scroll": "^10.0.1",
     "popper.js": "^1.14.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
