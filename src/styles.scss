@@ -76,3 +76,21 @@ html, body {
    
     width: 100% !important;
 }
+
+#lazyLoadingModal {
+    position: absolute !important;
+
+    .modal-dialog{
+        margin: 85% 30% !important;
+    }
+}
+
+.modal-backdrop {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: inherit !important;
+    height: inherit !important;
+    background-color: #000;
+}
