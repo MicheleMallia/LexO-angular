@@ -1,49 +1,118 @@
-<div class="col-md-12 mt-3">
-    <input id="filterLexicalEntry" type="text" (keyup)="onKey($event)" class="form-control" #filterLexicalEntry
-        (keyup)="lexicalFilter(filterLexicalEntry.value, lexicalEntry.treeModel, $event)" placeholder="Search" />
-</div>
-<div class="d-flex flex-wrap mt-3">
-    <div class="col-md-6 col-sm-12">
-        <select #tipo class="form-control" id="type"
-            (change)="lexicalFilter(tipo.value, lexicalEntry.treeModel, $event)">
-            <option>Tipo</option>
-            <option>Word</option>
-            <option>Multiword</option>
-        </select>
+<form>
+    <!-- CHAR SEARCH -->
+    <div class="col-md-12 mt-3">
+        <input id="filterLexicalEntry" type="text" (keyup)="onKey($event)" class="form-control" #filterLexicalEntry
+            (keyup)="lexicalFilter(filterLexicalEntry.value, lexicalEntry.treeModel, $event)" placeholder="Search" />
     </div>
-    <div class="col-md-6 col-sm-12">
-        <div class="d-md-none mt-3"></div>
-        <select #pos class="form-control" id="pos" (change)="lexicalFilter(pos.value, lexicalEntry.treeModel, $event)">
-            <option>Pos</option>
-            <option>Verb</option>
-            <option>Adj</option>
-            <option>Noun</option>
-        </select>
+
+    <!-- START WITH, CONTAINS, END -->
+    <div class="d-flex flex-wrap mt-3">
+        <div class="col-md-4 col-sm-4">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="startRadio" value="startWith">
+                <label class="form-check-label" for="startRadio">
+                Start with
+                </label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="containsRadio" value="contains">
+                <label class="form-check-label" for="containsRadio">
+                Contains
+                </label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="endRadio" value="end">
+                <label class="form-check-label" for="endRadio">
+                End
+                </label>
+            </div>
+        </div>
     </div>
-</div>
-<div class="col-md-12 mt-3">
-    <div class="form-check">
-        <input #pending class="form-check-input" type="checkbox" value="pending" id="pending"
-            (change)="lexicalFilter(pending.value, lexicalEntry.treeModel, $event)" checked>
-        <label class="form-check-label" for="pending">
-            Pending
-        </label>
+
+    <!-- TYPE, POS -->
+    <div class="d-flex flex-wrap mt-3">
+        <div class="col-md-6 col-sm-12">
+            <select #tipo class="form-control" id="type"
+                (change)="lexicalFilter(tipo.value, lexicalEntry.treeModel, $event)">
+                <option>Tipo</option>
+                <option>Word</option>
+                <option>Multiword</option>
+            </select>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="d-md-none mt-3"></div>
+            <select #pos class="form-control" id="pos" (change)="lexicalFilter(pos.value, lexicalEntry.treeModel, $event)">
+                <option>Pos</option>
+                <option>Verb</option>
+                <option>Adj</option>
+                <option>Noun</option>
+            </select>
+        </div>
     </div>
-    <div class="form-check">
-        <input #processing class="form-check-input" type="checkbox" value="processing" id="processing"
-            (change)="lexicalFilter(processing.value, lexicalEntry.treeModel, $event)" checked>
-        <label class="form-check-label" for="processing">
-            In lavorazione
-        </label>
+
+    <!-- LANG, AUTHOR -->
+    <div class="d-flex flex-wrap mt-3">
+        <div class="col-md-6 col-sm-12">
+            <div class="d-md-none mt-3"></div>
+            <select #pos class="form-control" id="author">
+                <option>Author</option>
+                <option>...</option>
+            </select>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="d-md-none mt-3"></div>
+            <select #pos class="form-control" id="lang">
+                <option>Lang</option>
+                <option>en</option>
+                <option>it</option>
+                <option>ru</option>
+            </select>
+        </div>
     </div>
-    <div class="form-check">
-        <input #ready class="form-check-input" type="checkbox" value="ready" id="ready"
-            (change)="lexicalFilter(ready.value, lexicalEntry.treeModel, $event)" checked>
-        <label class="form-check-label" for="ready">
-            Pronte
-        </label>
+
+    <div class="col-sm-12 mt-3">
+        <div class="custom-control custom-switch custom-switch-lg">
+            <input type="checkbox" class="custom-control-input" id="verifiedSwitcher">
+            <label class="custom-control-label" for="verifiedSwitcher">Verified</label>
+          </div>
     </div>
-</div>
+
+    <!-- PENDING, PROCESSING, READY -->
+    <div class="col-md-12 mt-3">
+        <div class="form-check">
+            <input #pending class="form-check-input" type="checkbox" value="pending" id="pending"
+                (change)="lexicalFilter(pending.value, lexicalEntry.treeModel, $event)" checked>
+            <label class="form-check-label" for="pending">
+                Pending
+            </label>
+        </div>
+        <div class="form-check">
+            <input #processing class="form-check-input" type="checkbox" value="processing" id="processing"
+                (change)="lexicalFilter(processing.value, lexicalEntry.treeModel, $event)" checked>
+            <label class="form-check-label" for="processing">
+                In lavorazione
+            </label>
+        </div>
+        <div class="form-check">
+            <input #ready class="form-check-input" type="checkbox" value="ready" id="ready"
+                (change)="lexicalFilter(ready.value, lexicalEntry.treeModel, $event)" checked>
+            <label class="form-check-label" for="ready">
+                Pronte
+            </label>
+        </div>
+    </div>
+
+    <!-- RESET BUTTON -->
+    <div class="col-md-12 mt-3">
+        <button class="btn btn-danger btn-block" type="reset" value="Reset"><i class="fa fa-eraser"></i> Reset</button>
+    </div>
+</form>
+
+<!-- INFINITE SCROLL AND TREE VIEW -->
 <div class="col-md-12 mt-3 rounded border border-secondary tree-view" infiniteScroll [infiniteScrollDistance]="0.1"
     [infiniteScrollThrottle]="150" [infiniteScrollContainer]="'.search-results'" [fromRoot]="true"
     (scrolled)="onScrollDown(lexicalEntry.treeModel)">

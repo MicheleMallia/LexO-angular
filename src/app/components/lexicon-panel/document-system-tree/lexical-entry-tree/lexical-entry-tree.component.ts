@@ -149,14 +149,9 @@ export class LexicalEntryTreeComponent implements OnInit {
     let viewPort = this.element.nativeElement.querySelector('tree-viewport');
     this.renderer.addClass(viewPort, 'search-results');
     this.renderer.setStyle(viewPort, 'overflow', 'scroll');
-
-    console.log(viewPort);
   }
 
-  ngAfterViewInit(): void {
-
-
-  }
+  ngAfterViewInit(): void { }
 
   onEvent = ($event: any) => {
     console.log($event)
