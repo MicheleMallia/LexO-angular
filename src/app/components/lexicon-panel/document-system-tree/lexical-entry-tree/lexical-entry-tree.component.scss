@@ -1,53 +1,73 @@
-$font-size-input: 14px;
+$font-size-input: 10px;
 
 .form-control {
-    font-size: $font-size-input;
+  font-size: $font-size-input;
 }
 
 .tree-view {
-    padding-top: 15px;
-    height: calc(100vh - 500px);
-    position:relative;// so that .modal & .modal-backdrop gets positioned relative to it
-    width:100%;
+  padding-top: 15px;
+  height: calc(100vh - 500px);
+  position: relative; // so that .modal & .modal-backdrop gets positioned relative to it
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .lang {
-    color: blue;
+  color: blue;
 }
 
-
 .node-wrapper {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .icons-container {
-    display: flex;
-    justify-content: space-between;
-    width: 25%;
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
 }
 
-.custom-switch.custom-switch-lg {
-    padding-bottom: 8px;
-    padding-left: 2.25rem;
-  
-    & .custom-control-label {
-      padding-left: .75rem;
-      padding-top: 0.15rem;
-  
-      &::before {
-        border-radius: 1rem;
-        height: 1.5rem;
-        width: 2.5rem;
-      }
-  
-      &::after {
-              border-radius: .65rem;
-        height: calc(1.5rem - 4px);
-        width: calc(1.5rem - 4px);
-      }
+.reset-button,
+.filter-button {
+  margin: 0;
+  font-size: 10px;
+}
+
+input {
+  margin-top: 0;
+}
+
+.custom-control-label::before {
+  top: 0;
+}
+
+.custom-switch .custom-control-label::after {
+  top: calc(.25rem + -2px);
+}
+
+/* .custom-switch.custom-switch-lg {
+  padding-bottom: 8px;
+  padding-left: 2.25rem;
+
+  & .custom-control-label {
+    padding-left: 0.75rem;
+    padding-top: 0.15rem;
+
+    &::before {
+      border-radius: 1rem;
+      height: 1.5rem;
+      width: 2.5rem;
     }
-      
-      .custom-control-input:checked ~ .custom-control-label::after{
-    transform: translateX(1rem);
-      }
+
+    &::after {
+      border-radius: 0.65rem;
+      height: calc(1.5rem - 4px);
+      width: calc(1.5rem - 4px);
+    }
   }
+
+  .custom-control-input:checked ~ .custom-control-label::after {
+    transform: translateX(1rem);
+  }
+}
+ */

@@ -1,12 +1,12 @@
-$font-size-btn: 14px;
+$font-size-btn: 10px;
 
 //minus
-[data-toggle="collapse"] i:before{
+[data-toggle="collapse"] i:before {
     content: "\f146";
 }
 
 //plus
-[data-toggle="collapse"].collapsed i:before{
+[data-toggle="collapse"].collapsed i:before {
     content: "\f0fe";
 }
 
@@ -14,7 +14,6 @@ $font-size-btn: 14px;
 .btn-link,
 .card-body,
 .dropdown-menu > * {
-    
     font-size: $font-size-btn !important;
 }
 
@@ -22,7 +21,14 @@ $font-size-btn: 14px;
     padding: 5px 18px;
 }
 
-.icons-container > button{
+.icons-container > button {
     padding: 6px 6px;
     font-size: $font-size-btn;
+}
+
+#entrate-lessicali > .card-body {
+    height: 70vh;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    padding-right: 10px;
 }

@@ -1,5 +1,5 @@
-$font-size-h5: 18px; //ex. 20px
-$font-size-p: 14px; //ex. 16px;
+$font-size-h5: 14px; //ex. 20px
+$font-size-p: 10px; //ex. 16px;
 
 h5 {
     font-size: $font-size-h5;
@@ -7,4 +7,24 @@ h5 {
 
 p {
     font-size: $font-size-p;
+}
+
+.card {
+    border: 0;
+
+    .card-body {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+.xml-icon {
+    max-height: 25px;
+    overflow: hidden;
+}
+
+.text-preview {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

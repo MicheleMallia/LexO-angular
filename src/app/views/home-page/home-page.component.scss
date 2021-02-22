@@ -1,6 +1,15 @@
+.cover-container {
+    height: 95vh;
+}
+
 .starter-template {
     padding: 3rem 1.5rem;
     text-align: center;
+    flex: 1;
+}
+
+.lead {
+    font-size: 16px;
 }
 
 .logo {
@@ -9,8 +18,4 @@
 
 .title {
     font-weight:900;
-}
-
-footer {
-    margin-bottom: 4%;
 }
