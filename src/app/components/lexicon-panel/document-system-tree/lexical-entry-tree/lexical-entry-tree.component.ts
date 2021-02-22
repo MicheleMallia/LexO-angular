@@ -157,6 +157,11 @@ export class LexicalEntryTreeComponent implements OnInit {
     console.log($event)
   };
 
+  onExpand = ($event : any) => {
+    console.log("espandi");
+    console.log($event);
+  }
+
   onKey = ($event: any) => {
     var that = this;
     setTimeout(function () {
@@ -171,7 +176,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   lexicalFilter(value: string, treeModel: TreeModel, event: any) {
 
-    var id = event.currentTarget.id;
+    /* var id = event.currentTarget.id;
     var results = [];
     var children: any[] = [];
     if (event instanceof KeyboardEvent) {
@@ -270,8 +275,6 @@ export class LexicalEntryTreeComponent implements OnInit {
     });
 
     console.log(children)
-    /* console.log(results);
-    console.log(children); */
 
     for (let i = 0; i < treeModel.nodes.length; i++) {
       let nodeTree = treeModel.nodes[i];
@@ -318,7 +321,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         }
         this.show = true;
       }
-    }
+    } */
   }
 
   onScrollDown(treeModel: TreeModel) {
