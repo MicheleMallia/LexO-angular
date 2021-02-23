@@ -1,0 +1,26 @@
+[
+    {
+        "iriURL": "http://lexica/mylexicon#USemTH247accedere",
+        "name": "Entrare",
+        "definition": "Entrare",
+        "tooltipNeeded": false,
+        "author": "fmurano",
+        "note": "questa è una nota di prova"
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#USemTH359accedere",
+        "name": "Riuscire  ...",
+        "definition": "Riuscire ad ottenere una carica",
+        "tooltipNeeded": true,
+        "author": "fmurano",
+        "note": "questa è una nota di prova"
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#USemTH75accedere",
+        "name": "Acconsent ...",
+        "definition": "Acconsentire",
+        "tooltipNeeded": true,
+        "author": "fmurano",
+        "note": "questa è una nota di prova"
+    }
+]

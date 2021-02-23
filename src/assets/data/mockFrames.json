@@ -1,0 +1,11 @@
+[
+    {
+        "iriURL": "http://lexica/mylexicon#Frame1accedere",
+        "label": "frame_accedere1",
+        "type": "Transitive",
+        "pattern": "X accede a Y",
+        "numArg": "2",
+        "note": "",
+        "author": "fmurano"
+    }
+]

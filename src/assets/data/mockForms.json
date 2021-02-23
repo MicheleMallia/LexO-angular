@@ -1,0 +1,186 @@
+[
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S1CP",
+        "type": "otherForm",
+        "writtenRep": "acceda",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S2CP",
+        "type": "otherForm",
+        "writtenRep": "acceda",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S3CP",
+        "type": "otherForm",
+        "writtenRep": "acceda",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedano_P3CP",
+        "type": "otherForm",
+        "writtenRep": "accedano",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccede_S3IP",
+        "type": "otherForm",
+        "writtenRep": "accede",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedei_S1IR",
+        "type": "otherForm",
+        "writtenRep": "accedei",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedemmo_P1IR",
+        "type": "otherForm",
+        "writtenRep": "accedemmo",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedendo_G",
+        "type": "otherForm",
+        "writtenRep": "accedendo",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedente_FS_PP",
+        "type": "otherForm",
+        "writtenRep": "accedente",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedente_MS_PP",
+        "type": "otherForm",
+        "writtenRep": "accedente",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedenti_FP_PP",
+        "type": "otherForm",
+        "writtenRep": "accedenti",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedenti_MP_PP",
+        "type": "otherForm",
+        "writtenRep": "accedenti",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederai_S2IF",
+        "type": "otherForm",
+        "writtenRep": "accederai",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederanno_P3IF",
+        "type": "otherForm",
+        "writtenRep": "accederanno",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedere_F",
+        "type": "canonicalForm",
+        "writtenRep": "accedere",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederebbe_S3DP",
+        "type": "otherForm",
+        "writtenRep": "accederebbe",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederebbero_P3DP",
+        "type": "otherForm",
+        "writtenRep": "accederebbero",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederei_S1DP",
+        "type": "otherForm",
+        "writtenRep": "accederei",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederemmo_P1DP",
+        "type": "otherForm",
+        "writtenRep": "accederemmo",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederemo_P1IF",
+        "type": "otherForm",
+        "writtenRep": "accederemo",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedereste_P2DP",
+        "type": "otherForm",
+        "writtenRep": "accedereste",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederesti_S2DP",
+        "type": "otherForm",
+        "writtenRep": "accederesti",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    },
+    {
+        "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederete_P2IF",
+        "type": "otherForm",
+        "writtenRep": "accederete",
+        "author": "vquochi",
+        "note": "questa è una nota di prova",
+        "phoneticRep": ""
+    }
+]
