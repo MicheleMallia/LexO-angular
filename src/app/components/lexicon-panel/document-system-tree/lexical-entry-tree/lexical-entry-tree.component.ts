@@ -3,7 +3,13 @@ import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, 
 import * as _ from 'underscore';
 declare var $:JQueryStatic;
 
-import data from '../../../../../assets/data/lexicalEntry.json'
+import data from '../../../../../assets/data/lexicalEntries.json';
+import async from '../../../../../assets/data/lexicalEntry.json'
+
+import forms from '../../../../../assets/data/mockForms.json';
+import senses from '../../../../../assets/data/mockSenses.json';
+import frames from '../../../../../assets/data/mockFrames.json';
+
 
 const actionMapping: IActionMapping = {
   mouse: {
@@ -39,100 +45,21 @@ export class LexicalEntryTreeComponent implements OnInit {
   searchText = '';
   typeField = 'node.type.includes(\'\')';
   posField = 'node.pos.includes(\'\')';
-
-  /* nodes = [
-    {
-      id: 1,
-      name: 'mangiare',
-      pending: true,
-      validated: false,
-      pos: 'verb',
-      lang: 'it',
-      type: 'word',
-      notes: '',
-      author: '',
-      children: [
-        {
-          name: 'mangio',
-          notes: '',
-          author: 'Antonio',
-        },
-        {
-          name: 'mangia',
-          notes: 'Forma femminile',
-          author: 'Francesca',
-        },
-        {
-          name: 'senso1',
-          notes: 'Forma femminile',
-          author: 'Francesca',
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'mangime',
-      pending: true,
-      validated: false,
-      pos: 'noun',
-      lang: 'it',
-      type: 'word',
-      notes: '',
-      author: ''
-    },
-    { 
-      id: 3,
-      name: 'whales',
-      pos: 'noun',
-      pending: false,
-      validated: false,
-      lang: 'en',
-      type: 'word',
-      notes: '',
-      author: ''
-    },
-    { 
-      id: 4,
-      name: 'avvezzo', 
-      pending: false,
-      validated: true,
-      pos: 'adj',
-      lang: 'it',
-      type: 'word',
-      notes: 'asd',
-      author: '',
-    },
-    { 
-      id: 5,
-      name: 'puentes', 
-      pending: true,
-      validated: false,
-      pos: 'noun',
-      lang: 'es',
-      type: 'word',
-      notes: '',
-      author: ''
-    },
-    { 
-      id: 6,
-      name: 'casa di cura', 
-      pending: false,
-      validated: false,
-      pos: 'noun',
-      lang: 'es',
-      type: 'multiword',
-      notes: 'asd',
-      author: 'asd',    
-    }
-  ]; */
   start = 0;
   end = 50;
   modalShow = false;
-  resultsNumber = data.length;
-  nodes = data.slice(0, this.end);
 
+  nodes = data;
+  asyncChildren = async;
+  forms = forms;
+  senses = senses;
+  frames = frames;
+  
   options: ITreeOptions = {
-    actionMapping
+    nodeHeight: 13,
+    useVirtualScroll: true,
+    actionMapping,
+    getChildren: this.getChildren.bind(this)
   };
 
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
@@ -148,7 +75,6 @@ export class LexicalEntryTreeComponent implements OnInit {
   ngOnInit(): void {
     let viewPort = this.element.nativeElement.querySelector('tree-viewport');
     this.renderer.addClass(viewPort, 'search-results');
-    this.renderer.setStyle(viewPort, 'overflow', 'scroll');
   }
 
   ngAfterViewInit(): void { }
@@ -156,11 +82,6 @@ export class LexicalEntryTreeComponent implements OnInit {
   onEvent = ($event: any) => {
     console.log($event)
   };
-
-  onExpand = ($event : any) => {
-    console.log("espandi");
-    console.log($event);
-  }
 
   onKey = ($event: any) => {
     var that = this;
@@ -343,18 +264,48 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     
     setTimeout(() => {
-      if (this.start < this.resultsNumber && this.end < this.resultsNumber) {
+      /* if (this.start < this.resultsNumber && this.end < this.resultsNumber) {
         let newData = data.slice(this.start, this.end);
         this.nodes = this.nodes.concat(newData);
       } else if (this.end < this.resultsNumber) {
         let newData = data.slice(this.start, this.resultsNumber);
         this.nodes = this.nodes.concat(newData);
-      }
+      } */
       this.modalShow = false;
       console.log(this.modalShow);
       //@ts-ignore
       $('#lazyLoadingModal').modal('hide');
       $('.modal-backdrop').remove();
     }, 1000)
+  }
+
+  getChildren(node: any) {
+
+    //TODO: verificare che tipo di nodo si vuole espandere
+    //caso 1: si sta espandendo una lexical entries e si vogliono vedere le 3 sottocartelle Forme, sensi, concetti ecc...
+    //caso 2: si vuole espandere una cartella relativa a forme, sensi, concetti bla bla
+    let newNodes: unknown;
+    console.log("sono in getChildren");
+
+    if(node.data.iriURL != undefined){
+      //Qui faccio la chiamata per ottenere i dati sulle sottocartelle form, sens, conc
+      newNodes = this.asyncChildren.map((c) => Object.assign({}, c));
+      
+    }else if(node.data.name != undefined){
+      if(node.data.name == "Forms"){
+        //call forms
+        newNodes = this.forms.map((c) => Object.assign({}, c));
+      }else if(node.data.name == "Senses"){
+        //call senses
+        newNodes = this.senses.map((c) => Object.assign({}, c));
+      }else if(node.data.name == "Frames"){
+        //call frames
+        newNodes = this.frames.map((c) => Object.assign({}, c));
+      }
+    }
+    
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(newNodes), 1000);
+    });
   }
 }
