@@ -124,7 +124,7 @@
 <!-- INFINITE SCROLL AND TREE VIEW -->
 <div class="col-md-12 mt-3 rounded border border-secondary tree-view" infiniteScroll [infiniteScrollDistance]="0.1"
     [infiniteScrollThrottle]="150" [infiniteScrollContainer]="'.search-results'" [fromRoot]="true"
-    (scrolled)="onScrollDown(lexicalEntry.treeModel)">
+    (scrolled)="onScrollDown(lexicalEntry.treeModel)" style="height: 47vh; width: 500px; overflow: hidden;">
 
     <div id="lazyLoadingModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -145,7 +145,7 @@
 
     <p *ngIf="show">Nessun risultato</p>
     <tree-root #lexicalEntry [(state)]="state" [nodes]="nodes" [options]="options" [focused]="true"
-        (activate)="onEvent($event)" (deactivate)="onEvent($event)" (toggleExpanded)="onExpand($event)">
+        (activate)="onEvent($event)" (deactivate)="onEvent($event)">
         <ng-template #treeNodeWrapperTemplate let-node let-index="index">
             <div class="node-wrapper" [style.padding-left]="node.getNodePadding()"
                 [class.node-content-wrapper-active]="node.isActive"
@@ -156,31 +156,28 @@
                 <div class="node-content-wrapper" style="padding-top:0;">
                     <tree-node-expander [node]="node" class="lexicalEntryTreeNodeExpander">
                     </tree-node-expander>
-                    <!-- <span *ngIf="node.data.pending != null ||  node.data.validated != null" [ngClass]="{
-                    'pending' : node.data.pending && !node.data.validated,
-                    'lavorazione': !node.data.pending && !node.data.validated,
-                    'pronta': !node.data.pending && node.data.validated}"></span> -->
-                    <span>{{ node.data.name }}</span>
+                    <span>{{ node.data.label }}</span>
+                    <span *ngIf="node.data.name != ''">{{ node.data.name }}</span>
+                    <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
                     <sub>{{node.data.pos}}</sub>
-                    <span *ngIf="node.data.lang != null" class="lang">@{{node.data.lang}}</span>
+                    <span *ngIf="node.data.language != null" class="lang">@{{node.data.language}}</span>
                 </div>
                 <div class="icons-container">
                     <div style="width: 30%;">
-                        <i *ngIf="node.data.notes != '' && node.data.notes != null" class="far fa-comment-dots"></i>
+                        <i *ngIf="node.data.note != '' && node.data.note != null" class="far fa-comment-dots"></i>
                     </div>
                     <div style="width: 30%;">
                         <i *ngIf="node.data.author != '' && node.data.author != null" class="fas fa-user"></i>
                     </div>
                     <div style="width: 30%;">
-                        <i *ngIf="!node.data.pending && !node.data.validated && node.data.pending != null"
+                        <i *ngIf="!node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
                             class="fa fa-unlock"></i>
-                        <i *ngIf="!node.data.pending && node.data.validated && node.data.pending != null"
-                            class="fa fa-lock"></i>
+                        <i *ngIf="node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
+                            class="fa fa-lock" [title]="node.data.revisor"></i>
                     </div>
 
                 </div>
             </div>
         </ng-template>
     </tree-root>
-
 </div>
