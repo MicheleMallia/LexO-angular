@@ -6,7 +6,6 @@ $font-size-input: 10px;
 
 .tree-view {
   padding-top: 15px;
-  height: calc(100vh - 500px);
   position: relative; // so that .modal & .modal-backdrop gets positioned relative to it
   width: 100%;
   padding-left: 0;
