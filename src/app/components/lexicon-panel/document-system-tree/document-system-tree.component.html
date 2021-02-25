@@ -29,7 +29,7 @@
     <div class="card">
         <div class="card-header" id="headingTwo">
             <h5 class="mb-0 d-flex flex-wrap justify-content-between align-items-center">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#entrate-lessicali" aria-expanded="false" aria-controls="entrate-lessicali">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#entrate-lessicali" aria-expanded="false" aria-controls="entrate-lessicali" (click)="updateTreeParent()">
                     <i class="fa"></i>  Lessico
                 </button>
                 <div class="icons-container">
@@ -42,7 +42,7 @@
         </div>
         <div id="entrate-lessicali" class="collapse" aria-labelledby="headingTwo" data-parent="#tree-accordion">
             <div class="card-body">
-                <app-lexical-entry-tree></app-lexical-entry-tree>
+                <app-lexical-entry-tree #lexTree></app-lexical-entry-tree>
             </div>
         </div>
     </div>

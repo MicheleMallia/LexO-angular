@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, ITreeState } from '@circlon/angular-tree-component';
 import * as _ from 'underscore';
 declare var $:JQueryStatic;
@@ -48,6 +48,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   start = 0;
   end = 50;
   modalShow = false;
+  viewPort : any;
 
   nodes = data;
   asyncChildren = async;
@@ -56,28 +57,35 @@ export class LexicalEntryTreeComponent implements OnInit {
   frames = frames;
   
   options: ITreeOptions = {
-    nodeHeight: 13,
     useVirtualScroll: true,
+    nodeHeight: 13,
     actionMapping,
     getChildren: this.getChildren.bind(this)
   };
 
+  @Input() triggerShowTree: any;
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
 
   @ViewChild('pending') pendingCheckbox: any;
   @ViewChild('processing') processingCheckbox: any;
   @ViewChild('ready') readyCheckbox: any;
-
-  @ViewChild('angular-tree-component') angular_tree_component: any;
-
-  constructor(private renderer: Renderer2, private element: ElementRef) { }
+  
+  constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef) { }
 
   ngOnInit(): void {
-    let viewPort = this.element.nativeElement.querySelector('tree-viewport');
-    this.renderer.addClass(viewPort, 'search-results');
+    this.viewPort = this.element.nativeElement.querySelector('tree-viewport');
+    this.renderer.addClass(this.viewPort, 'search-results');
+    
   }
 
   ngAfterViewInit(): void { }
+
+  updateTreeView(){
+    
+    setTimeout(() => {
+      this.lexicalEntryTree.sizeChanged();
+    }, 10);
+  }
 
   onEvent = ($event: any) => {
     console.log($event)
