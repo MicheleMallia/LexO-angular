@@ -157,7 +157,7 @@
                     <tree-node-expander [node]="node" class="lexicalEntryTreeNodeExpander">
                     </tree-node-expander>
                     <span>{{ node.data.label }}</span>
-                    <span *ngIf="node.data.name != ''">{{ node.data.name }}</span>
+                    <span *ngIf="node.data.count != undefined">&nbsp;({{ node.data.count }})</span>
                     <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
                     <sub>{{node.data.pos}}</sub>
                     <span *ngIf="node.data.language != null" class="lang">@{{node.data.language}}</span>
