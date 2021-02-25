@@ -1,17 +1,17 @@
 [
     {
         "label": "Forms",
-        "length": 54,
+        "count": 54,
         "hasChildren": true
     },
     {
         "label": "Senses",
-        "length": 4,
+        "count": 4,
         "hasChildren": true
     },
     {
         "label": "Frames",
-        "length": 1,
+        "count": 1,
         "hasChildren": true
     }
 ]

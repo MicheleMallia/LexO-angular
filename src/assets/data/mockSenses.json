@@ -1,7 +1,7 @@
 [
     {
         "iriURL": "http://lexica/mylexicon#USemTH247accedere",
-        "name": "Entrare",
+        "label": "Entrare",
         "definition": "Entrare",
         "tooltipNeeded": false,
         "author": "fmurano",
@@ -9,7 +9,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#USemTH359accedere",
-        "name": "Riuscire  ...",
+        "label": "Riuscire  ...",
         "definition": "Riuscire ad ottenere una carica",
         "tooltipNeeded": true,
         "author": "fmurano",
@@ -17,7 +17,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#USemTH75accedere",
-        "name": "Acconsent ...",
+        "label": "Acconsent ...",
         "definition": "Acconsentire",
         "tooltipNeeded": true,
         "author": "fmurano",
