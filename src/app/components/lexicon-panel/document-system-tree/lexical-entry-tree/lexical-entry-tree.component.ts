@@ -291,14 +291,14 @@ export class LexicalEntryTreeComponent implements OnInit {
       //Qui faccio la chiamata per ottenere i dati sulle sottocartelle form, sens, conc
       newNodes = this.asyncChildren.map((c) => Object.assign({}, c));
       
-    }else if(node.data.name != undefined){
-      if(node.data.name == "Forms"){
+    }else if(node.data.label != undefined){
+      if(node.data.label == "Forms"){
         //call forms
         newNodes = this.forms.map((c) => Object.assign({}, c));
-      }else if(node.data.name == "Senses"){
+      }else if(node.data.label == "Senses"){
         //call senses
         newNodes = this.senses.map((c) => Object.assign({}, c));
-      }else if(node.data.name == "Frames"){
+      }else if(node.data.label == "Frames"){
         //call frames
         newNodes = this.frames.map((c) => Object.assign({}, c));
       }

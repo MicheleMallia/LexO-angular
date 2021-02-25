@@ -1,16 +1,16 @@
 [
     {
-        "name": "Forms",
+        "label": "Forms",
         "length": 54,
         "hasChildren": true
     },
     {
-        "name": "Senses",
+        "label": "Senses",
         "length": 4,
         "hasChildren": true
     },
     {
-        "name": "Frames",
+        "label": "Frames",
         "length": 1,
         "hasChildren": true
     }
