@@ -1,4 +1,4 @@
-$font-size-input: 10px;
+$font-size-input: 12px;
 
 .form-control {
   font-size: $font-size-input;
@@ -43,30 +43,3 @@ input {
 .custom-switch .custom-control-label::after {
   top: calc(.25rem + -2px);
 }
-
-/* .custom-switch.custom-switch-lg {
-  padding-bottom: 8px;
-  padding-left: 2.25rem;
-
-  & .custom-control-label {
-    padding-left: 0.75rem;
-    padding-top: 0.15rem;
-
-    &::before {
-      border-radius: 1rem;
-      height: 1.5rem;
-      width: 2.5rem;
-    }
-
-    &::after {
-      border-radius: 0.65rem;
-      height: calc(1.5rem - 4px);
-      width: calc(1.5rem - 4px);
-    }
-  }
-
-  .custom-control-input:checked ~ .custom-control-label::after {
-    transform: translateX(1rem);
-  }
-}
- */
