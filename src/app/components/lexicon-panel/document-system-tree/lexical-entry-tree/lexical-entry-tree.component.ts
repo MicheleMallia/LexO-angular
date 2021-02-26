@@ -50,6 +50,12 @@ export class LexicalEntryTreeComponent implements OnInit {
   modalShow = false;
   viewPort : any;
 
+  @Input() triggerShowTree: any;
+  @ViewChild('lexicalEntry') lexicalEntryTree: any;
+  @ViewChild('pending') pendingCheckbox: any;
+  @ViewChild('processing') processingCheckbox: any;
+  @ViewChild('ready') readyCheckbox: any;
+  
   nodes = data;
   asyncChildren = async;
   forms = forms;
@@ -58,17 +64,13 @@ export class LexicalEntryTreeComponent implements OnInit {
   
   options: ITreeOptions = {
     useVirtualScroll: true,
-    nodeHeight: 13,
+    scrollOnActivate: false,
+    nodeHeight: 23,
     actionMapping,
     getChildren: this.getChildren.bind(this)
   };
 
-  @Input() triggerShowTree: any;
-  @ViewChild('lexicalEntry') lexicalEntryTree: any;
-
-  @ViewChild('pending') pendingCheckbox: any;
-  @ViewChild('processing') processingCheckbox: any;
-  @ViewChild('ready') readyCheckbox: any;
+  
   
   constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef) { }
 
