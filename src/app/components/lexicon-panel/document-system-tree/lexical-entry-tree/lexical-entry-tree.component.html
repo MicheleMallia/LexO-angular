@@ -2,8 +2,10 @@
     <!-- CHAR SEARCH -->
     <div class=" input-group col-md-12 mt-3">
         <input id="filterLexicalEntry" type="text" (keyup)="onKey($event)" class="form-control" #filterLexicalEntry
-            (keyup)="lexicalFilter(filterLexicalEntry.value, lexicalEntry.treeModel, $event)" placeholder="Search" />
-        <div class="input-group-append">
+            (keyup)="lexicalFilter(filterLexicalEntry.value, lexicalEntry.treeModel, $event)" placeholder="Search"/>
+        <div id="buttons-container" class="input-group-append">
+            <button class="btn btn-info btn-block filter-button" type="button"
+            data-toggle="popover" data-placement="bottom" data-trigger="hover"><i class="fa fa-question"></i></button>
             <button class="btn btn-secondary btn-block filter-button" type="button" value="Filter" title="Filter"
                 data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false"
                 aria-controls="filterCollapse"><i class="fa fa-filter"></i></button>
@@ -167,13 +169,16 @@
                         <i *ngIf="node.data.note != '' && node.data.note != null" class="far fa-comment-dots"></i>
                     </div>
                     <div style="width: 30%;">
-                        <i *ngIf="node.data.author != '' && node.data.author != null" class="fas fa-user"></i>
+                        <i *ngIf="node.data.author != '' && node.data.author != null && node.data.flagAuthor == undefined"
+                            class="fas fa-user" data-toggle="tooltip" data-html="true" [title]="node.data.author"></i>
+                        <i *ngIf="node.data.flagAuthor"
+                            class="fas fa-user" data-toggle="tooltip" data-html="true" [title]="node.data.author"></i>
                     </div>
                     <div style="width: 30%;">
                         <i *ngIf="!node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
                             class="fa fa-unlock"></i>
                         <i *ngIf="node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
-                            class="fa fa-lock" [title]="node.data.revisor"></i>
+                            class="fa fa-lock" data-toggle="tooltip" data-html="true" [title]="node.data.revisor"></i>
                     </div>
 
                 </div>

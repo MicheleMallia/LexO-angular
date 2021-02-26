@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, ITreeState } from '@circlon/angular-tree-component';
 import * as _ from 'underscore';
-declare var $:JQueryStatic;
+declare var $: JQueryStatic;
 
 import data from '../../../../../assets/data/lexicalEntries.json';
 import async from '../../../../../assets/data/lexicalEntry.json'
@@ -48,20 +48,23 @@ export class LexicalEntryTreeComponent implements OnInit {
   start = 0;
   end = 50;
   modalShow = false;
-  viewPort : any;
+  flagAuthor = false;
+  viewPort: any;
+  titlePopover = "Esempi di ricerca"
+  popoverWildcards = "<span><b>Any:</b></span>&nbsp;<span><i>And*</i></span><br><span><b>Single character:</b></span>&nbsp;<span><i>te?t</i></span><br> <b>Fuzzy search:</b></span>&nbsp;<span><i>roam~</i></span><br><b>Weighted fuzzy search:</b></span>&nbsp;<span><i>beautiful~0.6</i></span>"
 
   @Input() triggerShowTree: any;
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
   @ViewChild('pending') pendingCheckbox: any;
   @ViewChild('processing') processingCheckbox: any;
   @ViewChild('ready') readyCheckbox: any;
-  
+
   nodes = data;
   asyncChildren = async;
   forms = forms;
   senses = senses;
   frames = frames;
-  
+
   options: ITreeOptions = {
     useVirtualScroll: true,
     scrollOnActivate: false,
@@ -70,27 +73,41 @@ export class LexicalEntryTreeComponent implements OnInit {
     getChildren: this.getChildren.bind(this)
   };
 
-  
-  
+
+
   constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef) { }
 
   ngOnInit(): void {
     this.viewPort = this.element.nativeElement.querySelector('tree-viewport');
     this.renderer.addClass(this.viewPort, 'search-results');
-    
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void { 
+    //@ts-ignore
+    $('[data-toggle="popover"]').popover({
+      html: true,
+      title: this.titlePopover,
+      content: this.popoverWildcards
+    })
+  }
 
-  updateTreeView(){
-    
+  updateTreeView() {
+
     setTimeout(() => {
       this.lexicalEntryTree.sizeChanged();
+      //@ts-ignore
+      $('[data-toggle="tooltip"]').tooltip();
     }, 10);
   }
 
   onEvent = ($event: any) => {
-    console.log($event)
+    console.log($event);
+
+    //TRIGGER EVERYTIME A NODE IS EXPANDED
+    setTimeout(() => {
+      //@ts-ignore
+      $('[data-toggle="tooltip"]').tooltip();
+    }, 2000);
   };
 
   onKey = ($event: any) => {
@@ -260,19 +277,18 @@ export class LexicalEntryTreeComponent implements OnInit {
     this.start += 50;
     this.end += 50;
     this.modalShow = true;
-    console.log(this.modalShow);
     //@ts-ignore
     $("#lazyLoadingModal").modal("show");
-            
+
     //appending modal background inside the blue div
-    $('.modal-backdrop').appendTo('.tree-view');   
+    $('.modal-backdrop').appendTo('.tree-view');
 
     //remove the padding right and modal-open class from the body tag which bootstrap adds when a modal is shown
     $('body').removeClass("modal-open")
-    $('body').css("padding-right",""); 
-    
+    $('body').css("padding-right", "");
 
-    
+
+
     setTimeout(() => {
       /* if (this.start < this.resultsNumber && this.end < this.resultsNumber) {
         let newData = data.slice(this.start, this.end);
@@ -282,7 +298,6 @@ export class LexicalEntryTreeComponent implements OnInit {
         this.nodes = this.nodes.concat(newData);
       } */
       this.modalShow = false;
-      console.log(this.modalShow);
       //@ts-ignore
       $('#lazyLoadingModal').modal('hide');
       $('.modal-backdrop').remove();
@@ -294,26 +309,45 @@ export class LexicalEntryTreeComponent implements OnInit {
     //TODO: verificare che tipo di nodo si vuole espandere
     //caso 1: si sta espandendo una lexical entries e si vogliono vedere le 3 sottocartelle Forme, sensi, concetti ecc...
     //caso 2: si vuole espandere una cartella relativa a forme, sensi, concetti bla bla
-    let newNodes: unknown;
-    console.log("sono in getChildren");
+    let newNodes: any;
 
-    if(node.data.iriURL != undefined){
+    if (node.data.iriURL != undefined) {
       //Qui faccio la chiamata per ottenere i dati sulle sottocartelle form, sens, conc
       newNodes = this.asyncChildren.map((c) => Object.assign({}, c));
-      
-    }else if(node.data.label != undefined){
-      if(node.data.label == "Forms"){
+
+    } else if (node.data.label != undefined) {
+      if (node.data.label == "Forms") {
         //call forms
         newNodes = this.forms.map((c) => Object.assign({}, c));
-      }else if(node.data.label == "Senses"){
+        for(var i = 0; i < newNodes.length; i++){
+          if(newNodes[i].author == node.parent.data.author){
+            newNodes[i]['flagAuthor'] = false
+          }else{
+            newNodes[i]['flagAuthor'] = true
+          }
+        }
+      } else if (node.data.label == "Senses") {
         //call senses
         newNodes = this.senses.map((c) => Object.assign({}, c));
-      }else if(node.data.label == "Frames"){
+        for(var i = 0; i < newNodes.length; i++){
+          if(newNodes[i].author == node.parent.data.author){
+            newNodes[i]['flagAuthor'] = false
+          }else{
+            newNodes[i]['flagAuthor'] = true
+          }
+        }
+      } else if (node.data.label == "Frames") {
         //call frames
         newNodes = this.frames.map((c) => Object.assign({}, c));
+        for(var i = 0; i < newNodes.length; i++){
+          if(newNodes[i].author == node.parent.data.author){
+            newNodes[i]['flagAuthor'] = false
+          }else{
+            newNodes[i]['flagAuthor'] = true
+          }
+        }
       }
     }
-    
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(newNodes), 1000);
     });
