@@ -65,7 +65,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   options: ITreeOptions = {
     useVirtualScroll: true,
     scrollOnActivate: false,
-    nodeHeight: 23,
+    nodeHeight: 13,
     actionMapping,
     getChildren: this.getChildren.bind(this)
   };
