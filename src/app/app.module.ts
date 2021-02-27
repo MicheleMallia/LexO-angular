@@ -34,6 +34,7 @@ import { VartransTabComponent } from './components/lexicon-panel/text-detail/edi
 import { SynsemTabComponent } from './components/lexicon-panel/text-detail/edit-detail/synsem-tab/synsem-tab.component';
 import { DecompositionTabComponent } from './components/lexicon-panel/text-detail/edit-detail/decomposition-tab/decomposition-tab.component';
 import { ProfilesTableComponent } from './components/profiles-table/profiles-table.component';
+import { LemmaInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lemma-input/lemma-input.component';
 
 @NgModule({
   declarations: [
@@ -62,15 +63,14 @@ import { ProfilesTableComponent } from './components/profiles-table/profiles-tab
     VartransTabComponent,
     SynsemTabComponent,
     DecompositionTabComponent,
-    ProfilesTableComponent
+    ProfilesTableComponent,
+    LemmaInputComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     TreeModule,
-    FormsModule,
-    ReactiveFormsModule,
     DataTablesModule,
     InfiniteScrollModule
   ],
