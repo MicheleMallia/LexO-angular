@@ -1,0 +1,45 @@
+// Required
+@import "../../../../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../../../../node_modules/bootstrap/scss/variables";
+@import "../../../../../../../node_modules/bootstrap/scss/mixins";
+
+$font-size: 12px;
+
+.card,
+.btn {
+    font-size: $font-size;
+}
+
+.card-header {
+    padding: 5px 18px;
+}
+
+.form-card {
+    
+    .card-header {
+        background-color: #f7c3c3;
+    }
+
+    a{
+        font-weight: 700;
+        color: $gray-700;
+    }
+}
+
+//minus
+[data-toggle="collapse"] i:before{
+    content: "\f146";
+}
+
+//plus
+[data-toggle="collapse"].collapsed i:before{
+    content: "\f0fe";
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.fa {
+    margin-top: 2px;
+}
