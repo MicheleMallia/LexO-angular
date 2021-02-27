@@ -1,9 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-  
+    <div class="d-flex-md d-flex-xs d-lg-none">
+        <ul class="navbar-nav flex-row">
+            <div class="dropdown mr-2">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="24" height="24" class="rounded-circle">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#"><i class="fa fa-power-off" aria-hidden="true"></i> Logout</a>
+                </div>
+            </div>
+        </ul>
+    </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -27,20 +39,24 @@
                 </a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto d-xs-none d-sm-none d-lg-flex align-items-center">
             <div class="dropdown mr-2">
-                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="24" height="24" class="rounded-circle">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                        width="24" height="24" class="rounded-circle">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#"><i class="fa fa-power-off" aria-hidden="true"></i> Logout</a>
                 </div>
             </div>
             <li class="nav-item">
-                <a class="nav-link" href="https://docs.google.com/document/d/1rTzEKBU7a_nvG3_paDKcyBitgIn06XW7von883NKnn0/edit" target="_blank">
+                <a class="nav-link"
+                    href="https://docs.google.com/document/d/1rTzEKBU7a_nvG3_paDKcyBitgIn06XW7von883NKnn0/edit"
+                    target="_blank">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </div>
-  </nav>
+</nav>
