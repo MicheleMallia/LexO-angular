@@ -10,16 +10,16 @@ $font-size-items: 12px;
     content: "\f0fe";
 }
 
-.nav-item,
-.fa {
+a, .fa {
+    text-decoration: none;
     font-size: $font-size-items;
+}
+
+.fa{
+    margin-top: 2px;
 }
 
 .card-header {
     padding: 5px 18px;
     font-size: $font-size-items;
-}
-
-.nav-tabs {
-    border-bottom: none;
 }
