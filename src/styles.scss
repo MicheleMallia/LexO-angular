@@ -15,6 +15,14 @@ html, body {
     box-shadow: none;
 }
 
+.tree-children {
+    overflow: visible;
+}
+
+tree-node-content{
+    white-space: nowrap;
+}
+
 .node-wrapper:hover {
     background: #beebff;
     box-shadow: none;
