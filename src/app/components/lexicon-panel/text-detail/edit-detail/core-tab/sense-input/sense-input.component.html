@@ -1,0 +1,46 @@
+<form>
+    <div class="form-group row ml-2 mt-3 mr-2">
+        <label for="inputSense" class="col-sm-2 col-form-label">Name:</label>
+        <div class="input-group col-sm-5">
+            <input type="text" class="form-control" id="inputSense" placeholder="Name">
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="button"><i class="far fa-comment-dots"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row ml-2 mt-3 mr-2">
+        <label for="inputSense" class="col-sm-2 col-form-label">Definition:</label>
+        <div class="input-group col-sm-10">
+            <textarea class="form-control" aria-label="With textarea"></textarea>
+        </div>
+    </div>
+    <div class="container-buttons d-flex">
+        <div class="dropdown">
+            <button class="btn btn-success mt-3 ml-4 mb-3" type="button" id="dropdownAdd" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"> <i class="fas fa-plus"></i> </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownAdd">
+                <a class="dropdown-item" href="#">Action1</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary mt-3 ml-4 mb-3" type="button" id="dropdownSave" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" disabled> <i class="fas fa-save"></i> </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownSave">
+                <a class="dropdown-item" href="#">Action2</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-danger mt-3 ml-4 mb-3" type="button" id="dropdownDelete" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"> <i class="fas fa-trash-alt"></i> </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownDelete">
+                <a class="dropdown-item" href="#">Action3</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+    </div>
+</form>
