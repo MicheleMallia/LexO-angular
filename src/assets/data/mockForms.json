@@ -1,6 +1,7 @@
 [
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S1CP",
+        "instanceName": "MUSaccedereVERB_PHUacceda_S1CP",
         "type": "otherForm",
         "writtenRep": "acceda",
         "author": "vquochi",
@@ -9,6 +10,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S2CP",
+        "instanceName": "MUSaccedereVERB_PHUacceda_S2CP",
         "type": "otherForm",
         "writtenRep": "acceda",
         "author": "vquochi",
@@ -17,6 +19,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S3CP",
+        "instanceName": "MUSaccedereVERB_PHUacceda_S3CP",
         "type": "otherForm",
         "writtenRep": "acceda",
         "author": "vquochi",
@@ -25,6 +28,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedano_P3CP",
+        "instanceName": "MUSaccedereVERB_PHUaccedano_P3",
         "type": "otherForm",
         "writtenRep": "accedano",
         "author": "vquochi",
@@ -33,6 +37,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccede_S3IP",
+        "instanceName": "MUSaccedereVERB_PHUaccede_S3IP",
         "type": "otherForm",
         "writtenRep": "accede",
         "author": "vquochi",
@@ -41,6 +46,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedei_S1IR",
+        "instanceName": "MUSaccedereVERB_PHUaccedei_S1I",
         "type": "otherForm",
         "writtenRep": "accedei",
         "author": "vquochi",
@@ -49,6 +55,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedemmo_P1IR",
+        "instanceName": "MUSaccedereVERB_PHUaccedemmo_P",
         "type": "otherForm",
         "writtenRep": "accedemmo",
         "author": "vquochi",
@@ -57,6 +64,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedendo_G",
+        "instanceName": "MUSaccedereVERB_PHUaccedendo_G",
         "type": "otherForm",
         "writtenRep": "accedendo",
         "author": "vquochi",
@@ -65,6 +73,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedente_FS_PP",
+        "instanceName": "MUSaccedereVERB_PHUaccedente_F",
         "type": "otherForm",
         "writtenRep": "accedente",
         "author": "vquochi",
@@ -73,6 +82,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedente_MS_PP",
+        "instanceName": "MUSaccedereVERB_PHUaccedente_M",
         "type": "otherForm",
         "writtenRep": "accedente",
         "author": "vquochi",
@@ -81,6 +91,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedenti_FP_PP",
+        "instanceName": "MUSaccedereVERB_PHUaccedenti_F",
         "type": "otherForm",
         "writtenRep": "accedenti",
         "author": "vquochi",
@@ -89,6 +100,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedenti_MP_PP",
+        "instanceName": "MUSaccedereVERB_PHUaccedenti_M",
         "type": "otherForm",
         "writtenRep": "accedenti",
         "author": "vquochi",
@@ -97,6 +109,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederai_S2IF",
+        "instanceName": "MUSaccedereVERB_PHUaccederai_S",
         "type": "otherForm",
         "writtenRep": "accederai",
         "author": "vquochi",
@@ -105,6 +118,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederanno_P3IF",
+        "instanceName": "MUSaccedereVERB_PHUaccederanno",
         "type": "otherForm",
         "writtenRep": "accederanno",
         "author": "vquochi",
@@ -113,6 +127,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedere_F",
+        "instanceName": "MUSaccedereVERB_PHUaccedere_F",
         "type": "canonicalForm",
         "writtenRep": "accedere",
         "author": "vquochi",
@@ -121,6 +136,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederebbe_S3DP",
+        "instanceName": "MUSaccedereVERB_PHUaccederebbe",
         "type": "otherForm",
         "writtenRep": "accederebbe",
         "author": "vquochi",
@@ -129,6 +145,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederebbero_P3DP",
+        "instanceName": "MUSaccedereVERB_PHUaccederebbe",
         "type": "otherForm",
         "writtenRep": "accederebbero",
         "author": "vquochi",
@@ -137,6 +154,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederei_S1DP",
+        "instanceName": "MUSaccedereVERB_PHUaccederei_S",
         "type": "otherForm",
         "writtenRep": "accederei",
         "author": "vquochi",
@@ -145,6 +163,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederemmo_P1DP",
+        "instanceName": "MUSaccedereVERB_PHUaccederemmo",
         "type": "otherForm",
         "writtenRep": "accederemmo",
         "author": "vquochi",
@@ -153,6 +172,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederemo_P1IF",
+        "instanceName": "MUSaccedereVERB_PHUaccederemo_",
         "type": "otherForm",
         "writtenRep": "accederemo",
         "author": "vquochi",
@@ -161,6 +181,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedereste_P2DP",
+        "instanceName": "MUSaccedereVERB_PHUaccedereste",
         "type": "otherForm",
         "writtenRep": "accedereste",
         "author": "vquochi",
@@ -169,6 +190,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederesti_S2DP",
+        "instanceName": "MUSaccedereVERB_PHUaccederesti",
         "type": "otherForm",
         "writtenRep": "accederesti",
         "author": "vquochi",
@@ -177,6 +199,7 @@
     },
     {
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederete_P2IF",
+        "instanceName": "MUSaccedereVERB_PHUaccederete_",
         "type": "otherForm",
         "writtenRep": "accederete",
         "author": "vquochi",

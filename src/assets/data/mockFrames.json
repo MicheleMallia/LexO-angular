@@ -1,6 +1,7 @@
 [
     {
         "iriURL": "http://lexica/mylexicon#Frame1accedere",
+        "instanceName": "Frame1accedere",
         "label": "frame_accedere1",
         "type": "Transitive",
         "pattern": "X accede a Y",
