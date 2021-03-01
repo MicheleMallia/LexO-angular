@@ -35,6 +35,8 @@ import { SynsemTabComponent } from './components/lexicon-panel/text-detail/edit-
 import { DecompositionTabComponent } from './components/lexicon-panel/text-detail/edit-detail/decomposition-tab/decomposition-tab.component';
 import { ProfilesTableComponent } from './components/profiles-table/profiles-table.component';
 import { LemmaInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lemma-input/lemma-input.component';
+import { FormInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/form-input/form-input.component';
+import { SenseInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/sense-input/sense-input.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { LemmaInputComponent } from './components/lexicon-panel/text-detail/edit
     SynsemTabComponent,
     DecompositionTabComponent,
     ProfilesTableComponent,
-    LemmaInputComponent
+    LemmaInputComponent,
+    FormInputComponent,
+    SenseInputComponent
   ],
   imports: [
     BrowserModule,
