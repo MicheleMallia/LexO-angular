@@ -162,8 +162,8 @@
                     <span *ngIf="node.data.count == undefined && idView">{{ node.data.instanceName }}</span>
                     <span *ngIf="node.data.count != undefined">{{ node.data.label }}&nbsp;({{ node.data.count }})</span>
                     <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
-                    <sub>{{node.data.pos}}</sub>
-                    <span *ngIf="node.data.language != null" class="lang">@{{node.data.language}}</span>
+                    <sub *ngIf="labelView">{{node.data.pos}}</sub>
+                    <span *ngIf="node.data.language != null && labelView" class="lang">@{{node.data.language}}</span>
                 </div>
                 <div class="icons-container">
                     <div style="width: 30%;">
@@ -185,5 +185,10 @@
                 </div>
             </div>
         </ng-template>
+        <ng-template #loadingTemplate let-loadingNode>
+            <div *ngIf="loadingNode.hasChildren">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </ng-template>
     </tree-root>
 </div>
