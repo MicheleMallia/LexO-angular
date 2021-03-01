@@ -4,6 +4,32 @@
 @import "../../../../../../../node_modules/bootstrap/scss/mixins";
 
 $font-size: 12px;
+.accordion > .lemma-card.card:not(:last-of-type) {
+    border-bottom: 2px solid #ff6060;
+    border-radius: .25rem;
+    
+}
+.accordion>.lemma-card.card:not(:first-of-type){
+    border-radius: .25rem;
+}
+
+.accordion > .form-card.card:not(:last-of-type) {
+    border-bottom: 2px solid #7286AD;
+    border-radius: .25rem;
+    
+}
+.accordion>.form-card.card:not(:first-of-type){
+    border-radius: .25rem;
+}
+
+.accordion > .sense-card.card:not(:last-of-type) {
+    border-bottom: 2px solid #FFCC00;
+    border-radius: .25rem;
+    
+}
+.accordion>.sense-card.card:not(:first-of-type){
+    border-radius: .25rem;
+}
 
 .card,
 .btn {
@@ -14,7 +40,9 @@ $font-size: 12px;
     padding: 5px 18px;
 }
 
-.form-card {
+.lemma-card {
+    
+    border: 2px solid #ff6060;
     
     .card-header {
         background-color: #f7c3c3;
@@ -24,16 +52,61 @@ $font-size: 12px;
         font-weight: 700;
         color: $gray-700;
     }
+
+    .card-body {
+        font-weight: 700;
+        color: $gray-700;
+        background-color: #f7c3c37a;
+    }
+}
+
+
+.form-card {
+    border: 2px solid #7286AD;
+    
+    .card-header {
+        background-color: #e7e7ff;
+    }
+
+    a{
+        font-weight: 700;
+        color: $gray-700;
+    }
+
+    .card-body {
+        font-weight: 700;
+        color: $gray-700;
+        background-color: #F8F8FF;
+    }
+}
+
+.sense-card {
+    border: 2px solid #FFCC00;
+    
+    .card-header {
+        background-color: #ffeb9d;
+    }
+
+    a{
+        font-weight: 700;
+        color: $gray-700;
+    }
+
+    .card-body {
+        font-weight: 700;
+        color: $gray-700;
+        background-color: #FFFACD;
+    }
 }
 
 //minus
-[data-toggle="collapse"] i:before{
-    content: "\f146";
+a[aria-expanded="false"] i:before{
+    content: "\f0fe";
 }
 
 //plus
-[data-toggle="collapse"].collapsed i:before{
-    content: "\f0fe";
+a[aria-expanded="true"] i:before{
+    content: "\f146";
 }
 
 a {

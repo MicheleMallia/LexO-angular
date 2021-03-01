@@ -1,14 +1,46 @@
-<div class="card form-card">
-    <div class="card-header" id="lemmaHading">
-        <h5 class="mb-0">
-            <a class="btn btn-link w-100 d-flex align-self-center" data-toggle="collapse" data-target="#lemmaCollapse" aria-expanded="true" aria-controls="lemmaCollapse">
-            Lemma <i class="fa ml-auto"></i>
-            </a>
-        </h5>
+<div id="cardsAccordion" class="accordion">
+    <div class="card lemma-card my-2">
+        <div class="card-header" id="lemmaHeading">
+            <h5 class="mb-0">
+                <a class="btn btn-link w-100 d-flex align-self-center flag" data-toggle="collapse" data-target="#lemmaCollapse" aria-expanded="false" aria-controls="lemmaCollapse">
+                Lemma <i class="fa ml-auto"></i>
+                </a>
+            </h5>
+        </div>
+        <div id="lemmaCollapse" class="collapse" aria-labelledby="lemmaHeading" data-parent="#cardsAccordion">
+            <div class="card-body">
+                <app-lemma-input></app-lemma-input>
+            </div>
+        </div>
     </div>
-    <div id="lemmaCollapse" class="collapse show" aria-labelledby="lemmaHading">
-        <div class="card-body">
-            <app-lemma-input></app-lemma-input>
+    
+    <div class="card form-card my-2">
+        <div class="card-header" id="formHeading">
+            <h5 class="mb-0">
+                <a class="btn btn-link w-100 d-flex align-self-center flag" data-toggle="collapse" data-target="#formCollapse" aria-expanded="false" aria-controls="formCollapse">
+                Form <i class="fa ml-auto"></i>
+                </a>
+            </h5>
+        </div>
+        <div id="formCollapse" class="collapse" aria-labelledby="formHeading" data-parent="#cardsAccordion">
+            <div class="card-body">
+                <app-form-input></app-form-input>
+            </div>
+        </div>
+    </div>
+
+    <div class="card sense-card my-2">
+        <div class="card-header" id="senseHeading">
+            <h5 class="mb-0">
+                <a class="btn btn-link w-100 d-flex align-self-center flag" data-toggle="collapse" data-target="#senseCollapse" aria-expanded="false" aria-controls="senseCollapse">
+                Sense <i class="fa ml-auto"></i>
+                </a>
+            </h5>
+        </div>
+        <div id="senseCollapse" class="collapse" aria-labelledby="senseHeading" data-parent="#cardsAccordion">
+            <div class="card-body">
+                <app-sense-input></app-sense-input>
+            </div>
         </div>
     </div>
 </div>
