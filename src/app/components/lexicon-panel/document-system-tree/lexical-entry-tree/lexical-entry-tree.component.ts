@@ -52,7 +52,9 @@ export class LexicalEntryTreeComponent implements OnInit {
   viewPort: any;
   titlePopover = "Esempi di ricerca"
   popoverWildcards = "<span><b>Multiple character wildcard search:</b></span>&nbsp;<span><i>te*</i></span><br><span><b>Single character wildcard search:</b></span>&nbsp;<span><i>te?t</i></span><br> <b>Fuzzy search:</b></span>&nbsp;<span><i>test~</i></span><br><b>Weighted fuzzy search:</b></span>&nbsp;<span><i>test~0.8</i></span>"
-
+  labelView = true;
+  idView = false;
+  
   @Input() triggerShowTree: any;
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
   @ViewChild('pending') pendingCheckbox: any;

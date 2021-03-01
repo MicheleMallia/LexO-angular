@@ -126,7 +126,7 @@
 <!-- INFINITE SCROLL AND TREE VIEW -->
 <div class="col-md-12 mt-3 rounded border border-secondary tree-view" infiniteScroll [infiniteScrollDistance]="0.1"
     [infiniteScrollThrottle]="150" [infiniteScrollContainer]="'.search-results'" [fromRoot]="true"
-    (scrolled)="onScrollDown(lexicalEntry.treeModel)" style="height: 47vh;">
+    (scrolled)="onScrollDown(lexicalEntry.treeModel)" style="height: 47vh; overflow-x: auto;">
 
     <div id="lazyLoadingModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -156,10 +156,11 @@
                 (contextmenu)="node.mouseAction('contextMenu', $event)" (treeDrop)="node.onDrop($event)"
                 [treeAllowDrop]="node.allowDrop" [treeDrag]="node" [treeDragEnabled]="node.allowDrag()">
                 <div class="node-content-wrapper" style="padding-top:0;">
-                    <tree-node-expander [node]="node" class="lexicalEntryTreeNodeExpander">
+                    <tree-node-expander *ngIf="node.data.hasChildren != undefined" [node]="node" class="lexicalEntryTreeNodeExpander">
                     </tree-node-expander>
-                    <span>{{ node.data.label }}</span>
-                    <span *ngIf="node.data.count != undefined">&nbsp;({{ node.data.count }})</span>
+                    <span *ngIf="node.data.count == undefined && labelView">{{ node.data.label }}</span>
+                    <span *ngIf="node.data.count == undefined && idView">{{ node.data.instanceName }}</span>
+                    <span *ngIf="node.data.count != undefined">{{ node.data.label }}&nbsp;({{ node.data.count }})</span>
                     <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
                     <sub>{{node.data.pos}}</sub>
                     <span *ngIf="node.data.language != null" class="lang">@{{node.data.language}}</span>

@@ -17,5 +17,16 @@ export class DocumentSystemTreeComponent implements OnInit {
 
   updateTreeParent(){
     this.lexTree.updateTreeView();
+    console.log("2")
+  }
+
+  switchToLabel(){
+    this.lexTree.labelView = true;
+    this.lexTree.idView = false;
+  }
+
+  switchToId(){
+    this.lexTree.labelView = false;
+    this.lexTree.idView = true;
   }
 }
