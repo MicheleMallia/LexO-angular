@@ -33,7 +33,7 @@
                     <i class="fa"></i>  Lessico
                 </button>
                 <div class="icons-container">
-                    <button class="btn btn-link" title="Switch to label view" (click)="switchLabel(); updateTreeParent();"><i class="fas fa-tag"></i></button>
+                    <button [ngStyle]="switcher ? {'background-color': '#007bff', 'color': 'rgb(247 247 247)'} : {'background-color': 'transparent', 'color': '#007bff'}" class="btn btn-link" title="Switch to label view" (click)="switchLabel(); updateTreeParent();"><i class="fas fa-tag"></i></button>
                     <button class="btn btn-link" title="Add"><i class="fa fa-plus"></i></button>     
                     <button class="btn btn-link" title="Export"><i class="fa fa-file-import"></i></button> 
                     <button class="btn btn-link" title="Download"><i class="fa fa-download"></i></button> 

@@ -8,6 +8,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 export class DocumentSystemTreeComponent implements OnInit {
 
+  switcher= false;
   @ViewChild('lexTree') lexTree: any;
   
   constructor() { }
@@ -23,5 +24,6 @@ export class DocumentSystemTreeComponent implements OnInit {
   switchLabel(){
     this.lexTree.labelView = !this.lexTree.labelView;
     this.lexTree.idView = !this.lexTree.idView;
+    this.switcher = !this.switcher;
   }
 }
