@@ -1,6 +1,7 @@
-@import '~@circlon/angular-tree-component/css/angular-tree-component.css';
+@import "~@circlon/angular-tree-component/css/angular-tree-component.css";
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -19,7 +20,7 @@ html, body {
     overflow: visible;
 }
 
-tree-node-content{
+tree-node-content {
     white-space: nowrap;
 }
 
@@ -32,30 +33,32 @@ tree-node-content{
     box-shadow: none;
     background: none;
 }
+.toggle-children {
+    height: 6px !important;
+    width: 7px !important;
+}
 
 .lexicalEntryTreeNodeExpander {
-
     .toggle-children-wrapper {
-
         padding: 2px 0px 5px 1px;
 
         .toggle-children {
-            top: 0px !important;
+            top: -1px !important;
             left: -5px !important;
+            height: 6px !important;
+            width: 7px !important;
         }
     }
-    
 }
 
 .dataTable {
-   
     width: 100% !important;
 }
 
 #lazyLoadingModal {
     position: absolute !important;
 
-    .modal-dialog{
+    .modal-dialog {
         margin: 85% 30% !important;
     }
 }
@@ -71,5 +74,11 @@ tree-node-content{
 }
 
 .card-body {
-    padding: 0.55rem !important
+    padding: 0.55rem !important;
+}
+.popover-header {
+    font-size: 12px !important;
+}
+.popover-body {
+    font-size: 12px;
 }
