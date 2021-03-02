@@ -33,6 +33,7 @@ $font-size-input: 12px;
   font-size: 10px;
 }
 
+
 input {
   margin-top: 0;
 }
@@ -43,4 +44,8 @@ input {
 
 .custom-switch .custom-control-label::after {
   top: calc(.25rem + -2px);
+}
+
+.canonicalForm {
+  font-weight: 800;
 }

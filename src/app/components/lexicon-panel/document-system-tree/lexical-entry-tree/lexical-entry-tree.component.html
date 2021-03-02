@@ -158,16 +158,23 @@
                 <div class="node-content-wrapper" style="padding-top:0;">
                     <tree-node-expander *ngIf="node.data.hasChildren != undefined" [node]="node" class="lexicalEntryTreeNodeExpander">
                     </tree-node-expander>
-                    <span *ngIf="node.data.count == undefined && labelView">{{ node.data.label }}</span>
-                    <span *ngIf="node.data.count == undefined && idView">{{ node.data.instanceName }}</span>
-                    <span *ngIf="node.data.count != undefined">{{ node.data.label }}&nbsp;({{ node.data.count }})</span>
+                    <span *ngIf="node.data.count == undefined && labelView && node.data.definition == undefined && node.data.type!='canonicalForm'">{{ node.data.label }}</span>
+                    <span *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type!='canonicalForm'">{{ node.data.instanceName }}</span>
+
+                    <span *ngIf="node.data.count == undefined && labelView && node.data.definition == undefined && node.data.type=='canonicalForm'"><b>{{ node.data.label }}</b></span>
+                    <span *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type=='canonicalForm'"><b>{{ node.data.instanceName }}</b></span>
+
+                    <span *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined" data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.label }}</span>
+                    <span *ngIf="node.data.count == undefined && idView && node.data.definition != undefined" data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.instanceName }}</span>
+
+                    <span *ngIf="node.data.count != undefined"><i><span style="color: #6e6e6e">{{node.data.label}}</span></i>&nbsp;({{ node.data.count }})</span>
                     <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
                     <sub *ngIf="labelView">{{node.data.pos}}</sub>
                     <span *ngIf="node.data.language != null && labelView" class="lang">@{{node.data.language}}</span>
                 </div>
                 <div class="icons-container">
                     <div style="width: 30%;">
-                        <i *ngIf="node.data.note != '' && node.data.note != null" class="far fa-comment-dots"></i>
+                        <i *ngIf="node.data.note != '' && node.data.note != null" class="far fa-comment-dots" data-toggle="tooltip" data-html="true" [title]="node.data.note"></i>
                     </div>
                     <div style="width: 30%;">
                         <i *ngIf="node.data.author != '' && node.data.author != null && node.data.flagAuthor == undefined"
@@ -187,7 +194,10 @@
         </ng-template>
         <ng-template #loadingTemplate let-loadingNode>
             <div *ngIf="loadingNode.hasChildren">
-                <i class="fas fa-spinner fa-spin"></i>
+                <!-- <i class="fas fa-spinner fa-spin"></i> -->
+                <div class="spinner-border spinner-border-sm m-1" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
           </ng-template>
     </tree-root>
