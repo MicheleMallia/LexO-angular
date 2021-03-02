@@ -3,7 +3,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S1CP",
         "instanceName": "MUSaccedereVERB_PHUacceda_S1CP",
         "type": "otherForm",
-        "writtenRep": "acceda",
+        "label": "acceda",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -12,7 +12,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S2CP",
         "instanceName": "MUSaccedereVERB_PHUacceda_S2CP",
         "type": "otherForm",
-        "writtenRep": "acceda",
+        "label": "acceda",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -21,7 +21,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUacceda_S3CP",
         "instanceName": "MUSaccedereVERB_PHUacceda_S3CP",
         "type": "otherForm",
-        "writtenRep": "acceda",
+        "label": "acceda",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -30,7 +30,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedano_P3CP",
         "instanceName": "MUSaccedereVERB_PHUaccedano_P3",
         "type": "otherForm",
-        "writtenRep": "accedano",
+        "label": "accedano",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -39,7 +39,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccede_S3IP",
         "instanceName": "MUSaccedereVERB_PHUaccede_S3IP",
         "type": "otherForm",
-        "writtenRep": "accede",
+        "label": "accede",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -48,7 +48,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedei_S1IR",
         "instanceName": "MUSaccedereVERB_PHUaccedei_S1I",
         "type": "otherForm",
-        "writtenRep": "accedei",
+        "label": "accedei",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -57,7 +57,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedemmo_P1IR",
         "instanceName": "MUSaccedereVERB_PHUaccedemmo_P",
         "type": "otherForm",
-        "writtenRep": "accedemmo",
+        "label": "accedemmo",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -66,7 +66,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedendo_G",
         "instanceName": "MUSaccedereVERB_PHUaccedendo_G",
         "type": "otherForm",
-        "writtenRep": "accedendo",
+        "label": "accedendo",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -75,7 +75,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedente_FS_PP",
         "instanceName": "MUSaccedereVERB_PHUaccedente_F",
         "type": "otherForm",
-        "writtenRep": "accedente",
+        "label": "accedente",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -84,7 +84,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedente_MS_PP",
         "instanceName": "MUSaccedereVERB_PHUaccedente_M",
         "type": "otherForm",
-        "writtenRep": "accedente",
+        "label": "accedente",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -93,7 +93,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedenti_FP_PP",
         "instanceName": "MUSaccedereVERB_PHUaccedenti_F",
         "type": "otherForm",
-        "writtenRep": "accedenti",
+        "label": "accedenti",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -102,7 +102,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedenti_MP_PP",
         "instanceName": "MUSaccedereVERB_PHUaccedenti_M",
         "type": "otherForm",
-        "writtenRep": "accedenti",
+        "label": "accedenti",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -111,7 +111,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederai_S2IF",
         "instanceName": "MUSaccedereVERB_PHUaccederai_S",
         "type": "otherForm",
-        "writtenRep": "accederai",
+        "label": "accederai",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -120,7 +120,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederanno_P3IF",
         "instanceName": "MUSaccedereVERB_PHUaccederanno",
         "type": "otherForm",
-        "writtenRep": "accederanno",
+        "label": "accederanno",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -129,7 +129,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedere_F",
         "instanceName": "MUSaccedereVERB_PHUaccedere_F",
         "type": "canonicalForm",
-        "writtenRep": "accedere",
+        "label": "accedere",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -138,7 +138,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederebbe_S3DP",
         "instanceName": "MUSaccedereVERB_PHUaccederebbe",
         "type": "otherForm",
-        "writtenRep": "accederebbe",
+        "label": "accederebbe",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -147,7 +147,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederebbero_P3DP",
         "instanceName": "MUSaccedereVERB_PHUaccederebbe",
         "type": "otherForm",
-        "writtenRep": "accederebbero",
+        "label": "accederebbero",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -156,7 +156,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederei_S1DP",
         "instanceName": "MUSaccedereVERB_PHUaccederei_S",
         "type": "otherForm",
-        "writtenRep": "accederei",
+        "label": "accederei",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -165,7 +165,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederemmo_P1DP",
         "instanceName": "MUSaccedereVERB_PHUaccederemmo",
         "type": "otherForm",
-        "writtenRep": "accederemmo",
+        "label": "accederemmo",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -174,7 +174,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederemo_P1IF",
         "instanceName": "MUSaccedereVERB_PHUaccederemo_",
         "type": "otherForm",
-        "writtenRep": "accederemo",
+        "label": "accederemo",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -183,7 +183,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccedereste_P2DP",
         "instanceName": "MUSaccedereVERB_PHUaccedereste",
         "type": "otherForm",
-        "writtenRep": "accedereste",
+        "label": "accedereste",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -192,7 +192,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederesti_S2DP",
         "instanceName": "MUSaccedereVERB_PHUaccederesti",
         "type": "otherForm",
-        "writtenRep": "accederesti",
+        "label": "accederesti",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
@@ -201,7 +201,7 @@
         "iriURL": "http://lexica/mylexicon#MUSaccedereVERB_PHUaccederete_P2IF",
         "instanceName": "MUSaccedereVERB_PHUaccederete_",
         "type": "otherForm",
-        "writtenRep": "accederete",
+        "label": "accederete",
         "author": "vquochi",
         "note": "questa è una nota di prova",
         "phoneticRep": ""
