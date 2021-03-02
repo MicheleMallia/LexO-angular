@@ -50,7 +50,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   modalShow = false;
   flagAuthor = false;
   viewPort: any;
-  titlePopover = "Esempi di ricerca"
+  titlePopover = "Search examples"
   popoverWildcards = "<span><b>Multiple character wildcard search:</b></span>&nbsp;<span><i>te*</i></span><br><span><b>Single character wildcard search:</b></span>&nbsp;<span><i>te?t</i></span><br> <b>Fuzzy search:</b></span>&nbsp;<span><i>test~</i></span><br><b>Weighted fuzzy search:</b></span>&nbsp;<span><i>test~0.8</i></span>"
   labelView = true;
   idView = false;
@@ -90,7 +90,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       html: true,
       title: this.titlePopover,
       content: this.popoverWildcards
-    })
+    });
   }
 
   updateTreeView() {
