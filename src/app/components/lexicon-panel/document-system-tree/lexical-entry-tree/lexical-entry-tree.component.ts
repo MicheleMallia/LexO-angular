@@ -10,6 +10,12 @@ import forms from '../../../../../assets/data/mockForms.json';
 import senses from '../../../../../assets/data/mockSenses.json';
 import frames from '../../../../../assets/data/mockFrames.json';
 
+import status from '../../../../../assets/data/lexicalEntryStatus.json'
+import authors from '../../../../../assets/data/authors.json'
+import types from '../../../../../assets/data/lexicalEntryTypes.json'
+import lang from '../../../../../assets/data/languages.json'
+import pos from '../../../../../assets/data/pos.json'
+
 
 const actionMapping: IActionMapping = {
   mouse: {
@@ -54,6 +60,8 @@ export class LexicalEntryTreeComponent implements OnInit {
   popoverWildcards = "<span><b>Multiple character wildcard search:</b></span>&nbsp;<span><i>te*</i></span><br><span><b>Single character wildcard search:</b></span>&nbsp;<span><i>te?t</i></span><br> <b>Fuzzy search:</b></span>&nbsp;<span><i>test~</i></span><br><b>Weighted fuzzy search:</b></span>&nbsp;<span><i>test~0.8</i></span>"
   labelView = true;
   idView = false;
+
+  verified = false;
   
   @Input() triggerShowTree: any;
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
@@ -66,6 +74,11 @@ export class LexicalEntryTreeComponent implements OnInit {
   forms = forms;
   senses = senses;
   frames = frames;
+  status = status;
+  authors = authors;
+  types = types;
+  languages = lang;
+  partOfSpeech = pos;
 
   options: ITreeOptions = {
     useVirtualScroll: true,
@@ -353,5 +366,9 @@ export class LexicalEntryTreeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(newNodes), 1000);
     });
+  }
+
+  verifiedSwitch(){
+    this.verified = !this.verified;
   }
 }

@@ -50,19 +50,14 @@
             <div class="col-md-6 col-sm-12">
                 <select #tipo class="form-control" id="type"
                     (change)="lexicalFilter(tipo.value, lexicalEntry.treeModel, $event)">
-                    <option>Tipo</option>
-                    <option>Word</option>
-                    <option>Multiword</option>
+                    <option *ngFor="let type of types">{{type.label}} - {{type.count}}</option>
                 </select>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="d-md-none mt-3"></div>
                 <select #pos class="form-control" id="pos"
                     (change)="lexicalFilter(pos.value, lexicalEntry.treeModel, $event)">
-                    <option>Pos</option>
-                    <option>Verb</option>
-                    <option>Adj</option>
-                    <option>Noun</option>
+                    <option *ngFor="let ps of partOfSpeech">{{ps.label}} - {{ps.count}} </option>
                 </select>
             </div>
         </div>
@@ -71,26 +66,25 @@
         <div class="d-flex flex-wrap mt-3">
             <div class="col-md-6 col-sm-12">
                 <div class="d-md-none mt-3"></div>
-                <select #pos class="form-control" id="author">
-                    <option>Author</option>
-                    <option>...</option>
+                <select #author class="form-control" id="author">
+                    <option *ngFor="let auth of authors">{{auth.label}} - {{auth.count}}</option>
                 </select>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="d-md-none mt-3"></div>
-                <select #pos class="form-control" id="lang">
-                    <option>Lang</option>
-                    <option>en</option>
-                    <option>it</option>
-                    <option>ru</option>
+                <select #lang class="form-control" id="lang">
+                    <option *ngFor="let lang of languages">{{lang.label}} - {{lang.count}} </option>
                 </select>
             </div>
         </div>
 
         <div class="col-sm-12 mt-3">
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="verifiedSwitcher">
-                <label class="custom-control-label" for="verifiedSwitcher">Verified</label>
+                <input type="checkbox" class="custom-control-input" id="verifiedSwitcher" (change)="verifiedSwitch();">
+                <label class="custom-control-label" for="verifiedSwitcher">
+                    <span *ngIf="!verified">Verified: {{status[0].label}} ({{status[0].count}})</span>
+                    <span *ngIf="verified">Verified: {{status[1].label}} ({{status[1].count}})</span>
+                </label>
             </div>
         </div>
 
