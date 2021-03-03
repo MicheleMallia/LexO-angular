@@ -18,7 +18,6 @@ export class DocumentSystemTreeComponent implements OnInit {
 
   updateTreeParent(){
     this.lexTree.updateTreeView();
-    console.log("2")
   }
 
   switchLabel(){
