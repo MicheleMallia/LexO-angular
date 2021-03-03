@@ -50,6 +50,7 @@
             <div class="col-md-6 col-sm-12">
                 <select #tipo class="form-control" id="type"
                     (change)="lexicalFilter(tipo.value, lexicalEntry.treeModel, $event)">
+                    <option>Type</option>
                     <option *ngFor="let type of types">{{type.label}} - {{type.count}}</option>
                 </select>
             </div>
@@ -57,6 +58,7 @@
                 <div class="d-md-none mt-3"></div>
                 <select #pos class="form-control" id="pos"
                     (change)="lexicalFilter(pos.value, lexicalEntry.treeModel, $event)">
+                    <option>Pos</option>
                     <option *ngFor="let ps of partOfSpeech">{{ps.label}} - {{ps.count}} </option>
                 </select>
             </div>
@@ -67,12 +69,14 @@
             <div class="col-md-6 col-sm-12">
                 <div class="d-md-none mt-3"></div>
                 <select #author class="form-control" id="author">
+                    <option>Author</option>
                     <option *ngFor="let auth of authors">{{auth.label}} - {{auth.count}}</option>
                 </select>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="d-md-none mt-3"></div>
                 <select #lang class="form-control" id="lang">
+                    <option>Language</option>
                     <option *ngFor="let lang of languages">{{lang.label}} - {{lang.count}} </option>
                 </select>
             </div>
