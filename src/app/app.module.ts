@@ -4,7 +4,7 @@ import { TreeModule } from '@circlon/angular-tree-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-
+import { AngularEditorModule } from '@kolkov/angular-editor'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +37,7 @@ import { ProfilesTableComponent } from './components/profiles-table/profiles-tab
 import { LemmaInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lemma-input/lemma-input.component';
 import { FormInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/form-input/form-input.component';
 import { SenseInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/sense-input/sense-input.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,9 @@ import { SenseInputComponent } from './components/lexicon-panel/text-detail/edit
     AppRoutingModule,
     TreeModule,
     DataTablesModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    HttpClientModule,
+    AngularEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
