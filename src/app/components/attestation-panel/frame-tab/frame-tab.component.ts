@@ -13,7 +13,7 @@ export class FrameTabComponent implements OnInit {
     setTimeout(() => {
       //@ts-ignore
       $('[data-toggle="tooltip"]').tooltip({
-        trigger : 'hover',
+        trigger : 'hover click',
         delay: {"hide" : 1000}
       });
     }, 1000);
