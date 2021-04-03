@@ -4,7 +4,7 @@
 @import "../../../../../../../node_modules/bootstrap/scss/mixins";
 
 $font-size: 12px;
-.accordion > .lemma-card.card:not(:last-of-type) {
+/* .accordion > .lemma-card.card:not(:last-of-type) {
     border-bottom: 2px solid #ff6060;
     border-radius: .25rem;
     
@@ -29,7 +29,7 @@ $font-size: 12px;
 }
 .accordion>.sense-card.card:not(:first-of-type){
     border-radius: .25rem;
-}
+} */
 
 .card,
 .btn {
@@ -40,7 +40,7 @@ $font-size: 12px;
     padding: 5px 18px;
 }
 
-.lemma-card {
+/* .lemma-card {
     
     border: 2px solid #ff6060;
     
@@ -97,10 +97,10 @@ $font-size: 12px;
         color: $gray-700;
         background-color: #FFFACD;
     }
-}
+} */
 
 //minus
-a[aria-expanded="false"] i:before{
+/* a[aria-expanded="false"] i:before{
     content: "\f0fe";
 }
 
@@ -115,4 +115,4 @@ a {
 
 .fa {
     margin-top: 2px;
-}
+} */
