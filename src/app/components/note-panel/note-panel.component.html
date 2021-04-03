@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="card-header" id="noteHeading">
+        <h5 class="mb-0">
+            <a class="btn btn-link w-100 d-flex align-self-center" data-toggle="collapse" data-target="#noteCollapse" aria-expanded="true" aria-controls="noteCollapse">
+                Note Panel<i class="fa ml-auto"></i>
+            </a>
+        </h5>
+    </div>
+    <div id="noteCollapse" class="collapse show" aria-labelledby="noteHeading">
+        <div class="card-body">
+            <angular-editor formControlName="htmlContent" [config]="editorConfig"></angular-editor>
+        </div>
+    </div>
+</div>

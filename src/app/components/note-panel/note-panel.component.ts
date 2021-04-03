@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
-  selector: 'app-metadata-panel',
-  templateUrl: './metadata-panel.component.html',
-  styleUrls: ['./metadata-panel.component.scss']
+  selector: 'app-note-panel',
+  templateUrl: './note-panel.component.html',
+  styleUrls: ['./note-panel.component.scss']
 })
-export class MetadataPanelComponent implements OnInit {
+export class NotePanelComponent implements OnInit {
 
   editorConfig: AngularEditorConfig = {
     editable: true,

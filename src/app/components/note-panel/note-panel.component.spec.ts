@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MetadataPanelComponent } from './metadata-panel.component';
+import { MetadataPanelComponent } from './note-panel.component';
 
 describe('MetadataPanelComponent', () => {
   let component: MetadataPanelComponent;

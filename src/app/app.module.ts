@@ -15,7 +15,7 @@ import { PageNotFoundComponent } from './views/page-not-found/page-not-found.com
 import { HomePageComponent } from './views/home-page/home-page.component';
 import { ProfilePageComponent } from './views/profile-page/profile-page.component';
 import { LexiconPanelComponent } from './components/lexicon-panel/lexicon-panel.component';
-import { MetadataPanelComponent } from './components/metadata-panel/metadata-panel.component';
+import { NotePanelComponent } from './components/note-panel/note-panel.component';
 import { ReferencePanelComponent } from './components/reference-panel/reference-panel.component';
 import { SearchPageComponent } from './views/search-page/search-page.component';
 import { DataSearchFormComponent } from './components/data-search-form/data-search-form.component';
@@ -49,7 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     HomePageComponent,
     ProfilePageComponent,
     LexiconPanelComponent,
-    MetadataPanelComponent,
+    NotePanelComponent,
     ReferencePanelComponent,
     SearchPageComponent,
     DataSearchFormComponent,
