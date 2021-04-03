@@ -13,8 +13,7 @@ export class SenseTabComponent implements OnInit {
     setTimeout(() => {
       //@ts-ignore
       $('[data-toggle="tooltip"]').tooltip({
-        trigger : 'hover click',
-        delay: {"hide" : 1000}
+        trigger : 'click',
       });
     }, 1000);
   }
