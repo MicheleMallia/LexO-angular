@@ -10,6 +10,13 @@ export class SenseTabComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      //@ts-ignore
+      $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover',
+        delay: {"hide" : 1000}
+      });
+    }, 1000);
   }
 
 }
