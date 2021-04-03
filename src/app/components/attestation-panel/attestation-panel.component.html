@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header" id="attestationHeading">
+        <h5 class="mb-0">
+            <a class="btn btn-link w-100 d-flex align-self-center" data-toggle="collapse"
+                data-target="#attestationCollapse" aria-expanded="true" aria-controls="attestationCollapse">
+                Attestation Panel<i class="fa ml-auto"></i>
+            </a>
+        </h5>
+    </div>
+    <div id="attestationCollapse" class="collapse show" aria-labelledby="attestationHeading">
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="form-tab" data-toggle="tab" href="#form" role="tab"
+                        aria-controls="form" aria-selected="true">Form</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="sense-tab" data-toggle="tab" href="#sense" role="tab"
+                        aria-controls="sense" aria-selected="false">Sense</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="frame-tab" data-toggle="tab" href="#frame" role="tab"
+                        aria-controls="frame" aria-selected="false">Frame</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="form" role="tabpanel" aria-labelledby="form-tab">
+                    <app-form-tab></app-form-tab>
+                </div>
+                <div class="tab-pane fade" id="sense" role="tabpanel" aria-labelledby="sense-tab">
+                    <app-sense-tab></app-sense-tab>
+                </div>
+                <div class="tab-pane fade" id="frame" role="tabpanel" aria-labelledby="frame-tab">
+                    <app-frame-tab></app-frame-tab>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
