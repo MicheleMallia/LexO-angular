@@ -38,6 +38,11 @@ import { LemmaInputComponent } from './components/lexicon-panel/text-detail/edit
 import { FormInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/form-input/form-input.component';
 import { SenseInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/sense-input/sense-input.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BibliographyPanelComponent } from './components/bibliography-panel/bibliography-panel.component';
+import { AttestationPanelComponent } from './components/attestation-panel/attestation-panel.component';
+import { FormTabComponent } from './components/attestation-panel/form-tab/form-tab.component';
+import { SenseTabComponent } from './components/attestation-panel/sense-tab/sense-tab.component';
+import { FrameTabComponent } from './components/attestation-panel/frame-tab/frame-tab.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +74,12 @@ import { HttpClientModule } from '@angular/common/http';
     ProfilesTableComponent,
     LemmaInputComponent,
     FormInputComponent,
-    SenseInputComponent
+    SenseInputComponent,
+    BibliographyPanelComponent,
+    AttestationPanelComponent,
+    FormTabComponent,
+    SenseTabComponent,
+    FrameTabComponent
   ],
   imports: [
     BrowserModule,
