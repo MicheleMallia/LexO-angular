@@ -43,6 +43,7 @@ import { AttestationPanelComponent } from './components/attestation-panel/attest
 import { FormTabComponent } from './components/attestation-panel/form-tab/form-tab.component';
 import { SenseTabComponent } from './components/attestation-panel/sense-tab/sense-tab.component';
 import { FrameTabComponent } from './components/attestation-panel/frame-tab/frame-tab.component';
+import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/core-form/core-form.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { FrameTabComponent } from './components/attestation-panel/frame-tab/fram
     AttestationPanelComponent,
     FormTabComponent,
     SenseTabComponent,
-    FrameTabComponent
+    FrameTabComponent,
+    CoreFormComponent
   ],
   imports: [
     BrowserModule,
