@@ -13,7 +13,7 @@
                         <i class="fa fa-trash"></i>
                     </button>
                     <button class="btn btn-link">
-                        <i class="fa fa-lock-open"></i>
+                        <i class="fa fa-unlock"></i>
                     </button>
                 </div>
             </h5>
@@ -22,11 +22,24 @@
             <app-core-form></app-core-form>
         </div>
         <div class="card-footer text-muted">
-            LAST UPDATE ON 15/12/2020 14:30 BY USERG
+            <div class="w-100 d-flex justify-content-between align-items-center">
+                <div>
+                    <span>LAST UPDATE ON 15/12/2020 14:30 BY USERG</span>
+                </div>
+                <div>
+                    <button class="btn btn-success" type="button" id="dropdownAddLemma" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"> <i class="fas fa-plus"></i> </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownAddLemma">
+                        <a class="dropdown-item" href="#">Add Form</a>
+                        <a class="dropdown-item" href="#">Add Sense</a>
+                        <a class="dropdown-item" href="#">Add Frame</a>
+                        <a class="dropdown-item" href="#">Add Lexical Concept</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- <div class="card lemma-card my-2">
+        <!-- <div class="card lemma-card my-2">
         <div class="card-header" id="lemmaHeading">
             <h5 class="mb-0">
                 <a class="btn btn-link w-100 d-flex align-self-center flag" data-toggle="collapse" data-target="#lemmaCollapse" aria-expanded="false" aria-controls="lemmaCollapse">
@@ -70,4 +83,5 @@
             </div>
         </div>
     </div> -->
+    </div>
 </div>
