@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoreTabComponent implements OnInit {
 
+  lock = false;
   constructor() { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      //@ts-ignore
+      $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover'
+      });
+    }, 1000);
   }
 
 }
