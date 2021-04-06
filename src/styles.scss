@@ -1,4 +1,6 @@
 @import "~@circlon/angular-tree-component/css/angular-tree-component.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 
 html,
 body {
@@ -91,4 +93,19 @@ tree-node-content {
 .spinner-border-sm {
     width: .75rem !important;
     height: .75rem !important;
+}
+
+.ng-select {
+    display: flex;
+    position: relative;
+    flex: 1 1 auto;
+}
+
+.ng-select-container {
+    min-height: 32px !important;
+    height: 32px !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    font-size: 12px;
 }
