@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AngularEditorModule } from '@kolkov/angular-editor'
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -88,10 +89,12 @@ import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-d
     BrowserAnimationsModule,
     AppRoutingModule,
     TreeModule,
+    FormsModule,
     DataTablesModule,
     InfiniteScrollModule,
     HttpClientModule,
-    AngularEditorModule
+    AngularEditorModule,
+    NgSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
