@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService, Person } from './data.service';
+
 
 @Component({
   selector: 'app-core-form',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoreFormComponent implements OnInit {
 
-  constructor() { }
+  switchInput = false;
 
-  ngOnInit(): void {
-  }
+  people: Person[] = [];
+    peopleLoading = false;
+
+    constructor(
+        private dataService: DataService) {
+    }
+
+    ngOnInit() {
+        this.loadPeople();
+    }
+
+    private loadPeople() {
+        this.peopleLoading = true;
+        this.dataService.getPeople().subscribe(x => {
+            this.people = x;
+            this.peopleLoading = false;
+        });
+    }
 
 }
