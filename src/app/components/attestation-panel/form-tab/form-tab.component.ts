@@ -15,7 +15,7 @@ export class FormTabComponent implements OnInit {
       $('[data-toggle="tooltip"]').tooltip({
         trigger : 'click'
       });
-    }, 1000);
+    }, 10);
   }
 
 }
