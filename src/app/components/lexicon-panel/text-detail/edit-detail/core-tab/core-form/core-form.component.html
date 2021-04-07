@@ -2,7 +2,7 @@
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputLabel" class="col-sm-2 col-form-label">Label:</label>
         <div class="input-group col-sm-5">
-            <input type="text" class="form-control" id="inputLabel" placeholder="">
+            <input type="text" class="form-control" id="inputLabel" placeholder="" [value]="object != null ? object.label : ''">
         </div>
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
@@ -10,7 +10,7 @@
         <div class="col-sm-5">
             <select class="form-control" id="inputPos">
                 <option>Select a pos:</option>
-                <option>...</option>
+                <option [selected]="object != null">{{object != null ? object.pos : ''}}</option>
             </select>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="col-sm-5">
             <select class="form-control" id="inputType">
                 <option>Select a type:</option>
-                <option>...</option>
+                <option [selected]="object != null">{{object != null ? object.type : ''}}</option>
             </select>
         </div>
     </div>
@@ -28,7 +28,7 @@
         <div class="col-sm-2">
             <select class="form-control" id="inputLanguage">
                 <option>Select a language:</option>
-                <option>...</option>
+                <option [selected]="object != null">{{object != null ? object.language : ''}}</option>
             </select>
         </div>
     </div>

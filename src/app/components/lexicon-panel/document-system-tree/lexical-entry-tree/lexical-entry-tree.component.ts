@@ -15,6 +15,7 @@ import authors from '../../../../../assets/data/authors.json'
 import types from '../../../../../assets/data/lexicalEntryTypes.json'
 import lang from '../../../../../assets/data/languages.json'
 import pos from '../../../../../assets/data/pos.json'
+import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
 
 
 const actionMapping: IActionMapping = {
@@ -90,7 +91,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
 
 
-  constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef) { }
+  constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef, private lexicalService : LexicalEntriesService) { }
 
   ngOnInit(): void {
     this.viewPort = this.element.nativeElement.querySelector('tree-viewport');
@@ -123,6 +124,12 @@ export class LexicalEntryTreeComponent implements OnInit {
       //@ts-ignore
       $('[data-toggle="tooltip"]').tooltip();
     }, 2000);
+
+    if($event.eventName == 'activate' && $event.node.data.label != "Forms"){
+      this.lexicalService.sendToCoreTab($event.node.data);
+    }else if($event.eventName == 'deactivate'){
+      this.lexicalService.sendToCoreTab(null);
+    }
   };
 
   onKey = ($event: any) => {
