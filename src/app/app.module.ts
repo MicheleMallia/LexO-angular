@@ -89,7 +89,6 @@ import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-d
     BrowserAnimationsModule,
     AppRoutingModule,
     TreeModule,
-    FormsModule,
     DataTablesModule,
     InfiniteScrollModule,
     HttpClientModule,
