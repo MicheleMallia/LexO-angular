@@ -16,7 +16,7 @@ export class CoreTabComponent implements OnInit {
       $('[data-toggle="tooltip"]').tooltip({
         trigger : 'hover'
       });
-    }, 1000);
+    }, 10);
   }
 
 }
