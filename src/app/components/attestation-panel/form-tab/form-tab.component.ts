@@ -12,10 +12,10 @@ export class FormTabComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       //@ts-ignore
-      $('[data-toggle="tooltip"]').tooltip({
+      $('.citational-tooltip').tooltip({
         trigger : 'click'
       });
-    }, 10);
+    }, 1000);
   }
 
 }

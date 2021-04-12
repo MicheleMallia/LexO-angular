@@ -12,7 +12,7 @@ export class FrameTabComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       //@ts-ignore
-      $('[data-toggle="tooltip"]').tooltip({
+      $('.frame-tooltip').tooltip({
         trigger : 'click',
       });
     }, 1000);

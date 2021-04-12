@@ -12,7 +12,7 @@ export class SenseTabComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       //@ts-ignore
-      $('[data-toggle="tooltip"]').tooltip({
+      $('.sense-tooltip').tooltip({
         trigger : 'click',
       });
     }, 1000);

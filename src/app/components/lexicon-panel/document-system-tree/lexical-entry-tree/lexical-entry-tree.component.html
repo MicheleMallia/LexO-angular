@@ -162,8 +162,8 @@
                     <span *ngIf="node.data.count == undefined && labelView && node.data.definition == undefined && node.data.type=='canonicalForm'"><b>{{ node.data.label }}</b></span>
                     <span *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type=='canonicalForm'"><b>{{ node.data.instanceName }}</b></span>
 
-                    <span *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined" data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.label }}</span>
-                    <span *ngIf="node.data.count == undefined && idView && node.data.definition != undefined" data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.instanceName }}</span>
+                    <span class="lexical-tooltip" *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined" data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.label }}</span>
+                    <span class="lexical-tooltip" *ngIf="node.data.count == undefined && idView && node.data.definition != undefined" data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.instanceName }}</span>
 
                     <span *ngIf="node.data.count != undefined"><i><span style="color: #6e6e6e">{{node.data.label}}</span></i>&nbsp;({{ node.data.count }})</span>
                     <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
@@ -172,19 +172,19 @@
                 </div>
                 <div class="icons-container">
                     <div style="width: 30%;">
-                        <i *ngIf="node.data.note != '' && node.data.note != null" class="far fa-comment-dots" data-toggle="tooltip" data-html="true" [title]="node.data.note"></i>
+                        <i *ngIf="node.data.note != '' && node.data.note != null" class="far fa-comment-dots lexical-tooltip" data-toggle="tooltip" data-html="true" [title]="node.data.note"></i>
                     </div>
                     <div style="width: 30%;">
                         <i *ngIf="node.data.author != '' && node.data.author != null && node.data.flagAuthor == undefined"
-                            class="fas fa-user" data-toggle="tooltip" data-html="true" [title]="node.data.author"></i>
+                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true" [title]="node.data.author"></i>
                         <i *ngIf="node.data.flagAuthor"
-                            class="fas fa-user" data-toggle="tooltip" data-html="true" [title]="node.data.author"></i>
+                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true" [title]="node.data.author"></i>
                     </div>
                     <div style="width: 30%;">
                         <i *ngIf="!node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
                             class="fa fa-unlock"></i>
                         <i *ngIf="node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
-                            class="fa fa-lock" data-toggle="tooltip" data-html="true" [title]="node.data.revisor"></i>
+                            class="fa fa-lock lexical-tooltip" data-toggle="tooltip" data-html="true" [title]="node.data.revisor"></i>
                     </div>
 
                 </div>

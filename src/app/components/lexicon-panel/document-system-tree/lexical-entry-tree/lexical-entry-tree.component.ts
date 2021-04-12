@@ -112,7 +112,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     setTimeout(() => {
       this.lexicalEntryTree.sizeChanged();
       //@ts-ignore
-      $('[data-toggle="tooltip"]').tooltip();
+      $('.lexical-tooltip').tooltip();
     }, 10);
   }
 
@@ -122,7 +122,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     //TRIGGER EVERYTIME A NODE IS EXPANDED
     setTimeout(() => {
       //@ts-ignore
-      $('[data-toggle="tooltip"]').tooltip();
+      $('.lexical-tooltip').tooltip();
     }, 2000);
 
     if($event.eventName == 'activate' && $event.node.data.label != "Forms"){
@@ -146,152 +146,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   lexicalFilter(value: string, treeModel: TreeModel, event: any) {
 
-    /* var id = event.currentTarget.id;
-    var results = [];
-    var children: any[] = [];
-    if (event instanceof KeyboardEvent) {
-      this.searchText = value;
-    } else {
-      if (id == 'type' && value != 'Tipo') {
-        this.typeField = 'node.type == \'' + value.toLowerCase() + '\'';
-
-      } else if (id == 'type' && value == 'Tipo') {
-        this.typeField = 'node.type.includes(\'\')';
-      }
-      if (id == 'pos' && value != 'Pos') {
-        this.posField = 'node.pos == \'' + value.toLowerCase() + '\'';
-      } else if (id == 'pos' && value == 'Pos') {
-        this.posField = 'node.pos.includes(\'\')';
-      }
-    }
-
-    if (event.target.localName == 'input') {
-
-      if (id == 'pending') {
-        if (this.pendingCheckbox.nativeElement.checked == false) {
-          this.pending = false;
-
-        } else {
-          this.pending = true;
-
-        }
-      }
-      if (id == 'ready') {
-        if (this.readyCheckbox.nativeElement.checked == false) {
-          this.validated = false;
-
-        } else {
-          this.validated = true;
-
-        }
-      }
-    }
-
-
-    results = _.filter(treeModel.nodes, (node) => {
-
-      if (this.processingCheckbox.nativeElement.checked && (this.readyCheckbox.nativeElement.checked || this.pendingCheckbox.nativeElement.checked)) {
-
-        return node.name.includes(this.searchText)
-          && eval(this.typeField)
-          && eval(this.posField)
-          && (node.pending == this.pending || node.pending == false)
-          && (node.validated == this.validated || node.validated == false);
-      } else if (this.processingCheckbox.nativeElement.checked && !(this.readyCheckbox.nativeElement.checked && this.pendingCheckbox.nativeElement.checked)) {
-
-        return node.name.includes(this.searchText)
-          && eval(this.typeField)
-          && eval(this.posField)
-          && node.pending == false
-          && node.validated == false;
-      } else if (!this.processingCheckbox.nativeElement.checked && !(this.readyCheckbox.nativeElement.checked || this.pendingCheckbox.nativeElement.checked)) {
-
-        return node.name.includes(this.searchText)
-          && eval(this.typeField)
-          && eval(this.posField)
-          && node.pending == null
-          && node.validated == null;
-      }
-      else if (!this.processingCheckbox.nativeElement.checked && (this.readyCheckbox.nativeElement.checked && this.pendingCheckbox.nativeElement.checked)) {
-
-        return node.name.includes(this.searchText)
-          && eval(this.typeField)
-          && eval(this.posField)
-          && ((node.pending == true && node.validated == false)
-            || (node.pending == false && node.validated == true));
-      }
-      else {
-
-        return node.name.includes(this.searchText)
-          && eval(this.typeField)
-          && eval(this.posField)
-          && node.pending == this.pending
-          && node.validated == this.validated
-      }
-
-    });
-
-    _.filter(treeModel.nodes, (node) => {
-      if (node["children"] != undefined) {
-        children = _.filter(node.children, (child) => {
-          return child.name.startsWith(this.searchText)
-            && eval(this.typeField)
-            && eval(this.posField);
-        })
-        if (children.length > 0 && this.searchText != '') {
-          results.unshift(node);
-        }
-      }
-    });
-
-    console.log(children)
-
-    for (let i = 0; i < treeModel.nodes.length; i++) {
-      let nodeTree = treeModel.nodes[i];
-      treeModel.setIsHidden({ id: nodeTree.id }, true);
-      if (nodeTree["children"] != undefined) {
-        for (let j = 0; j < nodeTree.children.length; j++) {
-          let childrenNodes = nodeTree.children[j];
-          treeModel.setIsHidden({ id: childrenNodes.id }, true);
-        }
-      }
-    }
-
-    if (results.length > 0) {
-      for (var i = 0; i < results.length; i++) {
-        let nodeResults = results[i];
-        for (var j = 0; j < treeModel.nodes.length; j++) {
-          let nodeTree = treeModel.nodes[j];
-          if (nodeResults.id == nodeTree.id) {
-            treeModel.setIsHidden({ id: nodeTree.id }, false);
-            if (nodeTree["children"] != undefined) {
-              for (var k = 0; k < nodeTree.children.length; k++) {
-                let nodeChildren = nodeTree.children[k];
-                for (var l = 0; l < children.length; l++) {
-                  let nodeResultsChildren = children[l];
-                  if (nodeChildren.id == nodeResultsChildren.id) {
-                    treeModel.setIsHidden({ id: nodeChildren.id }, false);
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      this.show = false;
-    } else {
-      for (var i = 0; i < treeModel.nodes.length; i++) {
-        let node = treeModel.nodes[i];
-        treeModel.setIsHidden({ id: node.id }, true);
-        if (node["children"] != undefined) {
-          for (var j = 0; j < node.children; j++) {
-            let nodeChildren = node.children[j];
-            treeModel.setIsHidden({ id: nodeChildren.id }, true);
-          }
-        }
-        this.show = true;
-      }
-    } */
+    
   }
 
   onScrollDown(treeModel: TreeModel) {

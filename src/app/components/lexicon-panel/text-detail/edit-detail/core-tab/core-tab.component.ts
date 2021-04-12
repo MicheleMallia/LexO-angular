@@ -13,7 +13,7 @@ export class CoreTabComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       //@ts-ignore
-      $('[data-toggle="tooltip"]').tooltip({
+      $('.locked-tooltip').tooltip({
         trigger : 'hover'
       });
     }, 10);
