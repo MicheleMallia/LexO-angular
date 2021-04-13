@@ -4,32 +4,6 @@
 @import "../../../../../../../node_modules/bootstrap/scss/mixins";
 
 $font-size: 12px;
-/* .accordion > .lemma-card.card:not(:last-of-type) {
-    border-bottom: 2px solid #ff6060;
-    border-radius: .25rem;
-    
-}
-.accordion>.lemma-card.card:not(:first-of-type){
-    border-radius: .25rem;
-}
-
-.accordion > .form-card.card:not(:last-of-type) {
-    border-bottom: 2px solid #7286AD;
-    border-radius: .25rem;
-    
-}
-.accordion>.form-card.card:not(:first-of-type){
-    border-radius: .25rem;
-}
-
-.accordion > .sense-card.card:not(:last-of-type) {
-    border-bottom: 2px solid #FFCC00;
-    border-radius: .25rem;
-    
-}
-.accordion>.sense-card.card:not(:first-of-type){
-    border-radius: .25rem;
-} */
 
 .card,
 .btn {
@@ -40,79 +14,17 @@ $font-size: 12px;
     padding: 5px 18px;
 }
 
-/* .lemma-card {
-    
-    border: 2px solid #ff6060;
-    
-    .card-header {
-        background-color: #f7c3c3;
-    }
-
-    a{
-        font-weight: 700;
-        color: $gray-700;
-    }
-
-    .card-body {
-        font-weight: 700;
-        color: $gray-700;
-        background-color: #f7c3c37a;
-    }
+.card-body {
+    max-height: 30vh;
+    min-height: 30vh;
+    overflow: auto;
 }
 
-
-.form-card {
-    border: 2px solid #7286AD;
-    
-    .card-header {
-        background-color: #e7e7ff;
-    }
-
-    a{
-        font-weight: 700;
-        color: $gray-700;
-    }
-
-    .card-body {
-        font-weight: 700;
-        color: $gray-700;
-        background-color: #F8F8FF;
-    }
+.btn-group>.btn-group:not(:last-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
 }
 
-.sense-card {
-    border: 2px solid #FFCC00;
-    
-    .card-header {
-        background-color: #ffeb9d;
-    }
-
-    a{
-        font-weight: 700;
-        color: $gray-700;
-    }
-
-    .card-body {
-        font-weight: 700;
-        color: $gray-700;
-        background-color: #FFFACD;
-    }
-} */
-
-//minus
-/* a[aria-expanded="false"] i:before{
-    content: "\f0fe";
+.dropdown-item {
+    font-size: 12px;
 }
-
-//plus
-a[aria-expanded="true"] i:before{
-    content: "\f146";
-}
-
-a {
-    text-decoration: none !important;
-}
-
-.fa {
-    margin-top: 2px;
-} */
