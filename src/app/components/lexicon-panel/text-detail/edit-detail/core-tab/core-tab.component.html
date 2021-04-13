@@ -12,10 +12,11 @@
                     <button class="btn btn-link">
                         <i class="fa fa-trash"></i>
                     </button>
-                    <button class="btn btn-link" (click)="lock=!lock">
-                        <i class="fa fa-unlock" [hidden]="lock"></i>
-                        <i class="fa fa-lock locked-tooltip" [hidden]="!lock" data-toggle="tooltip"
-                            data-placement="bottom" data-html="true" title="Locked tooltip"></i>
+                    <button class="btn btn-link" (click)="changeStatus()">
+                        <i class="fa fa-circle" *ngIf="lock==0" style="color: red"></i>
+                        <i class="fa fa-circle" *ngIf="lock==1" style="color: yellow"></i>
+                        <i class="fa fa-circle locked-tooltip" *ngIf="lock==2" data-toggle="tooltip"
+                            data-placement="bottom" data-html="true" title="Locked tooltip" style="color:green;"></i>
                     </button>
                 </div>
             </h5>

@@ -7,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoreTabComponent implements OnInit {
 
-  lock = false;
+  lock = 0;
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  changeStatus(){
+    console.log(this.lock)
+    this.lock++;
+    if(this.lock > 2){
+      this.lock =2 ;
+    }
     setTimeout(() => {
       //@ts-ignore
       $('.locked-tooltip').tooltip({
@@ -18,5 +25,4 @@ export class CoreTabComponent implements OnInit {
       });
     }, 10);
   }
-
 }
