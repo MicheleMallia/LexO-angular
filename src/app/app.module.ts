@@ -45,6 +45,7 @@ import { FormTabComponent } from './components/attestation-panel/form-tab/form-t
 import { SenseTabComponent } from './components/attestation-panel/sense-tab/sense-tab.component';
 import { FrameTabComponent } from './components/attestation-panel/frame-tab/frame-tab.component';
 import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/core-form/core-form.component';
+import { ModalModule } from 'ng-modal-lib';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-d
     InfiniteScrollModule,
     HttpClientModule,
     AngularEditorModule,
-    NgSelectModule
+    NgSelectModule,
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]
