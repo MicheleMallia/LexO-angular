@@ -93,7 +93,7 @@ import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-d
     InfiniteScrollModule,
     HttpClientModule,
     AngularEditorModule,
-    NgSelectModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
