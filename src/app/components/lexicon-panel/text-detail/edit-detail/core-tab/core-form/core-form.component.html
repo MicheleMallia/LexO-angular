@@ -30,7 +30,7 @@
                 <div class="card">
                     <span class="text-id">MORPHOLOGY</span>
                     <a class="pointer" data-toggle="collapse" data-target="#collapseMorphology"
-                        aria-expanded="true" aria-controls="collapseMorphology"><span class="trash-icon"><i
+                        aria-expanded="true" aria-controls="collapseMorphology"><span class="collapse-icon"><i
                                 class="fa "></i></span></a>
                     <div id="collapseMorphology" class="collapse show" aria-labelledby="headingOne"
                         data-parent="#accordion">
@@ -105,7 +105,22 @@
             </ng-select>
             <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="switchInput">
             <div class="input-group-append ml-2">
-                <button class="btn btn-primary" type="button"><i class="fa fa-external-link-alt"></i></button>
+                <button class="btn btn-primary" type="button" (click)="modalRoot.show()"><i class="fa fa-external-link-alt"></i></button>
+                <app-modal #modalRoot class="modal-demo" [maximizable]="true"
+                [backdrop]="false">
+                    <ng-container class="app-modal-header">Demo modal</ng-container>
+                    <ng-container class="app-modal-body">
+                      <h3>MODAL DIALOG</h3>
+                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+                    </ng-container>
+                    <ng-container class="app-modal-footer">
+                      <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
+                      <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
+                      <button type="button" class="button button2" style="float: right;" (click)="modalRoot.hide()">Close
+                      </button>
+                    </ng-container>
+                  </app-modal>
             </div>
             <div class="input-group-append ml-2">
                 <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
