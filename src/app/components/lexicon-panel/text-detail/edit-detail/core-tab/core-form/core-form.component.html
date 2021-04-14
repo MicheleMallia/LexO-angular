@@ -26,64 +26,58 @@
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-sm-12">
-            <div id="accordion">
-                <div class="card">
-                    <span class="text-id">MORPHOLOGY</span>
-                    <a class="pointer" data-toggle="collapse" data-target="#collapseMorphology"
-                        aria-expanded="true" aria-controls="collapseMorphology"><span class="collapse-icon"><i
-                                class="fa "></i></span></a>
-                    <div id="collapseMorphology" class="collapse show" aria-labelledby="headingOne"
-                        data-parent="#accordion">
-                        <div class="card-body">
-                            <div class="d-flex mt-3">
-                                <div class="col-md-6">
-                                    <label for="selectPos" class="col-form-label">Part of speech:</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <select class="form-control" id="selectPos">
-                                        <option>Select a pos:</option>
-                                        <option [selected]="object != null">{{object != null ? object.pos : ''}}</option>
-                                    </select>
-                                </div>
+
+            <div class="card">
+                <span class="text-id">MORPHOLOGY</span>
+                <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+
+                <div class="card-body">
+                    <div class="d-flex mt-3">
+                        <div class="col-md-6">
+                            <label for="selectPos" class="col-form-label">Part of speech:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-control" id="selectPos">
+                                <option>Select a pos:</option>
+                                <option [selected]="object != null">{{object != null ? object.pos : ''}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-3">
+                        <div class="col-md-4">
+                            <select class="form-control selectTrait">
+                                <option>Gender</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="input-group col-md-7">
+                            <select class="form-control selectTrait">
+                                <option>Masculine</option>
+                                <option>...</option>
+                            </select>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
-                            <div class="d-flex mt-3">
-                                <div class="col-md-4">
-                                    <select class="form-control selectTrait">
-                                        <option>Gender</option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                                <div class="input-group col-md-7">
-                                    <select class="form-control selectTrait">
-                                        <option>Masculine</option>
-                                        <option>...</option>
-                                    </select>
-                                    <div class="input-group-append ml-2">
-                                        <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div class="d-flex my-3">
-                                <div class="col-md-4">
-                                    <select class="form-control selectTrait">
-                                        <option></option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                                <div class="input-group col-md-7">
-                                    <select class="form-control selectTrait">
-                                        <option>Masculine</option>
-                                        <option>...</option>
-                                    </select>
-                                    <div class="input-group-append ml-2">
-                                        <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex my-3">
+                        <div class="col-md-4">
+                            <select class="form-control selectTrait">
+                                <option></option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="input-group col-md-7">
+                            <select class="form-control selectTrait">
+                                <option>Masculine</option>
+                                <option>...</option>
+                            </select>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -96,31 +90,28 @@
             <label class="form-check-label" for="extCheck"></label>
         </div>
         <div class="input-group col-sm-7">
-            <ng-select [items]="people"
-                    bindLabel="name"
-                    placeholder="Search entity"
-                    appendTo="body"
-                    [loading]="peopleLoading"
-                    *ngIf="!switchInput">
+            <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
+                [loading]="peopleLoading" *ngIf="!switchInput">
             </ng-select>
             <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="switchInput">
             <div class="input-group-append ml-2">
-                <button class="btn btn-primary" type="button" (click)="modalRoot.show()"><i class="fa fa-external-link-alt"></i></button>
-                <app-modal #modalRoot class="modal-demo" [maximizable]="true"
-                [backdrop]="false">
+                <button class="btn btn-primary" type="button" (click)="modalRoot.show()"><i
+                        class="fa fa-external-link-alt"></i></button>
+                <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
                     <ng-container class="app-modal-header">Demo modal</ng-container>
                     <ng-container class="app-modal-body">
-                      <h3>MODAL DIALOG</h3>
-                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+                        <h3>MODAL DIALOG</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
                     </ng-container>
                     <ng-container class="app-modal-footer">
-                      <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
-                      <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
-                      <button type="button" class="button button2" style="float: right;" (click)="modalRoot.hide()">Close
-                      </button>
+                        <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
+                        <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
+                        <button type="button" class="button button2" style="float: right;"
+                            (click)="modalRoot.hide()">Close
+                        </button>
                     </ng-container>
-                  </app-modal>
+                </app-modal>
             </div>
             <div class="input-group-append ml-2">
                 <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>

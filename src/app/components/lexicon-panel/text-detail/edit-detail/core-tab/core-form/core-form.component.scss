@@ -62,15 +62,6 @@
     font-size: 11px;
 }
 
-[data-toggle="collapse"] i:before{
-    content: "\f146";
-}
-
-//plus
-[data-toggle="collapse"].collapsed i:before{
-    content: "\f0fe";
-}
-
 .pointer {
     cursor: pointer;
 }
