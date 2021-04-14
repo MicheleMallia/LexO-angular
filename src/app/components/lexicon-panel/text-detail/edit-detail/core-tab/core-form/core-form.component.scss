@@ -1,4 +1,3 @@
-@import '../core-tab.component.scss';
 // Required
 @import "../../../../../../../../node_modules/bootstrap/scss/functions";
 @import "../../../../../../../../node_modules/bootstrap/scss/variables";
@@ -6,12 +5,6 @@
 
 .row {
     align-items: center;
-}
-.card {
-    width: 100%;
-}
-.card-body{
-    background-color: $gray-100 !important;
 }
 
 .btn{
@@ -24,9 +17,49 @@
 }
 
 .btn {
+    font-size: 12px;
     height: 32px;
 }
 
 .form-check-input {
     margin-top: 0;
+}
+
+
+.card {
+    margin-top: 20px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+#accordion {
+    width: 100%;
+}
+
+.text-id {
+    position: absolute;
+    left: 10px;
+    top: -12px;
+    background: white;
+    text-align: center;
+    color: $gray-900;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.badge {
+    font-size: 11px;
+}
+
+[data-toggle="collapse"] i:before{
+    content: "\f146";
+}
+
+//plus
+[data-toggle="collapse"].collapsed i:before{
+    content: "\f0fe";
+}
+
+.pointer {
+    cursor: pointer;
 }
