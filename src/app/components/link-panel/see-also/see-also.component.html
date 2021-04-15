@@ -1,0 +1,101 @@
+<div class="form-group row mt-3">
+    <div class="input-group col-sm-12">
+        <div class="card">
+            <span class="text-id">SEE ALSO</span>
+            <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+            <div class="card-body">
+                <div class="d-flex mt-3">
+                    <div class="form-group row ml-2 mt-3 mr-2 w-100"
+                        *ngIf="{switch_1 : false}; let variable">
+                        <label for="inputDenotes" class="col-auto col-form-label text-muted">EXT</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="extCheck"
+                                (change)="variable.switch_1=!variable.switch_1">
+                            <label class="form-check-label" for="extCheck"></label>
+                        </div>
+                        <div class="input-group col-sm-9">
+                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity"
+                                appendTo="body" [loading]="peopleLoading" *ngIf="!variable.switch_1">
+                            </ng-select>
+                            <input type="text" class="form-control" id="inputDenotes"
+                                placeholder="Insert URI" *ngIf="variable.switch_1">
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button" (click)="modalRoot2.show()"><i
+                                        class="fa fa-external-link-alt"></i></button>
+                                <app-modal #modalRoot2 class="modal-demo" [maximizable]="true"
+                                    [backdrop]="false">
+                                    <ng-container class="app-modal-header">Demo modal</ng-container>
+                                    <ng-container class="app-modal-body">
+                                        <h3>MODAL DIALOG</h3>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                            industry.
+                                            Lorem Ipsum has been the industry’s standard dummy text ever
+                                            since the 1500s.</p>
+                                    </ng-container>
+                                    <ng-container class="app-modal-footer">
+                                        <button type="button" class="button button3"
+                                            (click)="modalRoot2.hide()">Delete</button>
+                                        <button type="button" class="button button1"
+                                            (click)="modalRoot2.hide()">Save</button>
+                                        <button type="button" class="button button2" style="float: right;"
+                                            (click)="modalRoot2.hide()">Close
+                                        </button>
+                                    </ng-container>
+                                </app-modal>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i
+                                        class="fa fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group row ml-2 mt-3 mr-2 w-100" *ngIf="{switch_2 : false}; let variable">
+                        <label for="inputDenotes" class="col-auto col-form-label text-muted">EXT</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="extCheck"
+                                (change)="variable.switch_2=!variable.switch_2">
+                            <label class="form-check-label" for="extCheck"></label>
+                        </div>
+                        <div class="input-group col-sm-9">
+                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity"
+                                appendTo="body" [loading]="peopleLoading" *ngIf="!variable.switch_2">
+                            </ng-select>
+                            <input type="text" class="form-control" id="inputDenotes"
+                                placeholder="Insert URI" *ngIf="variable.switch_2">
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button" (click)="modalRoot2.show()"><i
+                                        class="fa fa-external-link-alt"></i></button>
+                                <app-modal #modalRoot2 class="modal-demo" [maximizable]="true"
+                                    [backdrop]="false">
+                                    <ng-container class="app-modal-header">Demo modal</ng-container>
+                                    <ng-container class="app-modal-body">
+                                        <h3>MODAL DIALOG</h3>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                            industry.
+                                            Lorem Ipsum has been the industry’s standard dummy text ever
+                                            since the 1500s.</p>
+                                    </ng-container>
+                                    <ng-container class="app-modal-footer">
+                                        <button type="button" class="button button3"
+                                            (click)="modalRoot2.hide()">Delete</button>
+                                        <button type="button" class="button button1"
+                                            (click)="modalRoot2.hide()">Save</button>
+                                        <button type="button" class="button button2" style="float: right;"
+                                            (click)="modalRoot2.hide()">Close
+                                        </button>
+                                    </ng-container>
+                                </app-modal>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i
+                                        class="fa fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
