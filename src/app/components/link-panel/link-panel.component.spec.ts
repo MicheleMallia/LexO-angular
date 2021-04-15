@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReferencePanelComponent } from './reference-panel.component';
+import { LinkPanelComponent } from './link-panel.component';
 
 describe('ReferencePanelComponent', () => {
-  let component: ReferencePanelComponent;
-  let fixture: ComponentFixture<ReferencePanelComponent>;
+  let component: LinkPanelComponent;
+  let fixture: ComponentFixture<LinkPanelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReferencePanelComponent ]
+      declarations: [ LinkPanelComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReferencePanelComponent);
+    fixture = TestBed.createComponent(LinkPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
