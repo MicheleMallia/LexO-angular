@@ -17,7 +17,7 @@ import { HomePageComponent } from './views/home-page/home-page.component';
 import { ProfilePageComponent } from './views/profile-page/profile-page.component';
 import { LexiconPanelComponent } from './components/lexicon-panel/lexicon-panel.component';
 import { NotePanelComponent } from './components/note-panel/note-panel.component';
-import { ReferencePanelComponent } from './components/reference-panel/reference-panel.component';
+import { LinkPanelComponent } from './components/link-panel/link-panel.component';
 import { SearchPageComponent } from './views/search-page/search-page.component';
 import { DataSearchFormComponent } from './components/data-search-form/data-search-form.component';
 import { BibliographySearchFormComponent } from './components/bibliography-search-form/bibliography-search-form.component';
@@ -46,6 +46,8 @@ import { SenseTabComponent } from './components/attestation-panel/sense-tab/sens
 import { FrameTabComponent } from './components/attestation-panel/frame-tab/frame-tab.component';
 import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/core-form/core-form.component';
 import { ModalModule } from 'ng-modal-lib';
+import { SeeAlsoComponent } from './components/link-panel/see-also/see-also.component';
+import { SameAsComponent } from './components/link-panel/same-as/same-as.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,7 @@ import { ModalModule } from 'ng-modal-lib';
     ProfilePageComponent,
     LexiconPanelComponent,
     NotePanelComponent,
-    ReferencePanelComponent,
+    LinkPanelComponent,
     SearchPageComponent,
     DataSearchFormComponent,
     BibliographySearchFormComponent,
@@ -83,7 +85,9 @@ import { ModalModule } from 'ng-modal-lib';
     FormTabComponent,
     SenseTabComponent,
     FrameTabComponent,
-    CoreFormComponent
+    CoreFormComponent,
+    SeeAlsoComponent,
+    SameAsComponent
   ],
   imports: [
     BrowserModule,
