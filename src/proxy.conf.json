@@ -1,0 +1,8 @@
+{
+    "/LexO-backend/service/*": {
+        "target": "https://licodemo.ilc.cnr.it",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}
