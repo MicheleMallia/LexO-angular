@@ -8,6 +8,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 })
 export class NotePanelComponent implements OnInit {
 
+  htmlContent : '';
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
