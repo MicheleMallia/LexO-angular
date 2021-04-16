@@ -99,7 +99,9 @@ import { SameAsComponent } from './components/link-panel/same-as/same-as.compone
     HttpClientModule,
     AngularEditorModule,
     NgSelectModule,
-    ModalModule
+    ModalModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
