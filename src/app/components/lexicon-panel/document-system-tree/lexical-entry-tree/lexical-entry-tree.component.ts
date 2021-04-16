@@ -1,22 +1,17 @@
 import { ApplicationRef, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, ITreeState } from '@circlon/angular-tree-component';
+import { formTypeEnum, LexicalEntryRequest, searchModeEnum, typeEnum } from './interfaces/lexical-entry-interface'
+import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
+import { FormControl, FormGroup } from '@angular/forms';
+
 import * as _ from 'underscore';
 declare var $: JQueryStatic;
 
-import data from '../../../../../assets/data/lexicalEntries.json';
 import async from '../../../../../assets/data/lexicalEntry.json'
 
 import forms from '../../../../../assets/data/mockForms.json';
 import senses from '../../../../../assets/data/mockSenses.json';
 import frames from '../../../../../assets/data/mockFrames.json';
-
-import status from '../../../../../assets/data/lexicalEntryStatus.json'
-import authors from '../../../../../assets/data/authors.json'
-import types from '../../../../../assets/data/lexicalEntryTypes.json'
-import lang from '../../../../../assets/data/languages.json'
-import pos from '../../../../../assets/data/pos.json'
-import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
-
 
 const actionMapping: IActionMapping = {
   mouse: {
@@ -44,16 +39,7 @@ const actionMapping: IActionMapping = {
 
 export class LexicalEntryTreeComponent implements OnInit {
   state!: ITreeState;
-  word = false;
-  multiword = false;
   show = false;
-  pending = true;
-  validated = true;
-  searchText = '';
-  typeField = 'node.type.includes(\'\')';
-  posField = 'node.pos.includes(\'\')';
-  start = 0;
-  end = 50;
   modalShow = false;
   flagAuthor = false;
   viewPort: any;
@@ -61,26 +47,27 @@ export class LexicalEntryTreeComponent implements OnInit {
   popoverWildcards = "<span><b>Multiple character wildcard search:</b></span>&nbsp;<span><i>te*</i></span><br><span><b>Single character wildcard search:</b></span>&nbsp;<span><i>te?t</i></span><br> <b>Fuzzy search:</b></span>&nbsp;<span><i>test~</i></span><br><b>Weighted fuzzy search:</b></span>&nbsp;<span><i>test~0.8</i></span>"
   labelView = true;
   idView = false;
+  offset = 0;
+  limit = 500;
 
-  verified = false;
-  
+
   @Input() triggerShowTree: any;
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
   @ViewChild('pending') pendingCheckbox: any;
   @ViewChild('processing') processingCheckbox: any;
   @ViewChild('ready') readyCheckbox: any;
 
-  nodes = data;
+  nodes;
+  languages;
+  types;
+  authors;
+  partOfSpeech;
+  status = [{ "label": "false", "count": 0 }, { "label": "true", "count": 0 }];
   asyncChildren = async;
   forms = forms;
   senses = senses;
   frames = frames;
-  status = status;
-  authors = authors;
-  types = types;
-  languages = lang;
-  partOfSpeech = pos;
-
+  
   options: ITreeOptions = {
     useVirtualScroll: true,
     scrollOnActivate: false,
@@ -88,17 +75,81 @@ export class LexicalEntryTreeComponent implements OnInit {
     actionMapping,
     getChildren: this.getChildren.bind(this)
   };
+  
 
+  filterForm = new FormGroup({
+    text: new FormControl(''),
+    searchMode : new FormControl('equals'),
+    type: new FormControl(''),
+    pos: new FormControl(''),
+    formType : new FormControl(''),
+    author : new FormControl(''),
+    lang : new FormControl(''),
+    status : new FormControl('')
+  });
 
-
-  constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef, private lexicalService : LexicalEntriesService) { }
+  constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef, private lexicalService: LexicalEntriesService) { }
 
   ngOnInit(): void {
     this.viewPort = this.element.nativeElement.querySelector('tree-viewport');
     this.renderer.addClass(this.viewPort, 'search-results');
+
+
+    //BOOTSTRAP SERVICES WITH EMPTY PARAMETERS
+    let parameters : LexicalEntryRequest = {
+      text: "",
+      searchMode: searchModeEnum.equals,
+      type: typeEnum.word,
+      pos: "",
+      formType: "",
+      author: "",
+      lang: "",
+      status: "",
+      offset: this.offset,
+      limit: this.limit
+    }
+    /* this.lexicalService.getLexicalEntriesList(parameters).subscribe(
+      data => {
+        console.log(data);
+        this.nodes = data;
+      },
+      error => {
+        console.log(error.message)
+      }
+    ); */
+
+    this.lexicalService.getLanguages().subscribe(
+      data => {
+        this.languages = data;
+      }
+    );
+
+    this.lexicalService.getTypes().subscribe(
+      data => {
+        this.types = data;
+      }
+    );
+
+    this.lexicalService.getAuthors().subscribe(
+      data => {
+        this.authors = data;
+      }
+    );
+
+    this.lexicalService.getPos().subscribe(
+      data => {
+        this.partOfSpeech = data;
+      }
+    )
+
+    this.lexicalService.getStatus().subscribe(
+      data => {
+        this.status = data;
+      }
+    )
   }
 
-  ngAfterViewInit(): void { 
+  ngAfterViewInit(): void {
     //@ts-ignore
     $('[data-toggle="popover"]').popover({
       html: true,
@@ -125,9 +176,9 @@ export class LexicalEntryTreeComponent implements OnInit {
       $('.lexical-tooltip').tooltip();
     }, 2000);
 
-    if($event.eventName == 'activate' && $event.node.data.label != "Forms"){
+    if ($event.eventName == 'activate' && $event.node.data.label != "Forms") {
       this.lexicalService.sendToCoreTab($event.node.data);
-    }else if($event.eventName == 'deactivate'){
+    } else if ($event.eventName == 'deactivate') {
       this.lexicalService.sendToCoreTab(null);
     }
   };
@@ -144,15 +195,10 @@ export class LexicalEntryTreeComponent implements OnInit {
     }, 5);
   };
 
-  lexicalFilter(value: string, treeModel: TreeModel, event: any) {
-
-    
-  }
-
   onScrollDown(treeModel: TreeModel) {
     console.log('scrolled!!');
-    this.start += 50;
-    this.end += 50;
+    /*  this.start += 50;
+     this.end += 50; */
     this.modalShow = true;
     //@ts-ignore
     $("#lazyLoadingModal").modal("show");
@@ -167,13 +213,6 @@ export class LexicalEntryTreeComponent implements OnInit {
 
 
     setTimeout(() => {
-      /* if (this.start < this.resultsNumber && this.end < this.resultsNumber) {
-        let newData = data.slice(this.start, this.end);
-        this.nodes = this.nodes.concat(newData);
-      } else if (this.end < this.resultsNumber) {
-        let newData = data.slice(this.start, this.resultsNumber);
-        this.nodes = this.nodes.concat(newData);
-      } */
       this.modalShow = false;
       //@ts-ignore
       $('#lazyLoadingModal').modal('hide');
@@ -183,43 +222,37 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   getChildren(node: any) {
 
-    //TODO: verificare che tipo di nodo si vuole espandere
-    //caso 1: si sta espandendo una lexical entries e si vogliono vedere le 3 sottocartelle Forme, sensi, concetti ecc...
-    //caso 2: si vuole espandere una cartella relativa a forme, sensi, concetti bla bla
+
     let newNodes: any;
 
     if (node.data.iriURL != undefined) {
-      //Qui faccio la chiamata per ottenere i dati sulle sottocartelle form, sens, conc
       newNodes = this.asyncChildren.map((c) => Object.assign({}, c));
 
     } else if (node.data.label != undefined) {
       if (node.data.label == "Forms") {
-        //call forms
         newNodes = this.forms.map((c) => Object.assign({}, c));
-        for(var i = 0; i < newNodes.length; i++){
-          if(newNodes[i].author == node.parent.data.author){
+        for (var i = 0; i < newNodes.length; i++) {
+          if (newNodes[i].author == node.parent.data.author) {
             newNodes[i]['flagAuthor'] = false
-          }else{
+          } else {
             newNodes[i]['flagAuthor'] = true
           }
         }
       } else if (node.data.label == "Senses") {
-        //call senses
         newNodes = this.senses.map((c) => Object.assign({}, c));
-        for(var i = 0; i < newNodes.length; i++){
-          if(newNodes[i].author == node.parent.data.author){
+        for (var i = 0; i < newNodes.length; i++) {
+          if (newNodes[i].author == node.parent.data.author) {
             newNodes[i]['flagAuthor'] = false
-          }else{
+          } else {
             newNodes[i]['flagAuthor'] = true
           }
         }
       } else if (node.data.label == "Frames") {
-        //call frames
         newNodes = this.frames.map((c) => Object.assign({}, c));
-        for(var i = 0; i < newNodes.length; i++){
-          if(newNodes[i].author == node.parent.data.author){
+        for (var i = 0; i < newNodes.length; i++) {
+          if (newNodes[i].author == node.parent.data.author) {
             newNodes[i]['flagAuthor'] = false
-          }else{
+          } else {
             newNodes[i]['flagAuthor'] = true
           }
         }
@@ -228,9 +261,5 @@ export class LexicalEntryTreeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(newNodes), 1000);
     });
-  }
-
-  verifiedSwitch(){
-    this.verified = !this.verified;
   }
 }
