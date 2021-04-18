@@ -1,11 +1,10 @@
-<div id="cardsAccordion" class="accordion">
-
+<div id="cardsAccordion" class="accordion" *ngIf="object != null">
     <div class="card my-2">
         <div class="card-header">
             <h5 class="mb-0 w-100 d-flex justify-content-between align-self-center">
                 <div>
                     <span class="btn">
-                        CREATED BY USERG ON 11/12/2020 15:15
+                        CREATED BY {{object.author}} ON 11/12/2020 15:15
                     </span>
                 </div>
                 <div>
@@ -27,7 +26,7 @@
         <div class="card-footer text-muted">
             <div class="w-100 d-flex justify-content-between align-items-center">
                 <div>
-                    <span>LAST UPDATE ON 15/12/2020 14:30 BY USERG</span>
+                    <span>LAST UPDATE ON 15/12/2020 14:30 BY {{object.revisor}}</span>
                 </div>
                 <div class="btn-group dropup dropleft">
                     <button class="btn btn-success" type="button" id="dropdownAddLemma" data-toggle="dropdown"

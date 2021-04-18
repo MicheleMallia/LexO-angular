@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LexicalEntriesService } from '../../../../../services/lexical-entries.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-core-tab',
@@ -8,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 export class CoreTabComponent implements OnInit {
 
   lock = 0;
-  constructor() { }
+  object: any;
+  constructor(private lexicalService : LexicalEntriesService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+      this.lexicalService.item$.subscribe(
+        object => this.object = object
+    );
+   }
 
   changeStatus(){
     console.log(this.lock)
