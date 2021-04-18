@@ -10,7 +10,6 @@
         <label for="inputType" class="col-sm-2 col-form-label">Type:</label>
         <div class="col-sm-5">
             <select class="form-control" id="inputType">
-                <option>Select a type:</option>
                 <option [selected]="object != null">{{object != null ? object.type : ''}}</option>
             </select>
         </div>
@@ -19,7 +18,6 @@
         <label for="inputLanguage" class="col-sm-2 col-form-label">Language:</label>
         <div class="col-sm-2">
             <select class="form-control" id="inputLanguage">
-                <option>Select a language:</option>
                 <option [selected]="object != null">{{object != null ? object.language : ''}}</option>
             </select>
         </div>
@@ -32,7 +30,7 @@
                 <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
-                    <div class="d-flex mt-3">
+                    <div class="d-flex my-3">
                         <div class="col-md-6">
                             <label for="selectPos" class="col-form-label">Part of speech:</label>
                         </div>
@@ -43,38 +41,22 @@
                             </select>
                         </div>
                     </div>
-                    <div class="d-flex mt-3">
-                        <div class="col-md-4">
-                            <select class="form-control selectTrait">
-                                <option>Gender</option>
-                                <option>...</option>
-                            </select>
-                        </div>
-                        <div class="input-group col-md-7">
-                            <select class="form-control selectTrait">
-                                <option>Masculine</option>
-                                <option>...</option>
-                            </select>
-                            <div class="input-group-append ml-2">
-                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="d-flex my-3">
-                        <div class="col-md-4">
-                            <select class="form-control selectTrait">
-                                <option></option>
-                                <option>...</option>
-                            </select>
-                        </div>
-                        <div class="input-group col-md-7">
-                            <select class="form-control selectTrait">
-                                <option>Masculine</option>
-                                <option>...</option>
-                            </select>
-                            <div class="input-group-append ml-2">
-                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                    <div *ngIf="object != null">
+                        <div *ngIf="object.lexicalEntry == null">
+                            <div class="d-flex my-2" *ngFor="let morph of object.morphology">
+                                <div class="col-md-4">
+                                    <select class="form-control selectTrait">
+                                        <option>{{morph.trait}}</option>
+                                    </select>
+                                </div>
+                                <div class="input-group col-md-7">
+                                    <select class="form-control selectTrait">
+                                        <option>{{morph.value}}</option>
+                                    </select>
+                                    <div class="input-group-append ml-2">
+                                        <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
