@@ -199,8 +199,8 @@ export class LexicalEntryTreeComponent implements OnInit {
       //@ts-ignore
       $('.lexical-tooltip').tooltip();
     }, 2000);
-
-    if ($event.eventName == 'activate' && $event.node.data.lexicalEntry != undefined) {
+    
+    if ($event.eventName == 'activate' && $event.node.data.label != "form") {
       this.lexicalService.sendToCoreTab($event.node.data);
     } else if ($event.eventName == 'deactivate') {
       this.lexicalService.sendToCoreTab(null);
