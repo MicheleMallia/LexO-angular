@@ -68,7 +68,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   forms = forms;
   senses = senses;
   frames = frames;
-  
+
   options: ITreeOptions = {
     useVirtualScroll: true,
     scrollOnActivate: false,
@@ -76,17 +76,17 @@ export class LexicalEntryTreeComponent implements OnInit {
     actionMapping,
     getChildren: this.getChildren.bind(this)
   };
-  
+
 
   filterForm = new FormGroup({
     text: new FormControl(''),
-    searchMode : new FormControl('equals'),
+    searchMode: new FormControl('equals'),
     type: new FormControl(''),
     pos: new FormControl(''),
-    formType : new FormControl(''),
-    author : new FormControl(''),
-    lang : new FormControl(''),
-    status : new FormControl('')
+    formType: new FormControl(''),
+    author: new FormControl(''),
+    lang: new FormControl(''),
+    status: new FormControl('')
   });
 
   constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef, private lexicalService: LexicalEntriesService) { }
@@ -96,8 +96,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     this.renderer.addClass(this.viewPort, 'search-results');
 
     this.onChanges();
-    //BOOTSTRAP SERVICES WITH EMPTY PARAMETERS
-    let parameters : LexicalEntryRequest = {
+    let parameters: LexicalEntryRequest = {
       text: "",
       searchMode: searchModeEnum.equals,
       type: typeEnum.word,
@@ -112,12 +111,10 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     this.lexicalService.getLexicalEntriesList(parameters).subscribe(
       data => {
-        console.log("Dati iniziali")
         this.nodes = data;
-        console.log(this.nodes)
       },
       error => {
-        console.log(error.message)
+
       }
     );
 
@@ -152,17 +149,18 @@ export class LexicalEntryTreeComponent implements OnInit {
     )
   }
 
-  onChanges(){
+  onChanges() {
     this.offset = 0;
-    this.limit = 500;
     this.filterForm.valueChanges.pipe(debounceTime(500)).subscribe(searchParams => {
-      console.log("Qua soltanto quando cambio un valore nel form")
       this.lexicalEntriesFilter(searchParams);
     })
   }
 
-  lexicalEntriesFilter(newPar){
-    
+  lexicalEntriesFilter(newPar) {
+
+    let parameters = newPar;
+    parameters['offset'] = this.offset;
+    parameters['limit'] = this.limit;
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
         this.nodes = data;
@@ -170,7 +168,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         this.updateTreeView();
       },
       error => {
-        console.log(error);
+
       }
     )
   }
@@ -202,7 +200,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       $('.lexical-tooltip').tooltip();
     }, 2000);
 
-    if ($event.eventName == 'activate' && $event.node.data.label != "Forms") {
+    if ($event.eventName == 'activate' && $event.node.data.lexicalEntry != undefined) {
       this.lexicalService.sendToCoreTab($event.node.data);
     } else if ($event.eventName == 'deactivate') {
       this.lexicalService.sendToCoreTab(null);
@@ -222,10 +220,10 @@ export class LexicalEntryTreeComponent implements OnInit {
   };
 
   onScrollDown(treeModel: TreeModel) {
-    console.log('scrolled!!');
+
     this.offset += 500;
-    
     this.modalShow = true;
+
     //@ts-ignore
     $("#lazyLoadingModal").modal("show");
     $('.modal-backdrop').appendTo('.tree-view');
@@ -236,13 +234,11 @@ export class LexicalEntryTreeComponent implements OnInit {
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
 
-    console.log(parameters);
     this.lexicalService.getLexicalEntriesList(parameters).pipe(debounceTime(200)).subscribe(
       data => {
-        for(var i = 0; i < data.length; i++){
+        for (var i = 0; i < data.length; i++) {
           this.nodes.push(data[i])
         }
-        console.log(this.nodes)
         this.lexicalEntryTree.treeModel.update();
         this.updateTreeView();
         this.modalShow = false;
@@ -254,14 +250,41 @@ export class LexicalEntryTreeComponent implements OnInit {
 
       }
     )
-      
-    
+
+
   }
 
   getChildren(node: any) {
 
-
     let newNodes: any;
+
+
+
+    if (node.data.lexicalEntryInstanceName != undefined) {
+      let instance = node.data.lexicalEntryInstanceName;
+      this.lexicalService.getLexEntryElements(instance).subscribe(
+        data => {
+          newNodes = data["elements"].map((c) => Object.assign({}, c));
+        },
+        error => {
+
+        }
+      );
+    } else if (node.data.label == "form") {
+      let parentInstance = node.parent.data.lexicalEntryInstanceName;
+      this.lexicalService.getLexEntryForms(parentInstance).subscribe(
+        data => {
+          newNodes = data.map((c) => Object.assign({}, c));
+          for (var i = 0; i < newNodes.length; i++) {
+            if (newNodes[i].author == node.parent.data.author) {
+              newNodes[i]['flagAuthor'] = false
+            } else {
+              newNodes[i]['flagAuthor'] = true
+            }
+          }
+        }
+      )
+    }
 
     /* if (node.data.iriURL != undefined) {
       newNodes = this.asyncChildren.map((c) => Object.assign({}, c));
@@ -296,6 +319,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         }
       }
     } */
+
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(newNodes), 1000);
     });
