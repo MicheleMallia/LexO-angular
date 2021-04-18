@@ -12,6 +12,7 @@ import async from '../../../../../assets/data/lexicalEntry.json'
 import forms from '../../../../../assets/data/mockForms.json';
 import senses from '../../../../../assets/data/mockSenses.json';
 import frames from '../../../../../assets/data/mockFrames.json';
+import { debounceTime } from 'rxjs/operators';
 
 const actionMapping: IActionMapping = {
   mouse: {
@@ -94,7 +95,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     this.viewPort = this.element.nativeElement.querySelector('tree-viewport');
     this.renderer.addClass(this.viewPort, 'search-results');
 
-
+    this.onChanges();
     //BOOTSTRAP SERVICES WITH EMPTY PARAMETERS
     let parameters : LexicalEntryRequest = {
       text: "",
@@ -108,15 +109,17 @@ export class LexicalEntryTreeComponent implements OnInit {
       offset: this.offset,
       limit: this.limit
     }
-    /* this.lexicalService.getLexicalEntriesList(parameters).subscribe(
+
+    this.lexicalService.getLexicalEntriesList(parameters).subscribe(
       data => {
-        console.log(data);
+        console.log("Dati iniziali")
         this.nodes = data;
+        console.log(this.nodes)
       },
       error => {
         console.log(error.message)
       }
-    ); */
+    );
 
     this.lexicalService.getLanguages().subscribe(
       data => {
@@ -149,6 +152,29 @@ export class LexicalEntryTreeComponent implements OnInit {
     )
   }
 
+  onChanges(){
+    this.offset = 0;
+    this.limit = 500;
+    this.filterForm.valueChanges.pipe(debounceTime(500)).subscribe(searchParams => {
+      console.log("Qua soltanto quando cambio un valore nel form")
+      this.lexicalEntriesFilter(searchParams);
+    })
+  }
+
+  lexicalEntriesFilter(newPar){
+    
+    this.lexicalService.getLexicalEntriesList(newPar).subscribe(
+      data => {
+        this.nodes = data;
+        this.lexicalEntryTree.treeModel.update();
+        this.updateTreeView();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
   ngAfterViewInit(): void {
     //@ts-ignore
     $('[data-toggle="popover"]').popover({
@@ -164,7 +190,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       this.lexicalEntryTree.sizeChanged();
       //@ts-ignore
       $('.lexical-tooltip').tooltip();
-    }, 10);
+    }, 1000);
   }
 
   onEvent = ($event: any) => {
@@ -197,27 +223,39 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   onScrollDown(treeModel: TreeModel) {
     console.log('scrolled!!');
-    /*  this.start += 50;
-     this.end += 50; */
+    this.offset += 500;
+    
     this.modalShow = true;
     //@ts-ignore
     $("#lazyLoadingModal").modal("show");
-
-    //appending modal background inside the blue div
     $('.modal-backdrop').appendTo('.tree-view');
-
-    //remove the padding right and modal-open class from the body tag which bootstrap adds when a modal is shown
     $('body').removeClass("modal-open")
     $('body').css("padding-right", "");
 
+    let parameters = this.filterForm.value;
+    parameters['offset'] = this.offset;
+    parameters['limit'] = this.limit;
 
+    console.log(parameters);
+    this.lexicalService.getLexicalEntriesList(parameters).pipe(debounceTime(200)).subscribe(
+      data => {
+        for(var i = 0; i < data.length; i++){
+          this.nodes.push(data[i])
+        }
+        console.log(this.nodes)
+        this.lexicalEntryTree.treeModel.update();
+        this.updateTreeView();
+        this.modalShow = false;
+        //@ts-ignore
+        $('#lazyLoadingModal').modal('hide');
+        $('.modal-backdrop').remove();
+      },
+      error => {
 
-    setTimeout(() => {
-      this.modalShow = false;
-      //@ts-ignore
-      $('#lazyLoadingModal').modal('hide');
-      $('.modal-backdrop').remove();
-    }, 1000)
+      }
+    )
+      
+    
   }
 
   getChildren(node: any) {
@@ -225,7 +263,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     let newNodes: any;
 
-    if (node.data.iriURL != undefined) {
+    /* if (node.data.iriURL != undefined) {
       newNodes = this.asyncChildren.map((c) => Object.assign({}, c));
 
     } else if (node.data.label != undefined) {
@@ -257,7 +295,7 @@ export class LexicalEntryTreeComponent implements OnInit {
           }
         }
       }
-    }
+    } */
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(newNodes), 1000);
     });
