@@ -83,7 +83,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     searchMode: new FormControl('equals'),
     type: new FormControl(''),
     pos: new FormControl(''),
-    formType: new FormControl(''),
+    formType: new FormControl('entry'),
     author: new FormControl(''),
     lang: new FormControl(''),
     status: new FormControl('')
