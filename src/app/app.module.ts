@@ -35,9 +35,6 @@ import { VartransTabComponent } from './components/lexicon-panel/text-detail/edi
 import { SynsemTabComponent } from './components/lexicon-panel/text-detail/edit-detail/synsem-tab/synsem-tab.component';
 import { DecompositionTabComponent } from './components/lexicon-panel/text-detail/edit-detail/decomposition-tab/decomposition-tab.component';
 import { ProfilesTableComponent } from './components/profiles-table/profiles-table.component';
-import { LemmaInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lemma-input/lemma-input.component';
-import { FormInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/form-input/form-input.component';
-import { SenseInputComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/sense-input/sense-input.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BibliographyPanelComponent } from './components/bibliography-panel/bibliography-panel.component';
 import { AttestationPanelComponent } from './components/attestation-panel/attestation-panel.component';
@@ -48,6 +45,7 @@ import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-d
 import { ModalModule } from 'ng-modal-lib';
 import { SeeAlsoComponent } from './components/link-panel/see-also/see-also.component';
 import { SameAsComponent } from './components/link-panel/same-as/same-as.component';
+import { VartransFormComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/vartrans-form/vartrans-form.component';
 
 @NgModule({
   declarations: [
@@ -77,9 +75,6 @@ import { SameAsComponent } from './components/link-panel/same-as/same-as.compone
     SynsemTabComponent,
     DecompositionTabComponent,
     ProfilesTableComponent,
-    LemmaInputComponent,
-    FormInputComponent,
-    SenseInputComponent,
     BibliographyPanelComponent,
     AttestationPanelComponent,
     FormTabComponent,
@@ -87,7 +82,8 @@ import { SameAsComponent } from './components/link-panel/same-as/same-as.compone
     FrameTabComponent,
     CoreFormComponent,
     SeeAlsoComponent,
-    SameAsComponent
+    SameAsComponent,
+    VartransFormComponent
   ],
   imports: [
     BrowserModule,
