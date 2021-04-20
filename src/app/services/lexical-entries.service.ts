@@ -7,17 +7,23 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class LexicalEntriesService {
 
-  private _data: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
 
   //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
   private baseUrl = "/LexO-backend/service/lexicon/"
 
-  item$ = this._data.asObservable();
+  coreData$ = this._coreFormData.asObservable();
+  rightPanelData$ = this._rightPanelData.asObservable();
 
   constructor(private http: HttpClient) { }
 
   sendToCoreTab(object: object) {
-    this._data.next(object)
+    this._coreFormData.next(object)
+  }
+
+  sendToRightTab(object: object){
+    this._rightPanelData.next(object);
   }
 
   //POST: /lexicon/lexicalEntries ---> get lexical entries list
@@ -34,6 +40,12 @@ export class LexicalEntriesService {
   getLexEntryElements(instance: string): Observable<any>{
     return this.http.get(this.baseUrl + "data/" + instance + "/elements");
   }
+
+  //GET ​/lexicon​/data​/{id}​/lexicalEntry --> get specific aspect (morphology, syntax, ...) associated with a given lexical entry
+  getLexEntryData(instance: string): Observable<any>{
+    return this.http.get(this.baseUrl + "data/" + instance + "/lexicalEntry?key=lexodemo&aspect=core");
+  }
+
 
   //GET /lexicon/data/{id}/forms --> get forms of lexical entry
   getLexEntryForms(instance: string): Observable<any>{
