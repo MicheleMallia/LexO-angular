@@ -23,7 +23,7 @@ export class CoreFormComponent implements OnInit {
 
     ngOnInit() {
         this.loadPeople();
-        this.lexicalService.item$.subscribe(
+        this.lexicalService.coreData$.subscribe(
             object => this.object = object
         );
     }
