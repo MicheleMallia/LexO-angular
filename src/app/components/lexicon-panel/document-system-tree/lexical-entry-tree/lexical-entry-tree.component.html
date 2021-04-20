@@ -1,21 +1,30 @@
 <form [formGroup]="filterForm">
     <div class=" input-group col-md-12 mt-3">
-        <input formControlName="text" id="filterLexicalEntry" name="text" type="text" class="form-control" placeholder="Search"/>
+        <input formControlName="text" id="filterLexicalEntry" name="text" type="text" class="form-control"
+            placeholder="Search" />
+        <div class="input-group-append">
+            <span class="input-group-text loading_icon_append" id="basic-addon2">
+                <div class="spinner-border spinner-border-sm m-1" role="status" *ngIf="searchIconSpinner">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </span>
+        </div>
         <div id="buttons-container" class="input-group-append">
             <button class="btn btn-info btn-block filter-button" type="button" data-toggle="popover"
                 data-placement="bottom" data-trigger="hover"><i class="fa fa-question"></i></button>
             <button class="btn btn-secondary btn-block filter-button" type="button" value="Filter" title="Filter"
                 data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false"
                 aria-controls="filterCollapse"><i class="fa fa-filter"></i></button>
-            <button class="btn btn-danger btn-block reset-button" type="reset" value="Reset" title="Reset"><i
-                    class="fa fa-times"></i></button>
+            <button class="btn btn-danger btn-block reset-button" type="button" value="Reset" title="Reset"
+                (click)="resetFields();"><i class="fa fa-times"></i></button>
         </div>
     </div>
 
     <div class="d-flex flex-wrap mt-3">
         <div class="col-md-3 col-sm-3">
             <div class="form-check">
-                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode" id="equalsRadio" value="equals">
+                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode"
+                    id="equalsRadio" value="equals">
                 <label class="form-check-label" for="equalsRadio">
                     Equals
                 </label>
@@ -23,7 +32,8 @@
         </div>
         <div class="col-md-3 col-sm-3">
             <div class="form-check">
-                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode" id="startRadio" value="startWith">
+                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode"
+                    id="startRadio" value="startWith">
                 <label class="form-check-label" for="startRadio">
                     Start with
                 </label>
@@ -31,7 +41,8 @@
         </div>
         <div class="col-md-3 col-sm-3">
             <div class="form-check">
-                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode" id="containsRadio" value="contains">
+                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode"
+                    id="containsRadio" value="contains">
                 <label class="form-check-label" for="containsRadio">
                     Contains
                 </label>
@@ -39,7 +50,8 @@
         </div>
         <div class="col-md-3 col-sm-3">
             <div class="form-check">
-                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode" id="endRadio" value="end">
+                <input formControlName="searchMode" class="form-check-input" type="radio" name="searchMode"
+                    id="endRadio" value="end">
                 <label class="form-check-label" for="endRadio">
                     End
                 </label>
@@ -83,7 +95,8 @@
                 <div class="d-md-none mt-3"></div>
                 <select formControlName="lang" class="form-control" id="lang" name="lang">
                     <option value="">Language</option>
-                    <option *ngFor="let lang of languages" [value]="lang.label">{{lang.label}} - {{lang.count}} </option>
+                    <option *ngFor="let lang of languages" [value]="lang.label">{{lang.label}} - {{lang.count}}
+                    </option>
                 </select>
             </div>
             <div class="col-md-4 col-sm-12">
@@ -180,11 +193,13 @@
                             data-html="true" [title]="node.data.author"></i>
                     </div>
                     <div style="width: 30%;">
-                        <i *ngIf="!node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
-                            class="fa fa-unlock"></i>
-                        <i *ngIf="node.data.validated && node.data.iriURL != undefined && node.data.hasChildren != undefined"
-                            class="fa fa-lock lexical-tooltip" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.revisor"></i>
+                        <i *ngIf="node.data.status != undefined && node.data.status == 'working'" class="fa fa-circle"
+                            style="color:red;"></i>
+                        <i *ngIf="node.data.status != undefined && node.data.status == 'completed'" class="fa fa-circle"
+                            style="color:yellow;"></i>
+                        <i *ngIf="node.data.status != undefined && node.data.status == 'reviewed'"
+                            class="fa fa-circle lexical-tooltip" style="color: green;" data-toggle="tooltip"
+                            data-html="true" [title]="node.data.revisor"></i>
                     </div>
 
                 </div>
