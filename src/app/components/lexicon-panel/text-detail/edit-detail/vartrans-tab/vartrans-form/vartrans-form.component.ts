@@ -21,9 +21,7 @@ export class VartransFormComponent implements OnInit {
 
     ngOnInit() {
         this.loadPeople();
-        this.lexicalService.coreData$.subscribe(
-            object => this.object = object
-        );
+        
     }
 
     private loadPeople() {
