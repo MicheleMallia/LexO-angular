@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -7,6 +7,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   styleUrls: ['./note-panel.component.scss']
 })
 export class NotePanelComponent implements OnInit {
+
+  @Input() noteData: string;
 
   htmlContent : '';
   editorConfig: AngularEditorConfig = {
