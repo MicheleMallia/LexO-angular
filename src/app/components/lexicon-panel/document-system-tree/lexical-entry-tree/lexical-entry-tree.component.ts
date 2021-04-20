@@ -43,6 +43,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   show = false;
   modalShow = false;
   flagAuthor = false;
+  searchIconSpinner = false;
   viewPort: any;
   titlePopover = "Search examples"
   popoverWildcards = "<span><b>Multiple character wildcard search:</b></span>&nbsp;<span><i>te*</i></span><br><span><b>Single character wildcard search:</b></span>&nbsp;<span><i>te?t</i></span><br> <b>Fuzzy search:</b></span>&nbsp;<span><i>test~</i></span><br><b>Weighted fuzzy search:</b></span>&nbsp;<span><i>test~0.8</i></span>"
@@ -54,9 +55,6 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   @Input() triggerShowTree: any;
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
-  @ViewChild('pending') pendingCheckbox: any;
-  @ViewChild('processing') processingCheckbox: any;
-  @ViewChild('ready') readyCheckbox: any;
 
   nodes;
   languages;
@@ -88,6 +86,8 @@ export class LexicalEntryTreeComponent implements OnInit {
     lang: new FormControl(''),
     status: new FormControl('')
   });
+
+  initialValues = this.filterForm.value;
 
   constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef, private lexicalService: LexicalEntriesService) { }
 
@@ -157,7 +157,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   lexicalEntriesFilter(newPar) {
-
+    this.searchIconSpinner = true;
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
@@ -166,6 +166,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         this.nodes = data;
         this.lexicalEntryTree.treeModel.update();
         this.updateTreeView();
+        this.searchIconSpinner = false;
       },
       error => {
 
@@ -182,6 +183,10 @@ export class LexicalEntryTreeComponent implements OnInit {
     });
   }
 
+  resetFields(){
+    this.filterForm.reset(this.initialValues)
+  }
+
   updateTreeView() {
 
     setTimeout(() => {
@@ -194,7 +199,6 @@ export class LexicalEntryTreeComponent implements OnInit {
   onEvent = ($event: any) => {
     console.log($event);
 
-    //TRIGGER EVERYTIME A NODE IS EXPANDED
     setTimeout(() => {
       //@ts-ignore
       $('.lexical-tooltip').tooltip();
@@ -204,7 +208,22 @@ export class LexicalEntryTreeComponent implements OnInit {
       this.lexicalService.sendToCoreTab($event.node.data);
     } else if ($event.eventName == 'deactivate' && $event.node.data.lexicalEntry == undefined) {
       this.lexicalService.sendToCoreTab(null);
+      this.lexicalService.sendToRightTab(null);
     }
+
+    if($event.node.data.lexicalEntryInstanceName != undefined){
+      let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
+      this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
+        data => {
+          this.lexicalService.sendToRightTab(data);
+        },
+        error => {
+
+        }
+      )
+    }
+    
+
   };
 
   onKey = ($event: any) => {
