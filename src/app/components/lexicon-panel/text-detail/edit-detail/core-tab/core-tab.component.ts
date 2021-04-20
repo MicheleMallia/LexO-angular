@@ -14,16 +14,16 @@ export class CoreTabComponent implements OnInit {
   constructor(private lexicalService : LexicalEntriesService) { }
 
   ngOnInit(): void {
-      this.lexicalService.item$.subscribe(
+      this.lexicalService.coreData$.subscribe(
         object => this.object = object
     );
    }
 
   changeStatus(){
-    console.log(this.lock)
-    this.lock++;
-    if(this.lock > 2){
-      this.lock =2 ;
+    if(this.lock < 2){
+      this.lock++;
+    }else if(this.lock > 1){
+      this.lock--;
     }
     setTimeout(() => {
       //@ts-ignore
