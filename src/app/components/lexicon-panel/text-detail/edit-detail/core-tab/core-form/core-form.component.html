@@ -27,8 +27,7 @@
 
             <div class="card">
                 <span class="text-id"><b>MORPHOLOGY</b></span>
-                <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
-
+                <a class="pointer" (click)="addMorphoTrait()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
                     <div class="d-flex my-3">
                         <div class="col-md-6">
@@ -36,19 +35,18 @@
                         </div>
                         <div class="col-md-6">
                             <select class="form-control" id="selectPos">
-                                <option>Select a pos:</option>
                                 <option [selected]="object != null">{{object != null ? object.pos : ''}}</option>
                             </select>
                         </div>
                     </div>
-                    <div *ngIf="object != null">
+                    <div #morpho_container *ngIf="object != null">
                         <div class="d-flex my-2" *ngFor="let morph of object.morphology">
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngIf="morph.trait != 'partOfSpeech'">
                                 <select class="form-control selectTrait">
                                     <option>{{morph.trait}}</option>
                                 </select>
                             </div>
-                            <div class="input-group col-md-7">
+                            <div class="input-group col-md-7" *ngIf="morph.trait != 'partOfSpeech'">
                                 <select class="form-control selectTrait">
                                     <option>{{morph.value}}</option>
                                 </select>
