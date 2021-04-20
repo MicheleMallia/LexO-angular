@@ -1,7 +1,7 @@
 <form>
     <div class="form-group row ml-2 mt-3 mr-2">
-        <label for="inputLabel" class="col-sm-3 col-form-label">Label:</label>
-        <div class="input-group col-sm-5">
+        <label for="inputLabel" class="col-xl-3 col-form-label">Label:</label>
+        <div class="input-group col-xl-5">
             <input type="text" class="form-control" id="inputLabel" placeholder=""
                 [value]="object != null ? object.label : ''">
         </div>
@@ -9,14 +9,14 @@
     
     <!-- TRANSLATABLE AS -->
     <div class="form-group row ml-2 mt-3 mr-2">
-        <div class="input-group col-sm-12">
+        <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>TRANSLATABLE AS</b></span>
                 <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
                     <div class="form-group row ml-2 mt-3 mr-2">
-                        <div class="input-group col-sm-9" *ngIf="{switch : false}; let variable">
+                        <div class="input-group col-xl-9" *ngIf="{switch : false}; let variable">
                             <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
@@ -41,20 +41,20 @@
 
     <!-- LEXICAL RELATION DIRECT -->
     <div class="form-group row ml-2 mt-3 mr-2">
-        <div class="input-group col-sm-12">
+        <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>LEXICAL RELATION</b><span class="badge badge-primary ml-2">DIRECT</span></span>
                 <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
                     <div class="form-group row ml-2 mt-3 mr-2">
-                        <div class="col-sm-5">
+                        <div class="col-xl-5">
                             <select class="form-control">
                                 <option>Relations...</option>
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="input-group col-sm-7" *ngIf="{switch : false}; let variable">
+                        <div class="input-group col-xl-7" *ngIf="{switch : false}; let variable">
                             <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
@@ -72,13 +72,13 @@
                         </div>
                     </div>
                     <div class="form-group row ml-2 mt-3 mr-2">
-                        <div class="col-sm-5">
+                        <div class="col-xl-5">
                             <select class="form-control">
                                 <option>Relations...</option>
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="input-group col-sm-7" *ngIf="{switch : false}; let variable">
+                        <div class="input-group col-xl-7" *ngIf="{switch : false}; let variable">
                             <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
@@ -97,13 +97,13 @@
                         </div>
                     </div>
                     <div class="form-group row ml-2 mt-3 mr-2">
-                        <div class="col-sm-5">
+                        <div class="col-xl-5">
                             <select class="form-control">
                                 <option>Relations...</option>
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="input-group col-sm-7" *ngIf="{switch : false}; let variable">
+                        <div class="input-group col-xl-7" *ngIf="{switch : false}; let variable">
                             <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
@@ -129,24 +129,24 @@
 
     <!-- LEXICAL RELATION INDIRECT -->
     <div class="form-group row ml-2 mt-3 mr-2">
-        <div class="input-group col-sm-12">
+        <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>LEXICAL RELATION</b><span class="badge badge-primary ml-2">INDIRECT</span></span>
                 <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
                     <div class="form-group row ml-2 mt-3 mr-2">
-                        <div class="col-sm-3">
+                        <div class="col-xl-3">
                             <input type="text" class="form-control">
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-xl-3">
                             <select class="form-control">
                                 <option>Relations...</option>
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="input-group col-sm-6" *ngIf="{switch : false}; let variable">
-                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
+                        <div class="input-group col-xl-6" *ngIf="{switch : false}; let variable">
+                            <ng-select [items]="people" class="resizeNgSelect" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
                             <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
@@ -166,17 +166,17 @@
                         </div>
                     </div>
                     <div class="form-group row ml-2 mt-3 mr-2">
-                        <div class="col-sm-3">
+                        <div class="col-xl-3">
                             
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-xl-3">
                             <select class="form-control">
                                 <option>Relations...</option>
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="input-group col-sm-6" *ngIf="{switch : false}; let variable">
-                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
+                        <div class="input-group col-xl-6" *ngIf="{switch : false}; let variable">
+                            <ng-select [items]="people" class="resizeNgSelect" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
                             <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
@@ -196,17 +196,17 @@
                         </div>
                     </div>
                     <div class="form-group row ml-2 mt-3 mr-2">
-                        <div class="col-sm-3">
+                        <div class="col-xl-3">
                             <input type="text" class="form-control">
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-xl-3">
                             <select class="form-control">
                                 <option>Relations...</option>
                                 <option>...</option>
                             </select>
                         </div>
-                        <div class="input-group col-sm-6" *ngIf="{switch : false}; let variable">
-                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
+                        <div class="input-group col-xl-6" *ngIf="{switch : false}; let variable">
+                            <ng-select [items]="people" class="resizeNgSelect" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
                             <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">

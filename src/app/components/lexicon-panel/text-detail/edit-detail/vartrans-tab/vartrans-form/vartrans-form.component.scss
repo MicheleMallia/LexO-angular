@@ -3,6 +3,7 @@
 @import "../../../../../../../../node_modules/bootstrap/scss/variables";
 @import "../../../../../../../../node_modules/bootstrap/scss/mixins";
 
+
 .row {
     align-items: center;
 }
@@ -64,4 +65,8 @@
 
 .pointer {
     cursor: pointer;
+}
+
+.resizeNgSelect {
+    width: 15%;
 }
