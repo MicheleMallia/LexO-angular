@@ -206,12 +206,6 @@ export class LexicalEntryTreeComponent implements OnInit {
     
     if ($event.eventName == 'activate' && $event.node.data.lexicalEntry != undefined) {
       this.lexicalService.sendToCoreTab($event.node.data);
-    } else if ($event.eventName == 'deactivate' && $event.node.data.lexicalEntry == undefined) {
-      this.lexicalService.sendToCoreTab(null);
-      this.lexicalService.sendToRightTab(null);
-    }
-
-    if($event.node.data.lexicalEntryInstanceName != undefined){
       let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
         data => {
@@ -221,9 +215,11 @@ export class LexicalEntryTreeComponent implements OnInit {
 
         }
       )
+    } else if ($event.eventName == 'deactivate') {
+      this.lexicalService.sendToCoreTab(null);
+      this.lexicalService.sendToRightTab(null);
     }
     
-
   };
 
   onKey = ($event: any) => {
