@@ -41,12 +41,12 @@
                     </div>
                     <div #morpho_container *ngIf="object != null">
                         <div class="d-flex my-2" *ngFor="let morph of object.morphology">
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngIf="morph.trait != 'partOfSpeech'">
                                 <select class="form-control selectTrait">
                                     <option>{{morph.trait}}</option>
                                 </select>
                             </div>
-                            <div class="input-group col-md-7">
+                            <div class="input-group col-md-7" *ngIf="morph.trait != 'partOfSpeech'">
                                 <select class="form-control selectTrait">
                                     <option>{{morph.value}}</option>
                                 </select>
