@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
 
 @Component({
   selector: 'app-vartrans-tab',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VartransTabComponent implements OnInit {
 
-  constructor() { }
+  lock = 0;
+  object: any;
+  constructor(private lexicalService : LexicalEntriesService) { }
 
   ngOnInit(): void {
+      this.lexicalService.coreData$.subscribe(
+        object => this.object = object
+    );
+   }
+
+  changeStatus(){
+    if(this.lock < 2){
+      this.lock++;
+    }else if(this.lock > 1){
+      this.lock--;
+    }
+    setTimeout(() => {
+      //@ts-ignore
+      $('.locked-tooltip').tooltip({
+        trigger : 'hover'
+      });
+    }, 10);
   }
 
 }
