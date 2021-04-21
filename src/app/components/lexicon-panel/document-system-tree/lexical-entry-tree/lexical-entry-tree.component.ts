@@ -52,6 +52,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   offset = 0;
   limit = 500;
 
+  counter = 0;
 
   @Input() triggerShowTree: any;
   @ViewChild('lexicalEntry') lexicalEntryTree: any;
@@ -112,6 +113,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     this.lexicalService.getLexicalEntriesList(parameters).subscribe(
       data => {
         this.nodes = data;
+        this.counter = this.nodes.length;
       },
       error => {
 
@@ -150,8 +152,8 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   onChanges() {
-    this.offset = 0;
     this.filterForm.valueChanges.pipe(debounceTime(500)).subscribe(searchParams => {
+      this.offset = 0;
       this.lexicalEntriesFilter(searchParams);
     })
   }
@@ -161,9 +163,16 @@ export class LexicalEntryTreeComponent implements OnInit {
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
+    console.log(parameters);
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
+        if(data.length > 0){
+          this.show = false;
+        }else {
+          this.show = true;
+        }
         this.nodes = data;
+        this.counter = this.nodes.length;
         this.lexicalEntryTree.treeModel.update();
         this.updateTreeView();
         this.searchIconSpinner = false;
@@ -184,7 +193,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   resetFields(){
-    this.filterForm.reset(this.initialValues)
+    this.filterForm.reset(this.initialValues);
   }
 
   updateTreeView() {
@@ -251,22 +260,27 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     this.lexicalService.getLexicalEntriesList(parameters).pipe(debounceTime(200)).subscribe(
       data => {
-        for (var i = 0; i < data.length; i++) {
-          this.nodes.push(data[i])
-        }
-        this.lexicalEntryTree.treeModel.update();
-        this.updateTreeView();
-        this.modalShow = false;
         //@ts-ignore
         $('#lazyLoadingModal').modal('hide');
         $('.modal-backdrop').remove();
+        for (var i = 0; i < data.length; i++) {
+          this.nodes.push(data[i]);
+        };
+        this.counter = this.nodes.length;
+        this.lexicalEntryTree.treeModel.update();
+        this.updateTreeView();
+        this.modalShow = false;
+        
+        setTimeout(()=>{
+          //@ts-ignore
+          $('#lazyLoadingModal').modal('hide');
+          $('.modal-backdrop').remove();
+        }, 300);
       },
       error => {
 
       }
     )
-
-
   }
 
   getChildren(node: any) {

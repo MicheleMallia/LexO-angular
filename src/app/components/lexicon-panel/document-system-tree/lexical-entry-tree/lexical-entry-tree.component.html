@@ -1,5 +1,5 @@
 <form [formGroup]="filterForm">
-    <div class=" input-group col-md-12 mt-3">
+    <div class="input-group col-md-12 mt-3">
         <input formControlName="text" id="filterLexicalEntry" name="text" type="text" class="form-control"
             placeholder="Search" />
         <div class="input-group-append">
@@ -16,7 +16,8 @@
                 data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false"
                 aria-controls="filterCollapse"><i class="fa fa-filter"></i></button>
             <button class="btn btn-danger btn-block reset-button" type="button" value="Reset" title="Reset"
-                (click)="resetFields();"><i class="fa fa-times"></i></button>
+                (click)="resetFields();" style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;"><i class="fa fa-times"></i></button>
+            <button class="btn btn-block counter-button" type="button"><span class="font-weight-bold font-italic text-muted">{{counter}}</span></button>
         </div>
     </div>
 
@@ -135,7 +136,7 @@
         </div>
     </div>
 
-    <p *ngIf="show">Nessun risultato</p>
+    <p class="mx-3" *ngIf="show">Nessun risultato</p>
     <tree-root #lexicalEntry [(state)]="state" [nodes]="nodes" [options]="options" [focused]="true"
         (activate)="onEvent($event)" (deactivate)="onEvent($event)">
         <ng-template #treeNodeWrapperTemplate let-node let-index="index">

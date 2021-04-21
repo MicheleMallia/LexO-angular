@@ -47,10 +47,29 @@ $font-size-input: 12px;
 
 .reset-button,
 .filter-button,
-.popover-dismiss {
+.popover-dismiss,
+.counter-button {
   margin: 0;
   font-size: 10px;
 }
+
+.counter-button {
+  background-color: white;
+}
+
+.counter-button:hover {
+  
+  background-color: unset;
+  border-color: unset;
+  border: none;
+}
+
+.counter-button:focus {
+  border: none;
+  border-color:white;
+  box-shadow: none;
+}
+
 
 
 input {
