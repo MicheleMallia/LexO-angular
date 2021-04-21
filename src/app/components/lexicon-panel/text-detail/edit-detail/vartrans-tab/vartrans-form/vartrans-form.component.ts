@@ -16,8 +16,8 @@ export class VartransFormComponent implements OnInit {
   people: Person[] = [];
   peopleLoading = false;
 
-  @ViewChild('viewContainer', { read: ViewContainerRef }) viewContainer: ViewContainerRef;
-  @ViewChild('translation_container') template: TemplateRef<any>;
+  @ViewChild('translation_container', { read: ViewContainerRef }) viewContainer: ViewContainerRef;
+  @ViewChild('translation_template') template: TemplateRef<any>;
 
 
   constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private renderer: Renderer2) {

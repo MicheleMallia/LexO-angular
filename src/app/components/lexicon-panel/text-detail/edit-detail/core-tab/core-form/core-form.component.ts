@@ -33,8 +33,7 @@ export class CoreFormComponent implements OnInit {
                 if (this.object != object) {
                     if(this.viewContainer != undefined){
                         this.viewContainer.clear();
-                    }
-                   
+                    }        
                 }
                 this.object = object
             }
