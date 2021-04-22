@@ -65,11 +65,20 @@ export class CoreTabComponent implements OnInit {
     } else if (this.lock > 1) {
       this.lock--;
     }
-    setTimeout(() => {
-      //@ts-ignore
-      $('.locked-tooltip').tooltip({
-        trigger: 'hover'
-      });
-    }, 10);
+
+    if(this.lock==2){
+      setTimeout(() => {
+        //@ts-ignore
+        $('.locked-tooltip').tooltip({
+          trigger: 'hover'
+        });
+      }, 10);
+    }else if(this.lock < 2){
+      setTimeout(() => {
+        //@ts-ignore
+        $('.locked-tooltip').tooltip('disable');
+      }, 10);
+    }
+    
   }
 }
