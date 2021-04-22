@@ -14,7 +14,7 @@
                             <label class="form-check-label" for="extCheck"></label>
                         </div>
                         <div class="input-group col-sm-9">
-                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity"
+                            <ng-select class="resizeNgSelect" [items]="people" bindLabel="name" placeholder="Search entity"
                                 appendTo="body" [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
                             <input type="text" class="form-control" id="inputDenotes"
@@ -59,7 +59,7 @@
                             <label class="form-check-label" for="extCheck"></label>
                         </div>
                         <div class="input-group col-sm-9">
-                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity"
+                            <ng-select class="resizeNgSelect" [items]="people" bindLabel="name" placeholder="Search entity"
                                 appendTo="body" [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
                             <input type="text" class="form-control" id="inputDenotes"
