@@ -1,0 +1,35 @@
+<div class="form-group row ml-2 mt-3 mr-2" [class]="'group_'+counter">
+    
+    <div class="col-xl-3">
+        <input type="text" class="form-control">
+    </div>
+    <div class="col-xl-3">
+        <select class="form-control">
+            <option>Relation</option>
+            <option>...</option>
+        </select>
+    </div>
+    <div class="input-group col-xl-6" *ngIf="{switch : false}; let variable">
+        <ng-select [items]="people" class="resizeNgSelect" bindLabel="name" placeholder="Search entity" appendTo="body"
+            [loading]="peopleLoading" *ngIf="!variable.switch">
+        </ng-select>
+        <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
+        <div class="input-group-append ml-3 form-check">
+            <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
+        </div>
+        <div class="input-group-append ml-2">
+            <button class="btn btn-primary" type="button"><i
+                    class="fa fa-external-link-alt"></i></button>
+        </div>
+        <div class="input-group-append ml-2">
+            <button (click)="destroyRelation()" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+        </div>
+        <div class="input-group-append ml-2">
+            <button (click)="addSubIndirectRelation()" class="btn btn-outline-primary" type="button"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+</div>
+
+<ng-template #sub_indirect_relation_container>
+
+</ng-template>

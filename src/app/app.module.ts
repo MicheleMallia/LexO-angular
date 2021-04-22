@@ -46,6 +46,8 @@ import { ModalModule } from 'ng-modal-lib';
 import { SeeAlsoComponent } from './components/link-panel/see-also/see-also.component';
 import { SameAsComponent } from './components/link-panel/same-as/same-as.component';
 import { VartransFormComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/vartrans-form/vartrans-form.component';
+import { IndirectFormComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/vartrans-form/indirect-form/indirect-form.component';
+import { SubIndirectFormComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/vartrans-form/sub-indirect-form/sub-indirect-form.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,9 @@ import { VartransFormComponent } from './components/lexicon-panel/text-detail/ed
     CoreFormComponent,
     SeeAlsoComponent,
     SameAsComponent,
-    VartransFormComponent
+    VartransFormComponent,
+    IndirectFormComponent,
+    SubIndirectFormComponent
   ],
   imports: [
     BrowserModule,
