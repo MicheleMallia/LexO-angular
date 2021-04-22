@@ -1,8 +1,10 @@
-import { Component, HostListener, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, HostListener, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
+import { VartransService } from 'src/app/services/vartrans.service';
 import { DataService, Person } from '../../core-tab/core-form/data.service';
 
+import { IndirectFormComponent } from './indirect-form/indirect-form.component'
 @Component({
   selector: 'app-vartrans-form',
   templateUrl: './vartrans-form.component.html',
@@ -15,6 +17,10 @@ export class VartransFormComponent implements OnInit {
   object: any;
   people: Person[] = [];
   peopleLoading = false;
+  counter = 0;
+  componentRef : any;
+
+  arrayContainer = [];
 
   @ViewChild('translation_container', { read: ViewContainerRef }) translation_container: ViewContainerRef;
   @ViewChild('translation_template') translation_template: TemplateRef<any>;
@@ -22,7 +28,9 @@ export class VartransFormComponent implements OnInit {
   @ViewChild('direct_relations_container', { read: ViewContainerRef }) direct_relations_container: ViewContainerRef;
   @ViewChild('direct_relations_template') direct_relations_template: TemplateRef<any>;
 
-  constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private renderer: Renderer2) {
+  @ViewChild('indirect_relation_container', { read: ViewContainerRef }) indirect_relation_container: ViewContainerRef;
+
+  constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private renderer: Renderer2, private resolver: ComponentFactoryResolver, private vartrans : VartransService) {
   }
 
   ngOnInit() {
@@ -37,7 +45,19 @@ export class VartransFormComponent implements OnInit {
       }
     );
 
-    
+    this.vartrans.destroy_relation$.subscribe(
+      index => {
+        if(index != null){
+          this.destroyIndirectRelation(index);
+        }
+      }
+    )
+  }
+
+  ngAfterViewInit(){
+    setTimeout(()=>{
+      this.addIndirectRelation();
+    }, 300)
   }
 
   private loadPeople() {
@@ -68,4 +88,22 @@ export class VartransFormComponent implements OnInit {
     this.renderer.removeChild(this.direct_relations_container, ancestor)
   }
 
+  addIndirectRelation(){
+    
+    const factory = this.resolver.resolveComponentFactory(IndirectFormComponent);
+    const componentRef = this.indirect_relation_container.createComponent(factory);
+    componentRef.instance.counter = this.counter;
+    this.counter++;
+    this.arrayContainer.push(componentRef);
+  }
+
+
+  destroyIndirectRelation(index){
+    console.log(this.arrayContainer);
+    console.log(index)
+    if(this.arrayContainer.length != 0){
+      this.arrayContainer[index].destroy();
+      this.arrayContainer[index] = null;
+    }
+  }
 }
