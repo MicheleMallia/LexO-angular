@@ -31,7 +31,7 @@ export class CoreFormComponent implements OnInit {
 
     morphoTraits: FormArray;
 
-    constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private renderer: Renderer2, private formBuilder: FormBuilder) {
+    constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) {
 
     }
 
@@ -92,7 +92,6 @@ export class CoreFormComponent implements OnInit {
                 value: ''
             })
         }
-        
     }
 
     addMorphoTraits(t?, v?) {
