@@ -22,10 +22,6 @@ export class CoreFormComponent implements OnInit {
     counter = 0;
     childArray = [];
 
-
-
-    formattedMessage: string;
-
     coreForm = new FormGroup({
         label: new FormControl(''),
         type: new FormControl(''),
@@ -34,9 +30,6 @@ export class CoreFormComponent implements OnInit {
     })
 
     morphoTraits: FormArray;
-
-    @ViewChild('viewContainer', { read: ViewContainerRef }) viewContainer: ViewContainerRef;
-    @ViewChild('morpho_template') template: TemplateRef<any>;
 
     constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private renderer: Renderer2, private formBuilder: FormBuilder) {
 
@@ -57,22 +50,23 @@ export class CoreFormComponent implements OnInit {
 
         this.lexicalService.coreData$.subscribe(
             object => {
-                if (this.object != object) {
-                    if (this.viewContainer != undefined) {
-                        this.viewContainer.clear();
-                    }
+                if(this.object != object){
+                    this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+                    this.morphoTraits.clear();
                 }
                 this.object = object;
-                this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
-                this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
-                this.coreForm.get('language').setValue(this.object.language, {emitEvent:false});
-                this.coreForm.get('pos').setValue(this.object.pos);
-                
-                for(var i = 0; i < this.object.morphology.length; i++){
-                    const trait = this.object.morphology[i]['trait'];
-                    const value = this.object.morphology[i]['value'];
-                    this.addMorphoTraits(trait, value);
-                }
+                if(this.object != null){
+                    this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
+                    this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
+                    this.coreForm.get('language').setValue(this.object.language, {emitEvent:false});
+                    this.coreForm.get('pos').setValue(this.object.pos);
+                    
+                    for(var i = 0; i < this.object.morphology.length; i++){
+                        const trait = this.object.morphology[i]['trait'];
+                        const value = this.object.morphology[i]['value'];
+                        this.addMorphoTraits(trait, value);
+                    }
+                }   
             }
         );
     }
