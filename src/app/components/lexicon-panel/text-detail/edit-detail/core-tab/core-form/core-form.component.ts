@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { DataService, Person } from './data.service';
 import { LexicalEntriesService } from '../../../../../../services/lexical-entries.service';
 import { Subscription } from 'rxjs';
