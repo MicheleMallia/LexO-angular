@@ -26,7 +26,8 @@ export class CoreFormComponent implements OnInit {
         label: new FormControl(''),
         type: new FormControl(''),
         language: new FormControl(''),
-        morphoTraits: new FormArray([this.createMorphoTraits()])
+        morphoTraits: new FormArray([this.createMorphoTraits()]),
+        denotes : new FormControl('')
     })
 
     morphoTraits: FormArray;
@@ -43,7 +44,8 @@ export class CoreFormComponent implements OnInit {
             type: '',
             language: '',
             pos: '',
-            morphoTraits: this.formBuilder.array([])
+            morphoTraits: this.formBuilder.array([]),
+            denotes : ''
         })
 
         this.onChanges();
@@ -66,6 +68,8 @@ export class CoreFormComponent implements OnInit {
                         const value = this.object.morphology[i]['value'];
                         this.addMorphoTraits(trait, value);
                     }
+
+                    this.coreForm.get('denotes').setValue('prova', {emitEvent: false})
                 }   
             }
         );
@@ -113,14 +117,4 @@ export class CoreFormComponent implements OnInit {
             this.peopleLoading = false;
         });
     }
-
-    /* addMorphoTrait() {
-        const template = this.template.createEmbeddedView(null);
-        this.viewContainer.insert(template);
-    }
-
-    deleteMorphoTrait(evt) {
-        const ancestor = evt.target.parentNode.parentNode.parentNode;
-        this.renderer.removeChild(this.viewContainer, ancestor)
-    } */
 }

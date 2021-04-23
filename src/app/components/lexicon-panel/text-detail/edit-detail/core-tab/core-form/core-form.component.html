@@ -64,9 +64,9 @@
         </div>
         <div class="input-group col-sm-7">
             <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
-                [loading]="peopleLoading" *ngIf="!switchInput">
+                [loading]="peopleLoading" *ngIf="!switchInput" formControlName="denotes" name="denotes">
             </ng-select>
-            <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="switchInput">
+            <input formControlName="denotes" name="denotes" type="text" class="form-control" placeholder="Insert URI" *ngIf="switchInput">
             <div class="input-group-append ml-2">
                 <button class="btn btn-primary" type="button" (click)="modalRoot.show()"><i
                         class="fa fa-external-link-alt"></i></button>
