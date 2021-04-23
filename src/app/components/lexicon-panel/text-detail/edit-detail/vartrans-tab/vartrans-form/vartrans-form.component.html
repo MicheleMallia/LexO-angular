@@ -12,81 +12,43 @@
         <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>TRANSLATABLE AS</b></span>
-                <a class="pointer" (click)="addTranslatableAs()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a class="pointer" ><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
-                    <ng-template #translation_template>
-                        <div class="form-group row ml-2 mt-3 mr-2">
-                            <div class="input-group col-xl-9" *ngIf="{switch : false}; let variable">
-                                <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
-                                    [loading]="peopleLoading" *ngIf="!variable.switch">
-                                </ng-select>
-                                <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
-                                <div class="input-group-append ml-3 form-check">
-                                    <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
-    
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button class="btn btn-primary" type="button" (click)="modalRoot.show()"><i
-                                            class="fa fa-external-link-alt"></i></button>
-                                            <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
-                                                <ng-container class="app-modal-header">Demo modal</ng-container>
-                                                <ng-container class="app-modal-body">
-                                                    <h3>MODAL DIALOG</h3>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                        Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
-                                                </ng-container>
-                                                <ng-container class="app-modal-footer">
-                                                    <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
-                                                    <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
-                                                    <button type="button" class="button button2" style="float: right;"
-                                                        (click)="modalRoot.hide()">Close
-                                                    </button>
-                                                </ng-container>
-                                            </app-modal>
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button (click)="deleteTranslatableAs($event)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt" style="pointer-events:none"></i></button>
-                                </div>
+                    <div class="form-group row ml-2 mt-3 mr-2">
+                        <div class="input-group col-xl-9" *ngIf="{switch : false}; let variable">
+                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
+                                [loading]="peopleLoading" *ngIf="!variable.switch">
+                            </ng-select>
+                            <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
+                            <div class="input-group-append ml-3 form-check">
+                                <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
+
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button"><i
+                                        class="fa fa-external-link-alt" (click)="modalRoot.show()"></i></button>
+                                        <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
+                                            <ng-container class="app-modal-header">Demo modal</ng-container>
+                                            <ng-container class="app-modal-body">
+                                                <h3>MODAL DIALOG</h3>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                                    Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+                                            </ng-container>
+                                            <ng-container class="app-modal-footer">
+                                                <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
+                                                <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
+                                                <button type="button" class="button button2" style="float: right;"
+                                                    (click)="modalRoot.hide()">Close
+                                                </button>
+                                            </ng-container>
+                                        </app-modal>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
                         </div>
-                    </ng-template>
-                    <ng-container #translation_container>
-                        <div class="form-group row ml-2 mt-3 mr-2">
-                            <div class="input-group col-xl-9" *ngIf="{switch : false}; let variable">
-                                <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
-                                    [loading]="peopleLoading" *ngIf="!variable.switch">
-                                </ng-select>
-                                <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
-                                <div class="input-group-append ml-3 form-check">
-                                    <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
-    
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button class="btn btn-primary" type="button"><i
-                                            class="fa fa-external-link-alt" (click)="modalRoot.show()"></i></button>
-                                            <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
-                                                <ng-container class="app-modal-header">Demo modal</ng-container>
-                                                <ng-container class="app-modal-body">
-                                                    <h3>MODAL DIALOG</h3>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                        Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
-                                                </ng-container>
-                                                <ng-container class="app-modal-footer">
-                                                    <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
-                                                    <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
-                                                    <button type="button" class="button button2" style="float: right;"
-                                                        (click)="modalRoot.hide()">Close
-                                                    </button>
-                                                </ng-container>
-                                            </app-modal>
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button (click)="deleteTranslatableAs($event)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt" style="pointer-events:none"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,91 +59,48 @@
         <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>LEXICAL RELATION</b><span class="badge badge-primary ml-2">DIRECT</span></span>
-                <a class="pointer" (click)="addDirectLexicalRelation()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
-                    <ng-template #direct_relations_template>
-                        <div class="form-group row ml-2 mt-3 mr-2">
-                            <div class="col-xl-5">
-                                <select class="form-control">
-                                    <option>Relations...</option>
-                                    <option>...</option>
-                                </select>
+                    <div class="form-group row ml-2 mt-3 mr-2">
+                        <div class="col-xl-5">
+                            <select class="form-control">
+                                <option>Relations...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="input-group col-xl-7" *ngIf="{switch : false}; let variable">
+                            <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
+                                [loading]="peopleLoading" *ngIf="!variable.switch">
+                            </ng-select>
+                            <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
+                            <div class="input-group-append ml-3 form-check">
+                                <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
                             </div>
-                            <div class="input-group col-xl-7" *ngIf="{switch : false}; let variable">
-                                <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
-                                    [loading]="peopleLoading" *ngIf="!variable.switch">
-                                </ng-select>
-                                <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
-                                <div class="input-group-append ml-3 form-check">
-                                    <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button class="btn btn-primary" type="button"><i
-                                            class="fa fa-external-link-alt" (click)="modalRoot.show()"></i></button>
-                                    <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
-                                        <ng-container class="app-modal-header">Demo modal</ng-container>
-                                        <ng-container class="app-modal-body">
-                                            <h3>MODAL DIALOG</h3>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
-                                        </ng-container>
-                                        <ng-container class="app-modal-footer">
-                                            <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
-                                            <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
-                                            <button type="button" class="button button2" style="float: right;"
-                                                (click)="modalRoot.hide()">Close
-                                            </button>
-                                        </ng-container>
-                                    </app-modal>
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button (click)="deleteDirectLexicalRelation($event)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt" style="pointer-events:none"></i></button>
-                                </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button"><i
+                                        class="fa fa-external-link-alt" (click)="modalRoot.show()"></i></button>
+                                <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
+                                    <ng-container class="app-modal-header">Demo modal</ng-container>
+                                    <ng-container class="app-modal-body">
+                                        <h3>MODAL DIALOG</h3>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+                                    </ng-container>
+                                    <ng-container class="app-modal-footer">
+                                        <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
+                                        <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
+                                        <button type="button" class="button button2" style="float: right;"
+                                            (click)="modalRoot.hide()">Close
+                                        </button>
+                                    </ng-container>
+                                </app-modal>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
                         </div>
-                    </ng-template>
-                    <ng-container #direct_relations_container>
-                        <div class="form-group row ml-2 mt-3 mr-2">
-                            <div class="col-xl-5">
-                                <select class="form-control">
-                                    <option>Relations...</option>
-                                    <option>...</option>
-                                </select>
-                            </div>
-                            <div class="input-group col-xl-7" *ngIf="{switch : false}; let variable">
-                                <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
-                                    [loading]="peopleLoading" *ngIf="!variable.switch">
-                                </ng-select>
-                                <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
-                                <div class="input-group-append ml-3 form-check">
-                                    <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button class="btn btn-primary" type="button"><i
-                                            class="fa fa-external-link-alt" (click)="modalRoot.show()"></i></button>
-                                    <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
-                                        <ng-container class="app-modal-header">Demo modal</ng-container>
-                                        <ng-container class="app-modal-body">
-                                            <h3>MODAL DIALOG</h3>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
-                                        </ng-container>
-                                        <ng-container class="app-modal-footer">
-                                            <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
-                                            <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
-                                            <button type="button" class="button button2" style="float: right;"
-                                                (click)="modalRoot.hide()">Close
-                                            </button>
-                                        </ng-container>
-                                    </app-modal>
-                                </div>
-                                <div class="input-group-append ml-2">
-                                    <button (click)="deleteDirectLexicalRelation($event)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt" style="pointer-events:none"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
+                    </div>
                    
                 </div>
             </div>
@@ -194,12 +113,66 @@
         <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>LEXICAL RELATION</b><span class="badge badge-primary ml-2">INDIRECT</span></span>
-                <a class="pointer" (click)="addIndirectRelation();"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
-                    
-                    <ng-template #indirect_relation_container>
-                        
-                    </ng-template>
+                    <div class="form-group row ml-2 mt-3 mr-2">
+                        <div class="col-xl-3">
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-xl-3">
+                            <select class="form-control">
+                                <option>Relation</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="input-group col-xl-6" *ngIf="{switch : false}; let variable">
+                            <ng-select [items]="people" class="resizeNgSelect" bindLabel="name" placeholder="Search entity" appendTo="body"
+                                [loading]="peopleLoading" *ngIf="!variable.switch">
+                            </ng-select>
+                            <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
+                            <div class="input-group-append ml-3 form-check">
+                                <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button"><i
+                                        class="fa fa-external-link-alt"></i></button>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-outline-primary" type="button"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ml-2 mt-3 mr-2">
+                        <div class="col-xl-3"></div>
+                        <div class="col-xl-3">
+                            <select class="form-control">
+                                <option>...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="input-group col-xl-6" *ngIf="{switch : false}; let variable">
+                            <ng-select [items]="people" class="resizeNgSelect" bindLabel="name" placeholder="Search entity" appendTo="body"
+                                [loading]="peopleLoading" *ngIf="!variable.switch">
+                            </ng-select>
+                            <input type="text" class="form-control" id="inputDenotes" placeholder="Insert URI" *ngIf="variable.switch">
+                            <div class="input-group-append ml-3 form-check">
+                                <input class="form-check-input" type="checkbox" (change)="variable.switch=!variable.switch">
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button"><i
+                                        class="fa fa-external-link-alt"></i></button>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button  class="btn btn-outline-primary invisible" type="button"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
