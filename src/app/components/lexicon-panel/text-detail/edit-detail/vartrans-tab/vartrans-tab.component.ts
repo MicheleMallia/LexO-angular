@@ -17,11 +17,11 @@ import {
   animations: [
     trigger('slideInOut', [
       state('in', style({
-        height: '54vh',
+        height: '68vh',
         
       })),
       state('out', style({
-        height: '30vh',
+        height: '42vh',
       })),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out'))
@@ -45,13 +45,13 @@ export class VartransTabComponent implements OnInit {
     this.expand.exp$.subscribe(
       trigger => {
         if(trigger){
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', '30vh')
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', '42vh')
           this.exp_trig = 'in';
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', '54vh')
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', '68vh')
         }else if(trigger==null){
           return;
         }else{
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', '30vh');
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', '42vh');
           this.exp_trig = 'out';
         }
       }
