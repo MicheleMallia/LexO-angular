@@ -3,6 +3,8 @@ import { DataService, Person } from './data.service';
 import { LexicalEntriesService } from '../../../../../../services/lexical-entries.service';
 import { Subscription } from 'rxjs';
 
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
@@ -14,30 +16,100 @@ export class CoreFormComponent implements OnInit {
 
     switchInput = false;
     subscription: Subscription;
-    object : any;
+    object: any;
     people: Person[] = [];
     peopleLoading = false;
     counter = 0;
     childArray = [];
 
+
+
+    formattedMessage: string;
+
+    coreForm = new FormGroup({
+        label: new FormControl(''),
+        type: new FormControl(''),
+        language: new FormControl(''),
+        morphoTraits: new FormArray([this.createMorphoTraits()])
+    })
+
+    morphoTraits: FormArray;
+
     @ViewChild('viewContainer', { read: ViewContainerRef }) viewContainer: ViewContainerRef;
     @ViewChild('morpho_template') template: TemplateRef<any>;
 
-    constructor(private dataService: DataService, private lexicalService : LexicalEntriesService, private renderer : Renderer2) {
+    constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private renderer: Renderer2, private formBuilder: FormBuilder) {
+
     }
 
     ngOnInit() {
         this.loadPeople();
+
+        this.coreForm = this.formBuilder.group({
+            label: '',
+            type: '',
+            language: '',
+            pos: '',
+            morphoTraits: this.formBuilder.array([])
+        })
+
+        this.onChanges();
+
         this.lexicalService.coreData$.subscribe(
             object => {
                 if (this.object != object) {
-                    if(this.viewContainer != undefined){
+                    if (this.viewContainer != undefined) {
                         this.viewContainer.clear();
-                    }        
+                    }
                 }
-                this.object = object
+                this.object = object;
+                this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
+                this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
+                this.coreForm.get('language').setValue(this.object.language, {emitEvent:false});
+                this.coreForm.get('pos').setValue(this.object.pos);
+                
+                for(var i = 0; i < this.object.morphology.length; i++){
+                    const trait = this.object.morphology[i]['trait'];
+                    const value = this.object.morphology[i]['value'];
+                    this.addMorphoTraits(trait, value);
+                }
             }
         );
+    }
+
+    onChanges(): void {
+        this.coreForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
+            console.log(searchParams)
+        })
+    }
+
+    createMorphoTraits(t?, v?): FormGroup {
+        if(t != undefined){
+            return this.formBuilder.group({
+                trait: t,
+                value: v
+            })
+        }else {
+            return this.formBuilder.group({
+                trait: '',
+                value: ''
+            })
+        }
+        
+    }
+
+    addMorphoTraits(t?, v?) {
+        this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+        if(t != undefined){
+            this.morphoTraits.push(this.createMorphoTraits(t, v));
+        }else {
+            this.morphoTraits.push(this.createMorphoTraits());
+        }
+    }
+
+    removeElement(index){
+        this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+        this.morphoTraits.removeAt(index);
     }
 
     private loadPeople() {
@@ -48,13 +120,13 @@ export class CoreFormComponent implements OnInit {
         });
     }
 
-    addMorphoTrait(){
+    /* addMorphoTrait() {
         const template = this.template.createEmbeddedView(null);
         this.viewContainer.insert(template);
     }
 
-    deleteMorphoTrait(evt){
-        const ancestor = evt.target.parentNode.parentNode.parentNode;    
+    deleteMorphoTrait(evt) {
+        const ancestor = evt.target.parentNode.parentNode.parentNode;
         this.renderer.removeChild(this.viewContainer, ancestor)
-    }
+    } */
 }

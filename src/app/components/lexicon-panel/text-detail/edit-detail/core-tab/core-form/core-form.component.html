@@ -1,75 +1,56 @@
-<form>
+<form [formGroup]="coreForm">
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputLabel" class="col-sm-2 col-form-label">Label:</label>
         <div class="input-group col-sm-5">
-            <input type="text" class="form-control" id="inputLabel" placeholder=""
-                [value]="object != null ? object.label : ''">
+            <input formControlName="label" name="label" type="text" class="form-control" placeholder="">
         </div>
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputType" class="col-sm-2 col-form-label">Type:</label>
         <div class="col-sm-5">
-            <select class="form-control" id="inputType">
-                <option [selected]="object != null">{{object != null ? object.type : ''}}</option>
+            <select formControlName="type" name="type" class="form-control">
+                <option [value]="object.type">{{object.type}}</option>
             </select>
         </div>
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputLanguage" class="col-sm-2 col-form-label">Language:</label>
         <div class="col-sm-2">
-            <select class="form-control" id="inputLanguage">
-                <option [selected]="object != null">{{object != null ? object.language : ''}}</option>
+            <select formControlName="language" name="language" class="form-control">
+                <option [value]="object.language">{{object.language}}</option>
             </select>
         </div>
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-sm-12">
-
             <div class="card">
                 <span class="text-id"><b>MORPHOLOGY</b></span>
-                <a class="pointer" (click)="addMorphoTrait()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a class="pointer" (click)="addMorphoTraits()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
                     <div class="d-flex my-3">
                         <div class="col-md-6">
                             <label for="selectPos" class="col-form-label">Part of speech:</label>
                         </div>
                         <div class="col-md-6">
-                            <select class="form-control" id="selectPos">
-                                <option [selected]="object != null">{{object != null ? object.pos : ''}}</option>
+                            <select formControlName="pos" name="pos" class="form-control">
+                                <option [value]="object.pos">{{object.pos}}</option>
                             </select>
                         </div>
                     </div>
-                    <ng-template #morpho_template>
-                        <div class="d-flex my-2">
-                            <div class="col-md-4"> <select class="form-control selectTrait" style="font-size: 12px;">
-                                    <option>...</option>
-                                </select> </div>
-                            <div class="input-group col-md-7"> <select class="form-control selectTrait" style="font-size:12px;">
-                                    <option>...</option>
-                                </select>
-                                <div class="input-group-append ml-2"> <button class="btn btn-danger morpho-remover_'+this.counter +'"
-                                        type="button" (click)="deleteMorphoTrait($event)" style="font-size: 12px; border-radius: .25rem;"><i
-                                            class="fa fa-trash-alt" style="pointer-events:none"></i></button> </div>
-                            </div>
+                    <div class="d-flex my-2" formArrayName="morphoTraits" *ngFor="let morpho of coreForm.get('morphoTraits')['controls']; let i = index">
+                        <div class="col-md-4" [formGroupName]="i"> 
+                            <select class="form-control selectTrait" formControlname="trait" name="trait" style="font-size: 12px;">
+                                <option [value]="morpho.value['trait']">{{morpho.value['trait']}}</option>
+                            </select> </div>
+                        <div class="input-group col-md-7" [formGroupName]="i"> 
+                            <select class="form-control selectTrait" formControlname="value" name="value" style="font-size:12px;">
+                                <option [value]="morpho.value['value']">{{morpho.value['value']}}</option>
+                            </select>
+                            <div (click)="removeElement(i)" class="input-group-append ml-2"> <button class="btn btn-danger"
+                                    type="button" style="font-size: 12px; border-radius: .25rem;"><i
+                                        class="fa fa-trash-alt"></i></button> </div>
                         </div>
-                    </ng-template>
-                    <ng-container #viewContainer *ngIf="object != null">
-                        <div class="d-flex my-2" *ngFor="let morph of object.morphology">
-                            <div class="col-md-4" *ngIf="morph.trait != 'partOfSpeech'">
-                                <select class="form-control selectTrait">
-                                    <option>{{morph.trait}}</option>
-                                </select>
-                            </div>
-                            <div class="input-group col-md-7" *ngIf="morph.trait != 'partOfSpeech'">
-                                <select class="form-control selectTrait">
-                                    <option>{{morph.value}}</option>
-                                </select>
-                                <div class="input-group-append ml-2">
-                                    <button class="btn btn-danger" (click)="deleteMorphoTrait($event)" type="button"><i class="fa fa-trash-alt" style="pointer-events:none"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
+                    </div>
                 </div>
             </div>
         </div>
