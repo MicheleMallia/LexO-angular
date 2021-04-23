@@ -63,7 +63,7 @@
             <label class="form-check-label" for="extCheck"></label>
         </div>
         <div class="input-group col-sm-7">
-            <ng-select [items]="people" bindLabel="name" placeholder="Search entity" appendTo="body"
+            <ng-select [items]="people" bindLabel="name" bindValue="name" placeholder="Search entity" appendTo="body"
                 [loading]="peopleLoading" *ngIf="!switchInput" formControlName="denotes" name="denotes">
             </ng-select>
             <input formControlName="denotes" name="denotes" type="text" class="form-control" placeholder="Insert URI" *ngIf="switchInput">
