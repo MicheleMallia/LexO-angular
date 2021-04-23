@@ -20,7 +20,6 @@ export class CoreFormComponent implements OnInit {
     people: Person[] = [];
     peopleLoading = false;
     counter = 0;
-    childArray = [];
 
     coreForm = new FormGroup({
         label: new FormControl(''),
