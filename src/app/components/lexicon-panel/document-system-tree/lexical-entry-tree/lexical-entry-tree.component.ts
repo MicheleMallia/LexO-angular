@@ -112,8 +112,8 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     this.lexicalService.getLexicalEntriesList(parameters).subscribe(
       data => {
-        this.nodes = data;
-        this.counter = this.nodes.length;
+        this.nodes = data['list'];
+        this.counter = data['totalHits'];
       },
       error => {
 
@@ -163,15 +163,14 @@ export class LexicalEntryTreeComponent implements OnInit {
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
-    console.log(parameters);
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
-        if(data.length > 0){
+        if(data['list'].length > 0){
           this.show = false;
         }else {
           this.show = true;
         }
-        this.nodes = data;
+        this.nodes = data['list'];
         this.counter = this.nodes.length;
         this.lexicalEntryTree.treeModel.update();
         this.updateTreeView();
@@ -263,8 +262,8 @@ export class LexicalEntryTreeComponent implements OnInit {
         //@ts-ignore
         $('#lazyLoadingModal').modal('hide');
         $('.modal-backdrop').remove();
-        for (var i = 0; i < data.length; i++) {
-          this.nodes.push(data[i]);
+        for (var i = 0; i < data['list'].length; i++) {
+          this.nodes.push(data['list'][i]);
         };
         this.counter = this.nodes.length;
         this.lexicalEntryTree.treeModel.update();
@@ -286,9 +285,6 @@ export class LexicalEntryTreeComponent implements OnInit {
   getChildren(node: any) {
 
     let newNodes: any;
-
-
-
     if (node.data.lexicalEntryInstanceName != undefined) {
       let instance = node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryElements(instance).subscribe(
