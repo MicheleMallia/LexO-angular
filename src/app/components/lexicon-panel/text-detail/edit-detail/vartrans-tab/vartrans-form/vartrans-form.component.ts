@@ -37,6 +37,7 @@ export class VartransFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.vartransForm = this.formBuilder.group({
       label: '',
       translatableAs: this.formBuilder.array([this.createTranslatableAs()]),
@@ -56,6 +57,17 @@ export class VartransFormComponent implements OnInit {
         this.addLexicalRelationIndirect()
       }
     );
+
+    this.triggerTooltip();
+  }
+
+  triggerTooltip(){
+    setTimeout(() => {
+      //@ts-ignore
+      $('.vartrans-tooltip').tooltip({
+        trigger : 'hover'
+      });
+    }, 500);
   }
 
   private loadPeople() {
@@ -81,6 +93,7 @@ export class VartransFormComponent implements OnInit {
   addTranslatableAs() {
     this.translatableAs = this.vartransForm.get('translatableAs') as FormArray;
     this.translatableAs.push(this.createTranslatableAs());
+    this.triggerTooltip();
   }
 
   removeTranslatableAs(index) {
@@ -91,6 +104,7 @@ export class VartransFormComponent implements OnInit {
   addLexicalRelationDirect() {
     this.lexicalRelationDirect = this.vartransForm.get('lexicalRelationDirect') as FormArray;
     this.lexicalRelationDirect.push(this.createLexicalRelationDirect());
+    this.triggerTooltip();
   }
 
   removeLexicalRelationDirect(index) {
@@ -101,6 +115,7 @@ export class VartransFormComponent implements OnInit {
   addLexicalRelationIndirect() {
     this.lexicalRelationIndirect = this.vartransForm.get('lexicalRelationIndirect') as FormArray;
     this.lexicalRelationIndirect.push(this.createLexicalRelationIndirect());
+    this.triggerTooltip();
   }
 
   removeLexicalRelationIndirect(index) {
@@ -111,6 +126,7 @@ export class VartransFormComponent implements OnInit {
   addLexicalRelationIndirectSub(index) {
     const control = (<FormArray>this.vartransForm.controls['lexicalRelationIndirect']).at(index).get('sub_rel') as FormArray;
     control.insert(index, this.createSubLexicalRelationIndirect())
+    this.triggerTooltip();
   }
 
   removeLexicalRelationIndirectSub(index, iy) {
