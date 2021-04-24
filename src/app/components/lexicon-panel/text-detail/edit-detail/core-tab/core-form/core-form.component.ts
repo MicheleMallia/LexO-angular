@@ -36,6 +36,12 @@ export class CoreFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        setTimeout(() => {
+            //@ts-ignore
+            $('.denotes-tooltip').tooltip({
+              trigger : 'hover'
+            });
+          }, 1000);
         this.loadPeople();
 
         this.coreForm = this.formBuilder.group({
