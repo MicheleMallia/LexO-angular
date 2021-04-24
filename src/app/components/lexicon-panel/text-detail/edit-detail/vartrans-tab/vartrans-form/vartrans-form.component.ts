@@ -31,7 +31,7 @@ export class VartransFormComponent implements OnInit {
   translatableAs: FormArray;
   lexicalRelationDirect: FormArray;
   lexicalRelationIndirect: FormArray;
-
+  lexicalRelationIndirectSub : FormArray;
 
   constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) {
   }
@@ -41,16 +41,19 @@ export class VartransFormComponent implements OnInit {
       label: '',
       translatableAs: this.formBuilder.array([this.createTranslatableAs()]),
       lexicalRelationDirect: this.formBuilder.array([this.createLexicalRelationDirect()]),
-      lexicalRelationIndirect: this.formBuilder.array([this.createLexicalRelationIndirect()])
+      lexicalRelationIndirect: this.formBuilder.array([])
     })
-
     this.onChanges();
 
     console.log(this.vartransForm)
     this.loadPeople();
     this.lexicalService.coreData$.subscribe(
       object => {
+        if(this.object != object){
+          this.lexicalRelationIndirect.clear();
+        }
         this.object = object
+        this.addLexicalRelationIndirect()
       }
     );
   }
@@ -75,6 +78,46 @@ export class VartransFormComponent implements OnInit {
     })
   }
 
+  addTranslatableAs() {
+    this.translatableAs = this.vartransForm.get('translatableAs') as FormArray;
+    this.translatableAs.push(this.createTranslatableAs());
+  }
+
+  removeTranslatableAs(index) {
+    this.translatableAs = this.vartransForm.get('translatableAs') as FormArray;
+    this.translatableAs.removeAt(index);
+  }
+
+  addLexicalRelationDirect() {
+    this.lexicalRelationDirect = this.vartransForm.get('lexicalRelationDirect') as FormArray;
+    this.lexicalRelationDirect.push(this.createLexicalRelationDirect());
+  }
+
+  removeLexicalRelationDirect(index) {
+    this.lexicalRelationDirect = this.vartransForm.get('lexicalRelationDirect') as FormArray;
+    this.lexicalRelationDirect.removeAt(index);
+  }
+
+  addLexicalRelationIndirect() {
+    this.lexicalRelationIndirect = this.vartransForm.get('lexicalRelationIndirect') as FormArray;
+    this.lexicalRelationIndirect.push(this.createLexicalRelationIndirect());
+  }
+
+  removeLexicalRelationIndirect(index) {
+    this.lexicalRelationIndirect = this.vartransForm.get('lexicalRelationIndirect') as FormArray;
+    this.lexicalRelationIndirect.removeAt(index);
+  }
+
+  addLexicalRelationIndirectSub(index) {
+    const control = (<FormArray>this.vartransForm.controls['lexicalRelationIndirect']).at(index).get('sub_rel') as FormArray;
+    control.insert(index, this.createSubLexicalRelationIndirect())
+  }
+
+  removeLexicalRelationIndirectSub(index, iy) {
+    const control = (<FormArray>this.vartransForm.controls['lexicalRelationIndirect']).at(index).get('sub_rel') as FormArray;
+    control.removeAt(iy);
+  }
+
   createLexicalRelationDirect(): FormGroup {
     return this.formBuilder.group({
       relation: '',
@@ -87,7 +130,7 @@ export class VartransFormComponent implements OnInit {
       a_entity: '',
       relation: '',
       b_entity: '',
-      sub_rel: new FormArray([this.createSubLexicalRelationIndirect()])
+      sub_rel: new FormArray([])
     })
   }
 

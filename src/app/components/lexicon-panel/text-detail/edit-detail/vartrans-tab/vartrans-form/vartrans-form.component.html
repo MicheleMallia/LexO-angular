@@ -11,7 +11,7 @@
         <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>TRANSLATABLE AS</b></span>
-                <a class="pointer" ><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a class="pointer" (click)="addTranslatableAs()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
                     <div class="form-group row ml-2 mt-3 mr-2" formArrayName="translatableAs" *ngFor="let trans of vartransForm.get('translatableAs')['controls']; let i = index">
@@ -43,7 +43,7 @@
                                         </app-modal>
                             </div>
                             <div class="input-group-append ml-2">
-                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                                <button (click)="removeTranslatableAs(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
         <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>LEXICAL RELATION</b><span class="badge badge-primary ml-2">DIRECT</span></span>
-                <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a (click)="addLexicalRelationDirect()" class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
 
                 <div class="card-body">
                     <div class="form-group row ml-2 mt-3 mr-2" formArrayName="lexicalRelationDirect" *ngFor="let direct of vartransForm.get('lexicalRelationDirect')['controls']; let i = index">
@@ -95,7 +95,7 @@
                                 </app-modal>
                             </div>
                             <div class="input-group-append ml-2">
-                                <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                                <button (click)="removeLexicalRelationDirect(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
         <div class="input-group col-xl-12">
             <div class="card">
                 <span class="text-id"><b>LEXICAL RELATION</b><span class="badge badge-primary ml-2">INDIRECT</span></span>
-                <a class="pointer"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a class="pointer" (click)="addLexicalRelationIndirect()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
                     <div formArrayName="lexicalRelationIndirect">
                         <div *ngFor="let indirect of vartransForm['controls'].lexicalRelationIndirect['controls']; let i = index">
@@ -139,10 +139,10 @@
                                                     class="fa fa-external-link-alt"></i></button>
                                         </div>
                                         <div class="input-group-append ml-2">
-                                            <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                                            <button (click)="removeLexicalRelationIndirect(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                                         </div>
                                         <div class="input-group-append ml-2">
-                                            <button class="btn btn-outline-primary" type="button"><i class="fa fa-plus"></i></button>
+                                            <button (click)="addLexicalRelationIndirectSub(i)" class="btn btn-outline-primary" type="button"><i class="fa fa-plus"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@
                                                                 class="fa fa-external-link-alt"></i></button>
                                                     </div>
                                                     <div class="input-group-append ml-2">
-                                                        <button class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                                                        <button (click)="removeLexicalRelationIndirectSub(i, j)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                                                     </div>
                                                     <div class="input-group-append ml-2">
                                                         <button  class="btn btn-outline-primary invisible" type="button"><i class="fa fa-plus"></i></button>
