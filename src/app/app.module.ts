@@ -41,7 +41,7 @@ import { AttestationPanelComponent } from './components/attestation-panel/attest
 import { FormTabComponent } from './components/attestation-panel/form-tab/form-tab.component';
 import { SenseTabComponent } from './components/attestation-panel/sense-tab/sense-tab.component';
 import { FrameTabComponent } from './components/attestation-panel/frame-tab/frame-tab.component';
-import { CoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/core-form/core-form.component';
+import { LexicalEntryCoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lexical-entry-core-form/lexical-entry-core-form.component';
 import { ModalModule } from 'ng-modal-lib';
 import { SeeAlsoComponent } from './components/link-panel/see-also/see-also.component';
 import { SameAsComponent } from './components/link-panel/same-as/same-as.component';
@@ -81,7 +81,7 @@ import { VartransFormComponent } from './components/lexicon-panel/text-detail/ed
     FormTabComponent,
     SenseTabComponent,
     FrameTabComponent,
-    CoreFormComponent,
+    LexicalEntryCoreFormComponent,
     SeeAlsoComponent,
     SameAsComponent,
     VartransFormComponent

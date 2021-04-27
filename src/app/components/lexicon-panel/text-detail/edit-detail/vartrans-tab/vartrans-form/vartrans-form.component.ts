@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
-import { DataService, Person } from '../../core-tab/core-form/data.service';
+import { DataService, Person } from '../../core-tab/lexical-entry-core-form/data.service';
 
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';

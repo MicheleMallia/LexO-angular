@@ -310,41 +310,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         }
       )
     }
-
-    /* if (node.data.iriURL != undefined) {
-      newNodes = this.asyncChildren.map((c) => Object.assign({}, c));
-
-    } else if (node.data.label != undefined) {
-      if (node.data.label == "Forms") {
-        newNodes = this.forms.map((c) => Object.assign({}, c));
-        for (var i = 0; i < newNodes.length; i++) {
-          if (newNodes[i].author == node.parent.data.author) {
-            newNodes[i]['flagAuthor'] = false
-          } else {
-            newNodes[i]['flagAuthor'] = true
-          }
-        }
-      } else if (node.data.label == "Senses") {
-        newNodes = this.senses.map((c) => Object.assign({}, c));
-        for (var i = 0; i < newNodes.length; i++) {
-          if (newNodes[i].author == node.parent.data.author) {
-            newNodes[i]['flagAuthor'] = false
-          } else {
-            newNodes[i]['flagAuthor'] = true
-          }
-        }
-      } else if (node.data.label == "Frames") {
-        newNodes = this.frames.map((c) => Object.assign({}, c));
-        for (var i = 0; i < newNodes.length; i++) {
-          if (newNodes[i].author == node.parent.data.author) {
-            newNodes[i]['flagAuthor'] = false
-          } else {
-            newNodes[i]['flagAuthor'] = true
-          }
-        }
-      }
-    } */
-
+    
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(newNodes), 1000);
     });
