@@ -33,7 +33,7 @@ export class SeeAlsoComponent implements OnInit {
     })
     this.addSeeAlsoEntry()
     this.onChanges();
-    console.log(this.seeAlsoForm)
+    /* console.log(this.seeAlsoForm) */
     this.loadPeople();
     this.triggerTooltip();
   }
@@ -48,7 +48,7 @@ export class SeeAlsoComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.seeAlsoData);
+    /* console.log(this.seeAlsoData); */
   }
 
   onChanges(): void {

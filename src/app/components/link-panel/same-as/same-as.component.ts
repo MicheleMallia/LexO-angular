@@ -33,13 +33,13 @@ export class SameAsComponent implements OnInit {
     })
     this.addSameAsEntry()
     this.onChanges();
-    console.log(this.sameAsForm)
+    /* console.log(this.sameAsForm) */
     this.loadPeople();
     this.triggerTooltip();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.sameAsData);
+    /* console.log(this.sameAsData); */
   }
 
   onChanges(): void {

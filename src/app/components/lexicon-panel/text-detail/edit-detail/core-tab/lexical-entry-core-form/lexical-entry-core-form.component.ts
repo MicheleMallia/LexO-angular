@@ -66,7 +66,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.morphoTraits.clear();
             }
             this.object = changes.lexData.currentValue;
-            console.log(this.object)
+            /* console.log(this.object) */
             if(this.object != null){
                 this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
                 this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
@@ -87,7 +87,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     onChanges(): void {
         this.coreForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-            console.log(searchParams)
+            /* console.log(searchParams) */
         })
     }
 
