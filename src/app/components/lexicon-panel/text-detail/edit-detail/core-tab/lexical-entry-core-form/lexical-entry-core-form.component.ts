@@ -8,11 +8,11 @@ import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
-    selector: 'app-core-form',
-    templateUrl: './core-form.component.html',
-    styleUrls: ['./core-form.component.scss']
+    selector: 'app-lexical-entry-core-form',
+    templateUrl: './lexical-entry-core-form.component.html',
+    styleUrls: ['./lexical-entry-core-form.component.scss']
 })
-export class CoreFormComponent implements OnInit {
+export class LexicalEntryCoreFormComponent implements OnInit {
 
     switchInput = false;
     subscription: Subscription;

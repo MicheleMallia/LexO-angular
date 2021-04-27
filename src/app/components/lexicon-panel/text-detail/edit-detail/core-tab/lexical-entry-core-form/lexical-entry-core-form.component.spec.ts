@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoreFormComponent } from './core-form.component';
+import { LexicalEntryCoreFormComponent } from './lexical-entry-core-form.component';
 
 describe('CoreFormComponent', () => {
-  let component: CoreFormComponent;
-  let fixture: ComponentFixture<CoreFormComponent>;
+  let component: LexicalEntryCoreFormComponent;
+  let fixture: ComponentFixture<LexicalEntryCoreFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoreFormComponent ]
+      declarations: [ LexicalEntryCoreFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CoreFormComponent);
+    fixture = TestBed.createComponent(LexicalEntryCoreFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
