@@ -7,11 +7,11 @@ import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-vartrans-form',
-  templateUrl: './vartrans-form.component.html',
-  styleUrls: ['./vartrans-form.component.scss']
+  selector: 'app-lexical-entry-vartrans-form',
+  templateUrl: './lexical-entry-vartrans-form.component.html',
+  styleUrls: ['./lexical-entry-vartrans-form.component.scss']
 })
-export class VartransFormComponent implements OnInit {
+export class LexicalEntryVartransFormComponent implements OnInit {
 
   switchInput = false;
   subscription: Subscription;
@@ -51,7 +51,9 @@ export class VartransFormComponent implements OnInit {
     this.lexicalService.coreData$.subscribe(
       object => {
         if(this.object != object){
-          this.lexicalRelationIndirect.clear();
+          if(this.lexicalRelationIndirect != null){
+            this.lexicalRelationIndirect.clear();
+          }
         }
         this.object = object
         this.addLexicalRelationIndirect()
