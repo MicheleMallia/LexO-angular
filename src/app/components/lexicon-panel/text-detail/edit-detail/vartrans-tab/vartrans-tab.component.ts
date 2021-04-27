@@ -33,13 +33,31 @@ export class VartransTabComponent implements OnInit {
   lock = 0;
   object: any;
   exp_trig = '';
+  lexicalEntryData : any;
+  isLexicalEntry = false;
+
   @ViewChild('expander') expander_body: ElementRef;
 
   constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend : Renderer2) { }
 
   ngOnInit(): void {
     this.lexicalService.coreData$.subscribe(
-      object => this.object = object
+      object => {
+        if(this.object != object){
+          this.lexicalEntryData = null;
+        }
+        this.object = object
+        
+        if(this.object != null){
+          if(this.object.lexicalEntry != undefined){
+            this.isLexicalEntry = true;
+            this.lexicalEntryData = object;
+          }else if(this.object.form != undefined){
+            this.isLexicalEntry = false;
+            this.lexicalEntryData = null;
+          }
+        }
+      }
     );
     
     this.expand.exp$.subscribe(

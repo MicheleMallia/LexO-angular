@@ -21,7 +21,7 @@
             </h5>
         </div>
         <div #expander [@slideInOut]="exp_trig" class="card-body">
-            <app-lexical-entry-vartrans-form></app-lexical-entry-vartrans-form>
+            <app-lexical-entry-vartrans-form [lexData]="lexicalEntryData" *ngIf="isLexicalEntry"></app-lexical-entry-vartrans-form>
         </div>
         <div class="card-footer text-muted">
             <div class="w-100 d-flex justify-content-between align-items-center">

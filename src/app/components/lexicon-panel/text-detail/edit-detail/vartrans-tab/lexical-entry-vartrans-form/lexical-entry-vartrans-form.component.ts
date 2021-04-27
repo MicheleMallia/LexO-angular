@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
 import { DataService, Person } from '../../core-tab/lexical-entry-core-form/data.service';
@@ -20,6 +20,8 @@ export class LexicalEntryVartransFormComponent implements OnInit {
   peopleLoading = false;
   counter = 0;
   componentRef: any;
+
+  @Input() lexData : any;
 
   vartransForm = new FormGroup({
     label: new FormControl(''),
@@ -45,22 +47,24 @@ export class LexicalEntryVartransFormComponent implements OnInit {
       lexicalRelationIndirect: this.formBuilder.array([])
     })
     this.onChanges();
-
-    console.log(this.vartransForm)
     this.loadPeople();
-    this.lexicalService.coreData$.subscribe(
-      object => {
-        if(this.object != object){
-          if(this.lexicalRelationIndirect != null){
-            this.lexicalRelationIndirect.clear();
-          }
-        }
-        this.object = object
-        this.addLexicalRelationIndirect()
-      }
-    );
-
     this.triggerTooltip();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    setTimeout(()=> {
+      if(this.object != changes.lexData.currentValue){
+        if(this.lexicalRelationIndirect != null){
+          this.lexicalRelationIndirect.clear();
+        }
+      }
+      this.loadPeople();
+      this.object = changes.lexData.currentValue;
+      if(this.object != null){
+        this.addLexicalRelationIndirect();
+      }
+      this.triggerTooltip();
+  }, 10)
   }
 
   triggerTooltip(){
