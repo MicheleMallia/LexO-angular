@@ -34,13 +34,40 @@ export class CoreTabComponent implements OnInit {
   lock = 0;
   object: any;
   exp_trig = '';
+
+  isLexicalEntry = false;
+  isForm = false;
+
+  lexicalEntryData : any;
+  formData : any;
+
   @ViewChild('expander') expander_body: ElementRef;
 
   constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend: Renderer2) { }
 
   ngOnInit(): void {
     this.lexicalService.coreData$.subscribe(
-      object => this.object = object
+      object => {
+        if(this.object != object){
+          this.lexicalEntryData = null;
+          this.formData = null;
+        }
+        this.object = object
+        
+        if(this.object != null){
+          if(this.object.lexicalEntry != undefined){
+            this.isLexicalEntry = true;
+            this.isForm = false;
+            this.lexicalEntryData = object;
+            this.formData = null;
+          }else if(this.object.form != undefined){
+            this.isLexicalEntry = false;
+            this.isForm = true;
+            this.formData = object;
+            this.lexicalEntryData = null;
+          }
+        }
+      }
     );
 
     this.expand.exp$.subscribe(

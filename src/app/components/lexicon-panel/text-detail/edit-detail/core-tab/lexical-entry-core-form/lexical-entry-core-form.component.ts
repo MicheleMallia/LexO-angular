@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { DataService, Person } from './data.service';
 import { LexicalEntriesService } from '../../../../../../services/lexical-entries.service';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,8 @@ import { debounceTime } from 'rxjs/operators';
     styleUrls: ['./lexical-entry-core-form.component.scss']
 })
 export class LexicalEntryCoreFormComponent implements OnInit {
+
+    @Input() lexData : any;
 
     switchInput = false;
     subscription: Subscription;
@@ -55,29 +57,32 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.onChanges();
 
-        this.lexicalService.coreData$.subscribe(
-            object => {
-                if(this.object != object){
-                    this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
-                    this.morphoTraits.clear();
-                }
-                this.object = object;
-                if(this.object != null){
-                    this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
-                    this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
-                    this.coreForm.get('language').setValue(this.object.language, {emitEvent:false});
-                    this.coreForm.get('pos').setValue(this.object.pos);
-                    
-                    for(var i = 0; i < this.object.morphology.length; i++){
-                        const trait = this.object.morphology[i]['trait'];
-                        const value = this.object.morphology[i]['value'];
-                        this.addMorphoTraits(trait, value);
-                    }
+    }
 
-                    this.coreForm.get('denotes').setValue('prova', {emitEvent: false})
-                }   
+    ngOnChanges(changes: SimpleChanges) {
+        setTimeout(()=> {
+            if(this.object != changes.lexData.currentValue){
+                this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+                this.morphoTraits.clear();
             }
-        );
+            this.object = changes.lexData.currentValue;
+            console.log(this.object)
+            if(this.object != null){
+                this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
+                this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
+                this.coreForm.get('language').setValue(this.object.language, {emitEvent:false});
+                this.coreForm.get('pos').setValue(this.object.pos);
+                
+                for(var i = 0; i < this.object.morphology.length; i++){
+                    const trait = this.object.morphology[i]['trait'];
+                    const value = this.object.morphology[i]['value'];
+                    this.addMorphoTraits(trait, value);
+                }
+    
+                this.coreForm.get('denotes').setValue('prova', {emitEvent: false})
+            }
+        }, 10)
+        
     }
 
     onChanges(): void {
