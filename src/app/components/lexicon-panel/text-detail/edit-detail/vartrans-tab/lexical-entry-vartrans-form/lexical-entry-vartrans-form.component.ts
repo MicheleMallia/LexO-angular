@@ -61,6 +61,7 @@ export class LexicalEntryVartransFormComponent implements OnInit {
       this.loadPeople();
       this.object = changes.lexData.currentValue;
       if(this.object != null){
+        this.vartransForm.get('label').setValue(this.object.label, {emitEvent:false});
         this.addLexicalRelationIndirect();
       }
       this.triggerTooltip();
