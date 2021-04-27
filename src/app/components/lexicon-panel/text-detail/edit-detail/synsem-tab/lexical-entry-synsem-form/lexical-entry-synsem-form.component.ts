@@ -21,30 +21,23 @@ export class LexicalEntrySynsemFormComponent implements OnInit {
   counter = 0;
   componentRef: any;
 
-  @Input() lexData : any;
+  @Input() lexData: any;
 
-  vartransForm = new FormGroup({
+  synsemForm = new FormGroup({
     label: new FormControl(''),
-    translatableAs: new FormArray([this.createTranslatableAs()]),
-    lexicalRelationDirect: new FormArray([this.createLexicalRelationDirect()]),
-    lexicalRelationIndirect: new FormArray([this.createLexicalRelationIndirect()])
+    frames: new FormArray([this.createFrame()])
   })
 
-  translatableAs: FormArray;
-  lexicalRelationDirect: FormArray;
-  lexicalRelationIndirect: FormArray;
-  lexicalRelationIndirectSub : FormArray;
+  frameArray: FormArray;
 
   constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
-    
-    this.vartransForm = this.formBuilder.group({
+
+    this.synsemForm = this.formBuilder.group({
       label: '',
-      translatableAs: this.formBuilder.array([this.createTranslatableAs()]),
-      lexicalRelationDirect: this.formBuilder.array([this.createLexicalRelationDirect()]),
-      lexicalRelationIndirect: this.formBuilder.array([])
+      frames: this.formBuilder.array([])
     })
     this.onChanges();
     this.loadPeople();
@@ -52,26 +45,27 @@ export class LexicalEntrySynsemFormComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    setTimeout(()=> {
-      if(this.object != changes.lexData.currentValue){
-        if(this.lexicalRelationIndirect != null){
-          this.lexicalRelationIndirect.clear();
+    setTimeout(() => {
+      if (this.object != changes.lexData.currentValue) {
+        if (this.frameArray != null) {
+          this.frameArray.clear();
         }
       }
       this.loadPeople();
       this.object = changes.lexData.currentValue;
-      if(this.object != null){
-        this.addLexicalRelationIndirect();
+      if (this.object != null) {
+        this.synsemForm.get('label').setValue(this.object.label, { emitEvent: false });
+
       }
       this.triggerTooltip();
-  }, 10)
+    }, 10)
   }
 
-  triggerTooltip(){
+  triggerTooltip() {
     setTimeout(() => {
       //@ts-ignore
       $('.vartrans-tooltip').tooltip({
-        trigger : 'hover'
+        trigger: 'hover'
       });
     }, 500);
   }
@@ -85,81 +79,65 @@ export class LexicalEntrySynsemFormComponent implements OnInit {
   }
 
   onChanges(): void {
-    this.vartransForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-      /* console.log(searchParams) */
+    this.synsemForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
+      console.log(searchParams)
     })
   }
 
-  createTranslatableAs(): FormGroup {
-    return this.formBuilder.group({
-      entity: ''
-    })
+  addFrame() {
+    this.frameArray = this.synsemForm.get('frames') as FormArray;
+    this.frameArray.push(this.createFrame());
   }
 
-  addTranslatableAs() {
-    this.translatableAs = this.vartransForm.get('translatableAs') as FormArray;
-    this.translatableAs.push(this.createTranslatableAs());
-    this.triggerTooltip();
+  addArg(index){
+    const control = (<FormArray>this.synsemForm.controls['frames']).at(index).get('args') as FormArray;
+    control.push(this.createArg());
   }
 
-  removeTranslatableAs(index) {
-    this.translatableAs = this.vartransForm.get('translatableAs') as FormArray;
-    this.translatableAs.removeAt(index);
+  addForm(ix, iy){
+    const control = ((<FormArray>this.synsemForm.controls['frames']).at(ix).get('args') as FormArray).at(iy).get('form') as FormArray;
+    control.push(this.createForm());
   }
 
-  addLexicalRelationDirect() {
-    this.lexicalRelationDirect = this.vartransForm.get('lexicalRelationDirect') as FormArray;
-    this.lexicalRelationDirect.push(this.createLexicalRelationDirect());
-    this.triggerTooltip();
-  }
-
-  removeLexicalRelationDirect(index) {
-    this.lexicalRelationDirect = this.vartransForm.get('lexicalRelationDirect') as FormArray;
-    this.lexicalRelationDirect.removeAt(index);
-  }
-
-  addLexicalRelationIndirect() {
-    this.lexicalRelationIndirect = this.vartransForm.get('lexicalRelationIndirect') as FormArray;
-    this.lexicalRelationIndirect.push(this.createLexicalRelationIndirect());
-    this.triggerTooltip();
-  }
-
-  removeLexicalRelationIndirect(index) {
-    this.lexicalRelationIndirect = this.vartransForm.get('lexicalRelationIndirect') as FormArray;
-    this.lexicalRelationIndirect.removeAt(index);
-  }
-
-  addLexicalRelationIndirectSub(index) {
-    const control = (<FormArray>this.vartransForm.controls['lexicalRelationIndirect']).at(index).get('sub_rel') as FormArray;
-    control.insert(index, this.createSubLexicalRelationIndirect())
-    this.triggerTooltip();
-  }
-
-  removeLexicalRelationIndirectSub(index, iy) {
-    const control = (<FormArray>this.vartransForm.controls['lexicalRelationIndirect']).at(index).get('sub_rel') as FormArray;
+  removeArg(ix, iy){
+    const control = (<FormArray>this.synsemForm.controls['frames']).at(ix).get('args') as FormArray;
     control.removeAt(iy);
   }
 
-  createLexicalRelationDirect(): FormGroup {
+  removeForm(ix, iy, iz){
+    const control = ((<FormArray>this.synsemForm.controls['frames']).at(ix).get('args') as FormArray).at(iy).get('form') as FormArray;
+    control.removeAt(iz);
+  }
+
+  removeFrame(index) {
+    this.frameArray = this.synsemForm.get('frames') as FormArray;
+    this.frameArray.removeAt(index);
+  }
+
+  createFrame(): FormGroup {
     return this.formBuilder.group({
-      relation: '',
-      entity: ''
+      label: '',
+      type: '',
+      example: '',
+      args: new FormArray([])
     })
   }
 
-  createLexicalRelationIndirect(): FormGroup {
+  createArg() : FormGroup {
     return this.formBuilder.group({
-      a_entity: '',
-      relation: '',
-      b_entity: '',
-      sub_rel: new FormArray([])
+      label: '',
+      type: '',
+      marker: '',
+      optional: false,
+      form: new FormArray([])
     })
   }
 
-  createSubLexicalRelationIndirect(): FormGroup {
+  createForm() : FormGroup {
     return this.formBuilder.group({
-      sub_relation: 'eee',
-      sub_entity: ''
+      form_label: ''
     })
   }
+
+
 }
