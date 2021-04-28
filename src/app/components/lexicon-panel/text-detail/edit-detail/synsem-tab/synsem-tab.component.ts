@@ -55,6 +55,7 @@ export class SynsemTabComponent implements OnInit {
           }else if(this.object.form != undefined){
             this.isLexicalEntry = false;
             this.lexicalEntryData = null;
+            this.object = null;
           }
         }
       }
