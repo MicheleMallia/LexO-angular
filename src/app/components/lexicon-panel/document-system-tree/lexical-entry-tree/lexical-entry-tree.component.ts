@@ -21,14 +21,11 @@ const actionMapping: IActionMapping = {
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
       }
     },
-    click: (tree, node, $event) => {
-      $event.shiftKey
-        ? TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(tree, node, $event)
-        : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event)
-    }
-  },
-  keys: {
-    [KEYS.ENTER]: (tree, node, $event) => alert(`This is ${node.data.name}`)
+    click: TREE_ACTIONS.TOGGLE_ACTIVE,
+    contextMenu: (tree, node, $event) => { 
+      
+    
+    },
   }
 };
 
@@ -226,7 +223,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     } else if($event.eventName == 'activate' && $event.node.data.form != undefined){
       this.lexicalService.sendToCoreTab($event.node.data);
       
-    }else if ($event.eventName == 'deactivate') {
+    }else if ($event.eventName == 'deactivate' && ($event.node.data.lexicalEntry == undefined && $event.node.data.form == undefined)) {
       this.lexicalService.sendToCoreTab(null);
       this.lexicalService.sendToRightTab(null);
     }
