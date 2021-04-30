@@ -21,6 +21,8 @@
             </select>
         </div>
     </div>
+
+    <!-- MORPHOLOGY -->
     <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-lg-12">
             <div class="card">
@@ -49,6 +51,36 @@
                             <div (click)="removeElement(i)" class="input-group-append ml-2"> <button class="btn btn-danger"
                                     type="button" style="font-size: 12px; border-radius: .25rem;"><i
                                         class="fa fa-trash-alt"></i></button> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EVOKES -->
+    <div class="form-group row ml-2 mt-3 mr-2">
+        <div class="input-group col-lg-12">
+            <div class="card">
+                <span class="text-id"><b>EVOKES</b></span>
+                <a class="pointer" (click)="addEvokes()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <div class="card-body">
+                    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="evokes" *ngFor="let trans of coreForm.get('evokes')['controls']; let i = index">
+                        <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
+                            <ng-select formControlName="entity" name="entity" [items]="people" bindValue="name" bindLabel="name" placeholder="Search entity" appendTo="body"
+                                [loading]="peopleLoading" *ngIf="!variable.switch">
+                            </ng-select>
+                            <input formControlName="entity" name="entity" type="text" class="form-control" placeholder="Insert URI" *ngIf="variable.switch">
+                            <div class="input-group-append ml-3 form-check" style="align-items: center;">
+                                <input class="form-check-input vartrans-tooltip" type="checkbox" (change)="variable.switch=!variable.switch" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="Clicca per inserire un URI manualmente">
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button"><i
+                                        class="fa fa-external-link-alt"></i></button>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button (click)="removeEvokes(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>

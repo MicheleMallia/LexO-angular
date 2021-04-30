@@ -28,10 +28,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         type: new FormControl(''),
         language: new FormControl(''),
         morphoTraits: new FormArray([this.createMorphoTraits()]),
+        evokes : new FormArray([this.createEvokes()]),
         denotes : new FormControl('')
     })
 
     morphoTraits: FormArray;
+    evokesArray : FormArray;
 
     constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) {
 
@@ -52,6 +54,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             language: '',
             pos: '',
             morphoTraits: this.formBuilder.array([]),
+            evokes : this.formBuilder.array([]),
             denotes : ''
         })
 
@@ -103,6 +106,22 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 value: ''
             })
         }
+    }
+
+    createEvokes(): FormGroup {
+        return this.formBuilder.group({
+            entity: ''
+        })
+    }
+
+    removeEvokes(index){
+        this.evokesArray = this.coreForm.get('evokes') as FormArray;
+        this.evokesArray.removeAt(index);
+    }
+
+    addEvokes(){
+        this.evokesArray = this.coreForm.get('evokes') as FormArray;
+        this.evokesArray.push(this.createEvokes());
     }
 
     addMorphoTraits(t?, v?) {
