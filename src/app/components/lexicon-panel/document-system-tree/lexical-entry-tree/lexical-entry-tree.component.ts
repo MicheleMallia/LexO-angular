@@ -289,6 +289,9 @@ export class LexicalEntryTreeComponent implements OnInit {
       let instance = node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryElements(instance).subscribe(
         data => {
+          data["elements"] = data["elements"].filter(function(obj){
+            return obj.count != 0;
+          })
           newNodes = data["elements"].map((c) => Object.assign({}, c));
         },
         error => {
