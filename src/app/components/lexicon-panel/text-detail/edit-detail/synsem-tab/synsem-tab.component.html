@@ -1,4 +1,4 @@
-<div id="cardsAccordion" class="accordion" *ngIf="object != null">
+<div id="cardsAccordion" class="accordion" [hidden]="object == null">
     <div class="card my-2">
         <div class="card-header">
             <h5 class="mb-0 w-100 d-flex justify-content-between align-self-center">

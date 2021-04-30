@@ -9,13 +9,11 @@ import { ExpanderService } from 'src/app/services/expander.service';
 export class EpigraphyDetailComponent implements OnInit {
 
   constructor(private exp : ExpanderService) { }
-  expand = false;
 
   ngOnInit(): void {
   }
 
   triggerExpansion(){
-    this.expand = !this.expand;
-    this.exp.expandCollapse(this.expand);
+    this.exp.expandCollapse();
   }
 }

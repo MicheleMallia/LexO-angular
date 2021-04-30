@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { LexicalEntriesService } from '../../../../../services/lexical-entries.service';
-import { Subscription } from 'rxjs';
 import { ExpanderService } from 'src/app/services/expander.service';
 
 import {

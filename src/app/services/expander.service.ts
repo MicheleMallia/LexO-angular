@@ -6,13 +6,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ExpanderService {
   
-  private _expand: BehaviorSubject<object> = new BehaviorSubject(null);
+  isExpanded = false;
+  private _expand: BehaviorSubject<boolean> = new BehaviorSubject(null);
   exp$ = this._expand.asObservable();
 
   constructor() { }
 
-  expandCollapse(object:any){
-    this._expand.next(object)
+  expandCollapse(){
+    this.isExpanded = !this.isExpanded;
+    this._expand.next(this.isExpanded)
   }
   
 }
