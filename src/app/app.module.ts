@@ -48,6 +48,7 @@ import { SameAsComponent } from './components/link-panel/same-as/same-as.compone
 import { LexicalEntryVartransFormComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/lexical-entry-vartrans-form/lexical-entry-vartrans-form.component';
 import { LexicalEntrySynsemFormComponent } from './components/lexicon-panel/text-detail/edit-detail/synsem-tab/lexical-entry-synsem-form/lexical-entry-synsem-form.component';
 import { FormCoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/form-core-form/form-core-form.component';
+import { LexicalEntryDecompFormComponent } from './components/lexicon-panel/text-detail/edit-detail/decomposition-tab/lexical-entry-decomp-form/lexical-entry-decomp-form.component';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { FormCoreFormComponent } from './components/lexicon-panel/text-detail/ed
     SameAsComponent,
     LexicalEntryVartransFormComponent,
     LexicalEntrySynsemFormComponent,
-    FormCoreFormComponent
+    FormCoreFormComponent,
+    LexicalEntryDecompFormComponent
   ],
   imports: [
     BrowserModule,
