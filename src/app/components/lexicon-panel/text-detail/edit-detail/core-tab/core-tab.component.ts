@@ -37,10 +37,12 @@ export class CoreTabComponent implements OnInit {
   isLexicalEntry = false;
   isForm = false;
   isSense = false;
+  isLexicalConcept = false;
 
   lexicalEntryData : any;
   formData : any;
   senseData : any;
+  lexicalConceptData : any;
 
   @ViewChild('expander') expander_body: ElementRef;
 
@@ -63,12 +65,16 @@ export class CoreTabComponent implements OnInit {
             this.isSense = false;
             this.lexicalEntryData = object;
             this.formData = null;
+            this.lexicalConceptData = null;
+            this.isLexicalConcept = false;
           }else if(this.object.form != undefined){
             this.isLexicalEntry = false;
             this.isForm = true;
             this.isSense = false;
             this.formData = object;
             this.lexicalEntryData = null;
+            this.lexicalConceptData = null;
+            this.isLexicalConcept = false;
           }else if(this.object.sense != undefined){
             this.isLexicalEntry = false;
             this.isForm = false;
@@ -76,6 +82,17 @@ export class CoreTabComponent implements OnInit {
             this.senseData = object;
             this.formData = null;
             this.lexicalEntryData = null;
+            this.lexicalConceptData = null;
+            this.isLexicalConcept = false;
+          }else if(this.object.lexicalConcept != undefined){
+            this.isLexicalEntry = false;
+            this.isForm = false;
+            this.isSense = false;
+            this.isLexicalConcept = true;
+            this.senseData = null;
+            this.formData = null;
+            this.lexicalEntryData = null;
+            this.lexicalConceptData = object;
           }
         }
       }

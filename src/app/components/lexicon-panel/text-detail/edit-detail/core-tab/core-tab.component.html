@@ -1,4 +1,4 @@
-<div id="cardsAccordion" class="accordion" > <!-- [hidden]="object == null" -->
+<div id="cardsAccordion" class="accordion" [hidden]="object == null">
     <div class="card my-2">
         <div class="card-header">
             <h5 class="mb-0 w-100 d-flex justify-content-between align-self-center">
@@ -25,7 +25,7 @@
             <app-lexical-entry-core-form [lexData]="lexicalEntryData" *ngIf="isLexicalEntry"></app-lexical-entry-core-form>
             <app-form-core-form [formData]="formData" *ngIf="isForm"></app-form-core-form>
             <app-sense-core-form [senseData]="senseData" *ngIf="isSense"></app-sense-core-form>
-            <app-lexical-concept-form></app-lexical-concept-form>
+            <app-lexical-concept-form [lexicalConceptData]="lexicalConceptData" *ngIf="isLexicalConcept"></app-lexical-concept-form>
         </div>
         <div class="card-footer text-muted">
             <div class="w-100 d-flex justify-content-between align-items-center">

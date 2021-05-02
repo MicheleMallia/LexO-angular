@@ -53,7 +53,7 @@ export class LexicalConceptFormComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     setTimeout(()=> {
-      if(this.object != changes.senseData.currentValue){
+      if(this.object != changes.lexicalConceptData.currentValue){
         if(this.conceptReference != null){
           this.conceptReference.clear();
           this.hierachicalRelation.clear();
@@ -61,7 +61,7 @@ export class LexicalConceptFormComponent implements OnInit {
         }
       }
       this.loadPeople();
-      this.object = changes.senseData.currentValue;
+      this.object = changes.lexicalConceptData.currentValue;
       if(this.object != null){
         this.lexicalConceptForm.get('label').setValue(this.object.label, {emitEvent:false});
       }
