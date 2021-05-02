@@ -109,3 +109,7 @@ tree-node-content {
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
     font-size: 12px;
 }
+
+.ui-modal, .ui-modal-overlay {
+    z-index: 9999 !important;
+}
