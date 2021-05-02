@@ -49,6 +49,7 @@ import { LexicalEntryVartransFormComponent } from './components/lexicon-panel/te
 import { LexicalEntrySynsemFormComponent } from './components/lexicon-panel/text-detail/edit-detail/synsem-tab/lexical-entry-synsem-form/lexical-entry-synsem-form.component';
 import { FormCoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/form-core-form/form-core-form.component';
 import { LexicalEntryDecompFormComponent } from './components/lexicon-panel/text-detail/edit-detail/decomposition-tab/lexical-entry-decomp-form/lexical-entry-decomp-form.component';
+import { SenseCoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/sense-core-form/sense-core-form.component';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { LexicalEntryDecompFormComponent } from './components/lexicon-panel/text
     LexicalEntryVartransFormComponent,
     LexicalEntrySynsemFormComponent,
     FormCoreFormComponent,
-    LexicalEntryDecompFormComponent
+    LexicalEntryDecompFormComponent,
+    SenseCoreFormComponent
   ],
   imports: [
     BrowserModule,
