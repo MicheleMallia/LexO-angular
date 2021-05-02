@@ -33,8 +33,12 @@ export class VartransTabComponent implements OnInit {
   lock = 0;
   object: any;
   exp_trig = '';
+
   lexicalEntryData : any;
+  senseData : any;
+
   isLexicalEntry = false;
+  isSense = false;
 
   @ViewChild('expander') expander_body: ElementRef;
 
@@ -45,17 +49,20 @@ export class VartransTabComponent implements OnInit {
       object => {
         if(this.object != object){
           this.lexicalEntryData = null;
+          this.senseData = null;
         }
         this.object = object
         
         if(this.object != null){
           if(this.object.lexicalEntry != undefined){
             this.isLexicalEntry = true;
+            this.isSense = false;
             this.lexicalEntryData = object;
-          }else if(this.object.form != undefined){
+          }else if(this.object.sense != undefined){
             this.isLexicalEntry = false;
+            this.isSense = true;
+            this.senseData = object;
             this.lexicalEntryData = null;
-            this.object = null;
           }
         }
       }
