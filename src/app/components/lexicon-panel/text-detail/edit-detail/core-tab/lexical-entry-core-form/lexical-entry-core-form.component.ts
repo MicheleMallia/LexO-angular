@@ -67,6 +67,9 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             if(this.object != changes.lexData.currentValue){
                 this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
                 this.morphoTraits.clear();
+                if(this.coreForm.get('denotes') == null){
+                    this.coreForm.addControl('denotes', new FormControl(''))
+                }
             }
             this.object = changes.lexData.currentValue;
             /* console.log(this.object) */
@@ -136,6 +139,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     removeElement(index){
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         this.morphoTraits.removeAt(index);
+    }
+
+    removeDenotes(){
+        console.log(this.coreForm.value)
+        this.coreForm.removeControl('denotes');
+        console.log(this.coreForm.value)
     }
 
     private loadPeople() {
