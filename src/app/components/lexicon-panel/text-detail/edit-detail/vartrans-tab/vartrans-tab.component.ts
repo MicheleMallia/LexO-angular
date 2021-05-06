@@ -54,7 +54,7 @@ export class VartransTabComponent implements OnInit {
         this.object = object
         
         if(this.object != null){
-          if(this.object.lexicalEntry != undefined){
+          if(this.object.lexicalEntry != undefined && this.object.sense == undefined){
             this.isLexicalEntry = true;
             this.isSense = false;
             this.lexicalEntryData = object;

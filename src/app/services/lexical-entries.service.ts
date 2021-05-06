@@ -52,6 +52,12 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "data/" + instance + "/forms");
   }
 
+  //GET /lexicon/data/{id}/senses --> get list of senses of a lexical entry
+  getSensesList(instance: string): Observable<any>{
+    return this.http.get(this.baseUrl + "data/" + instance + "/senses");
+  }
+
+
   //GET /lexicon/languages --> get languages list
   getLanguages(): Observable<any> {
     return this.http.get(this.baseUrl + "statistics/languages?key=lexodemo");

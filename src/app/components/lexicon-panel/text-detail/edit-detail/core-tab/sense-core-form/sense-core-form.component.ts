@@ -48,7 +48,7 @@ export class SenseCoreFormComponent implements OnInit {
       example : '',
       usage : '',
       reference : this.formBuilder.array([this.createReference()]),
-      lexical_concept : this.formBuilder.array([this.createLexicalConcept()]),
+      lexical_concept : this.formBuilder.array([]),
       sense_of : ''
     })
 
@@ -66,13 +66,17 @@ export class SenseCoreFormComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     setTimeout(() => {
-      if (this.object != changes.formData.currentValue) {
-        
+      if (this.object != changes.senseData.currentValue) {
+        this.lexicalConceptArray = this.senseCore.get('lexical_concept') as FormArray;
+        this.lexicalConceptArray.clear();
       }
-      this.object = changes.formData.currentValue;
+      this.object = changes.senseData.currentValue;
       console.log(this.object)
       if (this.object != null) {
-        
+        this.senseCore.get('definition').setValue(this.object.definition, {emitEvent:false});
+        this.senseCore.get('usage').setValue(this.object.usage, {emitEvent:false});
+        this.addLexicalConcept(this.object.concept);
+        this.senseCore.get('sense_of').setValue(this.object.sense, {emitEvent:false});
       }
     }, 10)
 
@@ -95,15 +99,26 @@ export class SenseCoreFormComponent implements OnInit {
     referenceArray.removeAt(index)
   }
 
-  createLexicalConcept(){
-    return this.formBuilder.group({
-      lex_concept: ''
-    })
+  createLexicalConcept(e?){
+    if(e!=undefined){
+      return this.formBuilder.group({
+        lex_concept: e
+      })
+    }else{
+      return this.formBuilder.group({
+        lex_concept: ''
+      })
+    }
+    
   }
 
-  addLexicalConcept(){
+  addLexicalConcept(entity?){
     this.lexicalConceptArray = this.senseCore.get('lexical_concept') as FormArray;
-    this.lexicalConceptArray.push(this.createLexicalConcept());
+    if(entity!=undefined){
+      this.lexicalConceptArray.push(this.createLexicalConcept(entity));
+    }else{
+      this.lexicalConceptArray.push(this.createLexicalConcept());
+    }
   }
 
   removeLexicalConcept(index){

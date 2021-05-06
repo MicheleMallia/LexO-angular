@@ -57,9 +57,8 @@ export class CoreTabComponent implements OnInit {
           this.senseData = null;
         }
         this.object = object
-        
         if(this.object != null){
-          if(this.object.lexicalEntry != undefined){
+          if(this.object.lexicalEntry != undefined && this.object.sense == undefined){
             this.isLexicalEntry = true;
             this.isForm = false;
             this.isSense = false;
@@ -67,7 +66,7 @@ export class CoreTabComponent implements OnInit {
             this.formData = null;
             this.lexicalConceptData = null;
             this.isLexicalConcept = false;
-          }else if(this.object.form != undefined){
+          }else if(this.object.form != undefined && this.object.sense == undefined){
             this.isLexicalEntry = false;
             this.isForm = true;
             this.isSense = false;
@@ -84,7 +83,7 @@ export class CoreTabComponent implements OnInit {
             this.lexicalEntryData = null;
             this.lexicalConceptData = null;
             this.isLexicalConcept = false;
-          }else if(this.object.lexicalConcept != undefined){
+          }else if(this.object.lexicalConcept != undefined && this.object.sense == undefined){
             this.isLexicalEntry = false;
             this.isForm = false;
             this.isSense = false;

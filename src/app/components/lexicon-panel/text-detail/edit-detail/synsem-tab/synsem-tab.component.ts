@@ -49,10 +49,14 @@ export class SynsemTabComponent implements OnInit {
         this.object = object
         
         if(this.object != null){
-          if(this.object.lexicalEntry != undefined){
+          if(this.object.lexicalEntry != undefined && this.object.sense == undefined){
             this.isLexicalEntry = true;
             this.lexicalEntryData = object;
           }else if(this.object.form != undefined){
+            this.isLexicalEntry = false;
+            this.lexicalEntryData = null;
+            this.object = null;
+          }else if(this.object.sense != undefined){
             this.isLexicalEntry = false;
             this.lexicalEntryData = null;
             this.object = null;

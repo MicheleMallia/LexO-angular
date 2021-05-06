@@ -222,8 +222,10 @@ export class LexicalEntryTreeComponent implements OnInit {
       )
     } else if($event.eventName == 'activate' && $event.node.data.form != undefined){
       this.lexicalService.sendToCoreTab($event.node.data);
-      
-    }else if ($event.eventName == 'deactivate' && ($event.node.data.lexicalEntry == undefined && $event.node.data.form == undefined)) {
+    }else if($event.eventName == 'activate' && $event.node.data.sense != undefined){
+      this.lexicalService.sendToCoreTab($event.node.data);
+    }
+    else if ($event.eventName == 'deactivate' && ($event.node.data.lexicalEntry == undefined && $event.node.data.form == undefined)) {
       this.lexicalService.sendToCoreTab(null);
       this.lexicalService.sendToRightTab(null);
     }
@@ -301,6 +303,20 @@ export class LexicalEntryTreeComponent implements OnInit {
     } else if (node.data.label == "form") {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryForms(parentInstance).subscribe(
+        data => {
+          newNodes = data.map((c) => Object.assign({}, c));
+          for (var i = 0; i < newNodes.length; i++) {
+            if (newNodes[i].author == node.parent.data.author) {
+              newNodes[i]['flagAuthor'] = false
+            } else {
+              newNodes[i]['flagAuthor'] = true
+            }
+          }
+        }
+      )
+    } else if (node.data.label == "sense") {
+      let parentInstance = node.parent.data.lexicalEntryInstanceName;
+      this.lexicalService.getSensesList(parentInstance).subscribe(
         data => {
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
