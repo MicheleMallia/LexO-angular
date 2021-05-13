@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpanderService } from 'src/app/services/expander.service';
+import { ExpanderService } from 'src/app/services/expander/expander.service';
 
 @Component({
   selector: 'app-epigraphy-detail',

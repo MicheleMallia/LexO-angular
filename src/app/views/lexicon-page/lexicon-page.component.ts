@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 
 @Component({
   selector: 'app-lexicon-page',

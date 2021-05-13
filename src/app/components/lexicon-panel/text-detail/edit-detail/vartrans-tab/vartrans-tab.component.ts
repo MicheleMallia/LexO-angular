@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ExpanderService } from 'src/app/services/expander.service';
-import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
+import { ExpanderService } from 'src/app/services/expander/expander.service';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 
 import {
   animate,

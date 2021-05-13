@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, ITreeState } from '@circlon/angular-tree-component';
 import { formTypeEnum, LexicalEntryRequest, searchModeEnum, typeEnum } from './interfaces/lexical-entry-interface'
-import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import * as _ from 'underscore';

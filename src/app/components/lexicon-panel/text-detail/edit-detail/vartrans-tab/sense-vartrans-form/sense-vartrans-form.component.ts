@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LexicalEntriesService } from 'src/app/services/lexical-entries.service';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { DataService, Person } from '../../core-tab/lexical-entry-core-form/data.service';
 
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
