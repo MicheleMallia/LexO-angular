@@ -1,7 +1,7 @@
 export interface LexicalEntryRequest {
   text: string,
   searchMode: searchModeEnum,
-  type: typeEnum,
+  type: typeEnum | string,
   pos: string,
   formType: formTypeEnum | string,
   author: string,
