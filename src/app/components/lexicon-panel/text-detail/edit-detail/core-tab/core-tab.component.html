@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <button class="btn btn-link">
-                        <i class="fa fa-trash"></i>
+                        <i class="fa fa-trash" (click)="deleteLexicalEntry()"></i>
                     </button>
                     <button class="btn btn-link" (click)="changeStatus()">
                         <i class="fa fa-circle" *ngIf="lock==0" style="color: red"></i>
