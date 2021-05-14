@@ -95,4 +95,10 @@ export class LexicalEntriesService {
   deleteLexicalEntry(lexId): Observable<any> {
     return this.http.get(this.baseUrl + "delete/"+lexId+"/lexicalEntry?key="+this.key+"&author="+this.author);
   }
+
+
+  //GET lexicon/update/{id}/lexicalEntryLabel --> update label of lexical entry
+  updateLexicalEntryLabel(lexId, label): Observable<any> {
+    return this.http.get(this.baseUrl + "update/"+lexId+"/lexicalEntryLabel?key="+this.key+"&label="+label+"&author="+this.author);
+  }
 }

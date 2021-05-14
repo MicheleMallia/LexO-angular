@@ -92,9 +92,23 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     }
 
     onChanges(): void {
-        this.coreForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-            /* console.log(searchParams) */
-        })
+        /* this.coreForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
+            console.log(searchParams)
+        }) */
+
+        this.coreForm.get("label").valueChanges.pipe(debounceTime(1000)).subscribe(
+            updatedLabel => {
+                let lexId = this.object.lexicalEntryInstanceName;
+                this.lexicalService.updateLexicalEntryLabel(lexId, updatedLabel).subscribe(
+                    data => {
+                        console.log(data)
+                    },
+                    error => {
+                        console.log(error);
+                    }
+                )
+            }
+        )
     }
 
     createMorphoTraits(t?, v?): FormGroup {
