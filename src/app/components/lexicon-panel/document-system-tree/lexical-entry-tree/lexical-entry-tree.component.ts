@@ -7,11 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import * as _ from 'underscore';
 declare var $: JQueryStatic;
 
-import async from '../../../../../assets/data/lexicalEntry.json'
 
-import forms from '../../../../../assets/data/mockForms.json';
-import senses from '../../../../../assets/data/mockSenses.json';
-import frames from '../../../../../assets/data/mockFrames.json';
 import { debounceTime } from 'rxjs/operators';
 
 const actionMapping: IActionMapping = {
@@ -60,10 +56,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   authors;
   partOfSpeech;
   status = [{ "label": "false", "count": 0 }, { "label": "true", "count": 0 }];
-  asyncChildren = async;
-  forms = forms;
-  senses = senses;
-  frames = frames;
+
 
   options: ITreeOptions = {
     useVirtualScroll: true,
@@ -97,9 +90,9 @@ export class LexicalEntryTreeComponent implements OnInit {
     let parameters: LexicalEntryRequest = {
       text: "",
       searchMode: searchModeEnum.equals,
-      type: typeEnum.word,
+      type: "",
       pos: "",
-      formType: "",
+      formType: "entry",
       author: "",
       lang: "",
       status: "",
@@ -160,6 +153,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
+    console.log(newPar)
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
         if(data['list'].length > 0){
@@ -168,7 +162,7 @@ export class LexicalEntryTreeComponent implements OnInit {
           this.show = true;
         }
         this.nodes = data['list'];
-        this.counter = this.nodes.length;
+        this.counter = data['totalHits'];
         this.lexicalEntryTree.treeModel.update();
         this.updateTreeView();
         this.searchIconSpinner = false;
