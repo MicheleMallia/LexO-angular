@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 
 @Component({
   selector: 'app-document-system-tree',
@@ -11,7 +12,7 @@ export class DocumentSystemTreeComponent implements OnInit {
   switcher= false;
   @ViewChild('lexTree') lexTree: any;
   
-  constructor() { }
+  constructor(private lexicalService: LexicalEntriesService) { }
 
   ngOnInit(): void {
   }
@@ -24,5 +25,16 @@ export class DocumentSystemTreeComponent implements OnInit {
     this.lexTree.labelView = !this.lexTree.labelView;
     this.lexTree.idView = !this.lexTree.idView;
     this.switcher = !this.switcher;
+  }
+
+  newLexicalEntry(){
+    this.lexicalService.newLexicalEntry().subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error)
+      }
+    )
   }
 }
