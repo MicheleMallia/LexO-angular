@@ -12,6 +12,8 @@ export class LexicalEntriesService {
 
   //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
   private baseUrl = "/LexO-backend/service/lexicon/"
+  private key = "PRINitant19";
+  private author = "michele";
 
   coreData$ = this._coreFormData.asObservable();
   rightPanelData$ = this._rightPanelData.asObservable();
@@ -57,7 +59,6 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "data/" + instance + "/senses");
   }
 
-
   //GET /lexicon/languages --> get languages list
   getLanguages(): Observable<any> {
     return this.http.get(this.baseUrl + "statistics/languages?key=lexodemo");
@@ -81,5 +82,17 @@ export class LexicalEntriesService {
   //GET /lexicon/states --> get states list
   getStatus(): Observable<any> {
     return this.http.get(this.baseUrl + "statistics/status?key=lexodemo");
+  }
+
+
+  //GET /lexicon/creation/lexicalEntry --> create new lexical entry
+  newLexicalEntry(): Observable<any> {
+    return this.http.get(this.baseUrl + "creation/lexicalEntry?key="+this.key+"&author="+this.author);
+  }
+
+
+  //GET /lexicon/delete/{id}/lexicalEntry --> delete lexical entry
+  deleteLexicalEntry(lexId): Observable<any> {
+    return this.http.get(this.baseUrl + "delete/"+lexId+"/lexicalEntry?key="+this.key+"&author="+this.author);
   }
 }
