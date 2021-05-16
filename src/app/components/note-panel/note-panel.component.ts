@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -6,7 +6,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   templateUrl: './note-panel.component.html',
   styleUrls: ['./note-panel.component.scss']
 })
-export class NotePanelComponent implements OnInit {
+export class NotePanelComponent implements OnInit, OnChanges {
 
   @Input() noteData: string;
 
@@ -77,6 +77,16 @@ export class NotePanelComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges) { 
+    setTimeout(() => {
+      console.log(changes)
+    }, 10);
+  }
+
+  onChanges(evt){
+    console.log(this.htmlContent)
   }
 
 }
