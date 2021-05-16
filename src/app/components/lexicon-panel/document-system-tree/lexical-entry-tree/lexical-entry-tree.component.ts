@@ -153,7 +153,6 @@ export class LexicalEntryTreeComponent implements OnInit {
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
-    console.log(newPar)
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
         if(data['list'].length > 0){
@@ -208,6 +207,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
         data => {
+          console.log(data)
           this.lexicalService.sendToRightTab(data);
         },
         error => {
