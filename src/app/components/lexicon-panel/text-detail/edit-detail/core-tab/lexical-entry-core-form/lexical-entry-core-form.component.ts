@@ -72,7 +72,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 }
             }
             this.object = changes.lexData.currentValue;
-            /* console.log(this.object) */
+            console.log(this.object)
             if(this.object != null){
                 this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
                 this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
@@ -103,10 +103,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     data => {
                         console.log(data);
                         this.lexicalService.refreshLexEntryTree();
+                        this.lexicalService.updateLexCard(this.object)
                     },
                     error => {
                         console.log(error);
                         this.lexicalService.refreshLexEntryTree();
+                        this.lexicalService.updateLexCard({lastUpdate : error.error.text})
                     }
                 )
             }

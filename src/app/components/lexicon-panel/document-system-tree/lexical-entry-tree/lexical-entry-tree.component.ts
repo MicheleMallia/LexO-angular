@@ -235,7 +235,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.sendToRightTab(data);
-          this.lexicalService.updateLexCard(data);
+          this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
         },
         error => {
 

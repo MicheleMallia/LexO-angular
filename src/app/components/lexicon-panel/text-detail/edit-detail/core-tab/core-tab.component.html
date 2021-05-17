@@ -4,7 +4,7 @@
             <h5 class="mb-0 w-100 d-flex justify-content-between align-self-center">
                 <div>
                     <span class="btn" *ngIf="object != null">
-                        CREATED BY {{object.author}} ON {{creationDate | date :'MM-dd-yyyy hh-mm-ss'}}
+                        CREATED BY {{author}} ON {{creationDate | date :'MM-dd-yyyy hh-mm-ss'}}
                     </span>
                 </div>
                 <div>
@@ -30,7 +30,7 @@
         <div class="card-footer text-muted">
             <div class="w-100 d-flex justify-content-between align-items-center">
                 <div *ngIf="object != null">
-                    <span>LAST UPDATE ON {{lastUpdateDate | date :'MM-dd-yyyy hh-mm-ss'}} BY {{object.revisor}}</span>
+                    <span>LAST UPDATE ON {{lastUpdateDate | date :'MM-dd-yyyy hh-mm-ss'}} BY {{revisor != '' ? revisor : 'no revisor'}}</span>
                 </div>
                 <div class="btn-group dropup dropleft">
                     <button class="btn btn-success" type="button" id="dropdownAddLemma" data-toggle="dropdown"

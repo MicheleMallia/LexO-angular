@@ -46,6 +46,8 @@ export class CoreTabComponent implements OnInit {
 
   lastUpdateDate : any;
   creationDate : any;
+  author : any;
+  revisor : any;
 
   @ViewChild('expander') expander_body: ElementRef;
 
@@ -62,6 +64,8 @@ export class CoreTabComponent implements OnInit {
         this.object = object
         console.log(this.object)
         if(this.object != null){
+          this.author = this.object.author;
+          this.revisor = this.object.revisor;
           if(this.object.lexicalEntry != undefined && this.object.sense == undefined){
             this.isLexicalEntry = true;
             this.isForm = false;
@@ -118,9 +122,13 @@ export class CoreTabComponent implements OnInit {
 
     this.lexicalService.updateLexCardReq$.subscribe(
       data => {
+        console.log("update date");
         if(data != null){
-          this.creationDate = data['creationDate'];
           this.lastUpdateDate = data['lastUpdate']
+          console.log(this.lastUpdateDate)
+          if(data['creationDate'] != undefined){
+            this.creationDate = data['creationDate']
+          }
         }
       }
     )
