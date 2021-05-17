@@ -1,5 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 
 @Component({
   selector: 'app-note-panel',
@@ -9,7 +12,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class NotePanelComponent implements OnInit, OnChanges {
 
   @Input() noteData: string;
-
+  object : any;
+  private subject : Subject<string> = new Subject();
   
 
   htmlContent : '';
@@ -76,18 +80,35 @@ export class NotePanelComponent implements OnInit, OnChanges {
       ]
     ]
   };
-  constructor() { }
+  constructor(private lexicalService: LexicalEntriesService) { }
 
   ngOnInit(): void {
     this.editorConfig.editable = false;
+    this.subject.pipe(debounceTime(1000)).subscribe(
+      newNote => {
+        let lexId = this.object.lexicalEntryInstanceName;
+        this.lexicalService.updateLexicalEntryNote(lexId, newNote).subscribe(
+          data => {
+            console.log(data);
+          },
+          error => {
+            console.log(error)
+          }
+        )
+      }
+    )
   }
 
   ngOnChanges(changes: SimpleChanges) { 
     
       if(changes.noteData.currentValue == null){
         this.editorConfig.editable = false;
+        this.noteData = null;
+        this.object = null;
       }else{
         this.editorConfig.editable = true;
+        this.noteData = changes.noteData.currentValue.note;
+        this.object = changes.noteData.currentValue;
       }
       
       console.log(changes)
@@ -95,7 +116,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
   }
 
   onChanges(evt){
-    console.log(this.noteData)
+    this.subject.next(this.noteData);
   }
 
 }
