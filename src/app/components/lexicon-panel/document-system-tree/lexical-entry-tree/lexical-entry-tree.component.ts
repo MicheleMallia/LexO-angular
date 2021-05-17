@@ -109,7 +109,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     this.lexicalService.refreshTreeReq$.subscribe(
       signal => {
-        console.log("refresh")
+        //console.log("refresh")
         this.lexicalEntriesFilter(this.filterForm.value)
       }
     )
@@ -235,6 +235,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.sendToRightTab(data);
+          this.lexicalService.updateLexCard(data);
         },
         error => {
 
