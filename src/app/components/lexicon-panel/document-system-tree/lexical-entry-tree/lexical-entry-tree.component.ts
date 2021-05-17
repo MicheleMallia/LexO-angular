@@ -100,6 +100,12 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     this.onChanges();
     
+    this.lexicalService.deleteReq$.subscribe(
+      signal => {
+        console.log("richiesta eliminazione lexical entry");
+        this.lexEntryDeleteReq();
+      }
+    )
 
     this.lexicalService.getLexicalEntriesList(this.parameters).subscribe(
       data => {
@@ -147,6 +153,14 @@ export class LexicalEntryTreeComponent implements OnInit {
       this.offset = 0;
       this.lexicalEntriesFilter(searchParams);
     })
+  }
+
+  lexEntryDeleteReq(){
+    setTimeout(() => {
+      this.lexicalEntriesFilter(this.parameters);
+      this.lexicalEntryTree.treeModel.update();
+      this.updateTreeView();
+    }, 500);  
   }
 
   lexicalEntriesFilter(newPar) {

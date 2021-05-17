@@ -9,6 +9,7 @@ export class LexicalEntriesService {
 
   private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _deleteLexicalEntryReq : BehaviorSubject<object> = new BehaviorSubject(null);
 
   //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
   private baseUrl = "/LexO-backend/service/lexicon/"
@@ -17,6 +18,7 @@ export class LexicalEntriesService {
 
   coreData$ = this._coreFormData.asObservable();
   rightPanelData$ = this._rightPanelData.asObservable();
+  deleteReq$ = this._deleteLexicalEntryReq.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +28,10 @@ export class LexicalEntriesService {
 
   sendToRightTab(object: object){
     this._rightPanelData.next(object);
+  }
+
+  deleteRequest(){
+    this._deleteLexicalEntryReq.next(null);
   }
 
   //POST: /lexicon/lexicalEntries ---> get lexical entries list

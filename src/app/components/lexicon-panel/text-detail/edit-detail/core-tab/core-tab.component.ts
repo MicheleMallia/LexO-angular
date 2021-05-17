@@ -140,7 +140,8 @@ export class CoreTabComponent implements OnInit {
     let lexicalId = this.object.lexicalEntryInstanceName
     this.lexicalService.deleteLexicalEntry(lexicalId).subscribe(
       data => {
-        console.log(data)
+        console.log(data);
+        this.lexicalService.deleteRequest();
       },
       error => {
         console.log(error)
