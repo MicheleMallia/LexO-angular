@@ -28,9 +28,15 @@ export class DocumentSystemTreeComponent implements OnInit {
   }
 
   newLexicalEntry(){
+    let parameters = this.lexTree.getParameters();
     this.lexicalService.newLexicalEntry().subscribe(
       data => {
         console.log(data);
+        setTimeout(() => {
+          this.lexTree.lexicalEntriesFilter(parameters);
+          this.lexTree.lexicalEntryTree.treeModel.update();
+          this.lexTree.updateTreeView();
+        }, 200);
       },
       error => {
         console.log(error)
