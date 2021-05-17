@@ -92,7 +92,8 @@ export class NotePanelComponent implements OnInit, OnChanges {
             console.log(data);
           },
           error => {
-            console.log(error)
+            console.log(error);
+            this.lexicalService.updateLexCard({lastUpdate : error.error.text})
           }
         )
       }
