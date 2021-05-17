@@ -19,7 +19,7 @@ export class LexiconPageComponent implements OnInit {
       object => {
         this.object = object;
         if(this.object !=null){
-          this.notes = this.object.note;
+          this.notes = this.object;
           this.link = this.object.links[0];
         }else{
           this.notes = null;
