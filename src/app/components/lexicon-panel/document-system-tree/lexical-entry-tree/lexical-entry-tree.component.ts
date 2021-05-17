@@ -107,6 +107,13 @@ export class LexicalEntryTreeComponent implements OnInit {
       }
     )
 
+    this.lexicalService.refreshTreeReq$.subscribe(
+      signal => {
+        console.log("refresh")
+        this.lexicalEntriesFilter(this.filterForm.value)
+      }
+    )
+
     this.lexicalService.getLexicalEntriesList(this.parameters).subscribe(
       data => {
         this.nodes = data['list'];

@@ -101,10 +101,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 let lexId = this.object.lexicalEntryInstanceName;
                 this.lexicalService.updateLexicalEntryLabel(lexId, updatedLabel).subscribe(
                     data => {
-                        console.log(data)
+                        console.log(data);
+                        this.lexicalService.refreshLexEntryTree();
                     },
                     error => {
                         console.log(error);
+                        this.lexicalService.refreshLexEntryTree();
                     }
                 )
             }
