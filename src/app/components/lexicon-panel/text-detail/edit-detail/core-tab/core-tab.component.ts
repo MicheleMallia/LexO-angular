@@ -44,6 +44,9 @@ export class CoreTabComponent implements OnInit {
   senseData : any;
   lexicalConceptData : any;
 
+  lastUpdateDate : any;
+  creationDate : any;
+
   @ViewChild('expander') expander_body: ElementRef;
 
   constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend: Renderer2) { }
@@ -57,6 +60,7 @@ export class CoreTabComponent implements OnInit {
           this.senseData = null;
         }
         this.object = object
+        console.log(this.object)
         if(this.object != null){
           if(this.object.lexicalEntry != undefined && this.object.sense == undefined){
             this.isLexicalEntry = true;
@@ -108,6 +112,15 @@ export class CoreTabComponent implements OnInit {
         }else{
           this.rend.setStyle(this.expander_body.nativeElement, 'max-height', '42vh');
           this.exp_trig = 'out';
+        }
+      }
+    );
+
+    this.lexicalService.updateLexCardReq$.subscribe(
+      data => {
+        if(data != null){
+          this.creationDate = data['creationDate'];
+          this.lastUpdateDate = data['lastUpdate']
         }
       }
     )
