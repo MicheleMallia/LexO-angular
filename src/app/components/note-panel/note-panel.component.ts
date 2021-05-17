@@ -10,6 +10,8 @@ export class NotePanelComponent implements OnInit, OnChanges {
 
   @Input() noteData: string;
 
+  
+
   htmlContent : '';
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -77,16 +79,23 @@ export class NotePanelComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
+    this.editorConfig.editable = false;
   }
 
   ngOnChanges(changes: SimpleChanges) { 
-    setTimeout(() => {
+    
+      if(changes.noteData.currentValue == null){
+        this.editorConfig.editable = false;
+      }else{
+        this.editorConfig.editable = true;
+      }
+      
       console.log(changes)
-    }, 10);
+    
   }
 
   onChanges(evt){
-    console.log(this.htmlContent)
+    console.log(this.noteData)
   }
 
 }

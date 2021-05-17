@@ -8,7 +8,7 @@
     </div>
     <div id="noteCollapse" class="collapse show" aria-labelledby="noteHeading">
         <div class="card-body">
-           <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="noteData" [config]="editorConfig" (input)="onChanges($event)" [disabled]="noteData == null"></angular-editor>
+           <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="noteData" [config]="editorConfig" (input)="onChanges($event)"></angular-editor>
         </div>
     </div>
 </div>
