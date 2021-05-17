@@ -188,7 +188,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   getParameters(){
-    return this.filterForm.value;
+    return this.initialValues;
   }
 
   ngAfterViewInit(): void {

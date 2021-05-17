@@ -36,6 +36,19 @@ export class DocumentSystemTreeComponent implements OnInit {
           this.lexTree.lexicalEntriesFilter(parameters);
           this.lexTree.lexicalEntryTree.treeModel.update();
           this.lexTree.updateTreeView();
+
+          setTimeout(() => {
+            this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+              function(x){
+                if(x.data.lexicalEntryInstanceName == data['lexicalEntryInstanceName']){
+                  x.setActiveAndVisible()
+                  return true;
+                }else {
+                  return false;
+                }
+              }
+            );
+          }, 500);
         }, 200);
       },
       error => {
