@@ -142,6 +142,10 @@ export class CoreTabComponent implements OnInit {
       data => {
         console.log(data);
         this.lexicalService.deleteRequest();
+        this.lexicalEntryData = null;
+        this.isLexicalEntry = true;
+        this.isForm = false;
+        this.object = null;
       },
       error => {
         console.log(error)
