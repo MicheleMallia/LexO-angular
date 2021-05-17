@@ -56,6 +56,18 @@ export class LexicalEntryTreeComponent implements OnInit {
   authors;
   partOfSpeech;
   status = [{ "label": "false", "count": 0 }, { "label": "true", "count": 0 }];
+  parameters: LexicalEntryRequest = {
+    text: "",
+    searchMode: searchModeEnum.equals,
+    type: "",
+    pos: "",
+    formType: "entry",
+    author: "",
+    lang: "",
+    status: "",
+    offset: this.offset,
+    limit: this.limit
+  }
 
 
   options: ITreeOptions = {
@@ -87,20 +99,9 @@ export class LexicalEntryTreeComponent implements OnInit {
     this.renderer.addClass(this.viewPort, 'search-results');
 
     this.onChanges();
-    let parameters: LexicalEntryRequest = {
-      text: "",
-      searchMode: searchModeEnum.equals,
-      type: "",
-      pos: "",
-      formType: "entry",
-      author: "",
-      lang: "",
-      status: "",
-      offset: this.offset,
-      limit: this.limit
-    }
+    
 
-    this.lexicalService.getLexicalEntriesList(parameters).subscribe(
+    this.lexicalService.getLexicalEntriesList(this.parameters).subscribe(
       data => {
         this.nodes = data['list'];
         this.counter = data['totalHits'];
@@ -170,6 +171,10 @@ export class LexicalEntryTreeComponent implements OnInit {
 
       }
     )
+  }
+
+  getParameters(){
+    return this.filterForm.value;
   }
 
   ngAfterViewInit(): void {
