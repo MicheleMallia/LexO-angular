@@ -3,7 +3,7 @@ import { DataService, Person } from './data.service';
 import { LexicalEntriesService } from '../../../../../../services/lexical-entries/lexical-entries.service';
 import { Subscription } from 'rxjs';
 
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 
@@ -23,8 +23,10 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     peopleLoading = false;
     counter = 0;
 
+    emptyLabelFlag = false;
+
     coreForm = new FormGroup({
-        label: new FormControl(''),
+        label: new FormControl('', [Validators.required, Validators.minLength(3)]),
         type: new FormControl(''),
         language: new FormControl(''),
         morphoTraits: new FormArray([this.createMorphoTraits()]),
@@ -98,22 +100,28 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.coreForm.get("label").valueChanges.pipe(debounceTime(1000)).subscribe(
             updatedLabel => {
-                this.lexicalService.spinnerAction('on');
-                let lexId = this.object.lexicalEntryInstanceName;
-                this.lexicalService.updateLexicalEntryLabel(lexId, updatedLabel).subscribe(
-                    data => {
-                        console.log(data);
-                        this.lexicalService.refreshLexEntryTree();
-                        this.lexicalService.updateLexCard(this.object)
-                        this.lexicalService.spinnerAction('off');
-                    },
-                    error => {
-                        console.log(error);
-                        this.lexicalService.refreshLexEntryTree();
-                        this.lexicalService.updateLexCard({lastUpdate : error.error.text})
-                        this.lexicalService.spinnerAction('off');
-                    }
-                )
+                if(updatedLabel.length > 2){
+                    this.emptyLabelFlag = false;
+                    this.lexicalService.spinnerAction('on');
+                    let lexId = this.object.lexicalEntryInstanceName;
+                    this.lexicalService.updateLexicalEntryLabel(lexId, updatedLabel).subscribe(
+                        data => {
+                            console.log(data);
+                            this.lexicalService.refreshLexEntryTree();
+                            this.lexicalService.updateLexCard(this.object)
+                            this.lexicalService.spinnerAction('off');
+                        },
+                        error => {
+                            console.log(error);
+                            this.lexicalService.refreshLexEntryTree();
+                            this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                            this.lexicalService.spinnerAction('off');
+                        }
+                    )
+                }else if(updatedLabel.length < 3){
+                    console.log(this.coreForm.controls)
+                    this.emptyLabelFlag = true;
+                }
             }
         )
     }
