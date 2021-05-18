@@ -103,6 +103,14 @@ export class NotePanelComponent implements OnInit, OnChanges {
         }
       }
     )
+
+    this.lexicalService.deleteReq$.subscribe(
+      data => {
+        this.editorConfig.editable = false;
+        this.noteData = null;
+        this.object = null;
+      }
+    )
   }
 
   ngOnChanges(changes: SimpleChanges) { 
