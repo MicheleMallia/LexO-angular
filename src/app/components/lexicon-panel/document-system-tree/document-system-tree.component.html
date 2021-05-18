@@ -37,7 +37,22 @@
                     <button class="btn btn-link" title="Add new lexical entry" (click)="newLexicalEntry()"><i class="fa fa-plus"></i></button>     
                     <button class="btn btn-link" title="Export"><i class="fa fa-file-import"></i></button> 
                     <button class="btn btn-link" title="Download"><i class="fa fa-download"></i></button> 
-                    <button class="btn btn-link" title="Language"><i class="fas fa-flag-usa"></i></button>
+                    <button class="btn btn-link" title="Edit Languages" (click)="selectLanguageModal.show()"><i class="fas fa-flag-usa"></i></button>
+
+                    <app-modal #selectLanguageModal class="modal-demo">
+                        <ng-container class="app-modal-header">Demo modal</ng-container>
+                        <ng-container class="app-modal-body">
+                          <h3>MODAL DIALOG</h3>
+                          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+                        </ng-container>
+                        <ng-container class="app-modal-footer">
+                          <button type="button" class="button button3" (click)="selectLanguageModal.hide()">Delete</button>
+                          <button type="button" class="button button1" (click)="selectLanguageModal.hide()">Save</button>
+                          <button type="button" class="button button2" style="float: right;" (click)="selectLanguageModal.hide()">Close
+                          </button>
+                        </ng-container>
+                    </app-modal>
                 </div>
             </h5>
         </div>
