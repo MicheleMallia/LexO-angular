@@ -86,7 +86,6 @@ export class NotePanelComponent implements OnInit, OnChanges {
     this.editorConfig.editable = false;
     this.subject.pipe(debounceTime(1000)).subscribe(
       newNote => {
-        console.log("ciao")
         if(this.noteData != null){
           this.lexicalService.spinnerAction('on');
           let lexId = this.object.lexicalEntryInstanceName;

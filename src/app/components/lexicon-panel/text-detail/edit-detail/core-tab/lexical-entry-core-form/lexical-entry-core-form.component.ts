@@ -72,7 +72,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 }
             }
             this.object = changes.lexData.currentValue;
-            console.log(this.object)
+            
             if(this.object != null){
                 this.coreForm.get('label').setValue(this.object.label, {emitEvent:false});
                 this.coreForm.get('type').setValue(this.object.type, {emitEvent:false});
