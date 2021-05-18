@@ -98,17 +98,20 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.coreForm.get("label").valueChanges.pipe(debounceTime(1000)).subscribe(
             updatedLabel => {
+                this.lexicalService.spinnerAction('on');
                 let lexId = this.object.lexicalEntryInstanceName;
                 this.lexicalService.updateLexicalEntryLabel(lexId, updatedLabel).subscribe(
                     data => {
                         console.log(data);
                         this.lexicalService.refreshLexEntryTree();
                         this.lexicalService.updateLexCard(this.object)
+                        this.lexicalService.spinnerAction('off');
                     },
                     error => {
                         console.log(error);
                         this.lexicalService.refreshLexEntryTree();
                         this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                        this.lexicalService.spinnerAction('off');
                     }
                 )
             }
