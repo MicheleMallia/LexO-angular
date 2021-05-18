@@ -38,6 +38,7 @@ export class CoreTabComponent implements OnInit {
   isForm = false;
   isSense = false;
   isLexicalConcept = false;
+  searchIconSpinner = false;
 
   lexicalEntryData : any;
   formData : any;
@@ -132,6 +133,19 @@ export class CoreTabComponent implements OnInit {
         }
       }
     )
+
+    this.lexicalService.spinnerAction$.subscribe(
+      data => {
+        if(data == 'on'){
+          this.searchIconSpinner = true;
+        }else{
+          this.searchIconSpinner = false;
+        }
+      },
+      error => {
+
+      }
+    )
   }
 
   changeStatus() {
@@ -158,10 +172,12 @@ export class CoreTabComponent implements OnInit {
   }
 
   deleteLexicalEntry(){
+    this.searchIconSpinner = true;
     let lexicalId = this.object.lexicalEntryInstanceName
     this.lexicalService.deleteLexicalEntry(lexicalId).subscribe(
       data => {
         console.log(data);
+        this.searchIconSpinner = false;
         this.lexicalService.deleteRequest();
         this.lexicalEntryData = null;
         this.isLexicalEntry = true;

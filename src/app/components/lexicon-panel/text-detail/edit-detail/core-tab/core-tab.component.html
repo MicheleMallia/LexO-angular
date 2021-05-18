@@ -8,6 +8,9 @@
                     </span>
                 </div>
                 <div>
+                    <div class="spinner-border spinner-border-sm m-1" role="status" *ngIf="searchIconSpinner">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                     <button class="btn btn-link" (click)="deleteLexicalEntry()">
                         <i class="fa fa-trash"></i>
                     </button>
