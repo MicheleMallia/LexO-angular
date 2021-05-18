@@ -9,6 +9,7 @@ import {
   trigger,
   state
 } from "@angular/animations";
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-core-tab',
@@ -63,10 +64,10 @@ export class CoreTabComponent implements OnInit {
           this.senseData = null;
         }
         this.object = object
-        console.log(this.object)
         if(this.object != null){
           this.author = this.object.author;
           this.revisor = this.object.revisor;
+          
           if(this.object.lexicalEntry != undefined && this.object.sense == undefined){
             this.isLexicalEntry = true;
             this.isForm = false;
@@ -102,6 +103,38 @@ export class CoreTabComponent implements OnInit {
             this.lexicalEntryData = null;
             this.lexicalConceptData = object;
           }
+
+
+          switch(this.object.status){
+            case 'working' : {
+              this.lock = 0; 
+              setTimeout(() => {
+                //@ts-ignore
+                $('.locked-tooltip').tooltip('disable');
+              }, 10);
+              break;
+            }
+            case 'completed' : {
+              this.lock = 1; 
+              setTimeout(() => {
+                //@ts-ignore
+                $('.locked-tooltip').tooltip('disable');
+              }, 10);
+              break;
+            }
+            case 'reviewed' : {
+              this.lock = 2;
+              setTimeout(() => {
+                //@ts-ignore
+                $('.locked-tooltip').tooltip('enable');
+                //@ts-ignore
+                $('.locked-tooltip').tooltip({
+                  trigger: 'hover'
+                });
+              }, 50);
+              break;
+            }
+          }
         }
       }
     );
@@ -123,10 +156,8 @@ export class CoreTabComponent implements OnInit {
 
     this.lexicalService.updateLexCardReq$.subscribe(
       data => {
-        console.log("update date");
         if(data != null){
           this.lastUpdateDate = data['lastUpdate']
-          console.log(this.lastUpdateDate)
           if(data['creationDate'] != undefined){
             this.creationDate = data['creationDate']
           }
@@ -151,22 +182,86 @@ export class CoreTabComponent implements OnInit {
   changeStatus() {
     if (this.lock < 2) {
       this.lock++;
-    } else if (this.lock > 1) {
-      this.lock--;
+    } else if (this.lock == 2) {
+      this.lock = 0;
     }
 
-    if(this.lock==2){
-      setTimeout(() => {
-        //@ts-ignore
-        $('.locked-tooltip').tooltip({
-          trigger: 'hover'
-        });
-      }, 10);
-    }else if(this.lock < 2){
-      setTimeout(() => {
-        //@ts-ignore
-        $('.locked-tooltip').tooltip('disable');
-      }, 10);
+    this.searchIconSpinner = true;
+    let lexicalId = this.object.lexicalEntryInstanceName;
+    
+    switch(this.lock){
+      case 0 : {
+          this.lexicalService.updateLexicalEntryStatus(lexicalId, 'working').pipe(debounceTime(500)).subscribe(
+          data => {
+            this.searchIconSpinner = false;
+            this.lexicalService.refreshLexEntryTree();
+            setTimeout(() => {
+              //@ts-ignore
+              $('.locked-tooltip').tooltip('disable');
+            }, 10);
+          },
+          error => {
+            this.searchIconSpinner = false;
+            this.lexicalService.refreshLexEntryTree();
+            this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+            setTimeout(() => {
+              //@ts-ignore
+              $('.locked-tooltip').tooltip('disable');
+            }, 10);
+          }
+        )
+      }; break;
+      case 1 : {
+        this.lexicalService.updateLexicalEntryStatus(lexicalId, 'completed').pipe(debounceTime(500)).subscribe(
+          data => {
+            this.searchIconSpinner = false;
+            this.lexicalService.refreshLexEntryTree();
+            setTimeout(() => {
+              //@ts-ignore
+              $('.locked-tooltip').tooltip('disable');
+            }, 10);
+          },
+          error => {
+            this.searchIconSpinner = false;
+            this.lexicalService.refreshLexEntryTree();
+            this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+            setTimeout(() => {
+              //@ts-ignore
+              $('.locked-tooltip').tooltip('disable');
+            }, 10);
+          }
+        )
+      }; break;
+      case 2 : {
+        this.lexicalService.updateLexicalEntryStatus(lexicalId, 'reviewed').pipe(debounceTime(500)).subscribe(
+          data => {
+            this.searchIconSpinner = false;
+            this.lexicalService.refreshLexEntryTree();
+            setTimeout(() => {
+              //@ts-ignore
+              $('.locked-tooltip').tooltip('enable');
+              //@ts-ignore
+              $('.locked-tooltip').tooltip({
+                trigger: 'hover'
+              });
+            }, 50);
+          },
+          error => {
+            
+            this.searchIconSpinner = false;
+            this.lexicalService.refreshLexEntryTree();
+            this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+            setTimeout(() => {
+              //@ts-ignore
+              $('.locked-tooltip').tooltip('enable');
+              //@ts-ignore
+              $('.locked-tooltip').tooltip({
+                trigger: 'hover'
+              });
+            }, 50);
+          }
+        )
+      }; break;
     }
     
   }
@@ -176,7 +271,6 @@ export class CoreTabComponent implements OnInit {
     let lexicalId = this.object.lexicalEntryInstanceName
     this.lexicalService.deleteLexicalEntry(lexicalId).subscribe(
       data => {
-        console.log(data);
         this.searchIconSpinner = false;
         this.lexicalService.deleteRequest();
         this.lexicalEntryData = null;
@@ -185,7 +279,6 @@ export class CoreTabComponent implements OnInit {
         this.object = null;
       },
       error => {
-        console.log(error)
       }
     )
   }
