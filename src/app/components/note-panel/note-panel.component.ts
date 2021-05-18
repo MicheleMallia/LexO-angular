@@ -86,16 +86,22 @@ export class NotePanelComponent implements OnInit, OnChanges {
     this.editorConfig.editable = false;
     this.subject.pipe(debounceTime(1000)).subscribe(
       newNote => {
-        let lexId = this.object.lexicalEntryInstanceName;
-        this.lexicalService.updateLexicalEntryNote(lexId, newNote).subscribe(
-          data => {
-            console.log(data);
-          },
-          error => {
-            console.log(error);
-            this.lexicalService.updateLexCard({lastUpdate : error.error.text})
-          }
-        )
+        console.log("ciao")
+        if(this.noteData != null){
+          this.lexicalService.spinnerAction('on');
+          let lexId = this.object.lexicalEntryInstanceName;
+          this.lexicalService.updateLexicalEntryNote(lexId, newNote).subscribe(
+            data => {
+              console.log(data);
+              this.lexicalService.spinnerAction('off');
+            },
+            error => {
+              console.log(error);
+              this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+              this.lexicalService.spinnerAction('off');
+            }
+          )
+        }
       }
     )
   }
