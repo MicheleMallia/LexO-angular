@@ -117,17 +117,23 @@ export class LexicalEntriesService {
 
   //GET /lexicon/delete/{id}/lexicalEntry --> delete lexical entry
   deleteLexicalEntry(lexId): Observable<any> {
-    return this.http.get(this.baseUrl + "delete/"+lexId+"/lexicalEntry?key="+this.key+"&author="+this.author);
+    return this.http.get(this.baseUrl + "delete/"+lexId+"/lexicalEntry?key="+this.key);
   }
 
 
   //GET lexicon/update/{id}/lexicalEntryLabel --> update label of lexical entry
   updateLexicalEntryLabel(lexId, label): Observable<any> {
-    return this.http.get(this.baseUrl + "update/"+lexId+"/lexicalEntryLabel?key="+this.key+"&label="+label+"&author="+this.author);
+    return this.http.get(this.baseUrl + "update/"+lexId+"/lexicalEntryLabel?key="+this.key+"&label="+label);
   }
 
   //GET lexicon/update/{id}/lexicalEntryNote --> update note of lexical entry
   updateLexicalEntryNote(lexId, note): Observable<any> {
-    return this.http.get(this.baseUrl + "update/"+lexId+"/lexicalEntryNote?key="+this.key+"&label="+note+"&author="+this.author);
+    return this.http.get(this.baseUrl + "update/"+lexId+"/lexicalEntryNote?key="+this.key+"&label="+note);
   }
+
+  //GET lexicon/update/{id}/lexicalEntryStatus --> update status of lexical entry
+  updateLexicalEntryStatus(lexId, status): Observable<any> {
+    return this.http.get(this.baseUrl + "update/"+lexId+"/lexicalEntryStatus?key="+this.key+"&status="+status);
+  }
+
 }
