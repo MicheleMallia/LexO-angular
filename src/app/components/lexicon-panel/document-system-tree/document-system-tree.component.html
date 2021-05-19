@@ -40,17 +40,39 @@
                     <button class="btn btn-link" title="Edit Languages" (click)="selectLanguageModal.show()"><i class="fas fa-flag-usa"></i></button>
 
                     <app-modal #selectLanguageModal class="modal-demo">
-                        <ng-container class="app-modal-header">Demo modal</ng-container>
+                        <ng-container class="app-modal-header">Language Manager</ng-container>
                         <ng-container class="app-modal-body">
-                          <h3>MODAL DIALOG</h3>
-                          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
-                        </ng-container>
-                        <ng-container class="app-modal-footer">
-                          <button type="button" class="button button3" (click)="selectLanguageModal.hide()">Delete</button>
-                          <button type="button" class="button button1" (click)="selectLanguageModal.hide()">Save</button>
-                          <button type="button" class="button button2" style="float: right;" (click)="selectLanguageModal.hide()">Close
-                          </button>
+                          <h5>MODAL DIALOG</h5>
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </ng-container>
                     </app-modal>
                 </div>
