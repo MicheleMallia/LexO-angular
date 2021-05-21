@@ -42,37 +42,65 @@
                     <app-modal #selectLanguageModal class="modal-demo">
                         <ng-container class="app-modal-header">Language Manager</ng-container>
                         <ng-container class="app-modal-body">
-                          <h5>MODAL DIALOG</h5>
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                              </tr>
-                            </tbody>
-                          </table>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group row ml-2 mt-3 mr-2">
+                                        <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
+                                        <div class="input-group col-lg-5">
+                                            <input id="label" name="label" type="text" class="form-control" placeholder="">
+                                            <!-- <div class="invalid-feedback" style="display: block;">
+                                                Please, insert at least three characters.
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group row ml-2 mt-3 mr-2">
+                                        <label for="inputLabel" class="col-lg-3 col-form-label">URI:</label>
+                                        <div class="input-group col-lg-9">
+                                            <input id="label" name="label" type="text" class="form-control" placeholder="">
+                                            <!-- <div class="invalid-feedback" style="display: block;">
+                                                Please, insert at least three characters.
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table table_language">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">First</th>
+                                            <th scope="col">Last</th>
+                                            <th scope="col">Handle</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                          </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                          
                         </ng-container>
                     </app-modal>
                 </div>
