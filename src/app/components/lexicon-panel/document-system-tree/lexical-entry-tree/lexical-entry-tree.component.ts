@@ -209,6 +209,8 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   resetFields(){
     this.filterForm.reset(this.initialValues);
+    this.lexicalService.sendToCoreTab(null);
+    this.lexicalService.sendToRightTab(null);
   }
 
   updateTreeView() {
