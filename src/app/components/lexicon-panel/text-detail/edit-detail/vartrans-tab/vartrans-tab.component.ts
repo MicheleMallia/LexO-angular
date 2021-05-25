@@ -63,6 +63,11 @@ export class VartransTabComponent implements OnInit {
             this.isSense = true;
             this.senseData = object;
             this.lexicalEntryData = null;
+          }else if(this.object.form != undefined){
+            this.isLexicalEntry = false;
+            this.isSense = false;
+            this.lexicalEntryData = null;
+            this.object = null;
           }
         }
       }

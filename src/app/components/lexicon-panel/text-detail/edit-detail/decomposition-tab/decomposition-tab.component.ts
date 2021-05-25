@@ -58,6 +58,7 @@ export class DecompositionTabComponent implements OnInit {
           }else if(this.object.form != undefined){
             this.isLexicalEntry = false;
             this.decompData = null;
+            this.object = null;
           }else if(this.object.sense != undefined){
             this.isLexicalEntry = false;
             this.decompData = null;
