@@ -40,6 +40,7 @@ export class CoreTabComponent implements OnInit {
   isSense = false;
   isLexicalConcept = false;
   searchIconSpinner = false;
+  goBack = false;
 
   lexicalEntryData : any;
   formData : any;
@@ -124,6 +125,7 @@ export class CoreTabComponent implements OnInit {
             }
             case 'reviewed' : {
               this.lock = 2;
+              this.goBack = true;
               setTimeout(() => {
                 //@ts-ignore
                 $('.locked-tooltip').tooltip('enable');
@@ -180,10 +182,17 @@ export class CoreTabComponent implements OnInit {
   }
 
   changeStatus() {
-    if (this.lock < 2) {
+
+    if(!this.goBack){
       this.lock++;
-    } else if (this.lock == 2) {
-      this.lock = 0;
+      if (this.lock == 2){
+        this.goBack = true;
+      }
+    }else if(this.goBack){
+      this.lock--;
+      if (this.lock == 0){
+        this.goBack = false;
+      }
     }
 
     this.searchIconSpinner = true;
@@ -192,8 +201,8 @@ export class CoreTabComponent implements OnInit {
     switch(this.lock){
       case 0 : {
           let parameters = {
-            relation : 'status',
-            value : 0
+            relation : "status",
+            value : "working"
           }
           this.lexicalService.updateLexicalEntry(lexicalId, parameters).pipe(debounceTime(500)).subscribe(
           data => {
@@ -217,11 +226,12 @@ export class CoreTabComponent implements OnInit {
       }; break;
       case 1 : {
         let parameters = {
-          relation : 'status',
-          value : 1
+          relation : "status",
+          value : "completed"
         }
         this.lexicalService.updateLexicalEntry(lexicalId, parameters).pipe(debounceTime(500)).subscribe(
           data => {
+
             this.searchIconSpinner = false;
             this.lexicalService.refreshLexEntryTree();
             setTimeout(() => {
@@ -242,8 +252,8 @@ export class CoreTabComponent implements OnInit {
       }; break;
       case 2 : {
         let parameters = {
-          relation : 'status',
-          value : 2
+          relation : "status",
+          value : "reviewed"
         }
         this.lexicalService.updateLexicalEntry(lexicalId, parameters).pipe(debounceTime(500)).subscribe(
           data => {
