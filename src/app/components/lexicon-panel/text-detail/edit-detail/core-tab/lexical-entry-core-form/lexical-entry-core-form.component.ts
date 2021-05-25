@@ -104,7 +104,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.emptyLabelFlag = false;
                     this.lexicalService.spinnerAction('on');
                     let lexId = this.object.lexicalEntryInstanceName;
-                    this.lexicalService.updateLexicalEntryLabel(lexId, updatedLabel).subscribe(
+                    let parameters = {
+                        relation : 'label',
+                        value : updatedLabel
+                    }
+                    this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                         data => {
                             console.log(data);
                             this.lexicalService.refreshLexEntryTree();

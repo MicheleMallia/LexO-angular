@@ -89,7 +89,11 @@ export class NotePanelComponent implements OnInit, OnChanges {
         if(this.noteData != null){
           this.lexicalService.spinnerAction('on');
           let lexId = this.object.lexicalEntryInstanceName;
-          this.lexicalService.updateLexicalEntryNote(lexId, newNote).subscribe(
+          let parameters = {
+            relation : "note",
+            value : newNote
+          }
+          this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
             data => {
               console.log(data);
               this.lexicalService.spinnerAction('off');

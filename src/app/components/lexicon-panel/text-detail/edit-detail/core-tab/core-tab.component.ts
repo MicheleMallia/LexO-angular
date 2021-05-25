@@ -191,7 +191,11 @@ export class CoreTabComponent implements OnInit {
     
     switch(this.lock){
       case 0 : {
-          this.lexicalService.updateLexicalEntryStatus(lexicalId, 'working').pipe(debounceTime(500)).subscribe(
+          let parameters = {
+            relation : 'status',
+            value : 0
+          }
+          this.lexicalService.updateLexicalEntry(lexicalId, parameters).pipe(debounceTime(500)).subscribe(
           data => {
             this.searchIconSpinner = false;
             this.lexicalService.refreshLexEntryTree();
@@ -212,7 +216,11 @@ export class CoreTabComponent implements OnInit {
         )
       }; break;
       case 1 : {
-        this.lexicalService.updateLexicalEntryStatus(lexicalId, 'completed').pipe(debounceTime(500)).subscribe(
+        let parameters = {
+          relation : 'status',
+          value : 1
+        }
+        this.lexicalService.updateLexicalEntry(lexicalId, parameters).pipe(debounceTime(500)).subscribe(
           data => {
             this.searchIconSpinner = false;
             this.lexicalService.refreshLexEntryTree();
@@ -233,7 +241,11 @@ export class CoreTabComponent implements OnInit {
         )
       }; break;
       case 2 : {
-        this.lexicalService.updateLexicalEntryStatus(lexicalId, 'reviewed').pipe(debounceTime(500)).subscribe(
+        let parameters = {
+          relation : 'status',
+          value : 2
+        }
+        this.lexicalService.updateLexicalEntry(lexicalId, parameters).pipe(debounceTime(500)).subscribe(
           data => {
             this.searchIconSpinner = false;
             this.lexicalService.refreshLexEntryTree();
