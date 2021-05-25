@@ -122,7 +122,7 @@ export class LexicalEntriesService {
 
   //POST ​/lexicon​/update​/{id}​/lexicalEntry --> lexical entry update
   updateLexicalEntry(lexId, parameters) : Observable<any> {
-    return this.http.post(this.baseUrl + "update/"+lexId+"/lexicalEntry", parameters);
+    return this.http.post(this.baseUrl + "update/"+lexId+"/lexicalEntry?key="+this.key+"&author="+this.author, parameters);
   }
 
   //GET lexicon/update/{id}/lexicalEntryLabel --> update label of lexical entry
