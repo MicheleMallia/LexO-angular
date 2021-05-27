@@ -118,7 +118,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         const trait = this.morphoTraits.at(i).get('trait').value;
         const value = this.morphoTraits.at(i).get('value').value;
-        if(true){
+        if(trait != '' && value != ''){
             console.log("qua chiamo il servizio");
             let parameters = {
                 type : "morphology",
@@ -140,6 +140,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.spinnerAction('off');
                 }
             )
+        }else {
+            this.lexicalService.spinnerAction('off');
         }
     }
 
@@ -224,13 +226,13 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     createMorphoTraits(t?, v?): FormGroup {
         if(t != undefined){
             return this.formBuilder.group({
-                trait: t,
-                value: v
+                trait: new FormControl(t, [Validators.required, Validators.minLength(0)]),
+                value: new FormControl(v, [Validators.required, Validators.minLength(0)])
             })
         }else {
             return this.formBuilder.group({
-                trait: '',
-                value: ''
+                trait: new FormControl('', [Validators.required, Validators.minLength(0)]),
+                value: new FormControl('', [Validators.required, Validators.minLength(0)])
             })
         }
     }
@@ -260,8 +262,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         }
     }
 
+    
+
     removeElement(index){
         this.memoryTraits.splice(index, 1);
+        this.valueTraits.splice(index, 1)
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         this.morphoTraits.removeAt(index);
     }

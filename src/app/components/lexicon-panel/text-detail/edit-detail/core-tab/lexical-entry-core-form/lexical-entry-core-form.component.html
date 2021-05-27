@@ -48,7 +48,7 @@
                                 <option value="">Select a trait...</option>
                                 <option *ngFor="let mt of morphologyData" [selected]="morpho.value['trait'] === mt.propertyId" [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
                             </select> 
-                            <div class="invalid-feedback" *ngIf="emptyFlag" style="display: block;">
+                            <div class="invalid-feedback" *ngIf="morpho.get('trait').invalid" style="display: block;">
                                 Please, don't leave this field blank
                             </div>
                         </div>
@@ -57,12 +57,14 @@
                                 <option value="">Select a value...</option>
                                 <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i" [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
                             </select>
-                            <div class="invalid-feedback" *ngIf="emptyFlag" style="display: block;">
-                                Please, don't leave this field blank
-                            </div>
+                            
                             <div (click)="removeElement(i)" class="input-group-append ml-2"> <button class="btn btn-danger"
                                     type="button" style="font-size: 12px; border-radius: .25rem;"><i
-                                        class="fa fa-trash-alt"></i></button> </div>
+                                        class="fa fa-trash-alt"></i></button> 
+                            </div>
+                            <div class="invalid-feedback" *ngIf="morpho.get('value').invalid" style="display: block;">
+                                Please, don't leave this field blank
+                            </div>
                         </div>
                     </div>
                 </div>
