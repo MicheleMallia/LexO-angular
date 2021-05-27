@@ -118,7 +118,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         const trait = this.morphoTraits.at(i).get('trait').value;
         const value = this.morphoTraits.at(i).get('value').value;
-        if(trait != '' && value != ''){
+        if(true){
             console.log("qua chiamo il servizio");
             let parameters = {
                 type : "morphology",
@@ -149,11 +149,20 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             setTimeout(() => {
                 this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
                 this.morphoTraits.at(i).patchValue({trait : evt.target.value, value: ""});
-                var arrayValues = this.morphologyData.filter(x => {
-                    return x['propertyId'] == evt.target.value;
-                })['0']['propertyValues'];
-                this.valueTraits[i] = arrayValues;
-                this.memoryTraits[i] = evt.target.value;
+                console.log(evt.target.value)
+                if(evt.target.value  != ''){
+                    var arrayValues = this.morphologyData.filter(x => {
+                        return x['propertyId'] == evt.target.value;
+                    })['0']['propertyValues'];
+                    this.valueTraits[i] = arrayValues;
+                    this.memoryTraits[i] = evt.target.value;
+                }else {
+                    var arrayValues = [];
+                    this.valueTraits[i] = arrayValues
+                    this.memoryTraits.splice(i, 1)
+                }
+                
+                
                 
             }, 250);
         }else{
