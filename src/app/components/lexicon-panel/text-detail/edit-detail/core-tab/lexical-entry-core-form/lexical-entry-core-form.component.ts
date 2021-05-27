@@ -3,7 +3,7 @@ import { DataService, Person } from './data.service';
 import { LexicalEntriesService } from '../../../../../../services/lexical-entries/lexical-entries.service';
 import { Subscription } from 'rxjs';
 
-import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators, Form } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 
@@ -22,8 +22,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     people: Person[] = [];
     peopleLoading = false;
     counter = 0;
+    morphologyData = [];
+    valueTraits = [];
+    memoryTraits = [];
 
     emptyLabelFlag = false;
+    emptyFlag = false;
 
     coreForm = new FormGroup({
         label: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -47,7 +51,9 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             $('.denotes-tooltip').tooltip({
               trigger : 'hover'
             });
-          }, 1000);
+        }, 1000);
+        
+        this.loadMorphologyData();
         this.loadPeople();
 
         this.coreForm = this.formBuilder.group({
@@ -63,6 +69,16 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.onChanges();
 
     }
+
+    loadMorphologyData(){
+        this.lexicalService.getMorphologyData().subscribe(
+            data => {
+                this.morphologyData = data;
+                console.log(this.morphologyData)
+            }
+        )
+    }
+
 
     ngOnChanges(changes: SimpleChanges) {
         setTimeout(()=> {
@@ -81,23 +97,83 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.coreForm.get('language').setValue(this.object.language, {emitEvent:false});
                 this.coreForm.get('pos').setValue(this.object.pos);
                 
+                this.valueTraits = [];
+                this.memoryTraits = [];
+                
                 for(var i = 0; i < this.object.morphology.length; i++){
                     const trait = this.object.morphology[i]['trait'];
                     const value = this.object.morphology[i]['value'];
                     this.addMorphoTraits(trait, value);
+                    this.onChangeTrait(trait, i);                    
                 }
-    
+
                 this.coreForm.get('denotes').setValue('prova', {emitEvent: false})
             }
         }, 10)
         
     }
 
-    onChanges(): void {
-        /* this.coreForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-            console.log(searchParams)
-        }) */
+    onChangeValue(evt, i){
+        this.lexicalService.spinnerAction('on');
+        this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+        const trait = this.morphoTraits.at(i).get('trait').value;
+        const value = this.morphoTraits.at(i).get('value').value;
+        if(trait != '' && value != ''){
+            console.log("qua chiamo il servizio");
+            let parameters = {
+                type : "morphology",
+                relation : trait,
+                value : value
+            }
+            let lexId = this.object.lexicalEntryInstanceName;
+            this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+                data => {
+                    console.log(data)
+                    this.lexicalService.spinnerAction('off');
+                    this.lexicalService.refreshLexEntryTree();
+                    this.lexicalService.updateLexCard(this.object)
+                },
+                error => {
+                    console.log(error)
+                    this.lexicalService.refreshLexEntryTree();
+                    this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                    this.lexicalService.spinnerAction('off');
+                }
+            )
+        }
+    }
 
+    onChangeTrait(evt, i){
+        
+        if(evt.target != undefined){
+            setTimeout(() => {
+                this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+                this.morphoTraits.at(i).patchValue({trait : evt.target.value, value: ""});
+                var arrayValues = this.morphologyData.filter(x => {
+                    return x['propertyId'] == evt.target.value;
+                })['0']['propertyValues'];
+                this.valueTraits[i] = arrayValues;
+                this.memoryTraits[i] = evt.target.value;
+                
+            }, 250);
+        }else{
+            
+            setTimeout(() => {
+                
+                var arrayValues = this.morphologyData.filter(x => {
+                    return x['propertyId'] == evt;
+                })['0']['propertyValues'];
+                this.valueTraits[i] = arrayValues;
+                console.log(this.valueTraits)
+                this.memoryTraits.push(evt);
+                
+            }, 250);
+        }
+    }
+    
+
+    onChanges(): void {
+       
         this.coreForm.get("label").valueChanges.pipe(debounceTime(1000)).subscribe(
             updatedLabel => {
                 if(updatedLabel.length > 2){
@@ -126,6 +202,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     console.log(this.coreForm.controls)
                     this.emptyLabelFlag = true;
                 }
+            }
+        )
+
+        this.coreForm.get("morphoTraits").valueChanges.pipe(debounceTime(1000)).subscribe(
+            data => {
+                console.log(data)
             }
         )
     }
@@ -170,6 +252,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     }
 
     removeElement(index){
+        this.memoryTraits.splice(index, 1);
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         this.morphoTraits.removeAt(index);
     }

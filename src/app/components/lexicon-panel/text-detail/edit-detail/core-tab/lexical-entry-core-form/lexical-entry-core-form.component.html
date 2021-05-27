@@ -44,13 +44,22 @@
                     </div>
                     <div class="d-flex my-2" formArrayName="morphoTraits" *ngFor="let morpho of coreForm.get('morphoTraits')['controls']; let i = index">
                         <div class="col-md-4" [formGroupName]="i"> 
-                            <select class="form-control selectTrait" formControlName="trait" name="trait" style="font-size: 12px;">
-                                <option [value]="morpho.value['trait']">{{morpho.value['trait']}}</option>
-                            </select> </div>
+                            <select class="form-control selectTrait" formControlName="trait" name="trait" style="font-size: 12px;" (change)="onChangeTrait($event, i)">
+                                <option value="">Select a trait...</option>
+                                <option *ngFor="let mt of morphologyData" [selected]="morpho.value['trait'] === mt.propertyId" [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
+                            </select> 
+                            <div class="invalid-feedback" *ngIf="emptyFlag" style="display: block;">
+                                Please, don't leave this field blank
+                            </div>
+                        </div>
                         <div class="input-group col-md-7" [formGroupName]="i"> 
-                            <select class="form-control selectTrait" formControlName="value" name="value" style="font-size:12px;">
-                                <option [value]="morpho.value['value']">{{morpho.value['value']}}</option>
+                            <select class="form-control selectTrait" formControlName="value" name="value" style="font-size:12px;" (change)="onChangeValue($event, i)">
+                                <option value="">Select a value...</option>
+                                <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i" [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
                             </select>
+                            <div class="invalid-feedback" *ngIf="emptyFlag" style="display: block;">
+                                Please, don't leave this field blank
+                            </div>
                             <div (click)="removeElement(i)" class="input-group-append ml-2"> <button class="btn btn-danger"
                                     type="button" style="font-size: 12px; border-radius: .25rem;"><i
                                         class="fa fa-trash-alt"></i></button> </div>
