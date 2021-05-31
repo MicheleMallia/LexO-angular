@@ -237,7 +237,6 @@ export class LexicalEntryTreeComponent implements OnInit {
       let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
         data => {
-          /* console.log(data) */
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
         },
@@ -246,6 +245,17 @@ export class LexicalEntryTreeComponent implements OnInit {
         }
       )
     } else if($event.eventName == 'activate' && $event.node.data.form != undefined){
+
+      let formId = $event.node.data.formInstanceName;
+
+      this.lexicalService.getFormData(formId, 'core').subscribe(
+        data => {
+          this.lexicalService.sendToRightTab(data)
+        },
+        error => {
+          console.log(error)
+        }
+      )
       this.lexicalService.sendToCoreTab($event.node.data);
       this.lexicalService.sendToRightTab(null);
     }else if($event.eventName == 'activate' && $event.node.data.sense != undefined){
