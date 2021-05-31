@@ -17,6 +17,7 @@ export class LexicalEntriesService {
 
   //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
   private baseUrl = "/LexO-backend/service/"
+  private baseUrl_document = "http://lari2.ilc.cnr.it:81/belexo/"
   private key = "PRINitant19";
   private author = "michele";
 
@@ -149,4 +150,11 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "lexinfo/data/morphology");
   }
 
+
+  //$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT SYSTEM TREE $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$//
+
+  //GET /api/getDocumentSystem  ---> return document system
+  getDocumentSystem() : Observable<any> {
+    return this.http.get(this.baseUrl_document + "/api/getDocumentSystem?requestUUID=11")
+  }
 }

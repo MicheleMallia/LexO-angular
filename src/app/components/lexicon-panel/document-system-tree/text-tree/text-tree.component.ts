@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
+import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { v4 } from 'uuid';
 
 
@@ -32,9 +33,29 @@ export class TextTreeComponent implements OnInit {
 
   show = false;
 
-  constructor() { }
+  options: ITreeOptions = {
+    actionMapping,
+    allowDrag: (node) => node.isLeaf,
+    getNodeClone: (node) => ({
+      ...node.data,
+      id: v4(),
+      name: `copy of ${node.data.name}`
+    })
+  };
+
+  constructor(private lexicalService: LexicalEntriesService) { }
 
   ngOnInit(): void {
+
+    this.lexicalService.getDocumentSystem().subscribe(
+      data => {
+        console.log(data)
+        this.nodes = data['documentSystem']
+      },
+      error => {
+        console.log(error)
+      }
+    )
   }
 
   nodes = [
@@ -80,15 +101,7 @@ export class TextTreeComponent implements OnInit {
     }
   ];
 
-  options: ITreeOptions = {
-    actionMapping,
-    allowDrag: (node) => node.isLeaf,
-    getNodeClone: (node) => ({
-      ...node.data,
-      id: v4(),
-      name: `copy of ${node.data.name}`
-    })
-  };
+  
 
   onEvent = ($event: any) => console.log($event);
 
