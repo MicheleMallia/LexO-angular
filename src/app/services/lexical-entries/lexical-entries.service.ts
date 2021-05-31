@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class LexicalEntriesService {
 
   private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _vartransData : BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _deleteLexicalEntryReq : BehaviorSubject<object> = new BehaviorSubject(null);
   private _refreshTreeReq : BehaviorSubject<object> = new BehaviorSubject(null);
@@ -20,6 +21,7 @@ export class LexicalEntriesService {
   private author = "michele";
 
   coreData$ = this._coreFormData.asObservable();
+  vartransData = this._vartransData.asObservable();
   rightPanelData$ = this._rightPanelData.asObservable();
   deleteReq$ = this._deleteLexicalEntryReq.asObservable();
   refreshTreeReq$ = this._refreshTreeReq.asObservable();
@@ -30,6 +32,10 @@ export class LexicalEntriesService {
 
   sendToCoreTab(object: object) {
     this._coreFormData.next(object)
+  }
+
+  sendToVartransTab(object : object){
+    this._vartransData.next(object)
   }
 
   sendToRightTab(object: object){
@@ -76,6 +82,12 @@ export class LexicalEntriesService {
   //GET /lexicon/data/{id}/forms --> get forms of lexical entry
   getLexEntryForms(instance: string): Observable<any>{
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/forms");
+  }
+
+  
+  //GET /lexicon/data/{id}/form --> get data about a single form 
+  getFormData(formId : string, aspect : string) : Observable<any>{
+    return this.http.get(this.baseUrl + "lexicon/data/" + formId + "/form?key=" + this.key + "&aspect=" + aspect)
   }
 
   //GET /lexicon/data/{id}/senses --> get list of senses of a lexical entry
