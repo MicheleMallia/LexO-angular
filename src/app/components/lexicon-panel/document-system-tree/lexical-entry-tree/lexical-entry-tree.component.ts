@@ -92,7 +92,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   initialValues = this.filterForm.value;
 
-  constructor(private renderer: Renderer2, private element: ElementRef, appRef: ApplicationRef, private lexicalService: LexicalEntriesService) { }
+  constructor(private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { }
 
   ngOnInit(): void {
     this.viewPort = this.element.nativeElement.querySelector('tree-viewport');
