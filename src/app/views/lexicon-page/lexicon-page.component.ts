@@ -20,7 +20,10 @@ export class LexiconPageComponent implements OnInit {
         this.object = object;
         if(this.object !=null){
           this.notes = this.object;
-          this.link = this.object.links[0];
+          if(this.object.links != undefined){
+            this.link = this.object.links[0];
+          }
+          
         }else{
           this.notes = null;
           this.link = null;
