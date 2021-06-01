@@ -1,12 +1,24 @@
 <div class="table-responsive">
-  <table datatable [dtOptions]="dtOptions" class="row-border hover table">
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user['user-id']}}</td>
+        <td>{{ user['first-name']}}</td>
+        <td>{{ user['last-name']}}</td>
+      </tr>
+    </tbody>
     <tfoot>
       <tr>
-        <th scope="col"><input type="text" placeholder="Search" name="search-id"/></th>
-        <th scope="col"><input type="text" placeholder="Search" name="search-role"/></th>
-        <th scope="col"><input type="text" placeholder="Search" name="search-firstname"/></th>
-        <th scope="col"><input type="text" placeholder="Search" name="search-username"/></th>
-        <th scope="col"><input type="text" placeholder="Search" name="search-email"/></th>
+        <th><input type="text" placeholder="Search ID" name="search-id"/></th>
+        <th><input type="text" placeholder="Search first name" name="search-first-name"/></th>
+        <th><input type="text" placeholder="Search last name" name="search-last-name"/></th>
       </tr>
     </tfoot>
   </table>
