@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { DataService, Person } from '../lexical-entry-core-form/data.service';
@@ -14,28 +14,42 @@ export class FormCoreFormComponent implements OnInit {
 
   @Input() formData: any;
 
+  private subject: Subject<any> = new Subject();
+
+
   switchInput = false;
   subscription: Subscription;
   object: any;
   people: Person[] = [];
   peopleLoading = false;
   counter = 0;
+  typesData = [];
+  morphologyData = [];
+  valueTraits = [];
+  memoryTraits = [];
 
   formCore = new FormGroup({
-    inheritance : new FormArray([this.createInheritance()]),
+    inheritance: new FormArray([this.createInheritance()]),
     form: new FormControl(''),
     type: new FormControl(''),
-    label : new FormArray([this.createLabel()]),
+    label: new FormArray([this.createLabel()]),
     morphoTraits: new FormArray([this.createMorphoTraits()])
   })
 
   morphoTraits: FormArray;
-  inheritanceArray : FormArray;
-  labelArray : FormArray;
+  inheritanceArray: FormArray;
+  labelArray: FormArray;
 
   constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.lexicalService.getMorphologyData().subscribe(
+      data => {
+        this.morphologyData = data;
+        /* console.log(this.morphologyData) */
+      }
+    )
+
     setTimeout(() => {
       //@ts-ignore
       $('.denotes-tooltip').tooltip({
@@ -45,24 +59,38 @@ export class FormCoreFormComponent implements OnInit {
     this.loadPeople();
 
     this.formCore = this.formBuilder.group({
-      inheritance : this.formBuilder.array([]),
+      inheritance: this.formBuilder.array([]),
       form: '',
       type: '',
-      label : this.formBuilder.array([]),
+      label: this.formBuilder.array([]),
       morphoTraits: this.formBuilder.array([]),
     })
 
     this.onChanges();
+    this.subject.pipe(debounceTime(1000)).subscribe(
+      data => {
+        this.onChangeLabel(data)
+      }
+    )
+
+    this.lexicalService.getFormTypes().subscribe(
+      data => {
+        this.typesData = data;
+      },
+      error => {
+        console.log(error)
+      }
+    )
 
   }
 
   private loadPeople() {
     this.peopleLoading = true;
     this.dataService.getPeople().subscribe(x => {
-        this.people = x;
-        this.peopleLoading = false;
+      this.people = x;
+      this.peopleLoading = false;
     });
-}
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     setTimeout(() => {
@@ -80,12 +108,15 @@ export class FormCoreFormComponent implements OnInit {
       console.log(this.object)
       if (this.object != null) {
 
+        this.valueTraits = [];
+        this.memoryTraits = [];
+
         for (var i = 0; i < this.object.inheritedMorphology.length; i++) {
           const trait = this.object.inheritedMorphology[i]['trait'];
           const value = this.object.inheritedMorphology[i]['value'];
           this.addInheritance(trait, value);
         }
-        
+
         this.formCore.get('form').setValue(this.object.formInstanceName, { emitEvent: false });
         this.formCore.get('type').setValue(this.object.type, { emitEvent: false });
 
@@ -99,18 +130,133 @@ export class FormCoreFormComponent implements OnInit {
           const trait = this.object.morphology[i]['trait'];
           const value = this.object.morphology[i]['value'];
           this.addMorphoTraits(trait, value);
+          this.onChangeTrait(trait, i);
         }
-
-        /* this.formCore.get('phonetics').setValue(this.object.phonetics, { emitEvent: false }) */
       }
     }, 200)
 
   }
 
   onChanges(): void {
-    this.formCore.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
+    /* this.formCore.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
       console.log(searchParams)
-    })
+    }) */
+  }
+
+  onChangeType(evt) {
+    this.lexicalService.spinnerAction('on');
+    const newType = evt.target.value;
+    const formId = this.object.formInstanceName
+    const parameters = { relation: "type", value: newType }
+    this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(500)).subscribe(
+      data => {
+        this.lexicalService.spinnerAction('off');
+        this.lexicalService.refreshLexEntryTree();
+        this.lexicalService.updateLexCard(this.object)
+      }, error => {
+        console.log(error);
+        this.lexicalService.refreshLexEntryTree();
+        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+        this.lexicalService.spinnerAction('off');
+      }
+    )
+  }
+
+  debounceKeyup(evt, i) {
+    this.lexicalService.spinnerAction('on');
+    this.subject.next({ evt, i })
+  }
+
+  onChangeValue(i) {
+    this.lexicalService.spinnerAction('on');
+    this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
+    const trait = this.morphoTraits.at(i).get('trait').value;
+    const value = this.morphoTraits.at(i).get('value').value;
+    if (trait != '' && value != '') {
+      console.log("qua chiamo il servizio");
+      let parameters = {
+        type: "morphology",
+        relation: trait,
+        value: value
+      }
+      let formId = this.object.formInstanceName;
+      this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
+        data => {
+          console.log(data)
+          this.lexicalService.spinnerAction('off');
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard(this.object)
+        },
+        error => {
+          console.log(error)
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+          this.lexicalService.spinnerAction('off');
+        }
+      )
+    } else {
+      this.lexicalService.spinnerAction('off');
+    }
+  }
+
+  onChangeTrait(evt, i) {
+
+    if (evt.target != undefined) {
+      setTimeout(() => {
+        this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
+        this.morphoTraits.at(i).patchValue({ trait: evt.target.value, value: "" });
+        console.log(evt.target.value)
+        if (evt.target.value != '') {
+          var arrayValues = this.morphologyData.filter(x => {
+            return x['propertyId'] == evt.target.value;
+          })['0']['propertyValues'];
+          this.valueTraits[i] = arrayValues;
+          this.memoryTraits[i] = evt.target.value;
+        } else {
+          var arrayValues = [];
+          this.valueTraits[i] = arrayValues
+          this.memoryTraits.splice(i, 1)
+        }
+
+
+
+      }, 250);
+    } else {
+
+      setTimeout(() => {
+
+        var arrayValues = this.morphologyData.filter(x => {
+          return x['propertyId'] == evt;
+        })['0']['propertyValues'];
+        this.valueTraits[i] = arrayValues;
+        console.log(this.valueTraits)
+        this.memoryTraits.push(evt);
+
+      }, 250);
+    }
+  }
+
+  onChangeLabel(object) {
+
+    this.labelArray = this.formCore.get('label') as FormArray;
+    const trait = this.labelArray.at(object.i).get('propertyID').value;
+    const newValue = object.evt.target.value;
+    const formId = this.object.formInstanceName;
+    const parameters = { relation: trait, value: newValue }
+
+    this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
+      data => {
+        console.log(data)
+        this.lexicalService.spinnerAction('off');
+        this.lexicalService.refreshLexEntryTree();
+        this.lexicalService.updateLexCard(data)
+      }, error => {
+        console.log(error);
+        this.lexicalService.refreshLexEntryTree();
+        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+        this.lexicalService.spinnerAction('off');
+      }
+    )
   }
 
   createMorphoTraits(t?, v?): FormGroup {
@@ -160,9 +306,9 @@ export class FormCoreFormComponent implements OnInit {
     }
   }
 
-  removeElement(index){
+  removeElement(index) {
     this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
     this.morphoTraits.removeAt(index);
-}
+  }
 
 }

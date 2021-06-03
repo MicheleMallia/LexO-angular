@@ -144,12 +144,20 @@ export class LexicalEntriesService {
     return this.http.post(this.baseUrl + "lexicon/update/"+lexId+"/linguisticRelation?key="+this.key+"&author="+this.author, parameters);
   }
 
+  //POST /lexicon/update/{id}/form --> update form values
+  updateForm(formId, parameters) : Observable<any>{
+    return this.http.post(this.baseUrl + "lexicon/update/"+formId+"/form?key="+this.key+"&author="+this.author, parameters);
+  }
 
   //GET  /lexinfo/data/morphology --> get data about morphology
   getMorphologyData() : Observable<any> {
     return this.http.get(this.baseUrl + "lexinfo/data/morphology");
   }
 
+  ///GET /ontolex/data/formType --> get data about form types
+  getFormTypes() : Observable<any> {
+    return this.http.get(this.baseUrl + "ontolex/data/formType");
+  }
 
   //$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT SYSTEM TREE $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$//
 
