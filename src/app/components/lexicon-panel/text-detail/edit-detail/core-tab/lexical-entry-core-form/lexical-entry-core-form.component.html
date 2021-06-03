@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="input-group col-md-7" [formGroupName]="i"> 
-                            <select class="form-control selectTrait" formControlName="value" name="value" style="font-size:12px;" (change)="onChangeValue($event, i)">
+                            <select class="form-control selectTrait" formControlName="value" name="value" style="font-size:12px;" (change)="onChangeValue(i)">
                                 <option value="">Select a value...</option>
                                 <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i" [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
                             </select>

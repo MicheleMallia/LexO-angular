@@ -74,7 +74,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.lexicalService.getMorphologyData().subscribe(
             data => {
                 this.morphologyData = data;
-                console.log(this.morphologyData)
+                /* console.log(this.morphologyData) */
             }
         )
     }
@@ -113,7 +113,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         
     }
 
-    onChangeValue(evt, i){
+    onChangeValue(i){
         this.lexicalService.spinnerAction('on');
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         const trait = this.morphoTraits.at(i).get('trait').value;
