@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Form, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
@@ -22,15 +22,16 @@ export class FormCoreFormComponent implements OnInit {
   counter = 0;
 
   formCore = new FormGroup({
-    partOfSpeech: new FormControl(''),
-    gender: new FormControl(''),
+    inheritance : new FormArray([this.createInheritance()]),
     form: new FormControl(''),
     type: new FormControl(''),
-    morphoTraits: new FormArray([this.createMorphoTraits()]),
-    phonetics: new FormControl('')
+    label : new FormArray([this.createLabel()]),
+    morphoTraits: new FormArray([this.createMorphoTraits()])
   })
 
   morphoTraits: FormArray;
+  inheritanceArray : FormArray;
+  labelArray : FormArray;
 
   constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) { }
 
@@ -44,12 +45,11 @@ export class FormCoreFormComponent implements OnInit {
     this.loadPeople();
 
     this.formCore = this.formBuilder.group({
-      partOfSpeech: '',
-      gender: '',
+      inheritance : this.formBuilder.array([]),
       form: '',
       type: '',
+      label : this.formBuilder.array([]),
       morphoTraits: this.formBuilder.array([]),
-      phonetics: ''
     })
 
     this.onChanges();
@@ -69,14 +69,31 @@ export class FormCoreFormComponent implements OnInit {
       if (this.object != changes.formData.currentValue) {
         this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
         this.morphoTraits.clear();
+
+        this.inheritanceArray = this.formCore.get('inheritance') as FormArray;
+        this.inheritanceArray.clear();
+
+        this.labelArray = this.formCore.get('label') as FormArray;
+        this.labelArray.clear();
       }
       this.object = changes.formData.currentValue;
       console.log(this.object)
       if (this.object != null) {
-        this.formCore.get('partOfSpeech').setValue(this.object.morphology[0]['value'], { emitEvent: false });
-        this.formCore.get('gender').setValue(this.object.morphology[1]['value'], { emitEvent: false });
+
+        for (var i = 0; i < this.object.inheritedMorphology.length; i++) {
+          const trait = this.object.inheritedMorphology[i]['trait'];
+          const value = this.object.inheritedMorphology[i]['value'];
+          this.addInheritance(trait, value);
+        }
+        
         this.formCore.get('form').setValue(this.object.formInstanceName, { emitEvent: false });
         this.formCore.get('type').setValue(this.object.type, { emitEvent: false });
+
+        for (var i = 0; i < this.object.label.length; i++) {
+          const trait = this.object.label[i]['propertyID'];
+          const value = this.object.label[i]['propertyValue'];
+          this.addLabel(trait, value);
+        }
 
         for (var i = 0; i < this.object.morphology.length; i++) {
           const trait = this.object.morphology[i]['trait'];
@@ -84,9 +101,9 @@ export class FormCoreFormComponent implements OnInit {
           this.addMorphoTraits(trait, value);
         }
 
-        this.formCore.get('phonetics').setValue(this.object.phonetics, { emitEvent: false })
+        /* this.formCore.get('phonetics').setValue(this.object.phonetics, { emitEvent: false }) */
       }
-    }, 10)
+    }, 200)
 
   }
 
@@ -108,6 +125,30 @@ export class FormCoreFormComponent implements OnInit {
         value: ''
       })
     }
+  }
+
+  createInheritance(t?, v?): FormGroup {
+    return this.formBuilder.group({
+      trait: t,
+      value: v
+    })
+  }
+
+  createLabel(t?, v?): FormGroup {
+    return this.formBuilder.group({
+      propertyID: t,
+      propertyValue: v
+    })
+  }
+
+  addLabel(t?, v?) {
+    this.labelArray = this.formCore.get('label') as FormArray;
+    this.labelArray.push(this.createLabel(t, v));
+  }
+
+  addInheritance(t?, v?) {
+    this.inheritanceArray = this.formCore.get('inheritance') as FormArray;
+    this.inheritanceArray.push(this.createInheritance(t, v));
   }
 
   addMorphoTraits(t?, v?) {

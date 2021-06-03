@@ -250,14 +250,14 @@ export class LexicalEntryTreeComponent implements OnInit {
 
       this.lexicalService.getFormData(formId, 'core').subscribe(
         data => {
+          this.lexicalService.sendToCoreTab(data)
           this.lexicalService.sendToRightTab(data)
         },
         error => {
           console.log(error)
         }
       )
-      this.lexicalService.sendToCoreTab($event.node.data);
-      this.lexicalService.sendToRightTab(null);
+    
     }else if($event.eventName == 'activate' && $event.node.data.sense != undefined){
       this.lexicalService.sendToCoreTab($event.node.data);
       this.lexicalService.sendToRightTab(null);

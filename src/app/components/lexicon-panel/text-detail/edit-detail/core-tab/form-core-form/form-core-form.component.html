@@ -3,34 +3,25 @@
         <div class="input-group col-lg-12">
             <div class="card">
                 <span class="text-id"><b>INHERITANCE</b></span>
-                <a class="pointer" (click)="addMorphoTraits()"><span class="collapse-icon"><i
-                            class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
-                    <div class="d-flex my-3">
-                        <label class="col-lg-3 col-form-label">Part of Speech:</label>
-                        <div class="input-group col-lg-5">
-                            <input formControlName="partOfSpeech" name="partOfSpeech" type="text" class="form-control"
-                                placeholder="">
+                    <div class="d-flex my-2" formArrayName="inheritance" *ngFor="let inher of formCore.get('inheritance')['controls']; let i = index">
+                        <div class="col-md-3" [formGroupName]="i"> 
+                            <label class="col-form-label" formControlName="trait" name="trait">{{inher.value['trait']}}</label>
+                        </div>
+                        <div class="input-group col-md-7" [formGroupName]="i"> 
+                            
+                            <input formControlName="value" name="value" type="text" class="form-control" placeholder="" [value]="inher.value['trait']">
                         </div>
                     </div>
-                    <div class="d-flex my-3">
-                        <label class="col-lg-3 col-form-label">Gender:</label>
-                        <div class="input-group col-lg-5">
-                            <input formControlName="gender" name="gender" type="text" class="form-control"
-                                placeholder="">
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
     <div class="form-group row ml-2 mt-4 mr-2">
         <label for="inputLabel" class="col-lg-3 col-form-label">Form:</label>
-        <div class="input-group col-lg-5">
+        <div class="input-group col-lg-6">
             <input formControlName="form" name="form" type="text" class="form-control" placeholder="">
-            <div class="input-group-append" style="height: 32px;">
-                <span class="input-group-text" id="basic-addon2" style="font-size: 12px;">@LANG</span>
-            </div>
         </div>
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
@@ -41,6 +32,16 @@
             </select>
         </div>
     </div>
+
+    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="label" *ngFor="let l of formCore.get('label')['controls']; let i = index">
+        <div class="col-md-3" [formGroupName]="i"> 
+            <label class="col-form-label">{{l.value['propertyID']}}</label>
+        </div>
+        <div class="input-group col-md-7" [formGroupName]="i"> 
+            <input formControlName="propertyValue" name="propertyValue" type="text" class="form-control" placeholder="">
+        </div>
+    </div>
+    
     <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-lg-12">
             <div class="card">
@@ -48,11 +49,11 @@
                 <a class="pointer" (click)="addMorphoTraits()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
                     <div class="d-flex my-2" formArrayName="morphoTraits" *ngFor="let morpho of formCore.get('morphoTraits')['controls']; let i = index">
-                        <div class="col-md-4" [formGroupName]="i" *ngIf="morpho.value['trait'] != 'partOfSpeech' && morpho.value['trait'] != 'gender'"> 
+                        <div class="col-md-4" [formGroupName]="i"> 
                             <select class="form-control selectTrait" formControlName="trait" name="trait" style="font-size: 12px;">
                                 <option [value]="morpho.value['trait']">{{morpho.value['trait']}}</option>
                             </select> </div>
-                        <div class="input-group col-md-7" [formGroupName]="i" *ngIf="morpho.value['trait'] != 'partOfSpeech' && morpho.value['trait'] != 'gender'"> 
+                        <div class="input-group col-md-7" [formGroupName]="i"> 
                             <select class="form-control selectTrait" formControlName="value" name="value" style="font-size:12px;">
                                 <option [value]="morpho.value['value']">{{morpho.value['value']}}</option>
                             </select>
@@ -63,12 +64,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="form-group row ml-2 mt-4 mr-2">
-        <label for="inputLabel" class="col-lg-3 col-form-label">Phonetics:</label>
-        <div class="input-group col-lg-5">
-            <input formControlName="phonetics" name="phonetics" type="text" class="form-control" placeholder="">
         </div>
     </div>
 </form>
