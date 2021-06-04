@@ -22,6 +22,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     people: Person[] = [];
     peopleLoading = false;
     counter = 0;
+    lexEntryTypesData = [];
     morphologyData = [];
     valueTraits = [];
     memoryTraits = [];
@@ -54,6 +55,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         }, 1000);
         
         this.loadMorphologyData();
+        this.loadLexEntryTypeData();
         this.loadPeople();
 
         this.coreForm = this.formBuilder.group({
@@ -68,6 +70,15 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.onChanges();
 
+    }
+
+
+    loadLexEntryTypeData(){
+        this.lexicalService.getLexEntryTypes().subscribe(
+            data => {
+                this.lexEntryTypesData = data;
+            }
+        )
     }
 
     loadMorphologyData(){
@@ -219,6 +230,31 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.coreForm.get("morphoTraits").valueChanges.pipe(debounceTime(1000)).subscribe(
             data => {
                 console.log(data)
+            }
+        )
+
+        this.coreForm.get("type").valueChanges.pipe(debounceTime(200)).subscribe(
+            data => {
+                this.lexicalService.spinnerAction('on');
+                let lexId = this.object.lexicalEntryInstanceName;
+                let parameters = {
+                    relation : 'type',
+                    value : data
+                }
+                this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
+                    data => {
+                        console.log(data);
+                        this.lexicalService.refreshLexEntryTree();
+                        this.lexicalService.updateLexCard(this.object)
+                        this.lexicalService.spinnerAction('off');
+                    },
+                    error => {
+                        console.log(error);
+                        this.lexicalService.refreshLexEntryTree();
+                        this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                        this.lexicalService.spinnerAction('off');
+                    }
+                )
             }
         )
     }

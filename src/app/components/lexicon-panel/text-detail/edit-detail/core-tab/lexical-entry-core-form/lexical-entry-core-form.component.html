@@ -12,7 +12,7 @@
         <label for="inputType" class="col-lg-3 col-form-label">Type:</label>
         <div class="col-lg-5">
             <select formControlName="type" name="type" class="form-control">
-                <option [value]="object.type">{{object.type}}</option>
+                <option *ngFor="let lx of lexEntryTypesData" [selected]="object.type === lx['valueId']">{{lx['valueId']}}</option>
             </select>
         </div>
     </div>

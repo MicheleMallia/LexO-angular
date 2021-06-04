@@ -159,6 +159,11 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "ontolex/data/formType");
   }
 
+  ///GET /ontolex/data/formType --> get data about form types
+  getLexEntryTypes() : Observable<any> {
+    return this.http.get(this.baseUrl + "ontolex/data/lexicalEntryType");
+  }
+
   //$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT SYSTEM TREE $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$//
 
   //GET /api/getDocumentSystem  ---> return document system
