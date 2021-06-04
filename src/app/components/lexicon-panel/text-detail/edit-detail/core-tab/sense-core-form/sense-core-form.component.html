@@ -59,7 +59,7 @@
 
                 <div class="card-body">
                     <div class="form-group row ml-2 mt-3 mr-2" formArrayName="lexical_concept" *ngFor="let trans of senseCore.get('lexical_concept')['controls']; let i = index">
-                        <div class="input-group col-xl-9" *ngIf="{switch : false}; let variable" [formGroupName]="i">
+                        <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
                             <ng-select formControlName="lex_concept" name="lex_concept" [items]="people" bindValue="name" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
