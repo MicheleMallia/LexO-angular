@@ -304,4 +304,12 @@ export class CoreTabComponent implements OnInit {
       }
     )
   }
+
+  deleteForm(){
+    console.log("delete form")
+  }
+
+  deleteSense(){
+    console.log("delete sense")
+  }
 }

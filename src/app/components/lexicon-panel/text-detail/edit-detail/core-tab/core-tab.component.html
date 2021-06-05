@@ -11,7 +11,13 @@
                     <div class="spinner-border spinner-border-sm m-1" role="status" *ngIf="searchIconSpinner">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <button class="btn btn-link" (click)="deleteLexicalEntry()">
+                    <button class="btn btn-link" *ngIf="isLexicalEntry" (click)="deleteLexicalEntry()">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button class="btn btn-link" *ngIf="isForm" title="delete form" (click)="deleteForm()">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button class="btn btn-link" *ngIf="isSense" title="delete sense" (click)="deleteSense()">
                         <i class="fa fa-trash"></i>
                     </button>
                     <button class="btn btn-link" (click)="changeStatus()">
