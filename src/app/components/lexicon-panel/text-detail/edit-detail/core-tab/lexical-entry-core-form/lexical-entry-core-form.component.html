@@ -19,8 +19,9 @@
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputLanguage" class="col-lg-3 col-form-label">Language:</label>
         <div class="col-lg-2">
-            <select formControlName="language" name="language" class="form-control">
-                <option [value]="object.language">{{object.language}}</option>
+            <select formControlName="language" name="language" class="form-control" (change)="onChangeLanguage($event)">
+                <option value="">Select language....</option>
+                <option *ngFor="let la of languages" [selected]="object.language === la">{{la}}</option>
             </select>
         </div>
     </div>
@@ -79,12 +80,12 @@
                 <span class="text-id"><b>EVOKES</b></span>
                 <a class="pointer" (click)="addEvokes()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
-                    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="evokes" *ngFor="let trans of coreForm.get('evokes')['controls']; let i = index">
+                    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="evokes" *ngFor="let evo of coreForm.get('evokes')['controls']; let i = index">
                         <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
-                            <ng-select formControlName="entity" name="entity" [items]="people" bindValue="name" bindLabel="name" placeholder="Search entity" appendTo="body"
+                            <ng-select #select_evokes formControlName="entity" name="entity" (change)="handleEvokes(select_evokes, i)" [items]="people" bindValue="name" bindLabel="name" placeholder="Search entity" appendTo="body"
                                 [loading]="peopleLoading" *ngIf="!variable.switch">
                             </ng-select>
-                            <input formControlName="entity" name="entity" type="text" class="form-control" placeholder="Insert URI" *ngIf="variable.switch">
+                            <input formControlName="entity" name="entity" type="text" class="form-control" placeholder="Insert URI" *ngIf="variable.switch" (keyup)="handleEvokes($event, i)">
                             <div class="input-group-append ml-3 form-check" style="align-items: center;">
                                 <input class="form-check-input vartrans-tooltip" type="checkbox" (change)="variable.switch=!variable.switch" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="Clicca per inserire un URI manualmente">
                             </div>
@@ -95,46 +96,46 @@
                             <div class="input-group-append ml-2">
                                 <button (click)="removeEvokes(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
+                            <div class="invalid-feedback" *ngIf="!getEvokesValid(i)" style="display: block;">
+                                Please insert a valid URL...
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="form-group row ml-2 mt-3 mr-2" *ngIf="coreForm.value['denotes'] != undefined ">
-        <label for="inputDenotes" class="col-auto col-form-label">Denotes:</label>        
-        <div class="input-group col-lg-7">
-            <ng-select [items]="people" bindLabel="name" bindValue="name" placeholder="Search entity" appendTo="body"
-                [loading]="peopleLoading" *ngIf="!switchInput" formControlName="denotes" name="denotes">
-            </ng-select>
-            <input formControlName="denotes" name="denotes" type="text" class="form-control" placeholder="Insert URI" *ngIf="switchInput">
-            <div class="input-group-append ml-2" style="align-items: center;">
-                <div class="form-check">
-                    <input class="form-check-input denotes-tooltip" type="checkbox" (change)="switchInput=!switchInput" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="Clicca per inserire un URI manualmente">
-                    <label class="form-check-label" for="extCheck"></label>
+
+   
+    <div class="form-group row ml-2 mt-3 mr-2">
+        <div class="input-group col-lg-12">
+            <div class="card">
+                <span class="text-id"><b>DENOTES</b></span>
+                <a class="pointer" (click)="addDenotes()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <div class="card-body">
+                    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="denotes" *ngFor="let den of coreForm.get('denotes')['controls']; let i = index">
+                        <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
+                            <ng-select #select_denotes formControlName="entity" name="entity" (change)="handleDenotes(select_denotes, i)" [items]="people" bindValue="name" bindLabel="name" placeholder="Search entity" appendTo="body"
+                                [loading]="peopleLoading" *ngIf="!variable.switch"> <!-- [(ngModel)]="selected"  -->
+                            </ng-select>
+                            <input formControlName="entity" name="entity" type="text" [value]="den.get('entity').value" class="form-control" placeholder="Insert URI" *ngIf="variable.switch" (keyup)="handleDenotes($event, i)">
+                            <div class="input-group-append ml-3 form-check" style="align-items: center;">
+                                <input class="form-check-input vartrans-tooltip" type="checkbox" (change)="variable.switch=!variable.switch" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" title="Clicca per inserire un URI manualmente">
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button"><i
+                                        class="fa fa-external-link-alt"></i></button>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button (click)="removeDenotes(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                            </div>                            
+                            
+                            <div class="invalid-feedback" *ngIf="!getDenotesValid(i)" style="display: block;">
+                                Please insert a valid URL...
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="input-group-append ml-2">
-                <button class="btn btn-primary" type="button" (click)="modalRoot.show()"><i
-                        class="fa fa-external-link-alt"></i></button>
-                    <app-modal #modalRoot class="modal-demo" [maximizable]="true" [backdrop]="false">
-                        <ng-container class="app-modal-header">Demo modal</ng-container>
-                        <ng-container class="app-modal-body">
-                            <h3>MODAL DIALOG</h3>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
-                        </ng-container>
-                        <ng-container class="app-modal-footer">
-                            <button type="button" class="button button3" (click)="modalRoot.hide()">Delete</button>
-                            <button type="button" class="button button1" (click)="modalRoot.hide()">Save</button>
-                            <button type="button" class="button button2" style="float: right;"
-                                (click)="modalRoot.hide()">Close
-                            </button>
-                        </ng-container>
-                    </app-modal>
-            </div>
-            <div class="input-group-append ml-2">
-                <button (click)="removeDenotes()" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
             </div>
         </div>
     </div>
