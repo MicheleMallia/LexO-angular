@@ -365,6 +365,21 @@ export class LexicalEntryTreeComponent implements OnInit {
           }
         }
       )
+    } else if (node.data.label == "concept") {
+      let parentInstance = node.parent.data.lexicalEntryInstanceName;
+      console.log("cercare concetto")
+      /* this.lexicalService.getSensesList(parentInstance).subscribe(
+        data => {
+          newNodes = data.map((c) => Object.assign({}, c));
+          for (var i = 0; i < newNodes.length; i++) {
+            if (newNodes[i].author == node.parent.data.author) {
+              newNodes[i]['flagAuthor'] = false
+            } else {
+              newNodes[i]['flagAuthor'] = true
+            }
+          }
+        }
+      ) */
     }
     
     return new Promise((resolve, reject) => {
