@@ -78,11 +78,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             }
         )
 
-        this.lexicalService.getLanguages().subscribe(
+        this.lexicalService.getLexiconLanguages().subscribe(
             data => {
 
                 for (var i = 0; i < data.length; i++) {
-                    this.languages.push(data[i]['label'])
+                    this.languages.push(data[i])
                 }
             }
         );
@@ -187,14 +187,23 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     }
 
     onChangeLanguage(evt) {
-        console.log(evt)
-        let langValue = evt.target.value;
+        
+        let langLabel = evt.target.value;
+        let langValue;
+        this.languages.forEach(element => {
+            if(element['label'] == langLabel){
+                langValue = element['languageInstanceName'];
+                return;
+            }
+        });
+        
         let lexId = this.object.lexicalEntryInstanceName;
         let parameters = {
             type: 'morphology',
             relation: 'language',
             value: langValue
         }
+        console.log(parameters)
         this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
             data => {
                 console.log(data)
@@ -386,8 +395,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.evokesArray = this.coreForm.get("evokes") as FormArray;
         let value = this.evokesArray.at(i).get('entity').value;
         if (value != '') {
-            console.log(value);
-            console.log(value.match(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi).length > 0);
             return (value.match(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi).length > 0);
         } else {
             return false;
@@ -472,6 +479,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.evokesArray = this.coreForm.get("evokes") as FormArray;
         let isValid = this.evokesArray.at(index).get('entity').valid
         if (isValid) {
+            console.log(data)
             if (this.memoryEvokes[index] == undefined) {
                 //TODO il denotes è nuovo di zecca
                 const newValue = data['name']
