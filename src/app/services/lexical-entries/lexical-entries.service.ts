@@ -165,8 +165,6 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "lexinfo/data/morphology");
   }
 
-
-
   ///GET /ontolex/data/formType --> get data about form types
   getFormTypes(): Observable<any> {
     return this.http.get(this.baseUrl + "ontolex/data/formType");
@@ -177,6 +175,16 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "ontolex/data/lexicalEntryType");
   }
 
+
+  //GET /lexicon/creation/form --> create new form
+  createNewForm(lexId): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/creation/form?lexicalEntryID="+ lexId +"&key=" + this.key + "&author=" + this.author);
+  }
+
+  //GET /lexicon/creation/form --> create new form
+  createNewSense(lexId): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/creation/lexicalSense?lexicalEntryID="+ lexId +"&key=" + this.key + "&author=" + this.author);
+  }
 
   //$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT SYSTEM TREE $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$//
 

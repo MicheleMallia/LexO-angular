@@ -312,4 +312,32 @@ export class CoreTabComponent implements OnInit {
   deleteSense(){
     console.log("delete sense")
   }
+
+  addNewForm(){
+    this.searchIconSpinner = true;
+    let lexicalId = this.object.lexicalEntryInstanceName;
+    this.lexicalService.createNewForm(lexicalId).subscribe(
+      data=>{
+        console.log(data);
+        this.searchIconSpinner = false;
+      },error=> {
+        console.log(error)
+        this.searchIconSpinner = false;
+      }
+    )
+  }
+
+  addNewSense(){
+    this.searchIconSpinner = true;
+    let lexicalId = this.object.lexicalEntryInstanceName;
+    this.lexicalService.createNewSense(lexicalId).subscribe(
+      data=>{
+        console.log(data);
+        this.searchIconSpinner = false;
+      },error=> {
+        console.log(error)
+        this.searchIconSpinner = false;
+      }
+    )
+  }
 }
