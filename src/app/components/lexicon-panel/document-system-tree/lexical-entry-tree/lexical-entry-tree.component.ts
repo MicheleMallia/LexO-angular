@@ -259,8 +259,21 @@ export class LexicalEntryTreeComponent implements OnInit {
       )
     
     }else if($event.eventName == 'activate' && $event.node.data.sense != undefined){
-      this.lexicalService.sendToCoreTab($event.node.data);
-      this.lexicalService.sendToRightTab(null);
+
+      let senseId = $event.node.data.senseInstanceName;
+
+      this.lexicalService.getSenseData(senseId, 'core').subscribe(
+        data => {
+          this.lexicalService.sendToCoreTab(data)
+          this.lexicalService.sendToRightTab(data)
+        },
+        error => {
+          console.log(error)
+        }
+      )
+      
+      /* this.lexicalService.sendToCoreTab($event.node.data);
+      this.lexicalService.sendToRightTab(null); */
     }
     else if ($event.eventName == 'deactivate' && ($event.node.data.lexicalEntry == undefined && $event.node.data.form == undefined)) {
       this.lexicalService.sendToCoreTab(null);
