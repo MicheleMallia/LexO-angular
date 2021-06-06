@@ -8,12 +8,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class LexicalEntriesService {
 
   private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
-  private _vartransData : BehaviorSubject<object> = new BehaviorSubject(null);
+  private _vartransData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
-  private _deleteLexicalEntryReq : BehaviorSubject<object> = new BehaviorSubject(null);
-  private _refreshTreeReq : BehaviorSubject<object> = new BehaviorSubject(null);
-  private _updateLexCardReq : BehaviorSubject<object> = new BehaviorSubject(null);
-  private _spinnerAction : BehaviorSubject<string> = new BehaviorSubject(null);
+  private _deleteLexicalEntryReq: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _refreshTreeReq: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _updateLexCardReq: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _spinnerAction: BehaviorSubject<string> = new BehaviorSubject(null);
 
   //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
   private baseUrl = "/LexO-backend/service/"
@@ -35,27 +35,27 @@ export class LexicalEntriesService {
     this._coreFormData.next(object)
   }
 
-  sendToVartransTab(object : object){
+  sendToVartransTab(object: object) {
     this._vartransData.next(object)
   }
 
-  sendToRightTab(object: object){
+  sendToRightTab(object: object) {
     this._rightPanelData.next(object);
   }
 
-  deleteRequest(){
+  deleteRequest() {
     this._deleteLexicalEntryReq.next(null);
   }
 
-  refreshLexEntryTree(){
+  refreshLexEntryTree() {
     this._refreshTreeReq.next(null);
   }
 
-  updateLexCard(object: object){
+  updateLexCard(object: object) {
     this._updateLexCardReq.next(object)
   }
 
-  spinnerAction(string: string){
+  spinnerAction(string: string) {
     this._spinnerAction.next(string)
   }
 
@@ -70,36 +70,41 @@ export class LexicalEntriesService {
   }
 
   //GET /lexicon/data/{id}/elements --> get elements of lexical entry
-  getLexEntryElements(instance: string): Observable<any>{
+  getLexEntryElements(instance: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/elements");
   }
 
   //GET ​/lexicon​/data​/{id}​/lexicalEntry --> get specific aspect (morphology, syntax, ...) associated with a given lexical entry
   //TODO: RICORDA CHE PRIMA O POI DEVI CAMBIARE ASPETTO QUANDO QUESTI ULTIMI SARANNO DISPONIBILI
-  getLexEntryData(instance: string): Observable<any>{
+  getLexEntryData(instance: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/lexicalEntry?key=lexodemo&aspect=core");
   }
 
   //GET /lexicon/data/{id}/lexicalEntryLinguisticRelation --> This method returns the relations with other lexical entities according to the input type
-  getLexEntryLinguisticRelation(lexId: string, property : string): Observable<any>{
-    return this.http.get(this.baseUrl + "lexicon/data/" + lexId + "/lexicalEntryLinguisticRelation?key="+this.key+"&property="+property+"");
+  getLexEntryLinguisticRelation(lexId: string, property: string): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/data/" + lexId + "/lexicalEntryLinguisticRelation?key=" + this.key + "&property=" + property + "");
   }
 
 
   //GET /lexicon/data/{id}/forms --> get forms of lexical entry
-  getLexEntryForms(instance: string): Observable<any>{
+  getLexEntryForms(instance: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/forms");
   }
 
-  
+
   //GET /lexicon/data/{id}/form --> get data about a single form 
-  getFormData(formId : string, aspect : string) : Observable<any>{
+  getFormData(formId: string, aspect: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + formId + "/form?key=" + this.key + "&aspect=" + aspect)
   }
 
   //GET /lexicon/data/{id}/senses --> get list of senses of a lexical entry
-  getSensesList(instance: string): Observable<any>{
+  getSensesList(instance: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/senses");
+  }
+
+  //GET /lexicon/data/languages --> Lexicon languages list
+  getLexiconLanguages(): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/data/languages");
   }
 
   //GET /lexicon/languages --> get languages list
@@ -130,50 +135,53 @@ export class LexicalEntriesService {
 
   //GET /lexicon/creation/lexicalEntry --> create new lexical entry
   newLexicalEntry(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/creation/lexicalEntry?key="+this.key+"&author="+this.author);
+    return this.http.get(this.baseUrl + "lexicon/creation/lexicalEntry?key=" + this.key + "&author=" + this.author);
   }
 
 
   //GET /lexicon/delete/{id}/lexicalEntry --> delete lexical entry
   deleteLexicalEntry(lexId): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/delete/"+lexId+"/lexicalEntry?key="+this.key);
+    return this.http.get(this.baseUrl + "lexicon/delete/" + lexId + "/lexicalEntry?key=" + this.key);
   }
 
   //POST ​/lexicon​/update​/{id}​/lexicalEntry --> lexical entry update
-  updateLexicalEntry(lexId, parameters) : Observable<any> {
-    return this.http.post(this.baseUrl + "lexicon/update/"+lexId+"/lexicalEntry?key="+this.key+"&author="+this.author, parameters);
+  updateLexicalEntry(lexId, parameters): Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/lexicalEntry?key=" + this.key + "&author=" + this.author, parameters);
   }
 
 
   //POST ​/lexicon​/update​/{id}​/linguisticRelation --> linguistic Relation update for Core
-  updateLinguisticRelation(lexId, parameters) : Observable<any>{
-    return this.http.post(this.baseUrl + "lexicon/update/"+lexId+"/linguisticRelation?key="+this.key+"&author="+this.author, parameters);
+  updateLinguisticRelation(lexId, parameters): Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/linguisticRelation?key=" + this.key + "&author=" + this.author, parameters);
   }
 
   //POST /lexicon/update/{id}/form --> update form values
-  updateForm(formId, parameters) : Observable<any>{
-    return this.http.post(this.baseUrl + "lexicon/update/"+formId+"/form?key="+this.key+"&author="+this.author, parameters);
+  updateForm(formId, parameters): Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/update/" + formId + "/form?key=" + this.key + "&author=" + this.author, parameters);
   }
 
   //GET  /lexinfo/data/morphology --> get data about morphology
-  getMorphologyData() : Observable<any> {
+  getMorphologyData(): Observable<any> {
     return this.http.get(this.baseUrl + "lexinfo/data/morphology");
   }
 
+
+
   ///GET /ontolex/data/formType --> get data about form types
-  getFormTypes() : Observable<any> {
+  getFormTypes(): Observable<any> {
     return this.http.get(this.baseUrl + "ontolex/data/formType");
   }
 
   ///GET /ontolex/data/formType --> get data about form types
-  getLexEntryTypes() : Observable<any> {
+  getLexEntryTypes(): Observable<any> {
     return this.http.get(this.baseUrl + "ontolex/data/lexicalEntryType");
   }
+
 
   //$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT SYSTEM TREE $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$//
 
   //GET /api/getDocumentSystem  ---> return document system
-  getDocumentSystem() : Observable<any> {
+  getDocumentSystem(): Observable<any> {
     return this.http.get(this.baseUrl_document + "/api/getDocumentSystem?requestUUID=11")
   }
 }
