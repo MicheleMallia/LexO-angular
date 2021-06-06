@@ -113,7 +113,7 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "lexicon/data/languages");
   }
 
-  //GET /lexicon/languages --> get languages list
+  //GET /lexicon/statistics/languages --> get languages list for lexical entries menu filter search
   getLanguages(): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/statistics/languages?key=" + this.key + "");
   }
