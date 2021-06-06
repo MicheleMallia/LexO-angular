@@ -88,22 +88,59 @@ export class NotePanelComponent implements OnInit, OnChanges {
       newNote => {
         if(this.noteData != null){
           this.lexicalService.spinnerAction('on');
-          let lexId = this.object.lexicalEntryInstanceName;
-          let parameters = {
-            relation : "note",
-            value : newNote
-          }
-          this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
-            data => {
-              console.log(data);
-              this.lexicalService.spinnerAction('off');
-            },
-            error => {
-              console.log(error);
-              this.lexicalService.updateLexCard({lastUpdate : error.error.text})
-              this.lexicalService.spinnerAction('off');
+          console.log(this.object)
+          if(this.object.lexicalEntryInstanceName != undefined){
+            var lexId = this.object.lexicalEntryInstanceName;
+            var parameters = {
+              relation : "note",
+              value : newNote
             }
-          )
+            this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
+              data => {
+                console.log(data);
+                this.lexicalService.spinnerAction('off');
+              },
+              error => {
+                console.log(error);
+                this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                this.lexicalService.spinnerAction('off');
+              }
+            )
+          }else if(this.object.formInstanceName != undefined){
+            var formId = this.object.formInstanceName;
+            var parameters = {
+              relation : "note",
+              value : newNote
+            }
+            this.lexicalService.updateForm(formId, parameters).subscribe(
+              data => {
+                console.log(data);
+                this.lexicalService.spinnerAction('off');
+              },
+              error => {
+                console.log(error);
+                this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                this.lexicalService.spinnerAction('off');
+              }
+            )
+          }else if(this.object.senseInstanceName != undefined){
+            var senseId = this.object.senseInstanceName;
+            var parameters = {
+              relation : "note",
+              value : newNote
+            }
+            this.lexicalService.updateSense(senseId, parameters).subscribe(
+              data => {
+                console.log(data);
+                this.lexicalService.spinnerAction('off');
+              },
+              error => {
+                console.log(error);
+                this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                this.lexicalService.spinnerAction('off');
+              }
+            )
+          }
         }
       }
     )
