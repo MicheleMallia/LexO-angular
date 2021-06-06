@@ -97,6 +97,12 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "lexicon/data/" + formId + "/form?key=" + this.key + "&aspect=" + aspect)
   }
 
+
+  //GET /lexicon/data/{id}/lexicalSense --> get data about a single form 
+  getSenseData(senseId: string, aspect: string): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/data/" + senseId + "/lexicalSense?key=" + this.key + "&aspect=" + aspect)
+  }
+
   //GET /lexicon/data/{id}/senses --> get list of senses of a lexical entry
   getSensesList(instance: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/senses");
@@ -144,6 +150,16 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "lexicon/delete/" + lexId + "/lexicalEntry?key=" + this.key);
   }
 
+  //GET /lexicon/delete/{id}/form --> delete lexical entry
+  deleteForm(lexId): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/delete/" + lexId + "/form?key=" + this.key);
+  }
+
+  //GET /lexicon/delete/{id}/lexicalSense --> delete lexical entry
+  deleteSense(lexId): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/delete/" + lexId + "/lexicalSense?key=" + this.key);
+  }
+
   //POST ​/lexicon​/update​/{id}​/lexicalEntry --> lexical entry update
   updateLexicalEntry(lexId, parameters): Observable<any> {
     return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/lexicalEntry?key=" + this.key + "&author=" + this.author, parameters);
@@ -158,6 +174,11 @@ export class LexicalEntriesService {
   //POST /lexicon/update/{id}/form --> update form values
   updateForm(formId, parameters): Observable<any> {
     return this.http.post(this.baseUrl + "lexicon/update/" + formId + "/form?key=" + this.key + "&author=" + this.author, parameters);
+  }
+
+  //POST /lexicon/update/{id}/lexicalSense --> update form values
+  updateSense(senseId, parameters): Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/update/" + senseId + "/lexicalSense?key=" + this.key + "&author=" + this.author, parameters);
   }
 
   //GET  /lexinfo/data/morphology --> get data about morphology
