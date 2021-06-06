@@ -306,11 +306,35 @@ export class CoreTabComponent implements OnInit {
   }
 
   deleteForm(){
-    console.log("delete form")
+    this.searchIconSpinner = true;
+    let lexicalId = this.object.formInstanceName;
+    this.lexicalService.deleteForm(lexicalId).subscribe(
+      data=>{
+        this.searchIconSpinner = false;
+        this.lexicalService.deleteRequest();
+        this.isForm = false;
+        this.object = null;
+      },error=> {
+        this.searchIconSpinner = false;
+        this.lexicalService.deleteRequest();
+      }
+    )
   }
 
   deleteSense(){
-    console.log("delete sense")
+    this.searchIconSpinner = true;
+    let lexicalId = this.object.senseInstanceName;
+    this.lexicalService.deleteSense(lexicalId).subscribe(
+      data=>{
+        this.searchIconSpinner = false;
+        this.lexicalService.deleteRequest();
+        this.isSense = false;
+        this.object = null;
+      },error=> {
+        this.searchIconSpinner = false;
+        this.lexicalService.deleteRequest();
+      }
+    )
   }
 
   addNewForm(){
@@ -318,11 +342,11 @@ export class CoreTabComponent implements OnInit {
     let lexicalId = this.object.lexicalEntryInstanceName;
     this.lexicalService.createNewForm(lexicalId).subscribe(
       data=>{
-        console.log(data);
         this.searchIconSpinner = false;
+        this.lexicalService.refreshLexEntryTree();
       },error=> {
-        console.log(error)
         this.searchIconSpinner = false;
+        this.lexicalService.refreshLexEntryTree();
       }
     )
   }
@@ -332,11 +356,11 @@ export class CoreTabComponent implements OnInit {
     let lexicalId = this.object.lexicalEntryInstanceName;
     this.lexicalService.createNewSense(lexicalId).subscribe(
       data=>{
-        console.log(data);
         this.searchIconSpinner = false;
+        this.lexicalService.refreshLexEntryTree();
       },error=> {
-        console.log(error)
         this.searchIconSpinner = false;
+        this.lexicalService.refreshLexEntryTree();
       }
     )
   }
