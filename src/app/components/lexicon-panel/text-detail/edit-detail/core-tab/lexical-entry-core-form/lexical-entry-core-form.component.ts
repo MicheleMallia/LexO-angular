@@ -80,8 +80,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.lexicalService.getLanguages().subscribe(
             data => {
-                
-                for(var i = 0; i < data.length; i++){
+
+                for (var i = 0; i < data.length; i++) {
                     this.languages.push(data[i]['label'])
                 }
             }
@@ -185,19 +185,19 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     }
 
-    onChangeLanguage(evt){
+    onChangeLanguage(evt) {
         console.log(evt)
         let langValue = evt.target.value;
         let lexId = this.object.lexicalEntryInstanceName;
         let parameters = {
-            type : 'morphology',
-            relation : 'language',
-            value : langValue
+            type: 'morphology',
+            relation: 'language',
+            value: langValue
         }
         this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
             data => {
                 console.log(data)
-            },error => {
+            }, error => {
                 console.log(error)
             }
         )
@@ -381,24 +381,24 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         }
     }
 
-    getEvokesValid(i){
+    getEvokesValid(i) {
         this.evokesArray = this.coreForm.get("evokes") as FormArray;
         let value = this.evokesArray.at(i).get('entity').value;
-        if(value != ''){
+        if (value != '') {
             console.log(value);
             console.log(value.match(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi).length > 0);
             return (value.match(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi).length > 0);
-        }else{
+        } else {
             return false;
         }
     }
 
-    getDenotesValid(i){
+    getDenotesValid(i) {
         this.denotesArray = this.coreForm.get("denotes") as FormArray;
         let value = this.denotesArray.at(i).get('entity').value;
-        if(value != ''){
+        if (value != '') {
             return (value.match(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi).length > 0);
-        }else{
+        } else {
             return false;
         }
     }
