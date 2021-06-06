@@ -77,7 +77,7 @@ export class LexicalEntriesService {
   //GET ​/lexicon​/data​/{id}​/lexicalEntry --> get specific aspect (morphology, syntax, ...) associated with a given lexical entry
   //TODO: RICORDA CHE PRIMA O POI DEVI CAMBIARE ASPETTO QUANDO QUESTI ULTIMI SARANNO DISPONIBILI
   getLexEntryData(instance: string): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/lexicalEntry?key=lexodemo&aspect=core");
+    return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/lexicalEntry?key=" + this.key + "&aspect=core");
   }
 
   //GET /lexicon/data/{id}/lexicalEntryLinguisticRelation --> This method returns the relations with other lexical entities according to the input type
@@ -109,27 +109,27 @@ export class LexicalEntriesService {
 
   //GET /lexicon/languages --> get languages list
   getLanguages(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/statistics/languages?key=lexodemo");
+    return this.http.get(this.baseUrl + "lexicon/statistics/languages?key=" + this.key + "");
   }
 
   //GET /lexicon/types --> get types list
   getTypes(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/statistics/types?key=lexodemo");
+    return this.http.get(this.baseUrl + "lexicon/statistics/types?key=" + this.key + "");
   }
 
   //GET /lexicon/authors --> get authors list
   getAuthors(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/statistics/authors?key=lexodemo");
+    return this.http.get(this.baseUrl + "lexicon/statistics/authors?key=" + this.key + "");
   }
 
   //GET /lexicon/pos --> get pos list
   getPos(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/statistics/pos?key=lexodemo");
+    return this.http.get(this.baseUrl + "lexicon/statistics/pos?key=" + this.key + "");
   }
 
   //GET /lexicon/states --> get states list
   getStatus(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/statistics/status?key=lexodemo");
+    return this.http.get(this.baseUrl + "lexicon/statistics/status?key=" + this.key + "");
   }
 
 
