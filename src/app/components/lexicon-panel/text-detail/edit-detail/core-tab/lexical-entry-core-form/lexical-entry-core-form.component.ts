@@ -196,21 +196,22 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 return;
             }
         });
-        
-        let lexId = this.object.lexicalEntryInstanceName;
-        let parameters = {
-            type: 'morphology',
-            relation: 'language',
-            value: langValue
-        }
-        console.log(parameters)
-        this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
-            data => {
-                console.log(data)
-            }, error => {
-                console.log(error)
+        if(langValue != undefined){
+            let lexId = this.object.lexicalEntryInstanceName;
+            let parameters = {
+                relation: 'language',
+                value: langValue
             }
-        )
+            console.log(parameters)
+            this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+                data => {
+                    console.log(data)
+                }, error => {
+                    console.log(error)
+                }
+            )
+        }
+        
     }
 
     onChangeValue(i) {
