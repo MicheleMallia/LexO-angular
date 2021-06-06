@@ -1,0 +1,36 @@
+// Required
+@import "../../../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../../../node_modules/bootstrap/scss/variables";
+@import "../../../../../../node_modules/bootstrap/scss/mixins";
+
+.row {
+    align-items: baseline;
+}
+
+.btn{
+    height: 38px;
+    border-radius: .25rem !important;
+}
+
+.form-control {
+    font-size: 12px;
+}
+
+label{
+    font-size: 12px;
+}
+
+.btn {
+    font-size: 12px;
+    height: 32px;
+}
+
+
+.card {
+    width: 100%;
+}
+
+table{
+    font-size: 12px;
+    font-weight: 400;
+}

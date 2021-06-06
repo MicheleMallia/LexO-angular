@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-body">
+        <div class="form-group row ml-2 mt-3 mr-2">
+            <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
+            <div class="input-group col-lg-5">
+                <input id="label" name="label" type="text" class="form-control"
+                    placeholder="">
+                <!-- <div class="invalid-feedback" style="display: block;">
+                    Please, insert at least three characters.
+                </div> -->
+            </div>
+        </div>
+        <div class="form-group row ml-2 mt-3 mr-2">
+            <label for="inputLabel" class="col-lg-3 col-form-label">URI:</label>
+            <div class="input-group col-lg-9">
+                <input id="label" name="label" type="text" class="form-control"
+                    placeholder="">
+                <!-- <div class="invalid-feedback" style="display: block;">
+                    Please, insert at least three characters.
+                </div> -->
+            </div>
+        </div>
+        <table class="table table_language table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Language instance</th>
+                    <th scope="col">Label</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Entries</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lang of languageList; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{lang['languageInstanceName']}}</td>
+                    <td>{{lang['label']}}</td>
+                    <td>{{lang['creator'] != "" ? lang['creator'] : '<'+'empty'+'>'}}</td>
+                    <td>{{lang['description'] != "" ? lang['description'] : '<'+'empty'+'>'}}</td>
+                    <td>{{lang['entries']}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        
+    </div>
+</div>

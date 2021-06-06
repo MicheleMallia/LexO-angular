@@ -52,6 +52,7 @@ import { LexicalEntryDecompFormComponent } from './components/lexicon-panel/text
 import { SenseCoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/sense-core-form/sense-core-form.component';
 import { SenseVartransFormComponent } from './components/lexicon-panel/text-detail/edit-detail/vartrans-tab/sense-vartrans-form/sense-vartrans-form.component';
 import { LexicalConceptFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lexical-concept-form/lexical-concept-form.component';
+import { LanguageManagerComponent } from './components/lexicon-panel/document-system-tree/language-manager/language-manager.component';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { LexicalConceptFormComponent } from './components/lexicon-panel/text-det
     LexicalEntryDecompFormComponent,
     SenseCoreFormComponent,
     SenseVartransFormComponent,
-    LexicalConceptFormComponent
+    LexicalConceptFormComponent,
+    LanguageManagerComponent
   ],
   imports: [
     BrowserModule,
