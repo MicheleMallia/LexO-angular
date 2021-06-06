@@ -113,3 +113,8 @@ tree-node-content {
 .ui-modal, .ui-modal-overlay {
     z-index: 9999 !important;
 }
+
+.languages_modal .ui-modal{
+    min-width: 40rem;
+    width: 40rem;
+}
