@@ -1,5 +1,3 @@
-
-
 <div id="tree-accordion">
 
 
@@ -7,13 +5,14 @@
     <div class="card">
         <div class="card-header" id="headingOne">
             <h5 class="mb-0 d-flex justify-content-between align-items-center">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#epigrafie" aria-expanded="true" aria-controls="epigrafie">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#epigrafie" aria-expanded="true"
+                    aria-controls="epigrafie">
                     <i class="fa"></i> Epigrafie
                 </button>
                 <div class="icons-container">
-                    <button class="btn btn-link"><i class="fa fa-plus"></i></button>     
-                    <button class="btn btn-link"><i class="fa fa-file-import"></i></button> 
-                    <button class="btn btn-link"><i class="fa fa-download"></i></button> 
+                    <button class="btn btn-link"><i class="fa fa-plus"></i></button>
+                    <button class="btn btn-link"><i class="fa fa-file-import"></i></button>
+                    <button class="btn btn-link"><i class="fa fa-download"></i></button>
                     <button class="btn btn-link" title="Language"><i class="fa fa-globe-americas"></i></button>
                 </div>
             </h5>
@@ -29,78 +28,28 @@
     <div class="card">
         <div class="card-header" id="headingTwo">
             <h5 class="mb-0 d-flex flex-wrap justify-content-between align-items-center">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#entrate-lessicali" aria-expanded="false" aria-controls="entrate-lessicali" (click)="updateTreeParent()">
-                    <i class="fa"></i>  Lessico
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#entrate-lessicali"
+                    aria-expanded="false" aria-controls="entrate-lessicali" (click)="updateTreeParent()">
+                    <i class="fa"></i> Lessico
                 </button>
                 <div class="icons-container">
-                    <button [ngStyle]="switcher ? {'background-color': '#007bff', 'color': 'rgb(247 247 247)'} : {'background-color': 'transparent', 'color': '#007bff'}" class="btn btn-link" title="Switch to label view" (click)="switchLabel(); updateTreeParent();"><i class="fas fa-tag"></i></button>
-                    <button class="btn btn-link" title="Add new lexical entry" (click)="newLexicalEntry()"><i class="fa fa-plus"></i></button>     
-                    <button class="btn btn-link" title="Export"><i class="fa fa-file-import"></i></button> 
-                    <button class="btn btn-link" title="Download"><i class="fa fa-download"></i></button> 
-                    <button class="btn btn-link" title="Edit Languages" (click)="selectLanguageModal.show()"><i class="fas fa-flag-usa"></i></button>
+                    <button
+                        [ngStyle]="switcher ? {'background-color': '#007bff', 'color': 'rgb(247 247 247)'} : {'background-color': 'transparent', 'color': '#007bff'}"
+                        class="btn btn-link" title="Switch to label view"
+                        (click)="switchLabel(); updateTreeParent();"><i class="fas fa-tag"></i></button>
+                    <button class="btn btn-link" title="Add new lexical entry" (click)="newLexicalEntry()"><i
+                            class="fa fa-plus"></i></button>
+                    <button class="btn btn-link" title="Export"><i class="fa fa-file-import"></i></button>
+                    <button class="btn btn-link" title="Download"><i class="fa fa-download"></i></button>
+                    <button class="btn btn-link" title="Edit Languages" (click)="selectLanguageModal.show()"><i
+                            class="fas fa-flag-usa"></i></button>
 
-                    <app-modal #selectLanguageModal class="modal-demo">
+                    <app-modal #selectLanguageModal class="languages_modal">
                         <ng-container class="app-modal-header">Language Manager</ng-container>
                         <ng-container class="app-modal-body">
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="form-group row ml-2 mt-3 mr-2">
-                                        <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
-                                        <div class="input-group col-lg-5">
-                                            <input id="label" name="label" type="text" class="form-control" placeholder="">
-                                            <!-- <div class="invalid-feedback" style="display: block;">
-                                                Please, insert at least three characters.
-                                            </div> -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group row ml-2 mt-3 mr-2">
-                                        <label for="inputLabel" class="col-lg-3 col-form-label">URI:</label>
-                                        <div class="input-group col-lg-9">
-                                            <input id="label" name="label" type="text" class="form-control" placeholder="">
-                                            <!-- <div class="invalid-feedback" style="display: block;">
-                                                Please, insert at least three characters.
-                                            </div> -->
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                            
-                            <div class="card">
-                                <div class="card-body">
-                                    <table class="table table_language">
-                                        <thead>
-                                          <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">First</th>
-                                            <th scope="col">Last</th>
-                                            <th scope="col">Handle</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                          </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                          
+                            <app-language-manager></app-language-manager>
+
                         </ng-container>
                     </app-modal>
                 </div>
@@ -117,13 +66,14 @@
     <div class="card">
         <div class="card-header" id="headingFour">
             <h5 class="mb-0 d-flex flex-wrap justify-content-between align-items-center">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ontologia" aria-expanded="false" aria-controls="ontologia">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ontologia"
+                    aria-expanded="false" aria-controls="ontologia">
                     <i class="fa"></i> Ontologia
                 </button>
                 <div class="icons-container">
-                    <button class="btn btn-link"><i class="fa fa-plus"></i></button>     
-                    <button class="btn btn-link"><i class="fa fa-file-import"></i></button> 
-                    <button class="btn btn-link"><i class="fa fa-download"></i></button> 
+                    <button class="btn btn-link"><i class="fa fa-plus"></i></button>
+                    <button class="btn btn-link"><i class="fa fa-file-import"></i></button>
+                    <button class="btn btn-link"><i class="fa fa-download"></i></button>
                     <button class="btn btn-link" title="Language"><i class="fa fa-globe-americas"></i></button>
                 </div>
             </h5>
