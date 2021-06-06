@@ -3,8 +3,7 @@
         <div class="form-group row ml-2 mt-3 mr-2">
             <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
             <div class="input-group col-lg-5">
-                <input id="label" name="label" type="text" class="form-control"
-                    placeholder="">
+                <input id="label" name="label" type="text" class="form-control" placeholder="">
                 <!-- <div class="invalid-feedback" style="display: block;">
                     Please, insert at least three characters.
                 </div> -->
@@ -13,34 +12,43 @@
         <div class="form-group row ml-2 mt-3 mr-2">
             <label for="inputLabel" class="col-lg-3 col-form-label">URI:</label>
             <div class="input-group col-lg-9">
-                <input id="label" name="label" type="text" class="form-control"
-                    placeholder="">
+                <input id="label" name="label" type="text" class="form-control" placeholder="">
                 <!-- <div class="invalid-feedback" style="display: block;">
                     Please, insert at least three characters.
                 </div> -->
             </div>
         </div>
-        <table class="table table_language table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Language instance</th>
-                    <th scope="col">Label</th>
-                    <th scope="col">Creator</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Entries</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let lang of languageList; let i = index">
-                    <th scope="row">{{i+1}}</th>
-                    <td>{{lang['languageInstanceName']}}</td>
-                    <td>{{lang['label']}}</td>
-                    <td>{{lang['creator'] != "" ? lang['creator'] : '<'+'empty'+'>'}}</td>
-                    <td>{{lang['description'] != "" ? lang['description'] : '<'+'empty'+'>'}}</td>
-                    <td>{{lang['entries']}}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="form-group row ml-3 mt-5 mr-3 mb-0">
+            <label for="inputLabel" class="col-form-label">Languages list:</label>
+            <table class="table table_language table-bordered  table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Language instance</th>
+                        <th scope="col">Label</th>
+                        <th scope="col">Creator</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Entries</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lang of languageList; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{lang['languageInstanceName']}}</td>
+                        <td>{{lang['label']}}</td>
+                        <td>{{lang['creator'] != "" ? lang['creator'] : '<'+'empty'+'>'}}</td>
+                        <td>{{lang['description'] != "" ? (lang['description'] | slice:0:6) +'...' : '<'+'empty'+'>'}}
+                        </td>
+                        <td>{{lang['entries']}}</td>
+                        <td>
+                            <span><button class="btn btn-primary mr-1"><i class="fas fa-edit"></i></button></span>
+                            <span><button class="btn btn-danger ml-1"><i class="fas fa-trash-alt"></i></button></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
