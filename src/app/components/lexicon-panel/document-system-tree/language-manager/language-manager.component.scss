@@ -3,8 +3,18 @@
 @import "../../../../../../node_modules/bootstrap/scss/variables";
 @import "../../../../../../node_modules/bootstrap/scss/mixins";
 
+table{
+    font-size: 12px;
+    font-weight: 400;
+
+
+    th, td {
+        vertical-align: middle;
+    }    
+}
+
 .row {
-    align-items: baseline;
+    align-items: center;
 }
 
 .btn{
@@ -16,32 +26,73 @@
     font-size: 12px;
 }
 
-label{
-    font-size: 12px;
-}
-
 .btn {
     font-size: 12px;
     height: 32px;
 }
 
-
-.card {
-    width: 100%;
-    /* height: 100%; */
+.form-check-input {
+    margin-top: 0;
 }
 
-/* .card-body{
-    max-height: 60vh;
-    overflow: auto;
-} */
 
-table{
+.card {
+    margin-top: 20px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+#accordion {
+    width: 100%;
+}
+
+.text-id {
+    position: absolute;
+    left: 10px;
+    top: -12px;
+    background: white;
+    text-align: center;
+    color: $gray-900;
+    padding: 5px 10px;
     font-size: 12px;
-    font-weight: 400;
+}
 
+.collapse-icon {
+    position: absolute;
+    right: 4px;
+    top: -16px;
+    background: white;
+    text-align: center;
+    color: $gray-900;
+    padding: 5px 5px;
+    font-size: 16px;
+}
 
-    th, td {
-        vertical-align: middle;
-    }    
+.badge {
+    font-size: 11px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.input-group-text {
+    background-color: white;
+    border: none;
+}
+
+.input-group>.form-control:not(:last-child) {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+#addLanguageModal, #editLangModal {
+
+    .card {
+        margin-top: 0;
+        padding-top: 0;
+        width: 100%;
+        height: 100%;
+        
+    }
 }
