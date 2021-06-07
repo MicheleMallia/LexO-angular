@@ -114,8 +114,34 @@ tree-node-content {
     z-index: 9999 !important;
 }
 
-.languages_modal .ui-modal{
+.languages_modal > .ui-modal{
     min-width: 60rem;
     width: 40rem;
     min-height: 25rem;
+
+    .ui-modal-body {
+        max-height: 50vh;
+    }
+
+    .edit_languages_modal  {
+        .ui-modal{
+            min-width: 40rem;
+            width: 40rem;
+            min-height: 28rem;
+            height: 28rem !important;
+        }
+        .ui-modal-body {
+            min-height: 20vh !important;
+            max-height: 65vh !important;
+        }
+    }
+}
+
+.add_languages_modal > .ui-modal{
+    min-width: 40rem;
+    width: 40rem;
+    min-height: 13rem;
+
+    
+    
 }
