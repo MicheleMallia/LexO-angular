@@ -20,7 +20,7 @@
                     <button class="btn btn-link" *ngIf="isSense" title="delete sense" (click)="deleteSense()">
                         <i class="fa fa-trash"></i>
                     </button>
-                    <button class="btn btn-link" (click)="changeStatus()">
+                    <button class="btn btn-link" (click)="changeStatus()" *ngIf="isLexicalEntry">
                         <i class="fa fa-circle" [hidden]="lock!=0" style="color: red"></i>
                         <i class="fa fa-circle" [hidden]="lock!=1" style="color: yellow"></i>
                         <i class="fa fa-circle locked-tooltip" [hidden]="lock!=2" data-toggle="tooltip"
