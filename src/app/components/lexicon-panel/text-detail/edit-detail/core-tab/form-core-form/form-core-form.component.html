@@ -4,16 +4,19 @@
             <div class="card">
                 <span class="text-id"><b>INHERITANCE</b></span>
                 <div class="card-body">
-                    <div class="d-flex my-2" formArrayName="inheritance" *ngFor="let inher of formCore.get('inheritance')['controls']; let i = index">
-                        <div class="col-md-3" [formGroupName]="i"> 
-                            <label class="col-form-label" formControlName="trait" name="trait">{{inher.value['trait']}}</label>
+                    <div class="d-flex my-2" formArrayName="inheritance"
+                        *ngFor="let inher of formCore.get('inheritance')['controls']; let i = index">
+                        <div class="col-md-3" [formGroupName]="i">
+                            <label class="col-form-label" formControlName="trait"
+                                name="trait">{{inher.value['trait']}}</label>
                         </div>
-                        <div class="input-group col-md-7" [formGroupName]="i"> 
-                            
-                            <input formControlName="value" name="value" type="text" class="form-control" placeholder="" [value]="inher.value['trait']">
+                        <div class="input-group col-md-7" [formGroupName]="i">
+
+                            <input formControlName="value" name="value" type="text" class="form-control" placeholder=""
+                                [value]="inher.value['trait']">
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -28,7 +31,8 @@
         <label for="inputType" class="col-lg-3 col-form-label">Type:</label>
         <div class="col-lg-5">
             <select formControlName="type" name="type" class="form-control" (change)="onChangeType($event)">
-                <option *ngFor="let type of typesData" [selected]="object.type === type['valueId']">{{type['valueId'] }}</option>
+                <option *ngFor="let type of typesData" [selected]="object.type === type['valueId']">{{type['valueId'] }}
+                </option>
             </select>
         </div>
     </div>
@@ -37,48 +41,76 @@
         <div class="input-group col-lg-12">
             <div class="card">
                 <span class="text-id"><b>OTHER REPRESENTATION</b></span>
+                <a class="pointer" (click)="addLabel()"><span class="collapse-icon"><i
+                            class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
-                    <div class="d-flex my-2" formArrayName="label" *ngFor="let l of formCore.get('label')['controls']; let i = index">
-                        <div class="col-md-3" [formGroupName]="i"> 
-                            <label class="col-form-label">{{l.value['propertyID']}}</label>
+                    <div class="d-flex my-2" formArrayName="label"
+                        *ngFor="let l of formCore.get('label')['controls']; let i = index">
+                        <div class="col-md-5" [formGroupName]="i">
+                            <select class="form-control selectTrait" formControlName="propertyID" name="propertyID"
+                                style="font-size: 12px;" (change)="onChangeLabelTrait($event, i)">
+                                <option value="">Select a trait...</option>
+                                <option *ngFor="let ld of labelData" [selected]="l.value['propertyID'] === ld"
+                                    [disabled]="memoryLabel.indexOf(ld) > -1">{{ld}}</option>
+                            </select>
+                            <div class="invalid-feedback" *ngIf="l.get('propertyID').invalid" style="display: block;">
+                                Please, don't leave this field blank
+                            </div>
                         </div>
-                        <div class="input-group col-md-7" [formGroupName]="i"> 
-                            <input formControlName="propertyValue" name="propertyValue" type="text" class="form-control" placeholder="" (keyup)="debounceKeyup($event, i)">
+                        <div class="input-group col-md-7" [formGroupName]="i">
+                            <input formControlName="propertyValue" name="propertyValue" type="text" class="form-control"
+                                placeholder="" (keyup)="debounceKeyup($event, i)">
+                            <div (click)="removeLabel(i)" class="input-group-append ml-2"> <button
+                                    class="btn btn-danger" type="button"
+                                    style="font-size: 12px; border-radius: .25rem;"><i
+                                        class="fa fa-trash-alt"></i></button>
+                            </div>
+                            <div class="invalid-feedback" *ngIf="l.get('propertyValue').invalid" style="display: block;">
+                                Please, don't leave this field blank
+                            </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 
-   
-    
+
+
     <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-lg-12">
             <div class="card">
                 <span class="text-id"><b>MORPHOLOGY</b></span>
-                <a class="pointer" (click)="addMorphoTraits()"><span class="collapse-icon"><i class="fa fa-plus-square"></i></span></a>
+                <a class="pointer" (click)="addMorphoTraits()"><span class="collapse-icon"><i
+                            class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
-                    <div class="d-flex my-2" formArrayName="morphoTraits" *ngFor="let morpho of formCore.get('morphoTraits')['controls']; let i = index">
-                        <div class="col-md-4" [formGroupName]="i"> 
-                            <select class="form-control selectTrait" formControlName="trait" name="trait" style="font-size: 12px;" (change)="onChangeTrait($event, i)">
+                    <div class="d-flex my-2" formArrayName="morphoTraits"
+                        *ngFor="let morpho of formCore.get('morphoTraits')['controls']; let i = index">
+                        <div class="col-md-4" [formGroupName]="i">
+                            <select class="form-control selectTrait" formControlName="trait" name="trait"
+                                style="font-size: 12px;" (change)="onChangeTrait($event, i)">
                                 <option value="">Select a trait...</option>
-                                <option *ngFor="let mt of morphologyData" [selected]="morpho.value['trait'] === mt.propertyId" [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
-                            </select> 
+                                <option *ngFor="let mt of morphologyData"
+                                    [selected]="morpho.value['trait'] === mt.propertyId"
+                                    [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
+                            </select>
                             <div class="invalid-feedback" *ngIf="morpho.get('trait').invalid" style="display: block;">
                                 Please, don't leave this field blank
                             </div>
                         </div>
-                        <div class="input-group col-md-7" [formGroupName]="i"> 
-                            <select class="form-control selectTrait" formControlName="value" name="value" style="font-size:12px;" (change)="onChangeValue(i)">
+                        <div class="input-group col-md-7" [formGroupName]="i">
+                            <select class="form-control selectTrait" formControlName="value" name="value"
+                                style="font-size:12px;" (change)="onChangeValue(i)">
                                 <option value="">Select a value...</option>
-                                <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i" [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
+                                <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i"
+                                    [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
                             </select>
-                            
-                            <div (click)="removeElement(i)" class="input-group-append ml-2"> <button class="btn btn-danger"
-                                    type="button" style="font-size: 12px; border-radius: .25rem;"><i
-                                        class="fa fa-trash-alt"></i></button> 
+
+                            <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
+                                    class="btn btn-danger" type="button"
+                                    style="font-size: 12px; border-radius: .25rem;"><i
+                                        class="fa fa-trash-alt"></i></button>
                             </div>
                             <div class="invalid-feedback" *ngIf="morpho.get('value').invalid" style="display: block;">
                                 Please, don't leave this field blank

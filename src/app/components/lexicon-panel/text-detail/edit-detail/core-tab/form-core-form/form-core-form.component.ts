@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { Form, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
@@ -35,6 +35,9 @@ export class FormCoreFormComponent implements OnInit {
     label: new FormArray([this.createLabel()]),
     morphoTraits: new FormArray([this.createMorphoTraits()])
   })
+
+  labelData = [];
+  memoryLabel = [];
 
   morphoTraits: FormArray;
   inheritanceArray: FormArray;
@@ -110,6 +113,8 @@ export class FormCoreFormComponent implements OnInit {
 
         this.valueTraits = [];
         this.memoryTraits = [];
+        this.memoryLabel = [];
+        this.labelData = [];
 
         for (var i = 0; i < this.object.inheritedMorphology.length; i++) {
           const trait = this.object.inheritedMorphology[i]['trait'];
@@ -121,9 +126,17 @@ export class FormCoreFormComponent implements OnInit {
         this.formCore.get('type').setValue(this.object.type, { emitEvent: false });
 
         for (var i = 0; i < this.object.label.length; i++) {
+          
           const trait = this.object.label[i]['propertyID'];
           const value = this.object.label[i]['propertyValue'];
-          this.addLabel(trait, value);
+
+          this.labelData.push(trait);
+
+          if(value != ''){
+            this.addLabel(trait, value);
+            this.memoryLabel.push(trait);
+          }
+          
         }
 
         for (var i = 0; i < this.object.morphology.length; i++) {
@@ -236,6 +249,25 @@ export class FormCoreFormComponent implements OnInit {
     }
   }
 
+  onChangeLabelTrait(evt, i) {
+
+    setTimeout(() => {
+      this.labelArray = this.formCore.get('label') as FormArray;
+      this.labelArray.at(i).patchValue({ propertyID: evt.target.value, propertyValue: "" });
+      console.log(this.labelArray)
+      if (evt.target.value != '') {
+        
+        this.memoryLabel[i] = evt.target.value;
+      } else {
+        
+        this.memoryLabel.splice(i, 1)
+      }
+
+
+
+    }, 250);
+  }
+
   onChangeLabel(object) {
 
     this.labelArray = this.formCore.get('label') as FormArray;
@@ -244,19 +276,21 @@ export class FormCoreFormComponent implements OnInit {
     const formId = this.object.formInstanceName;
     const parameters = { relation: trait, value: newValue }
 
-    this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
-      data => {
-        console.log(data)
-        this.lexicalService.spinnerAction('off');
-        this.lexicalService.refreshLexEntryTree();
-        this.lexicalService.updateLexCard(data)
-      }, error => {
-        console.log(error);
-        this.lexicalService.refreshLexEntryTree();
-        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
-        this.lexicalService.spinnerAction('off');
-      }
-    )
+    if(trait != undefined){
+      this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
+        data => {
+          console.log(data)
+          this.lexicalService.spinnerAction('off');
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard(data)
+        }, error => {
+          console.log(error);
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+          this.lexicalService.spinnerAction('off');
+        }
+      )
+    }
   }
 
   createMorphoTraits(t?, v?): FormGroup {
@@ -281,15 +315,28 @@ export class FormCoreFormComponent implements OnInit {
   }
 
   createLabel(t?, v?): FormGroup {
-    return this.formBuilder.group({
-      propertyID: t,
-      propertyValue: v
-    })
+    if(t != undefined){
+      return this.formBuilder.group({
+        propertyID: new FormControl(t, [Validators.required, Validators.minLength(0)]),
+        propertyValue: new FormControl(v, [Validators.required, Validators.minLength(0)])
+      })
+    }else{
+      return this.formBuilder.group({
+        propertyID: new FormControl('', [Validators.required, Validators.minLength(0)]),
+        propertyValue: new FormControl('', [Validators.required, Validators.minLength(0)])
+      })
+    }
+    
   }
 
   addLabel(t?, v?) {
     this.labelArray = this.formCore.get('label') as FormArray;
-    this.labelArray.push(this.createLabel(t, v));
+    if(t != undefined){
+      this.labelArray.push(this.createLabel(t, v));
+    }else{
+      this.labelArray.push(this.createLabel());
+    }
+    
   }
 
   addInheritance(t?, v?) {
@@ -309,6 +356,11 @@ export class FormCoreFormComponent implements OnInit {
   removeElement(index) {
     this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
     this.morphoTraits.removeAt(index);
+  }
+
+  removeLabel(index) {
+    this.labelArray = this.formCore.get('label') as FormArray;
+    this.labelArray.removeAt(index);
   }
 
 }
