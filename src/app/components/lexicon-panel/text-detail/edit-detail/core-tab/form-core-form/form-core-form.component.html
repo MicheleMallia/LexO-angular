@@ -33,14 +33,26 @@
         </div>
     </div>
 
-    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="label" *ngFor="let l of formCore.get('label')['controls']; let i = index">
-        <div class="col-md-3" [formGroupName]="i"> 
-            <label class="col-form-label">{{l.value['propertyID']}}</label>
-        </div>
-        <div class="input-group col-md-7" [formGroupName]="i"> 
-            <input formControlName="propertyValue" name="propertyValue" type="text" class="form-control" placeholder="" (keyup)="debounceKeyup($event, i)">
+    <div class="form-group row ml-2 mt-3 mr-2">
+        <div class="input-group col-lg-12">
+            <div class="card">
+                <span class="text-id"><b>OTHER REPRESENTATION</b></span>
+                <div class="card-body">
+                    <div class="d-flex my-2" formArrayName="label" *ngFor="let l of formCore.get('label')['controls']; let i = index">
+                        <div class="col-md-3" [formGroupName]="i"> 
+                            <label class="col-form-label">{{l.value['propertyID']}}</label>
+                        </div>
+                        <div class="input-group col-md-7" [formGroupName]="i"> 
+                            <input formControlName="propertyValue" name="propertyValue" type="text" class="form-control" placeholder="" (keyup)="debounceKeyup($event, i)">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
         </div>
     </div>
+
+   
     
     <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-lg-12">
