@@ -188,11 +188,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     onChangeLanguage(evt) {
         
+        this.lexicalService.spinnerAction('on');
         let langLabel = evt.target.value;
         let langValue;
         this.languages.forEach(element => {
             if(element['label'] == langLabel){
-                langValue = element['languageInstanceName'];
+                langValue = element['label'];
                 return;
             }
         });
@@ -202,12 +203,19 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 relation: 'language',
                 value: langValue
             }
+            //TODO: refreshare albero
             console.log(parameters)
-            this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+            this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                 data => {
                     console.log(data)
+                    this.lexicalService.spinnerAction('off');
+                    this.lexicalService.refreshLexEntryTree();
+                    this.lexicalService.updateLexCard(this.object)
                 }, error => {
                     console.log(error)
+                    this.lexicalService.refreshLexEntryTree();
+                    this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+                    this.lexicalService.spinnerAction('off');
                 }
             )
         }
