@@ -27,6 +27,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     morphologyData = [];
     valueTraits = [];
     memoryTraits = [];
+    memoryValues = [];
     languages = [];
 
     memoryDenotes = [];
@@ -149,14 +150,15 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.valueTraits = [];
                 this.memoryTraits = [];
                 this.memoryDenotes = [];
+                this.memoryValues = [];
 
                 for (var i = 0; i < this.object.morphology.length; i++) {
                     const trait = this.object.morphology[i]['trait'];
                     const value = this.object.morphology[i]['value'];
+                    this.memoryValues[i] = value;
                     this.addMorphoTraits(trait, value);
                     this.onChangeTrait(trait, i);
                 }
-
 
                 this.lexicalService.getLexEntryLinguisticRelation(lexId, 'denotes').subscribe(
                     data => {
@@ -165,7 +167,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                             this.addDenotes(entity);
                             this.memoryDenotes.push(data[i])
                         }
-                        console.log(this.memoryDenotes)
                     }, error => {
                         console.log(error)
                     }
@@ -203,7 +204,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 relation: 'language',
                 value: langValue
             }
-            //TODO: refreshare albero
             console.log(parameters)
             this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                 data => {
@@ -229,11 +229,22 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         const value = this.morphoTraits.at(i).get('value').value;
         if (trait != '' && value != '') {
             console.log("qua chiamo il servizio");
-            let parameters = {
-                type: "morphology",
-                relation: trait,
-                value: value
+            let parameters;
+            if(this.memoryValues[i] == ""){
+                parameters = {
+                    type: "morphology",
+                    relation: trait,
+                    value: value
+                }
+            }else{
+                parameters = {
+                    type: "morphology",
+                    relation: trait,
+                    value: value,
+                    currentValue : this.memoryValues[i]
+                }
             }
+            
             let lexId = this.object.lexicalEntryInstanceName;
 
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
@@ -267,7 +278,9 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     })['0']['propertyValues'];
                     this.valueTraits[i] = arrayValues;
                     this.memoryTraits[i] = evt.target.value;
+                    this.memoryValues[i] = "";
                 } else {
+                    this.memoryValues.splice(i, 1);
                     var arrayValues = [];
                     this.valueTraits[i] = arrayValues
                     this.memoryTraits.splice(i, 1)
@@ -282,7 +295,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 })['0']['propertyValues'];
                 this.valueTraits[i] = arrayValues;
                 this.memoryTraits.push(evt);
-
             }, 250);
         }
     }
