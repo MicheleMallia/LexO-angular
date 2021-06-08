@@ -296,13 +296,13 @@ export class FormCoreFormComponent implements OnInit {
   createMorphoTraits(t?, v?): FormGroup {
     if (t != undefined) {
       return this.formBuilder.group({
-        trait: t,
-        value: v
+        trait: new FormControl(t, [Validators.required, Validators.minLength(0)]),
+        value: new FormControl(v, [Validators.required, Validators.minLength(0)])
       })
     } else {
       return this.formBuilder.group({
-        trait: '',
-        value: ''
+        trait: new FormControl('', [Validators.required, Validators.minLength(0)]),
+        value: new FormControl('', [Validators.required, Validators.minLength(0)])
       })
     }
   }
