@@ -35,7 +35,7 @@ export class LanguageManagerComponent implements OnInit {
     /*  this.onChanges(); */
     this.lexicalService.refreshLangTable$.subscribe(
       data => {
-        console.log("refresh");
+        /* console.log("refresh"); */
         this.loadLangData();
       }, error => {
         console.log("no refresh")
@@ -53,7 +53,7 @@ export class LanguageManagerComponent implements OnInit {
   loadLangData() {
     this.lexicalService.getLexiconLanguages().subscribe(
       data => {
-        console.log(data)
+        /* console.log(data) */
         this.languageList = data;
       }, error => {
         console.log(error)
