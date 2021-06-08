@@ -275,10 +275,10 @@ export class LexicalEntryTreeComponent implements OnInit {
       /* this.lexicalService.sendToCoreTab($event.node.data);
       this.lexicalService.sendToRightTab(null); */
     }
-    else if ($event.eventName == 'deactivate' && ($event.node.data.lexicalEntry == undefined && $event.node.data.form == undefined)) {
+    /* else if ($event.eventName == 'deactivate' && ($event.node.data.lexicalEntry == undefined && $event.node.data.form == undefined)) {
       this.lexicalService.sendToCoreTab(null);
       this.lexicalService.sendToRightTab(null);
-    }
+    } */
     
   };
 
