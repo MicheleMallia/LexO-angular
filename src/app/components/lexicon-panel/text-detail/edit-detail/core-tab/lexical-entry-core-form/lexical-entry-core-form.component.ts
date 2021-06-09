@@ -33,6 +33,9 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     memoryDenotes = [];
     memoryEvokes = [];
 
+    valuePos = [];
+    memoryPos = '';
+
     private denotes_subject: Subject<any> = new Subject();
     private evokes_subject: Subject<any> = new Subject();
 
@@ -45,7 +48,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         label: new FormControl('', [Validators.required, Validators.minLength(3)]),
         type: new FormControl(''),
         language: new FormControl(''),
-        pos: new FormControl(''),
+        pos: new FormControl('', [Validators.required, Validators.minLength(3)]),
         morphoTraits: new FormArray([this.createMorphoTraits()]),
         evokes: new FormArray([this.createEvokes()]),
         denotes: new FormArray([this.createDenotes()])
@@ -120,6 +123,16 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             data => {
                 this.morphologyData = data;
                 /* console.log(this.morphologyData) */
+                this.valuePos = this.morphologyData.filter( x => {
+                    if(x.propertyId == 'partOfSpeech'){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                })
+
+                this.valuePos = this.valuePos[0]['propertyValues'];
+                console.log(this.valuePos)
             }
         )
     }
@@ -136,6 +149,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
                 this.evokesArray = this.coreForm.get('evokes') as FormArray;
                 this.evokesArray.clear();
+
+                this.memoryPos = '';
             }
             this.object = changes.lexData.currentValue;
 
@@ -145,7 +160,9 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.coreForm.get('label').setValue(this.object.label, { emitEvent: false });
                 this.coreForm.get('type').setValue(this.object.type, { emitEvent: false });
                 this.coreForm.get('language').setValue(this.object.language, { emitEvent: false });
-                this.coreForm.get('pos').setValue(this.object.pos);
+                this.coreForm.get('pos').setValue(this.object.pos, {emitEvent : false});
+
+                this.memoryPos = this.object.pos;
 
                 this.valueTraits = [];
                 this.memoryTraits = [];
@@ -212,6 +229,47 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.refreshLexEntryTree();
                     this.lexicalService.updateLexCard(this.object)
                 }, error => {
+                    console.log(error)
+                    this.lexicalService.refreshLexEntryTree();
+                    this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+                    this.lexicalService.spinnerAction('off');
+                }
+            )
+        }
+        
+    }
+
+    onChangePos(evt){
+        this.lexicalService.spinnerAction('on');
+        let posValue = evt.target.value;
+        let lexId = this.object.lexicalEntryInstanceName;
+        if(posValue != ''){
+            let parameters;
+            if(this.memoryPos == ''){
+            
+                parameters = {
+                    type: "morphology",
+                    relation: 'partOfSpeech',
+                    value: posValue
+                }
+            
+            }else{
+                parameters = {
+                    type: "morphology",
+                    relation: 'partOfSpeech',
+                    value: posValue,
+                    currentValue : this.memoryPos
+                }
+            }
+
+            this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+                data => {
+                    console.log(data)
+                    this.lexicalService.spinnerAction('off');
+                    this.lexicalService.refreshLexEntryTree();
+                    this.lexicalService.updateLexCard(this.object)
+                },
+                error => {
                     console.log(error)
                     this.lexicalService.refreshLexEntryTree();
                     this.lexicalService.updateLexCard({ lastUpdate: error.error.text })

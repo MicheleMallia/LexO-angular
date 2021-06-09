@@ -38,13 +38,21 @@
                             <label for="selectPos" class="col-form-label">Part of speech:</label>
                         </div>
                         <div class="col-md-6">
-                            <select formControlName="pos" name="pos" class="form-control">
+                            <!-- <select formControlName="pos" name="pos" class="form-control">
                                 <option [value]="object.pos">{{object.pos}}</option>
+                            </select> -->
+                            <select class="form-control selectTrait" formControlName="pos" name="pos" style="font-size:12px;" (change)="onChangePos($event)">
+                                <option value="">Select a value...</option>
+                                <option *ngFor="let item of valuePos;" [selected]="item.valueId == object.pos">{{item.valueId}}</option>
                             </select>
+                            <div class="invalid-feedback" *ngIf="coreForm.get('pos').value == ''" style="display: block;">
+                                Please, don't leave this field blank
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="d-flex my-2" formArrayName="morphoTraits" *ngFor="let morpho of coreForm.get('morphoTraits')['controls']; let i = index">
-                        <div class="col-md-4" [formGroupName]="i"> 
+                        <div class="col-md-4" [formGroupName]="i" *ngIf="morpho.value['trait'] != 'partOfSpeech'"> 
                             <select class="form-control selectTrait" formControlName="trait" name="trait" style="font-size: 12px;" (change)="onChangeTrait($event, i)">
                                 <option value="">Select a trait...</option>
                                 <option *ngFor="let mt of morphologyData" [selected]="morpho.value['trait'] === mt.propertyId" [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
@@ -53,7 +61,7 @@
                                 Please, don't leave this field blank
                             </div>
                         </div>
-                        <div class="input-group col-md-7" [formGroupName]="i"> 
+                        <div class="input-group col-md-7" [formGroupName]="i" *ngIf="morpho.value['trait'] != 'partOfSpeech'"> 
                             <select class="form-control selectTrait" formControlName="value" name="value" style="font-size:12px;" (change)="onChangeValue(i)">
                                 <option value="">Select a value...</option>
                                 <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i" [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
