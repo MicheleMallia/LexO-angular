@@ -22,7 +22,7 @@
                         <td>{{lang['languageInstanceName']}}</td>
                         <td>{{lang['label']}}</td>
                         <td>{{lang['creator'] != "" ? lang['creator'] : '<'+'empty'+'>'}}</td>
-                        <td>{{lang['description'] != "" ? (lang['description'] | slice:0:6) +'...' : '<'+'empty'+'>'}}
+                        <td>{{lang['description'] != "" ? (lang['description'] | slice:0:20) +'...' : '<'+'empty'+'>'}}
                         </td>
                         <td>{{lang['entries']}}</td>
                         <td>
@@ -73,12 +73,14 @@
                         class="fa fa-plus-square"></i></span></a> -->
             <div class="card-body">
                 <form [formGroup]="editLangForm">
-                    <div class="form-group row ml-2 mt-3 mr-2" *ngFor="let item of editLangArray | keyvalue">
-                        <label for="inputLabel" class="col-lg-3 col-form-label" style="font-size: 12px;" *ngIf="item.key == 'description' || item.key == 'catalog' || item.key == 'languageInstanceName'">{{item.key}}</label>
-                        <div class="input-group col-lg-9" style="align-items: center;" *ngIf="item.key == 'description' || item.key == 'catalog' || item.key == 'languageInstanceName'">
-                            <input #inputLang type="text" class="form-control" placeholder="" [value]="item.value" [formControlName]="item.key" [name]="item.key" (keyup)="triggerEdit(item.key, inputLang.value)">
-                            <div class="invalid-feedback" *ngIf="!checkEditValid(item.key)" style="display: block; font-size: 9px;">
-                                Invalid Field
+                    <div *ngFor="let item of editLangArray | keyvalue">
+                        <div class="form-group row ml-2 mt-3 mr-2" *ngIf="item.key == 'description' || item.key == 'label' || item.key == 'lexvo'">
+                            <label for="inputLabel" class="col-lg-3 col-form-label" style="font-size: 12px;">{{item.key}}</label>
+                            <div class="input-group col-lg-9" style="align-items: center;">
+                                <input #inputLang type="text" class="form-control" placeholder="" [value]="item.value" [formControlName]="item.key" [name]="item.key" (keyup)="triggerEdit(item.key, inputLang.value)">
+                                <div class="invalid-feedback" *ngIf="!checkEditValid(item.key)" style="display: block; font-size: 9px;">
+                                    Invalid Field
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -21,9 +21,9 @@ export class LanguageManagerComponent implements OnInit {
   /* public urlRegex = /(^|\s)((https?:\/\/.+))/ */
 
   editLangForm = new FormGroup({
-    catalog: new FormControl('', [Validators.required, Validators.minLength(2)]),
     description: new FormControl('', [Validators.required, Validators.minLength(10)]),
-    languageInstanceName: new FormControl('', [Validators.required, Validators.minLength(0), Validators.maxLength(10)])
+    lexvo : new FormControl('', [Validators.required, Validators.minLength(3)]),
+    label: new FormControl('', [Validators.required, Validators.minLength(0), Validators.maxLength(10)])
   })
   constructor(private lexicalService: LexicalEntriesService) { }
 
@@ -66,12 +66,15 @@ export class LanguageManagerComponent implements OnInit {
     if (inputValue.match(/^[A-Za-z]{2,3}$/)) {
       this.isValid = true;
       this.loadingService = true;
+      
       this.lexicalService.createNewLanguage(inputValue).subscribe(
         data => {
           this.loadingService = false;
           this.lexicalService.refreshLangTable();
         }, error => {
           console.log(error)
+          this.loadingService = false;
+          this.lexicalService.refreshLangTable();
         }
       )
     } else {
@@ -84,6 +87,7 @@ export class LanguageManagerComponent implements OnInit {
   }
 
   onEditLanguage(data) {
+    console.log(data)
     if (data['i'] == "description") {
       let langId = this.editLangArray['languageInstanceName'];
       let parameters = {
@@ -100,10 +104,10 @@ export class LanguageManagerComponent implements OnInit {
           this.lexicalService.refreshLangTable();
         }
       )
-    } else if (data['i'] == "catalog") {
+    } else if (data['i'] == "lexvo") {
       let langId = this.editLangArray['languageInstanceName'];
       let parameters = {
-        relation: 'linguisticCatalog',
+        relation: 'lexvo',
         value: data['v']
       }
 
@@ -116,7 +120,7 @@ export class LanguageManagerComponent implements OnInit {
           this.lexicalService.refreshLangTable();
         }
       )
-    }else if (data['i'] == "languageInstanceName") {
+    }else if (data['i'] == "label") {
       let langId = this.editLangArray['languageInstanceName'];
       let parameters = {
         relation: 'language',
@@ -138,8 +142,9 @@ export class LanguageManagerComponent implements OnInit {
   editLang(index) {
     this.editLangArray = this.languageList[index]
     this.editLangForm.get('description').setValue(this.editLangArray['description'], { eventEmit: false })
-    this.editLangForm.get('catalog').setValue(this.editLangArray['catalog'], { eventEmit: false })
-    this.editLangForm.get('languageInstanceName').setValue(this.editLangArray['languageInstanceName'], { eventEmit: false })
+    this.editLangForm.get('lexvo').setValue(this.editLangArray['lexvo'], { eventEmit: false })
+    this.editLangForm.get('label').setValue(this.editLangArray['label'], { eventEmit: false })
+    console.log(this.editLangArray)
   }
 
   checkEditValid(index) {

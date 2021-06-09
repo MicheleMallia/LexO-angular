@@ -220,7 +220,7 @@ export class LexicalEntriesService {
 
   //GET /lexicon/creation/language --> create new language
   createNewLanguage(langId): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/creation/language?&key=" + this.key + "&language="+ langId +"&author=" + this.author);
+    return this.http.get(this.baseUrl + "lexicon/creation/language?key=" + this.key + "&lang="+ langId +"&author=" + this.author);
   }
 
   //POST /lexicon/update/{id}/language --> update language
