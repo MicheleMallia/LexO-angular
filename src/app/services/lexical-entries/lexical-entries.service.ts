@@ -15,6 +15,7 @@ export class LexicalEntriesService {
   private _updateLexCardReq: BehaviorSubject<object> = new BehaviorSubject(null);
   private _spinnerAction: BehaviorSubject<string> = new BehaviorSubject(null);
   private _refreshLanguageTable: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _refreshAfterEdit : BehaviorSubject<object> = new BehaviorSubject(null);
 
   //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
   private baseUrl = "/LexO-backend/service/"
@@ -30,6 +31,7 @@ export class LexicalEntriesService {
   updateLexCardReq$ = this._updateLexCardReq.asObservable();
   spinnerAction$ = this._spinnerAction.asObservable();
   refreshLangTable$ = this._refreshLanguageTable.asObservable();
+  refreshAfterEdit$ = this._refreshAfterEdit.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -63,6 +65,10 @@ export class LexicalEntriesService {
 
   refreshLangTable(){
     this._refreshLanguageTable.next(null);
+  }
+
+  refreshAfterEdit(object: object){
+    this._refreshAfterEdit.next(object);
   }
 
   //POST: /lexicon/lexicalEntries ---> get lexical entries list
