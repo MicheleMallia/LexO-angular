@@ -164,6 +164,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   lexEntryDeleteReq(){
     setTimeout(() => {
+      this.filterForm.get('text').setValue('', {eventEmit : false});
       this.lexicalEntriesFilter(this.parameters);
       this.lexicalEntryTree.treeModel.update();
       this.updateTreeView();
@@ -208,9 +209,16 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   resetFields(){
-    this.filterForm.reset(this.initialValues);
-    this.lexicalService.sendToCoreTab(null);
-    this.lexicalService.sendToRightTab(null);
+   /*  this.filterForm.reset(this.initialValues); */
+    setTimeout(() => {
+      this.filterForm.get('text').setValue('', {eventEmit : false});
+      this.lexicalEntriesFilter(this.parameters);
+      this.lexicalEntryTree.treeModel.update();
+      this.updateTreeView();
+      this.lexicalService.sendToCoreTab(null);
+      this.lexicalService.sendToRightTab(null);
+    }, 500);  
+    
   }
 
   updateTreeView() {
