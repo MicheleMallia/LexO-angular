@@ -23,6 +23,9 @@
                 <option value="">Select language....</option>
                 <option *ngFor="let la of languages" [selected]="object.language === la">{{la['label']}}</option>
             </select>
+            <div class="invalid-feedback" *ngIf="coreForm.get('language').value == ''" style="display: block;">
+                Please, don't leave this field blank
+            </div>
         </div>
     </div>
 
@@ -38,9 +41,6 @@
                             <label for="selectPos" class="col-form-label">Part of speech:</label>
                         </div>
                         <div class="col-md-6">
-                            <!-- <select formControlName="pos" name="pos" class="form-control">
-                                <option [value]="object.pos">{{object.pos}}</option>
-                            </select> -->
                             <select class="form-control selectTrait" formControlName="pos" name="pos" style="font-size:12px;" (change)="onChangePos($event)">
                                 <option value="">Select a value...</option>
                                 <option *ngFor="let item of valuePos;" [selected]="item.valueId == object.pos">{{item.valueId}}</option>
@@ -104,7 +104,8 @@
                             <div class="input-group-append ml-2">
                                 <button (click)="removeEvokes(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>
-                            <div class="invalid-feedback" *ngIf="!getEvokesValid(i)" style="display: block;">
+                            
+                            <div class="invalid-feedback" *ngIf="evo.get('entity').invalid" style="display: block;">
                                 Please insert a valid URL...
                             </div>
                         </div>
@@ -138,7 +139,8 @@
                                 <button (click)="removeDenotes(i)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
                             </div>                            
                             
-                            <div class="invalid-feedback" *ngIf="!getDenotesValid(i)" style="display: block;">
+                           
+                            <div class="invalid-feedback" *ngIf="den.get('entity').invalid" style="display: block;">
                                 Please insert a valid URL...
                             </div>
                         </div>
