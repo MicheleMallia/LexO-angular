@@ -276,7 +276,7 @@ export class FormCoreFormComponent implements OnInit {
     const formId = this.object.formInstanceName;
     const parameters = { relation: trait, value: newValue }
 
-    if(trait != undefined){
+    if(trait != undefined && newValue != ''){
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
@@ -290,6 +290,8 @@ export class FormCoreFormComponent implements OnInit {
           this.lexicalService.spinnerAction('off');
         }
       )
+    }else{
+      this.lexicalService.spinnerAction('off');
     }
   }
 
