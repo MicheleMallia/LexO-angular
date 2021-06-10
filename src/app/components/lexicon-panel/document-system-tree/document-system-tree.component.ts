@@ -36,26 +36,108 @@ export class DocumentSystemTreeComponent implements OnInit {
     
     if(data != null){
       setTimeout(() => {
-        let newLexEntryLabel = data['label'];
-        let parameters = this.lexTree.getParameters();
-        parameters['text'] = newLexEntryLabel + "~0.5";
-        this.lexTree.lexicalEntriesFilter(parameters);
-        this.lexTree.lexicalEntryTree.treeModel.update();
-        this.lexTree.updateTreeView();
-        
-        setTimeout(() => {
-          this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-            function (x) {
-              console.log(x)
-              if (x.data.label == newLexEntryLabel) {
-                x.setActiveAndVisible()
-                return true;
-              } else {
-                return false;
+        if(data['childRequest'] == undefined){
+          let newLexEntryLabel = data['label'];
+          let parameters = this.lexTree.getParameters();
+          parameters['text'] = newLexEntryLabel + "~0.5";
+          this.lexTree.lexicalEntriesFilter(parameters);
+          this.lexTree.lexicalEntryTree.treeModel.update();
+          this.lexTree.updateTreeView();
+          setTimeout(() => {
+            this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+              function (x) {
+                if (x.data.label == newLexEntryLabel) {
+                  x.setActiveAndVisible()
+                  return true;
+                } else {
+                  return false;
+                }
               }
-            }
-          );
-        }, 500);
+            );
+          }, 500);
+        }else if(data['childRequest']){
+          let parentNode = data['parentNode'];
+          let parameters = this.lexTree.getParameters();
+          parameters['text'] = parentNode + "~0.5";
+          this.lexTree.lexicalEntriesFilter(parameters);
+          this.lexTree.lexicalEntryTree.treeModel.update();
+          this.lexTree.updateTreeView();
+          var that = this;
+          console.log(data)
+          setTimeout(() => {
+            this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+              function (x) {
+                if (x.data.label == parentNode) {
+                  that.lexTree.getChildren(x);
+                  
+                  /* x.setActiveAndVisible() */
+                  setTimeout(() => {
+                    x.expand();
+                    setTimeout(() => {
+                      that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+                        function(y) {
+                          if(y.data.label == data['whatToSearch']){
+                            /* y.setActiveAndVisible() */
+                            that.lexTree.getChildren(y);
+                            
+                            setTimeout(() => {
+                              y.expand();
+
+
+                              setTimeout(() => {
+                                
+                                that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+                                  function(z){
+                                    if(z.data.label == data['instanceName']){
+                                      z.setActiveAndVisible()
+                                      return true;
+                                    }else{
+                                      return false;
+                                    }
+                                  }
+                                );
+                              }, 1500);
+                            }, 1000);
+                          }
+                        }
+                      )
+                    }, 1000);
+                  }, 500);
+                  return true;
+                } else {
+                  return false;
+                }
+              }
+            );
+          }, 500);
+        }else if(!data['childRequest']){
+          var that = this;
+          console.log(data)
+          setTimeout(() => {
+            this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+              function (x) {
+                if(x.data.label == data['whatToSearch']){
+                  data['label'] = data['formInstanceName']
+                  x.data.children.push(data);
+                  setTimeout(() => {
+                    that.lexTree.lexicalEntryTree.treeModel.update();
+
+                    that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+                      function (y) {
+                        if(y.data.label == data['label']){
+                          y.setActiveAndVisible();
+                        }
+                      }
+                    )
+                  }, 10);
+                  
+                  
+                }
+              }
+            );
+          }, 500);
+        }
+        
       }, 100);
     }
     
