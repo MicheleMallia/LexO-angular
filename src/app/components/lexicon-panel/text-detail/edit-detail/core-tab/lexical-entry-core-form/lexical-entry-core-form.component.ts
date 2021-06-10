@@ -267,7 +267,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 data => {
                     console.log(data)
                     this.lexicalService.spinnerAction('off');
-                    this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshAfterEdit(data);
                 },
                 error => {
