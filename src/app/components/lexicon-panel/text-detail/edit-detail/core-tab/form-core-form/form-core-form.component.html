@@ -7,13 +7,12 @@
                     <div class="d-flex my-2" formArrayName="inheritance"
                         *ngFor="let inher of formCore.get('inheritance')['controls']; let i = index">
                         <div class="col-md-3" [formGroupName]="i">
-                            <label class="col-form-label" formControlName="trait"
-                                name="trait">{{inher.value['trait']}}</label>
+                            <span class="col-form-label">{{inher.value['trait']}}</span>
                         </div>
                         <div class="input-group col-md-7" [formGroupName]="i">
 
                             <input formControlName="value" name="value" type="text" class="form-control" placeholder=""
-                                [value]="inher.value['trait']">
+                                [value]="inher.value['value']" readonly>
                         </div>
                     </div>
 
