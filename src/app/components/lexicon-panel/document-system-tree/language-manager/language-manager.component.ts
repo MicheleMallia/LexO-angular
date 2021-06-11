@@ -21,9 +21,9 @@ export class LanguageManagerComponent implements OnInit {
   /* public urlRegex = /(^|\s)((https?:\/\/.+))/ */
 
   editLangForm = new FormGroup({
-    description: new FormControl('', [Validators.required, Validators.minLength(10)]),
+    description: new FormControl(''),
     lexvo : new FormControl('', [Validators.required, Validators.minLength(3)]),
-    label: new FormControl('', [Validators.required, Validators.minLength(0), Validators.maxLength(10)])
+    label: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(3)])
   })
   constructor(private lexicalService: LexicalEntriesService) { }
 
@@ -87,7 +87,7 @@ export class LanguageManagerComponent implements OnInit {
   }
 
   onEditLanguage(data) {
-    console.log(data)
+    
     if (data['i'] == "description") {
       let langId = this.editLangArray['languageInstanceName'];
       let parameters = {
@@ -121,21 +121,24 @@ export class LanguageManagerComponent implements OnInit {
         }
       )
     }else if (data['i'] == "label") {
-      let langId = this.editLangArray['languageInstanceName'];
-      let parameters = {
-        relation: 'language',
-        value: data['v']
-      }
-
-      this.lexicalService.updateLanguage(langId, parameters).subscribe(
-        data => {
-          console.log(data)
-          this.lexicalService.refreshLangTable();
-        }, error => {
-          console.log(error)
-          this.lexicalService.refreshLangTable();
+      if(this.editLangForm.get('label').valid){
+        let langId = this.editLangArray['languageInstanceName'];
+        let parameters = {
+          relation: 'language',
+          value: data['v']
         }
-      )
+  
+        this.lexicalService.updateLanguage(langId, parameters).subscribe(
+          data => {
+            console.log(data)
+            this.lexicalService.refreshLangTable();
+          }, error => {
+            console.log(error)
+            this.lexicalService.refreshLangTable();
+          }
+        )
+      }
+      
     }
   }
 
