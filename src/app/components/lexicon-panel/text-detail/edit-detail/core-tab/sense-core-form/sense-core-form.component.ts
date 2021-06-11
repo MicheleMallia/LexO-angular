@@ -213,6 +213,7 @@ export class SenseCoreFormComponent implements OnInit {
 
   removeDefinition(index){
     const definitionArray = this.senseCore.get('definition') as FormArray;
+    this.definitionMemory.splice(index, 1);
     definitionArray.removeAt(index)
   }
 
