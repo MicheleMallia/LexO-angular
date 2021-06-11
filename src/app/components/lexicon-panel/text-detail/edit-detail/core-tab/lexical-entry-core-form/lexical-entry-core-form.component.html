@@ -21,7 +21,7 @@
         <div class="col-lg-2">
             <select formControlName="language" name="language" class="form-control" (change)="onChangeLanguage($event)">
                 <option value="">Select language....</option>
-                <option *ngFor="let la of languages" [selected]="object.language === la">{{la['label']}}</option>
+                <option *ngFor="let la of languages" [selected]="object.language === la['label']">{{la['label']}}</option>
             </select>
             <div class="invalid-feedback" *ngIf="coreForm.get('language').value == ''" style="display: block;">
                 Please, don't leave this field blank
