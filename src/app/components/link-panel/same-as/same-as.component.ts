@@ -31,7 +31,7 @@ export class SameAsComponent implements OnInit {
     this.sameAsForm = this.formBuilder.group({
       sameAsArray: this.formBuilder.array([])
     })
-    this.addSameAsEntry()
+    
     this.onChanges();
     /* console.log(this.sameAsForm) */
     this.loadPeople();

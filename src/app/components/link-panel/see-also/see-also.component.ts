@@ -31,7 +31,7 @@ export class SeeAlsoComponent implements OnInit {
     this.seeAlsoForm = this.formBuilder.group({
       seeAlsoArray: this.formBuilder.array([])
     })
-    this.addSeeAlsoEntry()
+   
     this.onChanges();
     /* console.log(this.seeAlsoForm) */
     this.loadPeople();
@@ -67,7 +67,7 @@ export class SeeAlsoComponent implements OnInit {
 
   createSeeAlsoEntry() {
     return this.formBuilder.group({
-      entity: 'prova'
+      entity: ''
     })
   }
 

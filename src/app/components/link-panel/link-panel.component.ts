@@ -22,7 +22,9 @@ export class LinkPanelComponent implements OnInit {
       this.seeAlsoData = this.linkData.elements[0];
       this.sameAsData = this.linkData.elements[1];
       /* console.log(this.seeAlsoData) */
-      this.counterElement = this.linkData.elements.length;
+      this.counterElement = this.seeAlsoData.count + this.sameAsData.count;
+      console.log(changes.linkData.currentValue)
+      
     }else{
       this.counterElement = 0;
     }
