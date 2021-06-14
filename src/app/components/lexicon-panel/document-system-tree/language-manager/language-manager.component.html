@@ -8,7 +8,6 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Language instance</th>
                         <th scope="col">Label</th>
                         <th scope="col">Creator</th>
                         <th scope="col">Description</th>
@@ -19,10 +18,9 @@
                 <tbody>
                     <tr *ngFor="let lang of languageList; let i = index">
                         <th scope="row">{{i+1}}</th>
-                        <td>{{lang['languageInstanceName']}}</td>
                         <td>{{lang['label']}}</td>
                         <td>{{lang['creator'] != "" ? lang['creator'] : '<'+'empty'+'>'}}</td>
-                        <td>{{lang['description'] != "" ? (lang['description'] | slice:0:20) +'...' : '<'+'empty'+'>'}}
+                        <td>{{lang['description'] != "" ? (lang['description'] | slice:0:50) +'...' : '<'+'empty'+'>'}}
                         </td>
                         <td>{{lang['entries']}}</td>
                         <td>
