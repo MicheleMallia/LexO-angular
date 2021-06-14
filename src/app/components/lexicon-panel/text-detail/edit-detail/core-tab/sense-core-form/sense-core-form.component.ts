@@ -29,6 +29,7 @@ export class SenseCoreFormComponent implements OnInit {
   senseCore = new FormGroup({
     definition: new FormArray([this.createDefinition()]),
     usage: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    topic: new FormControl('', [Validators.required, Validators.minLength(5)]),
     reference: new FormArray([this.createReference()]),
     lexical_concept: new FormArray([this.createLexicalConcept()]),
     sense_of: new FormControl('', [Validators.required, Validators.minLength(5)])
@@ -57,6 +58,7 @@ export class SenseCoreFormComponent implements OnInit {
     this.senseCore = this.formBuilder.group({
       definition: this.formBuilder.array([]),
       usage: '',
+      topic: '',
       reference: this.formBuilder.array([this.createReference()]),
       lexical_concept: this.formBuilder.array([]),
       sense_of: ''
@@ -100,6 +102,8 @@ export class SenseCoreFormComponent implements OnInit {
           }
           
         }
+        console.log(this.object)
+        this.senseCore.get('topic').setValue(this.object.topic, { emitEvent : false })
         this.senseCore.get('usage').setValue(this.object.usage, { emitEvent: false });
         this.addLexicalConcept(this.object.concept);
         this.senseCore.get('sense_of').setValue(this.object.sense, { emitEvent: false });
@@ -140,6 +144,26 @@ export class SenseCoreFormComponent implements OnInit {
       let parameters = {
         relation: "usage",
         value: newDef
+      }
+      this.lexicalService.updateSense(senseId, parameters).subscribe(
+        data => {
+          this.lexicalService.spinnerAction('off');
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard(this.object)
+        }, error => {
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+          this.lexicalService.spinnerAction('off');
+        }
+      )
+    })
+
+    this.senseCore.get('topic').valueChanges.pipe(debounceTime(1000)).subscribe(newTopic => {
+      this.lexicalService.spinnerAction('on');
+      let senseId = this.object.senseInstanceName;
+      let parameters = {
+        relation: "topic",
+        value: newTopic
       }
       this.lexicalService.updateSense(senseId, parameters).subscribe(
         data => {
