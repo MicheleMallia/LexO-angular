@@ -126,17 +126,17 @@ export class FormCoreFormComponent implements OnInit {
         this.formCore.get('type').setValue(this.object.type, { emitEvent: false });
 
         for (var i = 0; i < this.object.label.length; i++) {
-          
+
           const trait = this.object.label[i]['propertyID'];
           const value = this.object.label[i]['propertyValue'];
 
           this.labelData.push(trait);
 
-          if(value != ''){
+          if (value != '') {
             this.addLabel(trait, value);
             this.memoryLabel.push(trait);
           }
-          
+
         }
 
         for (var i = 0; i < this.object.morphology.length; i++) {
@@ -256,10 +256,10 @@ export class FormCoreFormComponent implements OnInit {
       this.labelArray.at(i).patchValue({ propertyID: evt.target.value, propertyValue: "" });
       console.log(this.labelArray)
       if (evt.target.value != '') {
-        
+
         this.memoryLabel[i] = evt.target.value;
       } else {
-        
+
         this.memoryLabel.splice(i, 1)
       }
 
@@ -276,7 +276,7 @@ export class FormCoreFormComponent implements OnInit {
     const formId = this.object.formInstanceName;
     const parameters = { relation: trait, value: newValue }
 
-    if(trait != undefined && newValue != ''){
+    if (trait != undefined && newValue != '') {
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
@@ -290,7 +290,7 @@ export class FormCoreFormComponent implements OnInit {
           this.lexicalService.spinnerAction('off');
         }
       )
-    }else{
+    } else {
       this.lexicalService.spinnerAction('off');
     }
   }
@@ -317,28 +317,28 @@ export class FormCoreFormComponent implements OnInit {
   }
 
   createLabel(t?, v?): FormGroup {
-    if(t != undefined){
+    if (t != undefined) {
       return this.formBuilder.group({
         propertyID: new FormControl(t, [Validators.required, Validators.minLength(0)]),
         propertyValue: new FormControl(v, [Validators.required, Validators.minLength(0)])
       })
-    }else{
+    } else {
       return this.formBuilder.group({
         propertyID: new FormControl('', [Validators.required, Validators.minLength(0)]),
         propertyValue: new FormControl('', [Validators.required, Validators.minLength(0)])
       })
     }
-    
+
   }
 
   addLabel(t?, v?) {
     this.labelArray = this.formCore.get('label') as FormArray;
-    if(t != undefined){
+    if (t != undefined) {
       this.labelArray.push(this.createLabel(t, v));
-    }else{
+    } else {
       this.labelArray.push(this.createLabel());
     }
-    
+
   }
 
   addInheritance(t?, v?) {
@@ -357,7 +357,36 @@ export class FormCoreFormComponent implements OnInit {
 
   removeElement(index) {
     this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
+
+    const trait = this.morphoTraits.at(index).get('trait').value;
+    const value = this.morphoTraits.at(index).get('value').value;
+
+    console.log(trait + value)
+
+    if (trait != '') {
+
+      let formId = this.object.formInstanceName;
+
+      let parameters = {
+        type: 'morphology',
+        relation: trait,
+        value: value
+      }
+
+      this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
+        data => {
+          console.log(data)
+          //TODO: inserire updater per card last update
+          this.lexicalService.updateLexCard(this.object)
+        }, error => {
+          console.log(error)
+        }
+      )
+    }
     this.morphoTraits.removeAt(index);
+
+
+
   }
 
   removeLabel(index) {
