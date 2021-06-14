@@ -30,7 +30,6 @@ export class FormCoreFormComponent implements OnInit {
 
   formCore = new FormGroup({
     inheritance: new FormArray([this.createInheritance()]),
-    form: new FormControl(''),
     type: new FormControl(''),
     label: new FormArray([this.createLabel()]),
     morphoTraits: new FormArray([this.createMorphoTraits()])
@@ -63,7 +62,6 @@ export class FormCoreFormComponent implements OnInit {
 
     this.formCore = this.formBuilder.group({
       inheritance: this.formBuilder.array([]),
-      form: '',
       type: '',
       label: this.formBuilder.array([]),
       morphoTraits: this.formBuilder.array([]),
@@ -122,7 +120,6 @@ export class FormCoreFormComponent implements OnInit {
           this.addInheritance(trait, value);
         }
 
-        this.formCore.get('form').setValue(this.object.formInstanceName, { emitEvent: false });
         this.formCore.get('type').setValue(this.object.type, { emitEvent: false });
 
         for (var i = 0; i < this.object.label.length; i++) {
