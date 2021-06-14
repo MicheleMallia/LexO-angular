@@ -94,7 +94,7 @@ export class LexicalEntriesService {
 
   //GET /lexicon/data/{id}/lexicalEntryLinguisticRelation --> This method returns the relations with other lexical entities according to the input type
   getLexEntryLinguisticRelation(lexId: string, property: string): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/data/" + lexId + "/lexicalEntryLinguisticRelation?key=" + this.key + "&property=" + property + "");
+    return this.http.get(this.baseUrl + "lexicon/data/" + lexId + "/linguisticRelation?key=" + this.key + "&property=" + property + "");
   }
 
 
@@ -175,6 +175,11 @@ export class LexicalEntriesService {
   //GET  /lexicon​/delete​/{id}​/language  --> Lexicon language deletion
   deleteLanguage(langId): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/delete/" + langId + "/language?key=" + this.key);
+  }
+
+  //GET  /lexicon​/delete​/{id}​/linguisticRelation  --> delete linguistic relation
+  deleteLinguisticRelation(lexId, parameters): Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/delete/" + lexId + "/linguisticRelation?key=" + this.key, parameters);
   }
 
   //POST ​/lexicon​/update​/{id}​/lexicalEntry --> lexical entry update

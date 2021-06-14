@@ -350,7 +350,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 })['0']['propertyValues'];
                 this.valueTraits[i] = arrayValues;
                 this.memoryTraits.push(evt);
-            }, 250);
+            }, 350);
         }
     }
 
@@ -650,6 +650,34 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.memoryTraits.splice(index, 1);
         this.valueTraits.splice(index, 1)
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+        
+        const trait = this.morphoTraits.at(index).get('trait').value;
+        const value = this.morphoTraits.at(index).get('value').value;
+
+        console.log(trait + value)
+
+        if(trait != ''){
+
+            let lexId = this.object.lexicalEntryInstanceName;
+
+            let parameters = {
+                type: 'morphology',
+                relation : trait,
+                value : value
+            }
+
+            this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
+                data => {
+                    console.log(data)
+                    //TODO: inserire updater per card last update
+                    this.lexicalService.updateLexCard(this.object)
+                },error=>{
+                    console.log(error)
+                }
+            )
+        }
+        
+
         this.morphoTraits.removeAt(index);
     }
 
