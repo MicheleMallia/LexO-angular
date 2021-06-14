@@ -20,8 +20,8 @@
                             </div>
                         </div>
                         <div class="input-group col-md-7" [formGroupName]="i">
-                            <input formControlName="propertyValue" name="propertyValue" type="text" class="form-control"
-                                placeholder="" (keyup)="debounceKeyup($event, i)">
+                            <textarea formControlName="propertyValue" name="propertyValue" type="text" class="form-control"
+                                placeholder="" (keyup)="debounceKeyup($event, i)" style="resize: none;"></textarea>
                             <div (click)="removeDefinition(i)" class="input-group-append ml-2"> <button
                                     class="btn btn-danger" type="button"
                                     style="font-size: 12px; border-radius: .25rem;"><i
