@@ -726,6 +726,27 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     removeDenotes(index) {
         this.denotesArray = this.coreForm.get('denotes') as FormArray;
+
+        const entity = this.denotesArray.at(index).get('entity').value;
+
+        let lexId = this.object.lexicalEntryInstanceName;
+
+            let parameters = {
+                type: 'conceptRel',
+                relation : 'denotes',
+                value : entity
+            }
+
+            this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
+                data => {
+                    console.log(data)
+                    //TODO: inserire updater per card last update
+                    this.lexicalService.updateLexCard(this.object)
+                },error=>{
+                    console.log(error)
+                }
+            )
+
         this.denotesArray.removeAt(index);
 
         this.memoryDenotes.splice(index, 1)
