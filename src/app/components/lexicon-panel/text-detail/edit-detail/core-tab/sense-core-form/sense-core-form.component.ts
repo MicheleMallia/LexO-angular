@@ -14,7 +14,8 @@ export class SenseCoreFormComponent implements OnInit {
 
   @Input() senseData: any;
 
-  private subject: Subject<any> = new Subject();
+  private subject_def: Subject<any> = new Subject();
+  private subject_ex_def: Subject<any> = new Subject();
 
   switchInput = false;
   subscription: Subscription;
@@ -25,6 +26,8 @@ export class SenseCoreFormComponent implements OnInit {
 
   definitionData = [];
   definitionMemory = [];
+
+  staticDef = [];
 
   senseCore = new FormGroup({
     definition: new FormArray([this.createDefinition()]),
@@ -49,9 +52,15 @@ export class SenseCoreFormComponent implements OnInit {
     }, 1000);
     this.loadPeople();
 
-    this.subject.pipe(debounceTime(1000)).subscribe(
+    this.subject_def.pipe(debounceTime(1000)).subscribe(
       data => {
         this.onChangeDefinition(data)
+      }
+    )
+
+    this.subject_ex_def.pipe(debounceTime(1000)).subscribe(
+      data => {
+        this.onChangeExistingDefinition(data['evt'], data['i'])
       }
     )
 
@@ -84,6 +93,8 @@ export class SenseCoreFormComponent implements OnInit {
 
         this.definitionArray = this.senseCore.get('definition') as FormArray;
         this.definitionArray.clear();
+
+        this.staticDef = [];
       }
       this.object = changes.senseData.currentValue;
       if (this.object != null) {
@@ -99,6 +110,8 @@ export class SenseCoreFormComponent implements OnInit {
           if(pVal != ''){
             this.definitionMemory.push(pId);
             this.addDefinition(pId, pVal)
+
+            this.staticDef.push({trait : pId, value: pVal})
           }
           
         }
@@ -111,31 +124,6 @@ export class SenseCoreFormComponent implements OnInit {
     }, 10)
   }
 
-  getDefinitionValid() {
-    let value = this.senseCore.get('definition').value;
-    if (value != '' && value != null) {
-      if (value.match(/^.{5,}/) == null) {
-        return false;
-      } else {
-        return (value.match(/^.{5,}/).length > 0);
-      }
-    } else {
-      return false;
-    }
-  }
-
-  getExampleValid() {
-    let value = this.senseCore.get('example').value;
-    if (value != '' && value != null) {
-      if (value.match(/^.{5,}/) == null) {
-        return false;
-      } else {
-        return (value.match(/^.{5,}/).length > 0);
-      }
-    } else {
-      return false;
-    }
-  }
 
   onChanges(): void {
     this.senseCore.get('usage').valueChanges.pipe(debounceTime(1000)).subscribe(newDef => {
@@ -234,16 +222,47 @@ export class SenseCoreFormComponent implements OnInit {
       this.definitionArray.push(this.createDefinition());
     }
   }
-
+  
   removeDefinition(index){
     const definitionArray = this.senseCore.get('definition') as FormArray;
+
+    const trait = this.definitionArray.at(index).get('propertyID').value;
+    const value = this.definitionArray.at(index).get('propertyValue').value;
+
+    console.log(trait + value)
+
+    if (trait != '') {
+
+      let senseId = this.object.senseInstanceName;
+
+      let parameters = {
+        relation: trait,
+        value: value
+      }
+      
+      this.lexicalService.deleteLinguisticRelation(senseId, parameters).subscribe(
+        data => {
+          console.log(data)
+          //TODO: inserire updater per card last update
+          this.lexicalService.updateLexCard(this.object)
+        }, error => {
+          console.log(error)
+        }
+      )
+    }
     this.definitionMemory.splice(index, 1);
+    this.staticDef.splice(index, 1);
     definitionArray.removeAt(index)
+  }
+
+  debounceExistingKeyup(evt, i) {
+    this.lexicalService.spinnerAction('on');
+    this.subject_ex_def.next({ evt, i })
   }
 
   debounceKeyup(evt, i) {
     this.lexicalService.spinnerAction('on');
-    this.subject.next({ evt, i })
+    this.subject_def.next({ evt, i })
   }
 
   createDefinition(pId?, pVal?){
@@ -261,16 +280,48 @@ export class SenseCoreFormComponent implements OnInit {
     
   }
 
+  onChangeExistingDefinition(evt, i){
+
+    this.definitionArray = this.senseCore.get('definition') as FormArray;
+    const trait = this.definitionArray.at(i).get('propertyID').value;
+    const newValue = evt.target.value;
+    const senseId = this.object.senseInstanceName;
+    const parameters = { relation: trait, value: newValue }
+
+    if(trait != undefined && newValue != ''){
+
+      this.staticDef[i] = {trait : trait, value : newValue};
+      this.lexicalService.updateSense(senseId, parameters).pipe(debounceTime(1000)).subscribe(
+        data => {
+          console.log(data)
+          this.lexicalService.spinnerAction('off');
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard(data)
+        }, error => {
+          console.log(error);
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+          this.lexicalService.spinnerAction('off');
+        }
+      )
+    }else {
+      this.lexicalService.spinnerAction('off');
+      this.staticDef[i] = {trait : trait, value : ""};
+    }
+  }
+
   onChangeDefinition(object) {
 
     this.definitionArray = this.senseCore.get('definition') as FormArray;
     const trait = this.definitionArray.at(object.i).get('propertyID').value;
     const newValue = object.evt.target.value;
-    const formId = this.object.senseInstanceName;
+    const senseId = this.object.senseInstanceName;
     const parameters = { relation: trait, value: newValue }
 
     if(trait != undefined && newValue != ''){
-      this.lexicalService.updateSense(formId, parameters).pipe(debounceTime(1000)).subscribe(
+
+      this.staticDef.push({trait : trait, value : newValue});
+      this.lexicalService.updateSense(senseId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
