@@ -38,6 +38,9 @@ export class FormCoreFormComponent implements OnInit {
   labelData = [];
   memoryLabel = [];
 
+  staticOtherDef = [];
+  staticMorpho = [];
+
   morphoTraits: FormArray;
   inheritanceArray: FormArray;
   labelArray: FormArray;
@@ -104,6 +107,9 @@ export class FormCoreFormComponent implements OnInit {
 
         this.labelArray = this.formCore.get('label') as FormArray;
         this.labelArray.clear();
+
+        this.staticMorpho = [];
+        this.staticOtherDef = [];
       }
       this.object = changes.formData.currentValue;
       console.log(this.object)
@@ -132,6 +138,9 @@ export class FormCoreFormComponent implements OnInit {
           if (value != '') {
             this.addLabel(trait, value);
             this.memoryLabel.push(trait);
+
+
+            this.staticOtherDef.push({ trait: trait, value: value })
           }
 
         }
@@ -141,6 +150,8 @@ export class FormCoreFormComponent implements OnInit {
           const value = this.object.morphology[i]['value'];
           this.addMorphoTraits(trait, value);
           this.onChangeTrait(trait, i);
+
+          this.staticMorpho.push({ trait: trait, value: value })
         }
       }
     }, 200)
@@ -177,6 +188,41 @@ export class FormCoreFormComponent implements OnInit {
     this.subject.next({ evt, i })
   }
 
+  onChangeExistingValue(evt, i) {
+    this.lexicalService.spinnerAction('on');
+    this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
+    const trait = this.morphoTraits.at(i).get('trait').value;
+    const oldValue = this.morphoTraits.at(i).get('value').value;
+    const newValue = evt.target.value;
+    if (newValue != '') {
+      let parameters = {
+        type: "morphology",
+        relation: trait,
+        value: newValue,
+        currentValue: oldValue
+      }
+
+      this.staticMorpho[i] = { trait: trait, value: newValue }
+      let lexId = this.object.lexicalEntryInstanceName;
+
+      this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+        data => {
+          console.log(data)
+          this.lexicalService.refreshAfterEdit(data);
+          this.lexicalService.spinnerAction('off');
+        },
+        error => {
+          console.log(error)
+          this.lexicalService.refreshAfterEdit({ label: this.object.label });
+          this.lexicalService.spinnerAction('off');
+        }
+      )
+
+    } else {
+      this.lexicalService.spinnerAction('on');
+    }
+  }
+
   onChangeValue(i) {
     this.lexicalService.spinnerAction('on');
     this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
@@ -190,6 +236,9 @@ export class FormCoreFormComponent implements OnInit {
         value: value
       }
       let formId = this.object.formInstanceName;
+
+      this.staticMorpho.push({ trait: trait, value: value })
+
       this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
@@ -265,6 +314,41 @@ export class FormCoreFormComponent implements OnInit {
     }, 250);
   }
 
+  onChangeExistingLabelValue(evt, i) {
+    this.lexicalService.spinnerAction('on');
+    this.labelArray = this.formCore.get('label') as FormArray;
+    const trait = this.labelArray.at(i).get('trait').value;
+    const oldValue = this.labelArray.at(i).get('value').value;
+    const newValue = evt.target.value;
+    if (newValue != '') {
+      let parameters = {
+        type: "morphology",
+        relation: trait,
+        value: newValue,
+        currentValue: oldValue
+      }
+
+      this.staticOtherDef[i] = { trait: trait, value: newValue }
+      let lexId = this.object.lexicalEntryInstanceName;
+
+      this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+        data => {
+          console.log(data)
+          this.lexicalService.refreshAfterEdit(data);
+          this.lexicalService.spinnerAction('off');
+        },
+        error => {
+          console.log(error)
+          this.lexicalService.refreshAfterEdit({ label: this.object.label });
+          this.lexicalService.spinnerAction('off');
+        }
+      )
+
+    } else {
+      this.lexicalService.spinnerAction('on');
+    }
+  }
+
   onChangeLabel(object) {
 
     this.labelArray = this.formCore.get('label') as FormArray;
@@ -272,6 +356,8 @@ export class FormCoreFormComponent implements OnInit {
     const newValue = object.evt.target.value;
     const formId = this.object.formInstanceName;
     const parameters = { relation: trait, value: newValue }
+
+    this.staticOtherDef.push({ trait: trait, value: newValue })
 
     if (trait != undefined && newValue != '') {
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
@@ -380,14 +466,41 @@ export class FormCoreFormComponent implements OnInit {
         }
       )
     }
+
+    this.staticMorpho.splice(index, 1);
     this.morphoTraits.removeAt(index);
-
-
-
   }
 
   removeLabel(index) {
     this.labelArray = this.formCore.get('label') as FormArray;
+
+
+    const trait = this.labelArray.at(index).get('propertyID').value;
+    const value = this.labelArray.at(index).get('propertyValue').value;
+
+    console.log(trait + value)
+
+    if (trait != '') {
+
+      let formId = this.object.formInstanceName;
+
+      let parameters = {
+        type: 'morphology',
+        relation: trait,
+        value: value
+      }
+
+      this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
+        data => {
+          console.log(data)
+          //TODO: inserire updater per card last update
+          this.lexicalService.updateLexCard(this.object)
+        }, error => {
+          console.log(error)
+        }
+      )
+    }
+    this.staticOtherDef.splice(index, 1)
     this.labelArray.removeAt(index);
   }
 

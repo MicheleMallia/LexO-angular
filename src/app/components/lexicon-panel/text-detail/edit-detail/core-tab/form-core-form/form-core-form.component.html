@@ -37,9 +37,27 @@
                 <a class="pointer" (click)="addLabel()"><span class="collapse-icon"><i
                             class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
+                    <div class="d-flex my-3" *ngFor="let def of staticOtherDef; let i = index">
+                        <div class="col-md-4">
+                            <label class="col-form-label">{{def['trait']}}</label>
+                        </div>
+                        <div class="input-group col-md-8">
+                            <input type="text" class="form-control"
+                                placeholder="" (keyup)="debounceKeyup($event, i)" [value]="def['value']">
+                            <div (click)="removeLabel(i)" class="input-group-append ml-2"> <button
+                                    class="btn btn-danger" type="button"
+                                    style="font-size: 12px; border-radius: .25rem;"><i
+                                        class="fa fa-trash-alt"></i></button>
+                            </div>
+                            <!-- <div class="invalid-feedback" *ngIf="coreForm.get('pos').value == ''" style="display: block;">
+                                Please, don't leave this field blank
+                            </div> -->
+
+                        </div>
+                    </div>
                     <div class="d-flex my-2" formArrayName="label"
                         *ngFor="let l of formCore.get('label')['controls']; let i = index">
-                        <div class="col-md-5" [formGroupName]="i">
+                        <div class="col-md-4" [formGroupName]="i" *ngIf="i + 1 > staticOtherDef.length">
                             <select class="form-control selectTrait" formControlName="propertyID" name="propertyID"
                                 style="font-size: 12px;" (change)="onChangeLabelTrait($event, i)">
                                 <option value="">Select a trait...</option>
@@ -50,7 +68,7 @@
                                 Please, don't leave this field blank
                             </div>
                         </div>
-                        <div class="input-group col-md-7" [formGroupName]="i">
+                        <div class="input-group col-md-8" [formGroupName]="i" *ngIf="i + 1 > staticOtherDef.length">
                             <input formControlName="propertyValue" name="propertyValue" type="text" class="form-control"
                                 placeholder="" (keyup)="debounceKeyup($event, i)">
                             <div (click)="removeLabel(i)" class="input-group-append ml-2"> <button
@@ -78,12 +96,35 @@
                 <a class="pointer" (click)="addMorphoTraits()"><span class="collapse-icon"><i
                             class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
+
+                    <div class="d-flex my-3" *ngFor="let stat of staticMorpho; let i = index">
+                        <div class="col-md-4" *ngIf="stat['trait'] != 'partOfSpeech'">
+                            <label class="col-form-label">{{stat['trait']}}</label>
+                        </div>
+                        <div class="input-group col-md-8" *ngIf="stat['trait'] != 'partOfSpeech'">
+                            <select class="form-control selectTrait" style="font-size:12px;"
+                                (change)="onChangeExistingValue($event, i)">
+                                <option *ngFor="let item of valueTraits[i];"
+                                    [selected]="stat['value'] === item.valueId">{{item.valueId}}</option>
+                            </select>
+                            <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
+                                    class="btn btn-danger" type="button"
+                                    style="font-size: 12px; border-radius: .25rem;"><i
+                                        class="fa fa-trash-alt"></i></button>
+                            </div>
+                            <!-- <div class="invalid-feedback" *ngIf="coreForm.get('pos').value == ''" style="display: block;">
+                                Please, don't leave this field blank
+                            </div> -->
+
+                        </div>
+                    </div>
+                    
                     <div class="d-flex my-2" formArrayName="morphoTraits"
                         *ngFor="let morpho of formCore.get('morphoTraits')['controls']; let i = index">
-                        <div class="col-md-4" [formGroupName]="i">
+                        <div class="col-md-4" [formGroupName]="i" *ngIf="i + 1 > staticMorpho.length">
                             <select class="form-control selectTrait" formControlName="trait" name="trait"
                                 style="font-size: 12px;" (change)="onChangeTrait($event, i)">
-                                <option value="">Select a trait...</option>
+    
                                 <option *ngFor="let mt of morphologyData"
                                     [selected]="morpho.value['trait'] === mt.propertyId"
                                     [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
@@ -92,7 +133,7 @@
                                 Please, don't leave this field blank
                             </div>
                         </div>
-                        <div class="input-group col-md-7" [formGroupName]="i">
+                        <div class="input-group col-md-8" [formGroupName]="i" *ngIf="i + 1> staticMorpho.length">
                             <select class="form-control selectTrait" formControlName="value" name="value"
                                 style="font-size:12px;" (change)="onChangeValue(i)">
                                 <option value="">Select a value...</option>
