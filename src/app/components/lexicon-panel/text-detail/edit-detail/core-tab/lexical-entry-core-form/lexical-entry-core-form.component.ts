@@ -667,7 +667,28 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     removeEvokes(index) {
         this.evokesArray = this.coreForm.get('evokes') as FormArray;
+        const entity = this.evokesArray.at(index).get('entity').value;
+
+        let lexId = this.object.lexicalEntryInstanceName;
+
+        let parameters = {
+            type: 'conceptRel',
+            relation : 'evokes',
+            value : entity
+        }
+
+        this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
+            data => {
+                console.log(data)
+                //TODO: inserire updater per card last update
+                this.lexicalService.updateLexCard(this.object)
+            },error=>{
+                console.log(error)
+            }
+        )
+
         this.evokesArray.removeAt(index);
+        this.memoryEvokes.splice(index, 1);
     }
 
     addEvokes(e?) {
@@ -731,21 +752,21 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         let lexId = this.object.lexicalEntryInstanceName;
 
-            let parameters = {
-                type: 'conceptRel',
-                relation : 'denotes',
-                value : entity
-            }
+        let parameters = {
+            type: 'conceptRel',
+            relation : 'denotes',
+            value : entity
+        }
 
-            this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
-                data => {
-                    console.log(data)
-                    //TODO: inserire updater per card last update
-                    this.lexicalService.updateLexCard(this.object)
-                },error=>{
-                    console.log(error)
-                }
-            )
+        this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
+            data => {
+                console.log(data)
+                //TODO: inserire updater per card last update
+                this.lexicalService.updateLexCard(this.object)
+            },error=>{
+                console.log(error)
+            }
+        )
 
         this.denotesArray.removeAt(index);
 
