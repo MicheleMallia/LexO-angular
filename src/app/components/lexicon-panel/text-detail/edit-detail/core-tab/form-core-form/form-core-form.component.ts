@@ -14,8 +14,8 @@ export class FormCoreFormComponent implements OnInit {
 
   @Input() formData: any;
 
-  private subject: Subject<any> = new Subject();
-
+  private subject_label: Subject<any> = new Subject();
+  private subject_ex_label: Subject<any> = new Subject();
 
   switchInput = false;
   subscription: Subscription;
@@ -71,9 +71,16 @@ export class FormCoreFormComponent implements OnInit {
     })
 
     this.onChanges();
-    this.subject.pipe(debounceTime(1000)).subscribe(
+    this.subject_label.pipe(debounceTime(1000)).subscribe(
       data => {
         this.onChangeLabel(data)
+      }
+    )
+
+    this.subject_ex_label.pipe(debounceTime(1000)).subscribe(
+      data => {
+        
+        this.onChangeExistingLabelValue(data['evt'], data['i']);
       }
     )
 
@@ -185,7 +192,12 @@ export class FormCoreFormComponent implements OnInit {
 
   debounceKeyup(evt, i) {
     this.lexicalService.spinnerAction('on');
-    this.subject.next({ evt, i })
+    this.subject_label.next({ evt, i })
+  }
+
+  debounceKeyupExisting(evt, i){
+    this.lexicalService.spinnerAction('on');
+    this.subject_ex_label.next({ evt, i })
   }
 
   onChangeExistingValue(evt, i) {
@@ -219,7 +231,7 @@ export class FormCoreFormComponent implements OnInit {
       )
 
     } else {
-      this.lexicalService.spinnerAction('on');
+      this.lexicalService.spinnerAction('off');
     }
   }
 
@@ -317,35 +329,31 @@ export class FormCoreFormComponent implements OnInit {
   onChangeExistingLabelValue(evt, i) {
     this.lexicalService.spinnerAction('on');
     this.labelArray = this.formCore.get('label') as FormArray;
-    const trait = this.labelArray.at(i).get('trait').value;
-    const oldValue = this.labelArray.at(i).get('value').value;
+    const trait = this.labelArray.at(i).get('propertyID').value;
     const newValue = evt.target.value;
     if (newValue != '') {
-      let parameters = {
-        type: "morphology",
-        relation: trait,
-        value: newValue,
-        currentValue: oldValue
-      }
+      const parameters = { relation: trait, value: newValue }
 
       this.staticOtherDef[i] = { trait: trait, value: newValue }
-      let lexId = this.object.lexicalEntryInstanceName;
+      let formId = this.object.formInstanceName;
 
-      this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+      this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
-          this.lexicalService.refreshAfterEdit(data);
           this.lexicalService.spinnerAction('off');
-        },
-        error => {
-          console.log(error)
-          this.lexicalService.refreshAfterEdit({ label: this.object.label });
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard(data)
+        }, error => {
+          console.log(error);
+          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
       )
 
     } else {
-      this.lexicalService.spinnerAction('on');
+      this.lexicalService.spinnerAction('off');
+      this.staticOtherDef[i] = { trait: trait, value: "" }
     }
   }
 

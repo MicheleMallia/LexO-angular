@@ -43,15 +43,15 @@
                         </div>
                         <div class="input-group col-md-8">
                             <input type="text" class="form-control"
-                                placeholder="" (keyup)="debounceKeyup($event, i)" [value]="def['value']">
+                                placeholder="" (keyup)="debounceKeyupExisting($event, i)" [value]="def['value']">
                             <div (click)="removeLabel(i)" class="input-group-append ml-2"> <button
                                     class="btn btn-danger" type="button"
                                     style="font-size: 12px; border-radius: .25rem;"><i
                                         class="fa fa-trash-alt"></i></button>
                             </div>
-                            <!-- <div class="invalid-feedback" *ngIf="coreForm.get('pos').value == ''" style="display: block;">
+                            <div class="invalid-feedback" *ngIf="staticOtherDef[i]['value'] == ''" style="display: block;">
                                 Please, don't leave this field blank
-                            </div> -->
+                            </div>
 
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                         <div class="col-md-4" [formGroupName]="i" *ngIf="i + 1 > staticMorpho.length">
                             <select class="form-control selectTrait" formControlName="trait" name="trait"
                                 style="font-size: 12px;" (change)="onChangeTrait($event, i)">
-    
+                                <option value="">Select a trait...</option>
                                 <option *ngFor="let mt of morphologyData"
                                     [selected]="morpho.value['trait'] === mt.propertyId"
                                     [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
