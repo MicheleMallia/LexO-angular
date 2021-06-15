@@ -67,7 +67,6 @@
                         <div class="input-group col-md-8" *ngIf="stat['trait'] != 'partOfSpeech'">
                             <select class="form-control selectTrait" style="font-size:12px;"
                                 (change)="onChangeExistingValue($event, i)">
-                                <option value="">Select a value...</option>
                                 <option *ngFor="let item of valueTraits[i];"
                                     [selected]="stat['value'] === item.valueId">{{item.valueId}}</option>
                             </select>
