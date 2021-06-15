@@ -36,6 +36,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     valuePos = [];
     memoryPos = '';
 
+    staticMorpho = [];
+
     private denotes_subject: Subject<any> = new Subject();
     private evokes_subject: Subject<any> = new Subject();
 
@@ -152,6 +154,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.evokesArray.clear();
 
                 this.memoryPos = '';
+
+                this.staticMorpho = []
             }
             this.object = changes.lexData.currentValue;
 
@@ -176,6 +180,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.memoryValues[i] = value;
                     this.addMorphoTraits(trait, value);
                     this.onChangeTrait(trait, i);
+
+                    this.staticMorpho.push({trait: trait, value: value});
                 }
 
                 this.lexicalService.getLexEntryLinguisticRelation(lexId, 'denotes').subscribe(
@@ -279,13 +285,48 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         
     }
 
+    onChangeExistingValue(evt, i){
+        this.lexicalService.spinnerAction('on');
+        this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+        const trait = this.morphoTraits.at(i).get('trait').value;
+        const oldValue = this.morphoTraits.at(i).get('value').value;
+        const newValue = evt.target.value;
+        if(newValue != ''){
+            let parameters = {
+                type: "morphology",
+                relation: trait,
+                value: newValue,
+                currentValue : oldValue
+            }
+
+            this.staticMorpho[i] = {trait: trait , value : newValue}
+            let lexId = this.object.lexicalEntryInstanceName;
+
+            this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+                data => {
+                    console.log(data)
+                    this.lexicalService.refreshAfterEdit(data);
+                    this.lexicalService.spinnerAction('off');
+                },
+                error => {
+                    console.log(error)
+                    this.lexicalService.refreshAfterEdit({label: this.object.label});
+                    this.lexicalService.spinnerAction('off');
+                }
+            )
+
+        }else{
+            this.lexicalService.spinnerAction('on');
+        }
+    }
+
     onChangeValue(i) {
         this.lexicalService.spinnerAction('on');
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         const trait = this.morphoTraits.at(i).get('trait').value;
         const value = this.morphoTraits.at(i).get('value').value;
+        console.log(value)
         if (trait != '' && value != '') {
-            console.log("qua chiamo il servizio");
             let parameters;
             if(this.memoryValues[i] == ""){
                 parameters = {
@@ -302,6 +343,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 }
             }
             
+            this.staticMorpho.push({trait: trait , value : value})
             let lexId = this.object.lexicalEntryInstanceName;
 
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
@@ -648,7 +690,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     removeElement(index) {
         this.memoryTraits.splice(index, 1);
-        this.valueTraits.splice(index, 1)
+        this.valueTraits.splice(index, 1);
+        this.staticMorpho.splice(index, 1)
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
         
         const trait = this.morphoTraits.at(index).get('trait').value;
