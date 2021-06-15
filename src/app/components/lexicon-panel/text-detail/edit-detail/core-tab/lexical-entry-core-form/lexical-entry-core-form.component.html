@@ -41,10 +41,10 @@
                             class="fa fa-plus-square"></i></span></a>
                 <div class="card-body">
                     <div class="d-flex my-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="selectPos" class="col-form-label">Part of speech:</label>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <select class="form-control selectTrait" formControlName="pos" name="pos"
                                 style="font-size:12px;" (change)="onChangePos($event)">
                                 <option value="">Select a value...</option>
@@ -64,7 +64,7 @@
                         <div class="col-md-4" *ngIf="stat['trait'] != 'partOfSpeech'">
                             <label class="col-form-label">{{stat['trait']}}</label>
                         </div>
-                        <div class="input-group col-md-7" *ngIf="stat['trait'] != 'partOfSpeech'">
+                        <div class="input-group col-md-8" *ngIf="stat['trait'] != 'partOfSpeech'">
                             <select class="form-control selectTrait" style="font-size:12px;"
                                 (change)="onChangeExistingValue($event, i)">
                                 <option value="">Select a value...</option>
@@ -98,7 +98,7 @@
                                 Please, don't leave this field blank
                             </div>
                         </div>
-                        <div class="input-group col-md-7" [formGroupName]="i" *ngIf="i + 1> staticMorpho.length">
+                        <div class="input-group col-md-8" [formGroupName]="i" *ngIf="i + 1> staticMorpho.length">
                             <select class="form-control selectTrait" formControlName="value" name="value"
                                 style="font-size:12px;" (change)="onChangeValue(i)">
                                 <option value="">Select a value...</option>
