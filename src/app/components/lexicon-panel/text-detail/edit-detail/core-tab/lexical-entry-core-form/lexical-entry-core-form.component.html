@@ -61,10 +61,10 @@
 
 
                     <div class="d-flex my-3" *ngFor="let stat of staticMorpho; let i = index">
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="stat['trait'] != 'partOfSpeech'">
                             <label class="col-form-label">{{stat['trait']}}</label>
                         </div>
-                        <div class="input-group col-md-7">
+                        <div class="input-group col-md-7" *ngIf="stat['trait'] != 'partOfSpeech'">
                             <select class="form-control selectTrait" style="font-size:12px;"
                                 (change)="onChangeExistingValue($event, i)">
                                 <option value="">Select a value...</option>
