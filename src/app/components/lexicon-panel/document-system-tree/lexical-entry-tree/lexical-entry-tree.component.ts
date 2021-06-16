@@ -95,6 +95,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   constructor(private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { }
 
   ngOnInit(): void {
+    
     this.viewPort = this.element.nativeElement.querySelector('tree-viewport');
     this.renderer.addClass(this.viewPort, 'search-results');
 
@@ -171,11 +172,43 @@ export class LexicalEntryTreeComponent implements OnInit {
     }, 500);  
   }
 
+  lexicalEntriesFilterAfterEdit(newPar){
+    this.searchIconSpinner = true;
+    let parameters = newPar;
+    console.log(parameters)
+    this.lexicalService.getLexicalEntriesList(newPar).subscribe(
+      data => {
+        if(data['list'].length > 0){
+          this.show = false;
+        }else {
+          this.show = true;
+        }
+        this.nodes = data['list'];
+        this.counter = data['totalHits'];
+        this.lexicalEntryTree.treeModel.update();
+        this.updateTreeView();
+        this.searchIconSpinner = false;
+      },
+      error => {
+
+      }
+    )
+  }
+
   lexicalEntriesFilter(newPar) {
+    
+    setTimeout(() => {
+      const viewPort_prova = this.element.nativeElement.querySelector('tree-viewport') as HTMLElement;
+      viewPort_prova.scrollTop = 0
+      console.log(viewPort_prova)
+      //viewPort_prova.nativeElement.scrollTop = 0;
+    }, 300);
+    
     this.searchIconSpinner = true;
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
+    console.log(parameters)
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
         if(data['list'].length > 0){
@@ -209,7 +242,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   resetFields(){
-   /*  this.filterForm.reset(this.initialValues); */
+    this.filterForm.reset(this.initialValues);
     setTimeout(() => {
       this.filterForm.get('text').setValue('', {eventEmit : false});
       this.lexicalEntriesFilter(this.parameters);
@@ -308,7 +341,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     this.offset += 500;
     this.modalShow = true;
-
+    
     //@ts-ignore
     $("#lazyLoadingModal").modal("show");
     $('.modal-backdrop').appendTo('.tree-view');
@@ -327,7 +360,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         for (var i = 0; i < data['list'].length; i++) {
           this.nodes.push(data['list'][i]);
         };
-        this.counter = this.nodes.length;
+        //this.counter = this.nodes.length;
         this.lexicalEntryTree.treeModel.update();
         this.updateTreeView();
         this.modalShow = false;
