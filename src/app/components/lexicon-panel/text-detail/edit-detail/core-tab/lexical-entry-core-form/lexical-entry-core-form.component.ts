@@ -382,7 +382,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.valueTraits[i] = arrayValues
                     this.memoryTraits.splice(i, 1)
                 }
-            }, 250);
+            }, 500);
         } else {
 
             setTimeout(() => {
@@ -392,7 +392,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 })['0']['propertyValues'];
                 this.valueTraits[i] = arrayValues;
                 this.memoryTraits.push(evt);
-            }, 350);
+            }, 500);
         }
     }
 
