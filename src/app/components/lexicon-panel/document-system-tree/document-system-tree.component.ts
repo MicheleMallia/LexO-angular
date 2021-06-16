@@ -40,7 +40,9 @@ export class DocumentSystemTreeComponent implements OnInit {
           let newLexEntryLabel = data['label'];
           let parameters = this.lexTree.getParameters();
           parameters['text'] = newLexEntryLabel + "~0.5";
-          this.lexTree.lexicalEntriesFilter(parameters);
+          parameters['offset'] = 0
+          console.log(parameters)
+          this.lexTree.lexicalEntriesFilterAfterEdit(parameters);
           this.lexTree.lexicalEntryTree.treeModel.update();
           this.lexTree.updateTreeView();
           setTimeout(() => {
@@ -48,6 +50,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               function (x) {
                 if (x.data.label == newLexEntryLabel) {
                   x.setActiveAndVisible()
+                  x.scrollIntoView();
                   return true;
                 } else {
                   return false;
@@ -59,7 +62,8 @@ export class DocumentSystemTreeComponent implements OnInit {
           let parentNode = data['parentNode'];
           let parameters = this.lexTree.getParameters();
           parameters['text'] = parentNode + "~0.5";
-          this.lexTree.lexicalEntriesFilter(parameters);
+          parameters['offset'] = 0
+          this.lexTree.lexicalEntriesFilterAfterEdit(parameters);
           this.lexTree.lexicalEntryTree.treeModel.update();
           this.lexTree.updateTreeView();
           var that = this;
