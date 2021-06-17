@@ -33,10 +33,10 @@ export class DocumentSystemTreeComponent implements OnInit {
   }
 
   refreshAfterEdit(data) {
-    
+    //TODO: inserire valori numerici per richieste specifiche, numeri interi, utilizzare lo switch e separare codice in apposite funzioni separate
     if(data != null){
       setTimeout(() => {
-        if(data['childRequest'] == undefined){
+        if(data['lexEdit']){
           let newLexEntryLabel = data['label'];
           let parameters = this.lexTree.getParameters();
           parameters['text'] = newLexEntryLabel + "~0.5";
@@ -114,7 +114,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               }
             );
           }, 500);
-        }else if(!data['childRequest']){
+        }else if(!data['childRequest'] && !data['changeLabel']){
           var that = this;
           console.log(data)
           setTimeout(() => {
@@ -136,6 +136,28 @@ export class DocumentSystemTreeComponent implements OnInit {
                   }, 10);
                   
                   
+                }
+              }
+            );
+          }, 500);
+        }else if(data['changeLabel']){
+          //let parentNode = data['parentNode'];
+          var that = this;
+          setTimeout(() => {
+            this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+              function (x) {
+                if(x.data.formInstanceName != undefined){
+                    if(x.data.formInstanceName == data['formInstanceName']){
+                      x.data.label = data['new_label'];
+                      that.lexTree.lexicalEntryTree.treeModel.update();
+                      that.lexTree.updateTreeView();
+                      return true;
+                    }else{
+                      return false;
+                    }
+                  
+                }else{
+                  return false;
                 }
               }
             );

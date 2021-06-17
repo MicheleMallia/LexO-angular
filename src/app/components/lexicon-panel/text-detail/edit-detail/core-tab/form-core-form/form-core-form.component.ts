@@ -179,11 +179,11 @@ export class FormCoreFormComponent implements OnInit {
     this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(500)).subscribe(
       data => {
         this.lexicalService.spinnerAction('off');
-        this.lexicalService.refreshLexEntryTree();
+        //this.lexicalService.refreshLexEntryTree();
         this.lexicalService.updateLexCard(this.object)
       }, error => {
         console.log(error);
-        this.lexicalService.refreshLexEntryTree();
+        //this.lexicalService.refreshLexEntryTree();
         this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
         this.lexicalService.spinnerAction('off');
       }
@@ -255,7 +255,8 @@ export class FormCoreFormComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          this.lexicalService.refreshAfterEdit(data);
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
         },
         error => {
@@ -331,6 +332,9 @@ export class FormCoreFormComponent implements OnInit {
     this.labelArray = this.formCore.get('label') as FormArray;
     const trait = this.labelArray.at(i).get('propertyID').value;
     const newValue = evt.target.value;
+
+    console.log(this.object)
+
     if (newValue != '') {
       const parameters = { relation: trait, value: newValue }
 
@@ -341,11 +345,16 @@ export class FormCoreFormComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(data)
         }, error => {
           console.log(error);
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
+          const data = this.object;
+          data['whatToSearch'] = 'form';
+          data['new_label'] = newValue;
+          data['changeLabel'] = true;
+          this.lexicalService.refreshAfterEdit(data);
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -364,6 +373,7 @@ export class FormCoreFormComponent implements OnInit {
     const newValue = object.evt.target.value;
     const formId = this.object.formInstanceName;
     const parameters = { relation: trait, value: newValue }
+    console.log(this.object)
 
     this.staticOtherDef.push({ trait: trait, value: newValue })
 
@@ -372,11 +382,10 @@ export class FormCoreFormComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          /* this.lexicalService.refreshAfterEdit(data); */
           this.lexicalService.updateLexCard(data)
         }, error => {
           console.log(error);
-          this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
