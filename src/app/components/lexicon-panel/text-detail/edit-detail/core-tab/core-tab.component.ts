@@ -345,7 +345,7 @@ export class CoreTabComponent implements OnInit {
       this.lexicalService.createNewForm(lexicalId).subscribe(
         data=>{
           data['childRequest'] = true;
-          data['parentNode'] = this.object.label;
+          data['parentNode'] = this.object.label; 
           data['whatToSearch'] = 'form';
           data['instanceName'] = data['formInstanceName']
           this.searchIconSpinner = false;
@@ -365,7 +365,12 @@ export class CoreTabComponent implements OnInit {
           data['childRequest'] = false;
           data['parentNode'] = parentNodeLabel;
           data['whatToSearch'] = 'form';
-          data['instanceName'] = data['formInstanceName']
+          data['instanceName'] = data['formInstanceName'];
+          if(data['creator'] == this.object.creator){
+            data['flagAuthor'] = false;
+          }else{
+            data['flagAuthor'] = true;
+          }
           this.searchIconSpinner = false;
           this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
