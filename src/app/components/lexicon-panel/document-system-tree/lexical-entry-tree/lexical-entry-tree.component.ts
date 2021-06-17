@@ -173,6 +173,10 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   lexicalEntriesFilterAfterEdit(newPar){
+    setTimeout(() => {
+      const viewPort_prova = this.element.nativeElement.querySelector('tree-viewport') as HTMLElement;
+      viewPort_prova.scrollTop = 0
+    }, 300);
     this.searchIconSpinner = true;
     let parameters = newPar;
     console.log(parameters)
@@ -200,8 +204,6 @@ export class LexicalEntryTreeComponent implements OnInit {
     setTimeout(() => {
       const viewPort_prova = this.element.nativeElement.querySelector('tree-viewport') as HTMLElement;
       viewPort_prova.scrollTop = 0
-      console.log(viewPort_prova)
-      //viewPort_prova.nativeElement.scrollTop = 0;
     }, 300);
     
     this.searchIconSpinner = true;
