@@ -60,61 +60,64 @@
                     </div>
 
 
-                    <div class="d-flex my-3" *ngFor="let stat of staticMorpho; let i = index">
-                        <div class="col-md-4" *ngIf="stat['trait'] != 'partOfSpeech'">
-                            <label class="col-form-label">{{stat['trait']}}</label>
-                        </div>
-                        <div class="input-group col-md-8" *ngIf="stat['trait'] != 'partOfSpeech'">
-                            <select class="form-control selectTrait" style="font-size:12px;"
-                                (change)="onChangeExistingValue($event, i)">
-                                <option *ngFor="let item of valueTraits[i];"
-                                    [selected]="stat['value'] === item.valueId">{{item.valueId}}</option>
-                            </select>
-                            <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
-                                    class="btn btn-danger" type="button"
-                                    style="font-size: 12px; border-radius: .25rem;"><i
-                                        class="fa fa-trash-alt"></i></button>
+                    <ng-container *ngFor="let stat of staticMorpho; let i = index">
+                        <div class="d-flex my-3" *ngIf="stat['trait'] != 'partOfSpeech'">
+                            <div class="col-md-4">
+                                <label class="col-form-label">{{stat['trait']}}</label>
                             </div>
-                            <!-- <div class="invalid-feedback" *ngIf="coreForm.get('pos').value == ''" style="display: block;">
-                                Please, don't leave this field blank
-                            </div> -->
-
-                        </div>
-                    </div>
-
-
-                    <div class="d-flex my-2" formArrayName="morphoTraits"
-                        *ngFor="let morpho of coreForm.get('morphoTraits')['controls']; let i = index">
-                        <div class="col-md-4" [formGroupName]="i" *ngIf="i + 1 > staticMorpho.length">
-                            <select class="form-control selectTrait" formControlName="trait" name="trait"
-                                style="font-size: 12px;" (change)="onChangeTrait($event, i)">
-                                <option value="">Select a trait...</option>
-                                <option *ngFor="let mt of morphologyData"
-                                    [selected]="morpho.value['trait'] === mt.propertyId"
-                                    [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
-                            </select>
-                            <div class="invalid-feedback" *ngIf="morpho.get('trait').invalid" style="display: block;">
-                                Please, don't leave this field blank
+                            <div class="input-group col-md-8">
+                                <select class="form-control selectTrait" style="font-size:12px;"
+                                    (change)="onChangeExistingValue($event, i)">
+                                    <option *ngFor="let item of valueTraits[i];"
+                                        [selected]="stat['value'] === item.valueId">{{item.valueId}}</option>
+                                </select>
+                                <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
+                                        class="btn btn-danger" type="button"
+                                        style="font-size: 12px; border-radius: .25rem;"><i
+                                            class="fa fa-trash-alt"></i></button>
+                                </div>
+    
                             </div>
                         </div>
-                        <div class="input-group col-md-8" [formGroupName]="i" *ngIf="i + 1> staticMorpho.length">
-                            <select class="form-control selectTrait" formControlName="value" name="value"
-                                style="font-size:12px;" (change)="onChangeValue(i)">
-                                <option value="">Select a value...</option>
-                                <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i"
-                                    [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
-                            </select>
-
-                            <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
-                                    class="btn btn-danger" type="button"
-                                    style="font-size: 12px; border-radius: .25rem;"><i
-                                        class="fa fa-trash-alt"></i></button>
+                    </ng-container>
+                    
+                    <ng-container formArrayName="morphoTraits" *ngFor="let morpho of coreForm.get('morphoTraits')['controls']; let i = index">
+                        <div class="d-flex my-2" *ngIf="i + 1 > staticMorpho.length">
+                            <div class="col-md-4" [formGroupName]="i" >
+                                <select class="form-control selectTrait" formControlName="trait" name="trait"
+                                    style="font-size: 12px;" (change)="onChangeTrait($event, i)">
+                                    <option value="">Select a trait...</option>
+                                    <option *ngFor="let mt of morphologyData"
+                                        [selected]="morpho.value['trait'] === mt.propertyId"
+                                        [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
+                                </select>
+                                <div class="invalid-feedback" *ngIf="morpho.get('trait').invalid" style="display: block;">
+                                    Please, don't leave this field blank
+                                </div>
                             </div>
-                            <div class="invalid-feedback" *ngIf="morpho.get('value').invalid" style="display: block;">
-                                Please, don't leave this field blank
+                            <div class="input-group col-md-8" [formGroupName]="i">
+                                <select class="form-control selectTrait" formControlName="value" name="value"
+                                    style="font-size:12px;" (change)="onChangeValue(i)">
+                                    <option value="">Select a value...</option>
+                                    <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i"
+                                        [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
+                                </select>
+    
+                                <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
+                                        class="btn btn-danger" type="button"
+                                        style="font-size: 12px; border-radius: .25rem;"><i
+                                            class="fa fa-trash-alt"></i></button>
+                                </div>
+                                <div class="invalid-feedback" *ngIf="morpho.get('value').invalid" style="display: block;">
+                                    Please, don't leave this field blank
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                    </ng-container>
+
+
+                    
                 </div>
             </div>
         </div>
