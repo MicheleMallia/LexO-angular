@@ -344,7 +344,7 @@ export class CoreTabComponent implements OnInit {
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewForm(lexicalId).subscribe(
         data=>{
-          data['childRequest'] = true;
+          data['request'] = 1;
           data['parentNode'] = this.object.label; 
           data['whatToSearch'] = 'form';
           data['instanceName'] = data['formInstanceName']
@@ -362,7 +362,7 @@ export class CoreTabComponent implements OnInit {
       console.log(this.object);
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
-          data['childRequest'] = false;
+          data['request'] = 2;
           data['parentNode'] = parentNodeLabel;
           data['whatToSearch'] = 'form';
           data['instanceName'] = data['formInstanceName'];
