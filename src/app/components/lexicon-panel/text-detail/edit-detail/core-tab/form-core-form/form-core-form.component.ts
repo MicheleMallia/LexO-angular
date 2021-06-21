@@ -206,6 +206,9 @@ export class FormCoreFormComponent implements OnInit {
     const trait = this.morphoTraits.at(i).get('trait').value;
     const oldValue = this.morphoTraits.at(i).get('value').value;
     const newValue = evt.target.value;
+
+    this.morphoTraits.at(i).get('value').setValue(newValue, {emitEvent : false});
+    
     if (newValue != '') {
       let parameters = {
         type: "morphology",
@@ -215,9 +218,10 @@ export class FormCoreFormComponent implements OnInit {
       }
 
       this.staticMorpho[i] = { trait: trait, value: newValue }
-      let lexId = this.object.lexicalEntryInstanceName;
+      let formId = this.object.formInstanceName;
+      console.log(parameters)
 
-      this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+      this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
           this.lexicalService.refreshAfterEdit(data);
@@ -353,7 +357,7 @@ export class FormCoreFormComponent implements OnInit {
           const data = this.object;
           data['whatToSearch'] = 'form';
           data['new_label'] = newValue;
-          data['changeLabel'] = true;
+          data['request'] = 3;
           this.lexicalService.refreshAfterEdit(data);
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');

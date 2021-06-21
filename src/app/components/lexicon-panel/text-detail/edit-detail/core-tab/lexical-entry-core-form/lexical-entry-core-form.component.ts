@@ -301,6 +301,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 currentValue : oldValue
             }
 
+            this.morphoTraits.at(i).get('value').setValue(newValue, {emitEvent : false});
+
             this.staticMorpho[i] = {trait: trait , value : newValue}
             let lexId = this.object.lexicalEntryInstanceName;
 
@@ -511,26 +513,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         }
     }
 
-    getEvokesValid(i) {
-        this.evokesArray = this.coreForm.get("evokes") as FormArray;
-        let value = this.evokesArray.at(i).get('entity').value;
-        if (value != '') {
-            return (value.match(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi).length > 0);
-        } else {
-            return false;
-        }
-    }
-
-    getDenotesValid(i) {
-        this.denotesArray = this.coreForm.get("denotes") as FormArray;
-        let value = this.denotesArray.at(i).get('entity').value;
-        if (value != '') {
-            return (value.match(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi).length > 0);
-        } else {
-            return false;
-        }
-    }
-
     onChangeDenotes(data) {
         var index = data['i'];
         this.denotesArray = this.coreForm.get("denotes") as FormArray;
@@ -576,12 +558,14 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     data => {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
-                        data['request'] = 0;
-                        this.lexicalService.refreshAfterEdit(data);
+                        this.lexicalService.updateLexCard(data)
+                        /* data['request'] = 0;
+                        this.lexicalService.refreshAfterEdit(data); */
                     }, error => {
                         console.log(error)
-                        this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
-                        this.lexicalService.spinnerAction('off');
+                        this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                        /* this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
+                        this.lexicalService.spinnerAction('off'); */
                     }
                 )
                 this.memoryDenotes[index] = data;
