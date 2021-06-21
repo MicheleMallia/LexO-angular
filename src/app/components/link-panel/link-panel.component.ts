@@ -51,6 +51,8 @@ export class LinkPanelComponent implements OnInit {
       
     }else{
       this.counterElement = 0;
+      this.sameAsData = null;
+      this.seeAlsoData = null;
     }
   }
 
