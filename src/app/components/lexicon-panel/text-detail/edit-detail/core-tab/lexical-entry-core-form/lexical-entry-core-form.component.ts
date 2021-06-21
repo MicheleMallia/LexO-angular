@@ -233,11 +233,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 data => {
                     console.log(data)
                     this.lexicalService.spinnerAction('off');
-                    data['lexEdit'] = true;
+                    data['request'] = 0;
                     this.lexicalService.refreshAfterEdit(data);
                 }, error => {
                     console.log(error)
-                    this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                    this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                     this.lexicalService.spinnerAction('off');
                 }
             )
@@ -275,12 +275,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     console.log(data)
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshAfterEdit(data);
-                    data['lexEdit'] = true;
+                    data['request'] = 0;
                 },
                 error => {
                     console.log(error)
                     this.lexicalService.spinnerAction('off');
-                    this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                    this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                 }
             )
         }
@@ -307,13 +307,13 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
                 data => {
                     console.log(data)
-                    data['lexEdit'] = true;
+                    data['request'] = 0;
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.spinnerAction('off');
                 },
                 error => {
                     console.log(error)
-                    this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                    this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                     this.lexicalService.spinnerAction('off');
                 }
             )
@@ -352,13 +352,13 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
                 data => {
                     console.log(data)
-                    data['lexEdit'] = true;
+                    data['request'] = 0;
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.spinnerAction('off');
                 },
                 error => {
                     console.log(error)
-                    this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                    this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                     this.lexicalService.spinnerAction('off');
                 }
             )
@@ -416,13 +416,13 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                         data => {
                             console.log(data);
-                            data['lexEdit'] = true;
+                            data['request'] = 0;
                             this.lexicalService.refreshAfterEdit(data);
                             this.lexicalService.spinnerAction('off');
                         },
                         error => {
                             console.log(error);
-                            this.lexicalService.refreshAfterEdit({lexEdit : true, label: updatedLabel});
+                            this.lexicalService.refreshAfterEdit({request: 0, label: updatedLabel});
                             this.lexicalService.spinnerAction('off');
                         }
                     )
@@ -445,12 +445,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     data => {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
-                        data['lexEdit'] = true;
+                        data['request'] = 0;
                         this.lexicalService.refreshAfterEdit(data);
                     },
                     error => {
                         console.log(error);
-                        this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                        this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                         this.lexicalService.spinnerAction('off');
                     }
                 )
@@ -549,11 +549,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     data => {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
-                        data['lexEdit'] = true;
+                        data['request'] = 0;
                         this.lexicalService.refreshAfterEdit(data);
                     }, error => {
                         console.log(error)
-                        this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                        this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                         this.lexicalService.spinnerAction('off');
                     }
                 )
@@ -576,11 +576,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     data => {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
-                        data['lexEdit'] = true;
+                        data['request'] = 0;
                         this.lexicalService.refreshAfterEdit(data);
                     }, error => {
                         console.log(error)
-                        this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                        this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                         this.lexicalService.spinnerAction('off');
                     }
                 )
@@ -624,11 +624,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     data => {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
-                        data['lexEdit'] = true;
+                        data['request'] = 0;
                         this.lexicalService.refreshAfterEdit(data);
                     }, error => {
                         console.log(error)
-                        this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                        this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                         this.lexicalService.spinnerAction('off');
                     }
                 )
@@ -651,11 +651,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     data => {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
-                        data['lexEdit'] = true;
+                        data['request'] = 0;
                         this.lexicalService.refreshAfterEdit(data);
                     }, error => {
                         console.log(error)
-                        this.lexicalService.refreshAfterEdit({lexEdit : true, label: this.object.label});
+                        this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
                         this.lexicalService.spinnerAction('off');
                     }
                 )
