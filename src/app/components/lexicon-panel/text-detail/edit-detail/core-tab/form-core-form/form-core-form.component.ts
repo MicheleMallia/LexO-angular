@@ -208,7 +208,7 @@ export class FormCoreFormComponent implements OnInit {
     const newValue = evt.target.value;
 
     this.morphoTraits.at(i).get('value').setValue(newValue, {emitEvent : false});
-    
+
     if (newValue != '') {
       let parameters = {
         type: "morphology",
@@ -224,12 +224,14 @@ export class FormCoreFormComponent implements OnInit {
       this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
-          this.lexicalService.refreshAfterEdit(data);
+          //this.lexicalService.refreshAfterEdit(data);
+          this.lexicalService.updateLexCard(data)
           this.lexicalService.spinnerAction('off');
         },
         error => {
           console.log(error)
-          this.lexicalService.refreshAfterEdit({ label: this.object.label });
+          //this.lexicalService.refreshAfterEdit({ label: this.object.label });
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
       )
@@ -259,13 +261,13 @@ export class FormCoreFormComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshAfterEdit(data);
+          //this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
         },
         error => {
           console.log(error)
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -296,7 +298,7 @@ export class FormCoreFormComponent implements OnInit {
 
 
 
-      }, 250);
+      }, 500);
     } else {
 
       setTimeout(() => {
@@ -308,7 +310,7 @@ export class FormCoreFormComponent implements OnInit {
         console.log(this.valueTraits)
         this.memoryTraits.push(evt);
 
-      }, 250);
+      }, 500);
     }
   }
 
@@ -345,6 +347,8 @@ export class FormCoreFormComponent implements OnInit {
       this.staticOtherDef[i] = { trait: trait, value: newValue }
       let formId = this.object.formInstanceName;
 
+      
+
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
           console.log(data)
@@ -354,15 +358,19 @@ export class FormCoreFormComponent implements OnInit {
         }, error => {
           console.log(error);
           //this.lexicalService.refreshLexEntryTree();
-          const data = this.object;
-          data['whatToSearch'] = 'form';
-          data['new_label'] = newValue;
-          data['request'] = 3;
-          this.lexicalService.refreshAfterEdit(data);
+          
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
       )
+
+      if(trait == 'writtenRep'){
+        const data = this.object;
+        data['whatToSearch'] = 'form';
+        data['new_label'] = newValue;
+        data['request'] = 3;
+        this.lexicalService.refreshAfterEdit(data);
+      }
 
     } else {
       this.lexicalService.spinnerAction('off');
