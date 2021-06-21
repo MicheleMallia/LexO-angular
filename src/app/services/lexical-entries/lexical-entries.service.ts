@@ -81,6 +81,11 @@ export class LexicalEntriesService {
     return this.http.post(this.baseUrl + "lexicon/data/lexicalSenses", parameters);
   }
 
+  //POST: /lexicon/data/forms ---> get form list
+  getFormList(parameters: any): Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/data/forms", parameters);
+  }
+
   //GET /lexicon/data/{id}/elements --> get elements of lexical entry
   getLexEntryElements(instance: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/elements");
