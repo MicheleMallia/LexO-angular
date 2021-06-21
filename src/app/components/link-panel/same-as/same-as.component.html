@@ -12,10 +12,10 @@
                                     <div class="form-group row ml-2  mr-2 w-100"
                                         *ngIf="{switch : false}; let variable">
                                         <div class="input-group">
-                                            <ng-select formControlName="entity" name="entity" bindValue="name" class="resizeNgSelect" [items]="people" bindLabel="name" placeholder="Search entity"
-                                                appendTo="body" [loading]="peopleLoading" *ngIf="!variable.switch">
+                                            <ng-select #sameAs formControlName="entity" name="entity" (change)="onChangeSameAs(sameAs, i)" (focus)="deleteData()" (keyup)="triggerSameAs($event)" formControlName="entity" name="entity" bindValue="lexicalEntry" class="resizeNgSelect" [items]="searchResults" bindLabel="label" placeholder="Search entity"
+                                                appendTo="body" *ngIf="!variable.switch">
                                             </ng-select>
-                                            <input formControlName="entity" name="entity" type="text" class="form-control "
+                                            <input formControlName="entity" name="entity" type="text" class="form-control " (keyup)="triggerSameAs($event)"
                                                 placeholder="Insert URI" *ngIf="variable.switch">
                                            
                                             <div class="input-group-append">
@@ -52,6 +52,10 @@
                                                             class="fa fa-trash-alt"></i></button>
                                                 </div>
                                             </div>
+                                            
+                                            <!-- <div class="invalid-feedback" *ngIf="sameAs.get('entity').value.length < 3" style="display: block; font-size: 9px;">
+                                                Insert at least 3 chars...
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
