@@ -15,6 +15,7 @@ export class SameAsComponent implements OnInit {
   @Input() sameAsData: any[] | any;
 
   private subject: Subject<any> = new Subject();
+  private subject_input: Subject<any> = new Subject();
   subscription: Subscription;
   object: any;
   searchResults: [];
@@ -39,6 +40,12 @@ export class SameAsComponent implements OnInit {
         this.onSearchFilter(data)
       }
     )
+
+    this.subject_input.pipe(debounceTime(1000)).subscribe(
+      data => {        
+        this.onChangeSameAsByInput(data['value'], data['i'])
+      }
+    )
   
     this.triggerTooltip();
   }
@@ -52,6 +59,25 @@ export class SameAsComponent implements OnInit {
     }else {
       this.object = null;
     }
+  }
+
+  onChangeSameAsByInput(value, index){
+    var selectedValues = value;
+    let lexId = this.object.lexicalEntryInstanceName;
+  
+    let parameters = {
+      type : "conceptRef",
+      relation : "sameAs",
+      value : selectedValues
+    }
+    console.log(parameters)
+    this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+      data=>{
+        console.log(data)
+      }, error=>{
+        console.log(error)
+      }
+    )
   }
 
   onChangeSameAs(sameAs, index){
@@ -141,6 +167,13 @@ export class SameAsComponent implements OnInit {
     }
     console.log(data)
   
+  }
+
+  triggerSameAsInput(evt, i){
+    if(evt.target != undefined){
+      let value = evt.target.value;
+      this.subject_input.next({value, i})
+    }
   }
 
   triggerSameAs(evt){
