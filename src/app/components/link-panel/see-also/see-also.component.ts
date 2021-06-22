@@ -15,6 +15,7 @@ export class SeeAlsoComponent implements OnInit {
   @Input() seeAlsoData: any[] | any;
 
   private subject: Subject<any> = new Subject();
+  private subject_input: Subject<any> = new Subject();
 
   subscription: Subscription;
   object: any;
@@ -45,6 +46,12 @@ export class SeeAlsoComponent implements OnInit {
         this.onSearchFilter(data)
       }
     )
+
+    this.subject_input.pipe(debounceTime(1000)).subscribe(
+      data => {        
+        this.onChangeSeeAlsoByInput(data['value'], data['i'])
+      }
+    )
     this.triggerTooltip();
   }
 
@@ -67,6 +74,25 @@ export class SeeAlsoComponent implements OnInit {
     }else {
       this.object = null;
     }
+  }
+
+  onChangeSeeAlsoByInput(value, index){
+    var selectedValues = value;
+    let lexId = this.object.lexicalEntryInstanceName;
+  
+    let parameters = {
+      type : "conceptRef",
+      relation : "seeAlso",
+      value : selectedValues
+    }
+    console.log(parameters)
+    this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+      data=>{
+        console.log(data)
+      }, error=>{
+        console.log(error)
+      }
+    )
   }
 
   onChangeSeeAlso(seeAlso, index){
@@ -156,6 +182,13 @@ export class SeeAlsoComponent implements OnInit {
     }
     console.log(data)
   
+  }
+
+  triggerSeeAlsoInput(evt, i){
+    if(evt.target != undefined){
+      let value = evt.target.value;
+      this.subject_input.next({value, i})
+    }
   }
 
   triggerSeeAlso(evt){
