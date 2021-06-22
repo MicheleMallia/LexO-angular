@@ -179,12 +179,17 @@ export class FormCoreFormComponent implements OnInit {
     this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(500)).subscribe(
       data => {
         this.lexicalService.spinnerAction('off');
-        //this.lexicalService.refreshLexEntryTree();
+        data['request'] = 5;
+        data['new_type'] = newType;
+        this.lexicalService.refreshAfterEdit(data);
         this.lexicalService.updateLexCard(this.object)
       }, error => {
         console.log(error);
-        //this.lexicalService.refreshLexEntryTree();
-        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+        const data = this.object;
+        data['request'] = 5;
+        data['new_type'] = newType;
+        this.lexicalService.refreshAfterEdit(data);
+        this.lexicalService.updateLexCard({lastUpdate: error.error.text })
         this.lexicalService.spinnerAction('off');
       }
     )
