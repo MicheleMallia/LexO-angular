@@ -165,12 +165,64 @@ export class DocumentSystemTreeComponent implements OnInit {
     }, 500);
   }
 
+  changeFormNote(data){
+    var that = this;
+    console.log("prova")
+    setTimeout(() => {
+      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+        function (x) {
+          if(x.data.formInstanceName != undefined){
+              if(x.data.formInstanceName == data['formInstanceName']){
+                x.data.note = data['new_note'];
+                console.log(x.data.note)
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+                return true;
+              }else{
+                return false;
+              }
+            
+          }else{
+            return false;
+          }
+        }
+      );
+    }, 500);
+  }
+
+  changeFormType(data){
+    var that = this;
+    console.log("prova")
+    setTimeout(() => {
+      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+        function (x) {
+          if(x.data.formInstanceName != undefined){
+              if(x.data.formInstanceName == data['formInstanceName']){
+                x.data.type = data['new_type'];
+                console.log(x.data.note)
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+                return true;
+              }else{
+                return false;
+              }
+            
+          }else{
+            return false;
+          }
+        }
+      );
+    }, 500);
+  }
+
   refreshAfterEdit(data) {
     //TODO: inserire valori numerici per richieste specifiche, numeri interi, utilizzare lo switch e separare codice in apposite funzioni separate
     // 0 -> lexEdit: quando creo una nuova lexical entry
     // 1 -> childRequest: quando creo una nuova forma e c'è una lexical entry attiva
     // 2 -> !childRequest && !changeLabel: quando creo una forma e devo solo pushare il nodo senza refreshare l'albero
     // 3 -> quando devo cambiare solo la label di una forma
+    // 4 -> quando devo cambiare la nota di una label
+    // 5 -> quando devo cambiare il tipo di una forma
     if(data != null){
       setTimeout(() => {
         switch(data['request']){
@@ -178,6 +230,8 @@ export class DocumentSystemTreeComponent implements OnInit {
           case 1 : this.childRequest(data); break;
           case 2 : this.pushNewForm(data); break;
           case 3 : this.changeFormLabel(data); break;
+          case 4 : this.changeFormNote(data); break;
+          case 5 : this.changeFormType(data); break;
         }
       }, 100);
     }
