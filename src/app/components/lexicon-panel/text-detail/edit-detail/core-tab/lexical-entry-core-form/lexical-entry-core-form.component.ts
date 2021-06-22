@@ -559,13 +559,15 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
                         this.lexicalService.updateLexCard(data)
-                        /* data['request'] = 0;
-                        this.lexicalService.refreshAfterEdit(data); */
+                        data['request'] = 0;
+                        this.lexicalService.refreshAfterEdit(data);
                     }, error => {
                         console.log(error)
+                        const data = this.object;
+                        data['request'] = 0;
+                        this.lexicalService.refreshAfterEdit(data);
                         this.lexicalService.updateLexCard({lastUpdate : error.error.text})
-                        /* this.lexicalService.refreshAfterEdit({request: 0, label: this.object.label});
-                        this.lexicalService.spinnerAction('off'); */
+                        this.lexicalService.spinnerAction('off');
                     }
                 )
                 this.memoryDenotes[index] = data;
