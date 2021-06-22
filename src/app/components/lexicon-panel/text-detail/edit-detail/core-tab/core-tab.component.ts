@@ -207,7 +207,9 @@ export class CoreTabComponent implements OnInit {
           this.lexicalService.updateLexicalEntry(lexicalId, parameters).pipe(debounceTime(500)).subscribe(
           data => {
             this.searchIconSpinner = false;
-            this.lexicalService.refreshLexEntryTree();
+            data['request'] = 0;
+            this.searchIconSpinner = false;
+            this.lexicalService.refreshAfterEdit(data);
             setTimeout(() => {
               //@ts-ignore
               $('.locked-tooltip').tooltip('disable');
@@ -216,7 +218,7 @@ export class CoreTabComponent implements OnInit {
           error => {
             this.searchIconSpinner = false;
             this.lexicalService.refreshLexEntryTree();
-            this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+            this.lexicalService.updateLexCard({request: 0, lastUpdate : error.error.text})
             setTimeout(() => {
               //@ts-ignore
               $('.locked-tooltip').tooltip('disable');
