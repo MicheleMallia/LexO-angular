@@ -309,6 +309,8 @@ export class LexicalEntryTreeComponent implements OnInit {
 
       this.lexicalService.getSenseData(senseId, 'core').subscribe(
         data => {
+          data['parentNodeLabel'] = $event.node.parent.parent.data.label;
+          data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
           this.lexicalService.sendToCoreTab(data)
           this.lexicalService.sendToRightTab(data)
         },
