@@ -71,26 +71,26 @@ export class DocumentSystemTreeComponent implements OnInit {
         function (x) {
           if (x.data.label == parentNode) {
             that.lexTree.getChildren(x);
-            
-            /* x.setActiveAndVisible() */
             setTimeout(() => {
               x.expand();
               setTimeout(() => {
                 that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
                   function(y) {
                     if(y.data.label == data['whatToSearch']){
-                      /* y.setActiveAndVisible() */
                       that.lexTree.getChildren(y);
-                      
                       setTimeout(() => {
                         y.expand();
-
-
                         setTimeout(() => {
-                          
                           that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
                             function(z){
-                              if(z.data.label == data['instanceName']){
+                              if(data.sense != undefined){
+                                if(z.data.senseInstanceName == data['instanceName']){
+                                  z.setActiveAndVisible();
+                                  return true;
+                                }else{
+                                  return false;
+                                }
+                              }else if(z.data.label == data['instanceName']){
                                 z.setActiveAndVisible()
                                 return true;
                               }else{
@@ -129,6 +129,34 @@ export class DocumentSystemTreeComponent implements OnInit {
               that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
                 function (y) {
                   if(y.data.label == data['label']){
+                    y.setActiveAndVisible();
+                  }
+                }
+              )
+            }, 10);
+            
+            
+          }
+        }
+      );
+    }, 500);
+  }
+
+  pushNewSense(data){
+    var that = this;
+    console.log(data)
+    setTimeout(() => {
+      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+        function (x) {
+          if(x.data.label == data['whatToSearch']){
+            data['label'] = "no definition";
+            x.data.children.push(data);
+            setTimeout(() => {
+              that.lexTree.lexicalEntryTree.treeModel.update();
+
+              that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+                function (y) {
+                  if(y.data.senseInstanceName == data['senseInstanceName']){
                     y.setActiveAndVisible();
                   }
                 }
