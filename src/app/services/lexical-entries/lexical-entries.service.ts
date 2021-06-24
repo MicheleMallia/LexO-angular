@@ -10,7 +10,7 @@ export class LexicalEntriesService {
   private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _vartransData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
-  private _deleteLexicalEntryReq: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _deleteLexicalEntryReq: BehaviorSubject<boolean> = new BehaviorSubject(null);
   private _refreshTreeReq: BehaviorSubject<boolean> = new BehaviorSubject(null);
   private _updateLexCardReq: BehaviorSubject<object> = new BehaviorSubject(null);
   private _spinnerAction: BehaviorSubject<string> = new BehaviorSubject(null);
@@ -48,7 +48,7 @@ export class LexicalEntriesService {
   }
 
   deleteRequest(boolean : boolean) {
-    this._deleteLexicalEntryReq.next(null);
+    this._deleteLexicalEntryReq.next(boolean);
   }
 
   refreshLexEntryTree() {

@@ -103,6 +103,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     
     this.lexicalService.deleteReq$.subscribe(
       signal => {
+        console.log(signal)
         //console.log("richiesta eliminazione lexical entry");
         if(signal != null){
           this.lexEntryDeleteReq();
