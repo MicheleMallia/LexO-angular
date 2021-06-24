@@ -104,14 +104,20 @@ export class LexicalEntryTreeComponent implements OnInit {
     this.lexicalService.deleteReq$.subscribe(
       signal => {
         //console.log("richiesta eliminazione lexical entry");
-        this.lexEntryDeleteReq();
+        if(signal != null){
+          this.lexEntryDeleteReq();
+        }
+        
       }
     )
 
     this.lexicalService.refreshTreeReq$.subscribe(
       signal => {
-        //console.log("refresh")
-        this.lexicalEntriesFilter(this.filterForm.value)
+        if(signal != null){
+          console.log("refresh")
+          this.lexicalEntriesFilter(this.filterForm.value)
+        }
+        
       }
     )
 
@@ -318,14 +324,7 @@ export class LexicalEntryTreeComponent implements OnInit {
           console.log(error)
         }
       )
-      
-      /* this.lexicalService.sendToCoreTab($event.node.data);
-      this.lexicalService.sendToRightTab(null); */
     }
-    /* else if ($event.eventName == 'deactivate' && ($event.node.data.lexicalEntry == undefined && $event.node.data.form == undefined)) {
-      this.lexicalService.sendToCoreTab(null);
-      this.lexicalService.sendToRightTab(null);
-    } */
     
   };
 

@@ -167,10 +167,6 @@
                     <span
                         *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined">{{
                         node.data.formInstanceName }}</span>
-
-                    <!-- <span
-                        *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined" >{{
-                        node.data.label }}</span> -->
                     <span
                         *ngIf="node.data.count == undefined && idView && node.data.definition != undefined">{{
                         node.data.senseInstanceName }}</span>
@@ -188,7 +184,7 @@
                                 style="color: #6e6e6e">{{node.data.label}}</span></i>&nbsp;({{ node.data.count
                         }})</span>
                     <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
-                    <sub *ngIf="labelView">{{node.data.pos}}</sub>
+                    <sub *ngIf="labelView && node.data.sense == undefined">{{node.data.pos}}</sub>
                     <span *ngIf="node.data.language != null && labelView" class="lang">@{{node.data.language}}</span>
                 </div>
                 <div class="icons-container">

@@ -303,7 +303,7 @@ export class CoreTabComponent implements OnInit {
     this.lexicalService.deleteLexicalEntry(lexicalId).subscribe(
       data => {
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest();
+        this.lexicalService.deleteRequest(true);
         this.lexicalEntryData = null;
         this.isLexicalEntry = true;
         this.isForm = false;
@@ -320,12 +320,12 @@ export class CoreTabComponent implements OnInit {
     this.lexicalService.deleteForm(lexicalId).subscribe(
       data=>{
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest();
+        this.lexicalService.deleteRequest(true);
         this.isForm = false;
         this.object = null;
       },error=> {
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest();
+        this.lexicalService.deleteRequest(true);
       }
     )
   }
@@ -336,12 +336,12 @@ export class CoreTabComponent implements OnInit {
     this.lexicalService.deleteSense(lexicalId).subscribe(
       data=>{
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest();
+        this.lexicalService.deleteRequest(true);
         this.isSense = false;
         this.object = null;
       },error=> {
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest();
+        this.lexicalService.deleteRequest(true);
       }
     )
   }
@@ -440,11 +440,11 @@ export class CoreTabComponent implements OnInit {
       console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 2;
+          data['request'] = 7;
           data['parentNode'] = parentNodeLabel;
           data['whatToSearch'] = 'sense';
           data['instanceName'] = data['senseInstanceName'];
-          if(data['creator'] == this.object.creator){
+          if(data['creator'] == this.object.author){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;

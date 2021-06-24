@@ -146,17 +146,22 @@ export class DocumentSystemTreeComponent implements OnInit {
     var that = this;
     console.log(data)
     setTimeout(() => {
+
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
           if(x.data.label == data['whatToSearch']){
+            data['definition'] = "";
+            data['hasChildren'] = false;
             data['label'] = "no definition";
             x.data.children.push(data);
+            console.log(1)
             setTimeout(() => {
               that.lexTree.lexicalEntryTree.treeModel.update();
 
               that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
                 function (y) {
                   if(y.data.senseInstanceName == data['senseInstanceName']){
+                    console.log(2)
                     y.setActiveAndVisible();
                   }
                 }
@@ -164,6 +169,29 @@ export class DocumentSystemTreeComponent implements OnInit {
             }, 10);
             
             
+          }
+        }
+      );
+    }, 500);
+  }
+
+  changeSenseDefinition(data){
+    var that = this;
+    setTimeout(() => {
+      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+        function (x) {
+          if(x.data.formInstanceName != undefined){
+              if(x.data.formInstanceName == data['senseInstanceName']){
+                x.data.label = data['new_definition'];
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+                return true;
+              }else{
+                return false;
+              }
+            
+          }else{
+            return false;
           }
         }
       );
@@ -195,7 +223,6 @@ export class DocumentSystemTreeComponent implements OnInit {
 
   changeFormNote(data){
     var that = this;
-    console.log("prova")
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
@@ -251,6 +278,8 @@ export class DocumentSystemTreeComponent implements OnInit {
     // 3 -> quando devo cambiare solo la label di una forma
     // 4 -> quando devo cambiare la nota di una label
     // 5 -> quando devo cambiare il tipo di una forma
+    // 6 -> quando devo cambiare definizione a un senso
+    // 7 -> quando devo pushare un nuovo senso
     if(data != null){
       setTimeout(() => {
         switch(data['request']){
@@ -260,6 +289,8 @@ export class DocumentSystemTreeComponent implements OnInit {
           case 3 : this.changeFormLabel(data); break;
           case 4 : this.changeFormNote(data); break;
           case 5 : this.changeFormType(data); break;
+          case 6 : this.changeSenseDefinition(data); break;
+          case 7 : this.pushNewSense(data); break;
         }
       }, 100);
     }

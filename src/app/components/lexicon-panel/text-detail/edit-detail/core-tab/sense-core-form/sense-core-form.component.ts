@@ -136,10 +136,10 @@ export class SenseCoreFormComponent implements OnInit {
       this.lexicalService.updateSense(senseId, parameters).subscribe(
         data => {
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -156,10 +156,10 @@ export class SenseCoreFormComponent implements OnInit {
       this.lexicalService.updateSense(senseId, parameters).subscribe(
         data => {
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -178,11 +178,11 @@ export class SenseCoreFormComponent implements OnInit {
       this.lexicalService.updateSense(senseId, parameters).subscribe(
         data => {
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           console.log(error)
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -295,11 +295,21 @@ export class SenseCoreFormComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
+          if(trait == 'definition'){
+
+          }
           this.lexicalService.updateLexCard(data)
         }, error => {
           console.log(error);
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
+          if(trait == 'definition'){
+            const data = this.object;
+            data['whatToSearch'] = 'sense';
+            data['new_definition'] = newValue;
+            data['request'] = 6;
+            this.lexicalService.refreshAfterEdit(data);
+          }
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -325,11 +335,18 @@ export class SenseCoreFormComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(data)
         }, error => {
           console.log(error);
-          this.lexicalService.refreshLexEntryTree();
+          //this.lexicalService.refreshLexEntryTree();
+          if(trait == 'definition'){
+            const data = this.object;
+            data['whatToSearch'] = 'sense';
+            data['new_definition'] = newValue;
+            data['request'] = 6;
+            this.lexicalService.refreshAfterEdit(data);
+          }
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
