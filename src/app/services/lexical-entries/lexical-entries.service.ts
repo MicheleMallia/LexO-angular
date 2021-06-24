@@ -11,7 +11,6 @@ export class LexicalEntriesService {
   private _vartransData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _deleteLexicalEntryReq: BehaviorSubject<boolean> = new BehaviorSubject(null);
-  private _refreshTreeReq: BehaviorSubject<boolean> = new BehaviorSubject(null);
   private _updateLexCardReq: BehaviorSubject<object> = new BehaviorSubject(null);
   private _spinnerAction: BehaviorSubject<string> = new BehaviorSubject(null);
   private _refreshLanguageTable: BehaviorSubject<object> = new BehaviorSubject(null);
@@ -27,7 +26,6 @@ export class LexicalEntriesService {
   vartransData = this._vartransData.asObservable();
   rightPanelData$ = this._rightPanelData.asObservable();
   deleteReq$ = this._deleteLexicalEntryReq.asObservable();
-  refreshTreeReq$ = this._refreshTreeReq.asObservable();
   updateLexCardReq$ = this._updateLexCardReq.asObservable();
   spinnerAction$ = this._spinnerAction.asObservable();
   refreshLangTable$ = this._refreshLanguageTable.asObservable();
@@ -49,10 +47,6 @@ export class LexicalEntriesService {
 
   deleteRequest(boolean : boolean) {
     this._deleteLexicalEntryReq.next(boolean);
-  }
-
-  refreshLexEntryTree() {
-    this._refreshTreeReq.next(null);
   }
 
   updateLexCard(object: object) {
