@@ -18,7 +18,7 @@ export class LexicalEntriesService {
   private _refreshAfterEdit : BehaviorSubject<object> = new BehaviorSubject(null);
 
   //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
-  private baseUrl = "/LexO-backend/service/"
+  private baseUrl = "/LexO-backend-beta/service/"
   private baseUrl_document = "http://lari2.ilc.cnr.it:81/belexo/"
   private key = "PRINitant19";
   private author = "michele";
@@ -196,6 +196,10 @@ export class LexicalEntriesService {
   //POST ​/lexicon​/update​/{id}​/linguisticRelation --> linguistic Relation update for Core
   updateLinguisticRelation(lexId, parameters): Observable<any> {
     return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/linguisticRelation?key=" + this.key + "&author=" + this.author, parameters);
+  }
+
+  updateGenericRelation(lexId, parameters) : Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/genericRelation?key=" + this.key + "&author=" + this.author, parameters);
   }
 
   //POST /lexicon/update/{id}/form --> update form values
