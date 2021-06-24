@@ -81,12 +81,12 @@ export class SeeAlsoComponent implements OnInit {
     let lexId = this.object.lexicalEntryInstanceName;
   
     let parameters = {
-      type : "conceptRef",
+      type : "reference",
       relation : "seeAlso",
       value : selectedValues
     }
     console.log(parameters)
-    this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+    this.lexicalService.updateGenericRelation(lexId, parameters).subscribe(
       data=>{
         console.log(data)
       }, error=>{
@@ -102,12 +102,12 @@ export class SeeAlsoComponent implements OnInit {
       let lexId = this.object.lexicalEntryInstanceName;
     
       let parameters = {
-        type : "conceptRef",
+        type : "reference",
         relation : "seeAlso",
         value : selectedValues
       }
       console.log(parameters)
-      this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+      this.lexicalService.updateGenericRelation(lexId, parameters).subscribe(
         data=>{
           console.log(data)
         }, error=>{

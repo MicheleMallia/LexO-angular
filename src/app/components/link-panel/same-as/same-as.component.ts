@@ -66,12 +66,12 @@ export class SameAsComponent implements OnInit {
     let lexId = this.object.lexicalEntryInstanceName;
   
     let parameters = {
-      type : "conceptRef",
+      type : "reference",
       relation : "sameAs",
       value : selectedValues
     }
     console.log(parameters)
-    this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+    this.lexicalService.updateGenericRelation(lexId, parameters).subscribe(
       data=>{
         console.log(data)
       }, error=>{
@@ -87,12 +87,12 @@ export class SameAsComponent implements OnInit {
       let lexId = this.object.lexicalEntryInstanceName;
     
       let parameters = {
-        type : "conceptRef",
+        type : "reference",
         relation : "sameAs",
         value : selectedValues
       }
       console.log(parameters)
-      this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
+      this.lexicalService.updateGenericRelation(lexId, parameters).subscribe(
         data=>{
           console.log(data)
         }, error=>{
