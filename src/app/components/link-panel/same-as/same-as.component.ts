@@ -52,8 +52,8 @@ export class SameAsComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     setTimeout(() => {
-      if(changes.seeAlsoData.currentValue != null){
-        this.object = changes.seeAlsoData.currentValue;
+      if(changes.sameAsData.currentValue != undefined){
+        this.object = changes.sameAsData.currentValue;
         this.sameAsArray = this.sameAsForm.get('sameAsArray') as FormArray;
         this.sameAsArray.clear();
   
