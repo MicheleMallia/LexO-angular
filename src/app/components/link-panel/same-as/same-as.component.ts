@@ -51,14 +51,22 @@ export class SameAsComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    /* console.log(this.sameAsData); */
-    if(changes.sameAsData.currentValue != null){
-      this.object = changes.sameAsData.currentValue;
-      this.sameAsArray = this.sameAsForm.get('sameAsArray') as FormArray;
-      this.sameAsArray.clear();
-    }else {
-      this.object = null;
-    }
+    setTimeout(() => {
+      if(changes.seeAlsoData.currentValue != null){
+        this.object = changes.seeAlsoData.currentValue;
+        this.sameAsArray = this.sameAsForm.get('sameAsArray') as FormArray;
+        this.sameAsArray.clear();
+  
+        console.log(this.object)
+  
+        this.object.array.forEach(element => {
+          this.addSameAsEntry(element.lexicalEntity)
+        });
+        
+      }else {
+        this.object = null;
+      }
+    }, 10);
   }
 
   onChangeSameAsByInput(value, index){
@@ -152,6 +160,7 @@ export class SameAsComponent implements OnInit {
         extensionDegree: 3
       }
 
+      console.log(parameters);
       this.lexicalService.getFormList(parameters).subscribe(
         data=>{
           console.log(data)
@@ -192,15 +201,27 @@ export class SameAsComponent implements OnInit {
     }, 500);
   }
 
-  createSameAsEntry() {
-    return this.formBuilder.group({
-      entity: null
-    })
+  createSameAsEntry(e?) {
+    if(e == undefined){
+      return this.formBuilder.group({
+        entity: null
+      })
+    }else{
+      return this.formBuilder.group({
+        entity: e
+      })
+    }
+    
   }
 
-  addSameAsEntry() {
+  addSameAsEntry(e?) {
     this.sameAsArray = this.sameAsForm.get('sameAsArray') as FormArray;
-    this.sameAsArray.push(this.createSameAsEntry());
+    if(e == undefined){
+      this.sameAsArray.push(this.createSameAsEntry());
+    }else{
+      this.sameAsArray.push(this.createSameAsEntry(e));
+    }
+    
     this.triggerTooltip();
   }
 

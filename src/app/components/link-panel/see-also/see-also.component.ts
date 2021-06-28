@@ -36,7 +36,7 @@ export class SeeAlsoComponent implements OnInit {
 
   ngOnInit() {
     this.seeAlsoForm = this.formBuilder.group({
-      seeAlsoArray: this.formBuilder.array([])
+      seeAlsoArray: this.formBuilder.array([this.createSeeAlsoEntry('ciao')])
     })
    
     this.onChanges();
@@ -66,14 +66,23 @@ export class SeeAlsoComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    /* console.log(this.sameAsData); */
-    if(changes.seeAlsoData.currentValue != null){
-      this.object = changes.seeAlsoData.currentValue;
-      this.seeAlsoArray = this.seeAlsoForm.get('seeAlsoArray') as FormArray;
-      this.seeAlsoArray.clear();
-    }else {
-      this.object = null;
-    }
+    setTimeout(() => {
+      if(changes.seeAlsoData.currentValue != null){
+        this.object = changes.seeAlsoData.currentValue;
+        this.seeAlsoArray = this.seeAlsoForm.get('seeAlsoArray') as FormArray;
+        this.seeAlsoArray.clear();
+  
+        console.log(this.object)
+  
+        this.object.array.forEach(element => {
+          this.addSeeAlsoEntry(element.lexicalEntity)
+        });
+        
+      }else {
+        this.object = null;
+      }
+    }, 10);
+    
   }
 
   onChangeSeeAlsoByInput(value, index){
@@ -203,15 +212,28 @@ export class SeeAlsoComponent implements OnInit {
     })
 }
 
-  createSeeAlsoEntry() {
-    return this.formBuilder.group({
-      entity: null
-    })
+  createSeeAlsoEntry(e?) {
+    if(e == undefined){
+      return this.formBuilder.group({
+        entity: null
+      })
+    }else{
+      return this.formBuilder.group({
+        entity: e
+      })
+    }
+    
   }
 
-  addSeeAlsoEntry() {
+  addSeeAlsoEntry(e?) {
     this.seeAlsoArray = this.seeAlsoForm.get('seeAlsoArray') as FormArray;
-    this.seeAlsoArray.push(this.createSeeAlsoEntry());
+
+    if(e == undefined){
+      this.seeAlsoArray.push(this.createSeeAlsoEntry());
+    }else{
+      this.seeAlsoArray.push(this.createSeeAlsoEntry(e));
+    }
+    
     this.triggerTooltip();
   }
 
