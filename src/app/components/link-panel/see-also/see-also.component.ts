@@ -75,7 +75,7 @@ export class SeeAlsoComponent implements OnInit {
         console.log(this.object)
   
         this.object.array.forEach(element => {
-          this.addSeeAlsoEntry(element.label)
+          this.addSeeAlsoEntry(element.label, element.inferred)
         });
         
       }else {
@@ -212,26 +212,28 @@ export class SeeAlsoComponent implements OnInit {
     })
 }
 
-  createSeeAlsoEntry(e?) {
+  createSeeAlsoEntry(e?, i?) {
     if(e == undefined){
       return this.formBuilder.group({
-        entity: null
+        entity: null,
+        inferred : false
       })
     }else{
       return this.formBuilder.group({
-        entity: e
+        entity: e,
+        inferred : i
       })
     }
     
   }
 
-  addSeeAlsoEntry(e?) {
+  addSeeAlsoEntry(e?, i?) {
     this.seeAlsoArray = this.seeAlsoForm.get('seeAlsoArray') as FormArray;
 
     if(e == undefined){
       this.seeAlsoArray.push(this.createSeeAlsoEntry());
     }else{
-      this.seeAlsoArray.push(this.createSeeAlsoEntry(e));
+      this.seeAlsoArray.push(this.createSeeAlsoEntry(e, i));
     }
     
     this.triggerTooltip();

@@ -60,7 +60,7 @@ export class SameAsComponent implements OnInit {
         console.log(this.object)
   
         this.object.array.forEach(element => {
-          this.addSameAsEntry(element.lexicalEntity)
+          this.addSameAsEntry(element.label, element.inferred)
         });
         
       }else {
@@ -202,25 +202,27 @@ export class SameAsComponent implements OnInit {
     }, 500);
   }
 
-  createSameAsEntry(e?) {
+  createSameAsEntry(e?, i?) {
     if(e == undefined){
       return this.formBuilder.group({
-        entity: null
+        entity: null,
+        inferred : false
       })
     }else{
       return this.formBuilder.group({
-        entity: e
+        entity: e,
+        inferred : i
       })
     }
     
   }
 
-  addSameAsEntry(e?) {
+  addSameAsEntry(e?, i?) {
     this.sameAsArray = this.sameAsForm.get('sameAsArray') as FormArray;
     if(e == undefined){
       this.sameAsArray.push(this.createSameAsEntry());
     }else{
-      this.sameAsArray.push(this.createSameAsEntry(e));
+      this.sameAsArray.push(this.createSameAsEntry(e, i));
     }
     
     this.triggerTooltip();
