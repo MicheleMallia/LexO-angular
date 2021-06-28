@@ -49,7 +49,7 @@ export class CoreTabComponent implements OnInit {
 
   lastUpdateDate : any;
   creationDate : any;
-  author : any;
+  creator : any;
   revisor : any;
 
   @ViewChild('expander') expander_body: ElementRef;
@@ -65,8 +65,9 @@ export class CoreTabComponent implements OnInit {
           this.senseData = null;
         }
         this.object = object
+        console.log(this.object)
         if(this.object != null){
-          this.author = this.object.author;
+          this.creator = this.object.creator;
           this.revisor = this.object.revisor;
           
           if(this.object.lexicalEntry != undefined && this.object.sense == undefined){
@@ -137,6 +138,8 @@ export class CoreTabComponent implements OnInit {
               break;
             }
           }
+
+          console.log(this.goBack)
         }
       }
     );
@@ -183,6 +186,8 @@ export class CoreTabComponent implements OnInit {
 
   changeStatus() {
 
+    console.log(this.goBack)
+
     if(!this.goBack){
       this.lock++;
       if (this.lock == 2){
@@ -197,7 +202,7 @@ export class CoreTabComponent implements OnInit {
 
     this.searchIconSpinner = true;
     let lexicalId = this.object.lexicalEntryInstanceName;
-    
+    console.log(this.lock)
     switch(this.lock){
       case 0 : {
           let parameters = {
@@ -310,6 +315,8 @@ export class CoreTabComponent implements OnInit {
         this.object = null;
       },
       error => {
+        this.searchIconSpinner = false;
+        console.log(error)
       }
     )
   }
