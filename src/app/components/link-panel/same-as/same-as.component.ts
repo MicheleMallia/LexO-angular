@@ -140,6 +140,7 @@ export class SameAsComponent implements OnInit {
           data=>{
             console.log(data)
             this.searchResults = data['list']
+            console.log(this.searchResults)
             this.filterLoading = false;
           },error=>{
             console.log(error)

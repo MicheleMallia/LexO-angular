@@ -15,7 +15,7 @@
                                         *ngIf="{switch : false}; let variable">
                                         <div class="input-group">
                                             
-                                            <ng-select #seeAlso  formControlName="entity" name="entity"(change)="onChangeSeeAlso(seeAlso, i)" (focus)="deleteData()" (keyup)="triggerSeeAlso($event)" formControlName="entity" name="entity" bindValue="lexicalEntity" class="resizeNgSelect" [items]="searchResults" bindLabel="lexicalEntity" placeholder="Search entity"
+                                            <ng-select #seeAlso  formControlName="entity" name="entity"(change)="onChangeSeeAlso(seeAlso, i)" (focus)="deleteData()" (keyup)="triggerSeeAlso($event)" formControlName="entity" name="entity" bindValue="label" class="resizeNgSelect" [items]="searchResults" bindLabel="label" placeholder="Search entity"
                                                 appendTo="body" *ngIf="!variable.switch">
                                             </ng-select>
                                             <input formControlName="entity" name="entity" type="text" class="form-control " (keyup)="triggerSeeAlsoInput($event, i)"

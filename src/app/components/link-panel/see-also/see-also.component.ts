@@ -75,7 +75,7 @@ export class SeeAlsoComponent implements OnInit {
         console.log(this.object)
   
         this.object.array.forEach(element => {
-          this.addSeeAlsoEntry(element.lexicalEntity)
+          this.addSeeAlsoEntry(element.label)
         });
         
       }else {

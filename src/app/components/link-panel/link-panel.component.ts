@@ -37,12 +37,12 @@ export class LinkPanelComponent implements OnInit {
             this.sameAsData = {}
             this.sameAsData['array'] = data;
             this.sameAsData['parentNodeLabel']= this.object['lexicalEntry'];
-            this.sameAsData['parentNodeInstanceName']= this.object['lexicalEntryInstanceName'];
+            this.sameAsData['lexicalEntryInstanceName']= this.object['lexicalEntryInstanceName'];
           }, error=>{
             this.sameAsData = {}
             this.sameAsData['array'] = [];
             this.sameAsData['parentNodeLabel']= this.object['lexicalEntry'];
-            this.sameAsData['parentNodeInstanceName']= this.object['lexicalEntryInstanceName'];
+            this.sameAsData['lexicalEntryInstanceName']= this.object['lexicalEntryInstanceName'];
             console.log(error);
             
           }
@@ -53,12 +53,12 @@ export class LinkPanelComponent implements OnInit {
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = data;
             this.seeAlsoData['parentNodeLabel']= this.object['lexicalEntry'];
-            this.seeAlsoData['parentNodeInstanceName']= this.object['lexicalEntryInstanceName'];
+            this.seeAlsoData['lexicalEntryInstanceName']= this.object['lexicalEntryInstanceName'];
           }, error=>{
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = [];
             this.seeAlsoData['parentNodeLabel']= this.object['lexicalEntry'];
-            this.seeAlsoData['parentNodeInstanceName']= this.object['lexicalEntryInstanceName'];
+            this.seeAlsoData['lexicalEntryInstanceName']= this.object['lexicalEntryInstanceName'];
             console.log(error);
             
           }

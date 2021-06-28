@@ -12,7 +12,7 @@
                                     <div class="form-group row ml-2  mr-2 w-100"
                                         *ngIf="{switch : false}; let variable">
                                         <div class="input-group">
-                                            <ng-select #sameAs formControlName="entity" name="entity" (change)="onChangeSameAs(sameAs, i)" (focus)="deleteData()" (keyup)="triggerSameAs($event)" formControlName="entity" name="entity" bindValue="lexicalEntry" class="resizeNgSelect" [items]="searchResults" bindLabel="label" placeholder="Search entity"
+                                            <ng-select #sameAs formControlName="entity" name="entity" (change)="onChangeSameAs(sameAs, i)" (focus)="deleteData()" (keyup)="triggerSameAs($event)" formControlName="entity" name="entity" bindValue="label" class="resizeNgSelect" [items]="searchResults" bindLabel="label" placeholder="Search entity"
                                                 appendTo="body" *ngIf="!variable.switch">
                                             </ng-select>
                                             <input formControlName="entity" name="entity" type="text" class="form-control " (keyup)="triggerSameAsInput($event, i)"
