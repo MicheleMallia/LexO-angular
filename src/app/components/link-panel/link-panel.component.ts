@@ -28,7 +28,6 @@ export class LinkPanelComponent implements OnInit {
       
       /* console.log(changes.linkData.currentValue) */
 
-      //TODO: richiamare il servizio per il recupero dei dati relativi a sameAs e seeAlso
       if(this.object.lexicalEntryInstanceName != undefined){
         let lexId = this.object.lexicalEntryInstanceName;
         this.lexicalService.getLexEntryLinguisticRelation(lexId, 'sameAs').subscribe(
@@ -50,6 +49,7 @@ export class LinkPanelComponent implements OnInit {
 
         this.lexicalService.getLexEntryLinguisticRelation(lexId, 'seeAlso').subscribe(
           data=>{
+            console.log(data)
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = data;
             this.seeAlsoData['parentNodeLabel']= this.object['lexicalEntry'];
@@ -63,19 +63,108 @@ export class LinkPanelComponent implements OnInit {
             
           }
         )
+
+        console.log(this.object)
+        this.object.links.forEach(element => {
+          if(element.type != undefined){
+            if(element.type == 'Reference'){
+              element.elements.forEach(sub => {
+                this.counterElement += sub.count;
+              });
+            }
+          }
+        });
+      }else if(this.object.formInstanceName != undefined){
+        let formId = this.object.formInstanceName;
+        this.lexicalService.getLexEntryLinguisticRelation(formId, 'sameAs').subscribe(
+          data=>{
+            console.log(data);
+            this.sameAsData = {}
+            this.sameAsData['array'] = data;
+            this.sameAsData['formInstanceName']= this.object['formInstanceName'];
+          }, error=>{
+            this.sameAsData = {}
+            this.sameAsData['array'] = [];
+            this.sameAsData['formInstanceName']= this.object['formInstanceName'];
+            console.log(error);
+            
+          }
+        )
+
+        this.lexicalService.getLexEntryLinguisticRelation(formId, 'seeAlso').subscribe(
+          data=>{
+            this.seeAlsoData = {}
+            this.seeAlsoData['array'] = data;
+            this.seeAlsoData['formInstanceName']= this.object['formInstanceName'];
+          }, error=>{
+            this.seeAlsoData = {}
+            this.seeAlsoData['array'] = [];
+            this.seeAlsoData['formInstanceName']= this.object['formInstanceName'];
+            console.log(error);
+            
+          }
+        )
+
+        console.log(this.object)
+        if(this.object.links != null){
+          this.object.links.forEach(element => {
+            if(element.type != undefined){
+              if(element.type == 'Reference'){
+                element.elements.forEach(sub => {
+                  this.counterElement += sub.count;
+                });
+              }
+            }
+          });
+        }
+        
+      }else if(this.object.senseInstanceName != undefined){
+        let senseId = this.object.senseInstanceName;
+        this.lexicalService.getLexEntryLinguisticRelation(senseId, 'sameAs').subscribe(
+          data=>{
+            console.log(data);
+            this.sameAsData = {}
+            this.sameAsData['array'] = data;
+            this.sameAsData['senseInstanceName']= this.object['senseInstanceName'];
+          }, error=>{
+            this.sameAsData = {}
+            this.sameAsData['array'] = [];
+            this.sameAsData['senseInstanceName']= this.object['senseInstanceName'];
+            console.log(error);
+            
+          }
+        )
+
+        this.lexicalService.getLexEntryLinguisticRelation(senseId, 'seeAlso').subscribe(
+          data=>{
+            console.log(data)
+            this.seeAlsoData = {}
+            this.seeAlsoData['array'] = data;
+            this.seeAlsoData['senseInstanceName']= this.object['senseInstanceName'];
+          }, error=>{
+            this.seeAlsoData = {}
+            this.seeAlsoData['array'] = [];
+            this.seeAlsoData['senseInstanceName']= this.object['senseInstanceName'];
+            console.log(error);
+            
+          }
+        )
+
+        console.log(this.object)
+        if(this.object.links != null){
+          this.object.links.forEach(element => {
+            if(element.type != undefined){
+              if(element.type == 'Reference'){
+                element.elements.forEach(sub => {
+                  this.counterElement += sub.count;
+                });
+              }
+            }
+          });
+        }
       }
 
-      //TODO: inserire counter 
-      console.log(this.object)
-      this.object.links.forEach(element => {
-        if(element.type != undefined){
-          if(element.type == 'Reference'){
-            element.elements.forEach(sub => {
-              this.counterElement += sub.count;
-            });
-          }
-        }
-      });
+      
       
     }else{
       this.counterElement = 0;
