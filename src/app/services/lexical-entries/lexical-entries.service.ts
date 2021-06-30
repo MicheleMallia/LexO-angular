@@ -176,9 +176,9 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "lexicon/delete/" + langId + "/language?key=" + this.key);
   }
 
-  //GET  /lexicon​/delete​/{id}​/linguisticRelation  --> delete linguistic relation
+  //POST  /lexicon​/delete​/{id}​/linguisticRelation  --> delete linguistic relation
   deleteLinguisticRelation(lexId, parameters): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/delete/" + lexId + "/linguisticRelation?key=" + this.key, parameters);
+    return this.http.post(this.baseUrl + "lexicon/delete/" + lexId + "/relation?key=" + this.key, parameters);
   }
 
   //POST ​/lexicon​/update​/{id}​/lexicalEntry --> lexical entry update
@@ -192,6 +192,7 @@ export class LexicalEntriesService {
     return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/linguisticRelation?key=" + this.key + "&author=" + this.author, parameters);
   }
 
+  //POST ​/lexicon​/update​/{id}​/genericRelation --> Generic relation update
   updateGenericRelation(lexId, parameters) : Observable<any> {
     return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/genericRelation?key=" + this.key + "&author=" + this.author, parameters);
   }
