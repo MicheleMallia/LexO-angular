@@ -12,26 +12,33 @@
                                 <div class="d-flex">
                                     <div class="form-group row ml-2  mr-2 w-100" *ngIf="{switch : false}; let variable">
                                         <div class="input-group" *ngIf="{boolean : sameAs.get('inferred').value}; let inf">
-                                            <ng-select #sameAs formControlName="entity" name="entity"
+                                            <!-- <ng-select #sameAs formControlName="entity" name="entity"
                                                 (change)="onChangeSameAs(sameAs, i)" (focus)="deleteData()"
                                                 (keyup)="triggerSameAs($event)" formControlName="entity" name="entity"
                                                 bindValue="label" class="resizeNgSelect" [items]="searchResults"
                                                 bindLabel="label" placeholder="Search entity" appendTo="body"
                                                 *ngIf="!variable.switch" [readonly]="inf.boolean">
-                                            </ng-select>
+                                            </ng-select> -->
+                                            <!-- <ng-select #seeAlso formControlName="entity" name="entity"
+                                                (change)="onChangeSameAs(seeAlso, i)" (focus)="deleteData()"
+                                                (keyup)="triggerSameAs($event)" formControlName="entity" name="entity"
+                                                bindValue="lemma" class="resizeNgSelect" [items]="searchResults"
+                                                bindLabel="lemma" placeholder="Search entity" appendTo="body"
+                                                *ngIf="!variable.switch && isSense" [readonly]="inf.boolean">
+                                            </ng-select> -->
                                             <input formControlName="entity" name="entity" type="text"
                                                 class="form-control " (keyup)="triggerSameAsInput($event, i)"
-                                                placeholder="Insert URI" *ngIf="variable.switch">
+                                                placeholder="Insert URI">
 
                                             <div class="input-group-append" *ngIf="!inf.boolean">
-                                                <div class="input-group-append ml-2 form-check">
+                                               <!--  <div class="input-group-append ml-2 form-check">
                                                     <input class="form-check-input same-as-tooltip" type="checkbox"
                                                         (change)="variable.switch=!variable.switch"
                                                         data-toggle="tooltip" data-placement="bottom"
                                                         data-trigger="hover"
                                                         title="Clicca per inserire un URI manualmente">
                                                     <label class="form-check-label" for="extCheck"></label>
-                                                </div>
+                                                </div> -->
                                                 <div class="input-group-append ml-2">
                                                     <button class="btn btn-primary" type="button"
                                                         (click)="modalRoot2.show()"><i
