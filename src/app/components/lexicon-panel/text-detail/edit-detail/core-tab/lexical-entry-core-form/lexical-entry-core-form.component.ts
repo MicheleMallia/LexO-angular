@@ -186,6 +186,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
                 this.lexicalService.getLexEntryLinguisticRelation(lexId, 'denotes').subscribe(
                     data => {
+                        console.log(data)
                         for (var i = 0; i < data.length; i++) {
                             let entity = data[i]['lexicalEntity'];
                             this.addDenotes(entity);
@@ -623,7 +624,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
             } else {
                 //TODO c'era già qualche altro valore
-                console.log("c'era qualcos'altro")
+                /* console.log("c'era qualcos'altro") */
                 const oldValue = this.memoryEvokes[index]['lexicalEntity']
                 const newValue = data['name']
                 const parameters = {
@@ -668,7 +669,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         let lexId = this.object.lexicalEntryInstanceName;
 
         let parameters = {
-            type: 'conceptRel',
+            type: 'conceptRef',
             relation : 'evokes',
             value : entity
         }
@@ -726,6 +727,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 value : value
             }
 
+            console.log(parameters)
+
             this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
                 data => {
                     console.log(data)
@@ -749,11 +752,10 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         let lexId = this.object.lexicalEntryInstanceName;
 
         let parameters = {
-            type: 'conceptRel',
             relation : 'denotes',
             value : entity
         }
-
+        console.log(parameters)
         this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
             data => {
                 console.log(data)
