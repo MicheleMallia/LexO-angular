@@ -66,9 +66,11 @@ export class SameAsComponent implements OnInit {
         console.log(this.object)
   
         this.object.array.forEach(element => {
-          this.addSameAsEntry(element.label, element.inferred, element.lexicalEntityInstanceName)
-          this.memorySameAs.push(element.lexicalEntityInstanceName);
+          this.addSameAsEntry(element.lexicalEntity, element.inferred)
+          this.memorySameAs.push(element.lexicalEntity);
         });
+
+        console.log(this.memorySameAs)
 
         if(this.object.lexicalEntryInstanceName != undefined){
           this.isLexEntry = true;
@@ -102,7 +104,7 @@ export class SameAsComponent implements OnInit {
     }
 
     console.log(this.memorySameAs[index])
-    if (this.memorySameAs[index] == undefined) {
+    if (this.memorySameAs[index] == "") {
       let parameters = {
         type: "reference",
         relation: "sameAs",
@@ -116,6 +118,8 @@ export class SameAsComponent implements OnInit {
           console.log(error)
         }
       )
+
+      this.memorySameAs[index] = selectedValues;
     } else {
       let oldValue = this.memorySameAs[index];
       let parameters = {
@@ -315,29 +319,27 @@ export class SameAsComponent implements OnInit {
     }, 500);
   }
 
-  createSameAsEntry(e?, i?, le?) {
+  createSameAsEntry(e?, i?) {
     if(e == undefined){
       return this.formBuilder.group({
         entity: null,
-        inferred : false,
-        lexical_entity : null
+        inferred : false
       })
     }else{
       return this.formBuilder.group({
         entity: e,
-        inferred : i,
-        lexical_entity : le
+        inferred : i
       })
     }
     
   }
 
-  addSameAsEntry(e?, i?, le?) {
+  addSameAsEntry(e?, i?) {
     this.sameAsArray = this.sameAsForm.get('sameAsArray') as FormArray;
     if(e == undefined){
       this.sameAsArray.push(this.createSameAsEntry());
     }else{
-      this.sameAsArray.push(this.createSameAsEntry(e, i, le));
+      this.sameAsArray.push(this.createSameAsEntry(e, i));
     }
     
     this.triggerTooltip();
@@ -345,14 +347,14 @@ export class SameAsComponent implements OnInit {
 
   removeElement(index) {
     this.sameAsArray = this.sameAsForm.get('sameAsArray') as FormArray;
-    const lexical_entity = this.sameAsArray.at(index).get('lexical_entity').value;
+    const lexical_entity = this.sameAsArray.at(index).get('entity').value;
 
     if (this.object.lexicalEntryInstanceName != undefined) {
 
       let lexId = this.object.lexicalEntryInstanceName;
 
       let parameters = {
-        relation: 'seeAlso',
+        relation: 'sameAs',
         value: lexical_entity
       }
 
@@ -371,7 +373,7 @@ export class SameAsComponent implements OnInit {
       let formId = this.object.formInstanceName;
 
       let parameters = {
-        relation: 'seeAlso',
+        relation: 'sameAs',
         value: lexical_entity
       }
 
@@ -392,7 +394,7 @@ export class SameAsComponent implements OnInit {
 
       let parameters = {
         type: 'morphology',
-        relation: 'seeAlso',
+        relation: 'sameAs',
         value: lexical_entity
       }
 
