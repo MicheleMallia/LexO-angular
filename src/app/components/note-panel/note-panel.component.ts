@@ -146,13 +146,17 @@ export class NotePanelComponent implements OnInit, OnChanges {
             this.lexicalService.updateSense(senseId, parameters).subscribe(
               data => {
                 console.log(data);
-                data['request'] = 0;
+                data['request'] = 8;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
               },
               error => {
                 console.log(error);
+                const data = this.object;
+                data['request'] = 8;
+                data['new_note'] = newNote;
+                this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.updateLexCard({lastUpdate : error.error.text})
                 this.lexicalService.spinnerAction('off');
               }
