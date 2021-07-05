@@ -41,7 +41,7 @@
                             class="fa fa-plus"></i></button>
                     <button class="btn btn-link" title="Export"><i class="fa fa-file-import"></i></button>
                     <button class="btn btn-link" title="Download"><i class="fa fa-download"></i></button>
-                    <button class="btn btn-link" title="Edit Languages" (click)="selectLanguageModal.show()"><i
+                    <button class="btn btn-link" title="Edit Languages" (click)="selectLanguageModal.show(); triggerLoad();"><i
                             class="fas fa-flag-usa"></i></button>
 
                     <app-modal #selectLanguageModal class="languages_modal">
