@@ -110,6 +110,7 @@ export class CoreTabComponent implements OnInit {
           switch(this.object.status){
             case 'working' : {
               this.lock = 0; 
+              this.goBack = false;
               setTimeout(() => {
                 //@ts-ignore
                 $('.locked-tooltip').tooltip('disable');
@@ -118,6 +119,7 @@ export class CoreTabComponent implements OnInit {
             }
             case 'completed' : {
               this.lock = 1; 
+              this.goBack = false;
               setTimeout(() => {
                 //@ts-ignore
                 $('.locked-tooltip').tooltip('disable');
@@ -313,10 +315,14 @@ export class CoreTabComponent implements OnInit {
         this.isLexicalEntry = true;
         this.isForm = false;
         this.object = null;
+        this.lexicalService.refreshLangTable();
+        this.lexicalService.refreshFilter({request : true})
       },
       error => {
         this.searchIconSpinner = false;
         console.log(error)
+        this.lexicalService.refreshLangTable();
+        this.lexicalService.refreshFilter({request : true})
       }
     )
   }
