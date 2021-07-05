@@ -70,11 +70,13 @@ export class LanguageManagerComponent implements OnInit {
       this.lexicalService.createNewLanguage(inputValue).subscribe(
         data => {
           this.loadingService = false;
+          this.lexicalService.refreshFilter({request: true});
           this.lexicalService.refreshLangTable();
         }, error => {
           console.log(error)
           this.loadingService = false;
           this.lexicalService.refreshLangTable();
+          this.lexicalService.refreshFilter({request: true});
         }
       )
     } else {
@@ -99,9 +101,11 @@ export class LanguageManagerComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.refreshLangTable();
+          this.lexicalService.refreshFilter({request : true})
         }, error => {
           console.log(error)
           this.lexicalService.refreshLangTable();
+          this.lexicalService.refreshFilter({request : true})
         }
       )
     } else if (data['i'] == "lexvo") {
@@ -115,9 +119,11 @@ export class LanguageManagerComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.refreshLangTable();
+          this.lexicalService.refreshFilter({request : true})
         }, error => {
           console.log(error)
           this.lexicalService.refreshLangTable();
+          this.lexicalService.refreshFilter({request : true})
         }
       )
     }else if (data['i'] == "label") {
@@ -164,9 +170,11 @@ export class LanguageManagerComponent implements OnInit {
       data=>{
         console.log(data);
         this.lexicalService.refreshLangTable();
+        this.lexicalService.refreshFilter({request : true})
       },error=>{
         console.log(error);
         this.lexicalService.refreshLangTable();
+        this.lexicalService.refreshFilter({request : true})
       }
     )
   }

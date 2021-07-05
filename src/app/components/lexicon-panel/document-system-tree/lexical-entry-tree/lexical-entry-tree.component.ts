@@ -112,6 +112,47 @@ export class LexicalEntryTreeComponent implements OnInit {
       }
     )
 
+    this.lexicalService.refreshFilter$.subscribe(
+      signal => {
+        console.log(signal)
+        if(signal != null){
+
+          console.log("refreshato")
+          this.lexicalService.getLanguages().subscribe(
+            data => {
+              console.log("languages");
+              console.log(data)
+              this.languages = data;
+            }
+          );
+      
+          this.lexicalService.getTypes().subscribe(
+            data => {
+              this.types = data;
+            }
+          );
+      
+          this.lexicalService.getAuthors().subscribe(
+            data => {
+              this.authors = data;
+            }
+          );
+      
+          this.lexicalService.getPos().subscribe(
+            data => {
+              this.partOfSpeech = data;
+            }
+          )
+      
+          this.lexicalService.getStatus().subscribe(
+            data => {
+              this.status = data;
+            }
+          )
+        }
+      }
+    )
+
     this.lexicalService.getLexicalEntriesList(this.parameters).subscribe(
       data => {
         this.nodes = data['list'];
