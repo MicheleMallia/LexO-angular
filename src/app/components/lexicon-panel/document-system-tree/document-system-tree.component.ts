@@ -245,6 +245,30 @@ export class DocumentSystemTreeComponent implements OnInit {
     }, 500);
   }
 
+  changeSenseNote(data){
+    var that = this;
+    setTimeout(() => {
+      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+        function (x) {
+          if(x.data.senseInstanceName != undefined){
+              if(x.data.senseInstanceName == data['senseInstanceName']){
+                x.data.note = data['new_note'];
+                console.log(x.data.note)
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+                return true;
+              }else{
+                return false;
+              }
+            
+          }else{
+            return false;
+          }
+        }
+      );
+    }, 500);
+  }
+
   changeFormType(data){
     var that = this;
     console.log("prova")
@@ -280,6 +304,7 @@ export class DocumentSystemTreeComponent implements OnInit {
     // 5 -> quando devo cambiare il tipo di una forma
     // 6 -> quando devo cambiare definizione a un senso
     // 7 -> quando devo pushare un nuovo senso
+    // 8 -> quando cambio nota a un senso
     if(data != null){
       setTimeout(() => {
         switch(data['request']){
@@ -291,11 +316,16 @@ export class DocumentSystemTreeComponent implements OnInit {
           case 5 : this.changeFormType(data); break;
           case 6 : this.changeSenseDefinition(data); break;
           case 7 : this.pushNewSense(data); break;
+          case 8 : this.changeSenseNote(data); data;
         }
       }, 100);
     }
     
 
+  }
+
+  triggerLoad(){
+    this.lexicalService.refreshLangTable();
   }
 
   newLexicalEntry() {
