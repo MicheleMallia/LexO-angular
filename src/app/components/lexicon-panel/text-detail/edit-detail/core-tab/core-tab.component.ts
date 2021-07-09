@@ -385,6 +385,7 @@ export class CoreTabComponent implements OnInit {
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 2;
+          data['parentNodeInstanceName'] = parentNodeInstanceName;
           data['parentNode'] = parentNodeLabel;
           data['whatToSearch'] = 'form';
           data['instanceName'] = data['formInstanceName'];
@@ -455,6 +456,7 @@ export class CoreTabComponent implements OnInit {
         data=>{
           data['request'] = 7;
           data['parentNode'] = parentNodeLabel;
+          data['parentNodeInstanceName'] = parentNodeInstanceName;
           data['whatToSearch'] = 'sense';
           data['instanceName'] = data['senseInstanceName'];
           if(data['creator'] == this.object.author){
