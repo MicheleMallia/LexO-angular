@@ -9,6 +9,8 @@ declare var $: JQueryStatic;
 
 
 import { debounceTime } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { interval } from 'rxjs';
 
 const actionMapping: IActionMapping = {
   mouse: {
@@ -44,6 +46,8 @@ export class LexicalEntryTreeComponent implements OnInit {
   idView = false;
   offset = 0;
   limit = 500;
+
+  sub : Subscription;
 
   counter = 0;
 
@@ -92,7 +96,13 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   initialValues = this.filterForm.value;
 
-  constructor(private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { }
+  constructor(private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { 
+    this.sub = interval(10000).subscribe((val) => { 
+      console.log('called'); 
+      //@ts-ignore
+      $('.lexical-tooltip').tooltip();
+    });
+  }
 
   ngOnInit(): void {
     

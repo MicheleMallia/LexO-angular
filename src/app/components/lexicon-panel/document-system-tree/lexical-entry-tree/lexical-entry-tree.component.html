@@ -173,8 +173,7 @@
 
                     <span class="lexical-tooltip"
                         *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined"
-                        data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.label
-                        }}</span>
+                        data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{node.data.label.length > 10 ? (node.data.label | slice:0:10) +'...' : node.data.label}}</span>
                     <span class="lexical-tooltip"
                         *ngIf="node.data.count == undefined && idView && node.data.definition != undefined"
                         data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.instanceName
