@@ -120,22 +120,23 @@ export class DocumentSystemTreeComponent implements OnInit {
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
-          if(x.data.label == data['whatToSearch']){
-            data['label'] = data['formInstanceName']
-            x.data.children.push(data);
-            setTimeout(() => {
-              that.lexTree.lexicalEntryTree.treeModel.update();
-
-              that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-                function (y) {
-                  if(y.data.label == data['label']){
-                    y.setActiveAndVisible();
-                  }
-                }
-              )
-            }, 10);
-            
-            
+          if(x.data.lexicalEntryInstanceName == data['parentNodeInstanceName'] && x.data.label == data['parentNode'] && x.data.form == undefined){
+            x.data.children.forEach(element => {
+              if(element.label == 'form'){
+                data['label'] = data['formInstanceName']
+                element.children.push(data);
+                setTimeout(() => {
+                  that.lexTree.lexicalEntryTree.treeModel.update();
+                  that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+                    function (y) {
+                      if(y.data.label == data['label']){
+                        y.setActiveAndVisible();
+                      }
+                    }
+                  )
+                }, 10);
+              }
+            });
           }
         }
       );
@@ -149,26 +150,27 @@ export class DocumentSystemTreeComponent implements OnInit {
 
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
-          if(x.data.label == data['whatToSearch']){
-            data['definition'] = "";
-            data['hasChildren'] = false;
-            data['label'] = "no definition";
-            x.data.children.push(data);
-            console.log(1)
-            setTimeout(() => {
-              that.lexTree.lexicalEntryTree.treeModel.update();
-
-              that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-                function (y) {
-                  if(y.data.senseInstanceName == data['senseInstanceName']){
-                    console.log(2)
-                    y.setActiveAndVisible();
-                  }
-                }
-              )
-            }, 10);
-            
-            
+          
+          if(x.data.lexicalEntryInstanceName == data['parentNodeInstanceName'] && x.data.sense == undefined){
+            console.log(x)
+            x.data.children.forEach(element => {
+              if(element.label == 'sense'){
+                data['definition'] = "";
+                data['hasChildren'] = false;
+                data['label'] = "no definition";
+                element.children.push(data);
+                setTimeout(() => {
+                  that.lexTree.lexicalEntryTree.treeModel.update();
+                  that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+                    function (y) {
+                      if(y.data.senseInstanceName == data['senseInstanceName']){
+                        y.setActiveAndVisible();
+                      }
+                    }
+                  )
+                }, 10);
+              }
+            });
           }
         }
       );
@@ -180,8 +182,8 @@ export class DocumentSystemTreeComponent implements OnInit {
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
-          if(x.data.formInstanceName != undefined){
-              if(x.data.formInstanceName == data['senseInstanceName']){
+          if(x.data.senseInstanceName != undefined){
+              if(x.data.senseInstanceName == data['senseInstanceName']){
                 x.data.label = data['new_definition'];
                 that.lexTree.lexicalEntryTree.treeModel.update();
                 that.lexTree.updateTreeView();
