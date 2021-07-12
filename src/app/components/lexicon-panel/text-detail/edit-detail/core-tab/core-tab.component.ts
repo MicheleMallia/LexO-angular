@@ -459,7 +459,7 @@ export class CoreTabComponent implements OnInit {
           data['parentNodeInstanceName'] = parentNodeInstanceName;
           data['whatToSearch'] = 'sense';
           data['instanceName'] = data['senseInstanceName'];
-          if(data['creator'] == this.object.author){
+          if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;

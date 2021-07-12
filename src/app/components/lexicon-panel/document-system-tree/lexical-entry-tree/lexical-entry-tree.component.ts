@@ -444,7 +444,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         data => {
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
-            if (newNodes[i].author == node.parent.data.author) {
+            if (newNodes[i].creator == node.parent.data.creator) {
               newNodes[i]['flagAuthor'] = false
             } else {
               newNodes[i]['flagAuthor'] = true
@@ -458,7 +458,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         data => {
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
-            if (newNodes[i].author == node.parent.data.author) {
+            if (newNodes[i].creator == node.parent.data.creator) {
               newNodes[i]['flagAuthor'] = false
             } else {
               newNodes[i]['flagAuthor'] = true
