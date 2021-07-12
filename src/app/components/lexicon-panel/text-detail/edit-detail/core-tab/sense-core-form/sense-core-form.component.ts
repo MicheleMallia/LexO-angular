@@ -150,15 +150,17 @@ export class SenseCoreFormComponent implements OnInit {
       this.lexicalService.spinnerAction('on');
       let senseId = this.object.senseInstanceName;
       let parameters = {
-        relation: "topic",
+        relation: "subject",
         value: newTopic
       }
       this.lexicalService.updateSense(senseId, parameters).subscribe(
         data => {
+          console.log(data)
           this.lexicalService.spinnerAction('off');
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
         }, error => {
+          console.log(error)
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
