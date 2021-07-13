@@ -124,7 +124,7 @@
     </div>
 
     <!-- EVOKES -->
-    <div class="form-group row ml-2 mt-3 mr-2">
+   <!--  <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-lg-12">
             <div class="card">
                 <span class="text-id"><b>EVOKES</b></span>
@@ -164,7 +164,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <div class="form-group row ml-2 mt-3 mr-2">
@@ -180,13 +180,13 @@
                             <ng-select #select_denotes formControlName="entity" name="entity"
                                 (change)="handleDenotes(select_denotes, i)" [items]="people" bindValue="name"
                                 bindLabel="name" placeholder="Search entity" appendTo="body" [loading]="peopleLoading"
-                                *ngIf="!variable.switch">
+                                *ngIf="!variable.switch && den.get('type').value != 'external'">
                                 <!-- [(ngModel)]="selected"  -->
                             </ng-select>
                             <input formControlName="entity" name="entity" type="text" [value]="den.get('entity').value"
-                                class="form-control" placeholder="Insert URI" *ngIf="variable.switch"
+                                class="form-control" placeholder="Insert URI" *ngIf="variable.switch || den.get('type').value == 'external'"
                                 (keyup)="handleDenotes($event, i)">
-                            <div class="input-group-append ml-3 form-check" style="align-items: center;">
+                            <div class="input-group-append ml-3 form-check" style="align-items: center;" [hidden]="den.get('type').value == 'external'">
                                 <input class="form-check-input vartrans-tooltip" type="checkbox"
                                     (change)="variable.switch=!variable.switch" data-toggle="tooltip"
                                     data-placement="bottom" data-trigger="hover"
