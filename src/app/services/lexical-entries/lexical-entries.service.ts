@@ -158,7 +158,7 @@ export class LexicalEntriesService {
 
   //GET /lexicon/creation/lexicalEntry --> create new lexical entry
   newLexicalEntry(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/creation/lexicalEntry?key=" + this.key + "&author=" + this.author);
+    return this.http.get(this.baseUrl + "lexicon/creation/lexicalEntry?key=" + this.key + "&user=" + this.author);
   }
 
 
@@ -189,28 +189,28 @@ export class LexicalEntriesService {
 
   //POST ​/lexicon​/update​/{id}​/lexicalEntry --> lexical entry update
   updateLexicalEntry(lexId, parameters): Observable<any> {
-    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/lexicalEntry?key=" + this.key + "&author=" + this.author, parameters);
+    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/lexicalEntry?key=" + this.key + "&user=" + this.author, parameters);
   }
 
 
   //POST ​/lexicon​/update​/{id}​/linguisticRelation --> linguistic Relation update for Core
   updateLinguisticRelation(lexId, parameters): Observable<any> {
-    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/linguisticRelation?key=" + this.key + "&author=" + this.author, parameters);
+    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/linguisticRelation?key=" + this.key + "&user=" + this.author, parameters);
   }
 
   //POST ​/lexicon​/update​/{id}​/genericRelation --> Generic relation update
   updateGenericRelation(lexId, parameters) : Observable<any> {
-    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/genericRelation?key=" + this.key + "&author=" + this.author, parameters);
+    return this.http.post(this.baseUrl + "lexicon/update/" + lexId + "/genericRelation?key=" + this.key + "&user=" + this.author, parameters);
   }
 
   //POST /lexicon/update/{id}/form --> update form values
   updateForm(formId, parameters): Observable<any> {
-    return this.http.post(this.baseUrl + "lexicon/update/" + formId + "/form?key=" + this.key + "&author=" + this.author, parameters);
+    return this.http.post(this.baseUrl + "lexicon/update/" + formId + "/form?key=" + this.key + "&user=" + this.author, parameters);
   }
 
   //POST /lexicon/update/{id}/lexicalSense --> update form values
   updateSense(senseId, parameters): Observable<any> {
-    return this.http.post(this.baseUrl + "lexicon/update/" + senseId + "/lexicalSense?key=" + this.key + "&author=" + this.author, parameters);
+    return this.http.post(this.baseUrl + "lexicon/update/" + senseId + "/lexicalSense?key=" + this.key + "&user=" + this.author, parameters);
   }
 
   //GET  /lexinfo/data/morphology --> get data about morphology
@@ -231,22 +231,22 @@ export class LexicalEntriesService {
 
   //GET /lexicon/creation/form --> create new form
   createNewForm(lexId): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/creation/form?lexicalEntryID="+ lexId +"&key=" + this.key + "&author=" + this.author);
+    return this.http.get(this.baseUrl + "lexicon/creation/form?lexicalEntryID="+ lexId +"&key=" + this.key + "&user=" + this.author);
   }
 
   //GET /lexicon/creation/lexicalSense --> create new sense
   createNewSense(lexId): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/creation/lexicalSense?lexicalEntryID="+ lexId +"&key=" + this.key + "&author=" + this.author);
+    return this.http.get(this.baseUrl + "lexicon/creation/lexicalSense?lexicalEntryID="+ lexId +"&key=" + this.key + "&user=" + this.author);
   }
 
   //GET /lexicon/creation/language --> create new language
   createNewLanguage(langId): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/creation/language?key=" + this.key + "&lang="+ langId +"&author=" + this.author);
+    return this.http.get(this.baseUrl + "lexicon/creation/language?key=" + this.key + "&lang="+ langId +"&user=" + this.author);
   }
 
   //POST /lexicon/update/{id}/language --> update language
   updateLanguage(langId, parameters): Observable<any> {
-    return this.http.post(this.baseUrl + "lexicon/update/" + langId + "/language?key=" + this.key + "&author=" + this.author, parameters);
+    return this.http.post(this.baseUrl + "lexicon/update/" + langId + "/language?key=" + this.key + "&user=" + this.author, parameters);
   }
 
   //$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT SYSTEM TREE $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$//
