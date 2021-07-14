@@ -158,7 +158,7 @@ export class LexicalEntriesService {
 
   //GET /lexicon/creation/lexicalEntry --> create new lexical entry
   newLexicalEntry(): Observable<any> {
-    return this.http.get(this.baseUrl + "lexicon/creation/lexicalEntry?key=" + this.key + "&user=" + this.author);
+    return this.http.get(this.baseUrl + "lexicon/creation/lexicalEntry?key=" + this.key + "&author=" + this.author);
   }
 
 
