@@ -498,4 +498,8 @@ export class CoreTabComponent implements OnInit {
     }
 
   }
+
+  addNewEtymology(){
+    
+  }
 }
