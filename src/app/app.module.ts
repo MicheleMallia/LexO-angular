@@ -54,6 +54,7 @@ import { SenseVartransFormComponent } from './components/lexicon-panel/text-deta
 import { LexicalConceptFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lexical-concept-form/lexical-concept-form.component';
 import { LanguageManagerComponent } from './components/lexicon-panel/document-system-tree/language-manager/language-manager.component';
 import { EtymologyTabComponent } from './components/lexicon-panel/text-detail/edit-detail/etymology-tab/etymology-tab.component';
+import { EtymologyFormComponent } from './components/lexicon-panel/text-detail/edit-detail/etymology-tab/etymology-form/etymology-form.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { EtymologyTabComponent } from './components/lexicon-panel/text-detail/ed
     SenseVartransFormComponent,
     LexicalConceptFormComponent,
     LanguageManagerComponent,
-    EtymologyTabComponent
+    EtymologyTabComponent,
+    EtymologyFormComponent
   ],
   imports: [
     BrowserModule,
