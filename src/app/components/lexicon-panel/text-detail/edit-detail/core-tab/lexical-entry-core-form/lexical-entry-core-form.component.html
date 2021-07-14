@@ -181,7 +181,7 @@
                                 (change)="handleDenotes(select_denotes, i)" [items]="people" bindValue="name"
                                 bindLabel="name" placeholder="Search entity" appendTo="body" [loading]="peopleLoading"
                                 *ngIf="!variable.switch && den.get('type').value != 'external'">
-                                <!-- [(ngModel)]="selected"  -->
+                                
                             </ng-select>
                             <input formControlName="entity" name="entity" type="text" [value]="den.get('entity').value"
                                 class="form-control" placeholder="Insert URI" *ngIf="variable.switch || den.get('type').value == 'external'"
