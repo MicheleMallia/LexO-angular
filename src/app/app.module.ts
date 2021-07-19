@@ -6,6 +6,8 @@ import { DataTablesModule } from 'angular-datatables';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AngularEditorModule } from '@kolkov/angular-editor'
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ContextMenuModule } from 'ngx-contextmenu';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -105,6 +107,7 @@ import { EtymologyFormComponent } from './components/lexicon-panel/text-detail/e
     EtymologyFormComponent
   ],
   imports: [
+    ContextMenuModule.forRoot({useBootstrap4: true}),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
