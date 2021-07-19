@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
-import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
+import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
 import { v4 } from 'uuid';
 
 
@@ -43,11 +43,11 @@ export class TextTreeComponent implements OnInit {
     })
   };
 
-  constructor(private lexicalService: LexicalEntriesService) { }
+  constructor(private documentService: DocumentSystemService) { }
 
   ngOnInit(): void {
 
-    this.lexicalService.getDocumentSystem().subscribe(
+    this.documentService.getDocumentSystem().subscribe(
       data => {
         console.log(data)
         this.nodes = data['documentSystem']
