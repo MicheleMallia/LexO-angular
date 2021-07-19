@@ -17,9 +17,7 @@ export class LexicalEntriesService {
   private _refreshAfterEdit : BehaviorSubject<object> = new BehaviorSubject(null);
   private _refreshFilter : BehaviorSubject<object> = new BehaviorSubject(null);
 
-  //private baseUrl = "https://licodemo.ilc.cnr.it/LexO-backend/service/lexicon/"
   private baseUrl = "/LexO-backend-beta/service/"
-  private baseUrl_document = "http://lari2.ilc.cnr.it:81/belexo/"
   private key = "PRINitant19";
   private author = "michele";
 
@@ -248,11 +246,5 @@ export class LexicalEntriesService {
   updateLanguage(langId, parameters): Observable<any> {
     return this.http.post(this.baseUrl + "lexicon/update/" + langId + "/language?key=" + this.key + "&author=" + this.author, parameters);
   }
-
-  //$$$$$$$$$$$$$$$$$$$$$$$$ DOCUMENT SYSTEM TREE $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$//
-
-  //GET /api/getDocumentSystem  ---> return document system
-  getDocumentSystem(): Observable<any> {
-    return this.http.get(this.baseUrl_document + "api/getDocumentSystem?requestUUID=11")
-  }
+  
 }
