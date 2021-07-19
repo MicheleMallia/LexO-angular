@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
+import { ContextMenuComponent } from 'ngx-contextmenu';
 import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
 import { v4 } from 'uuid';
 
@@ -15,7 +16,12 @@ const actionMapping: IActionMapping = {
       $event.shiftKey
         ? TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(tree, node, $event)
         : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
-    }
+    },
+    /* contextMenu: (tree, node, $event) => {
+      $event.preventDefault();
+      alert(`context menu for ${node.data.name}`);
+
+    } */
   },
   keys: {
     [KEYS.ENTER]: (tree, node, $event) => alert(`This is ${node.data.name}`)
@@ -31,7 +37,10 @@ const actionMapping: IActionMapping = {
 
 export class TextTreeComponent implements OnInit {
 
+  @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
+  
   show = false;
+  nodes : any;
 
   options: ITreeOptions = {
     actionMapping,
@@ -58,48 +67,9 @@ export class TextTreeComponent implements OnInit {
     )
   }
 
-  nodes = [
-    {
-      id: 1,
-      name: 'root1',
-      children: [
-        { 
-          name: 'child1' 
-        },
-        { 
-          name: 'child2' 
-        }
-      ]
-    },
-    {
-      name: 'root2',
-      id: 2,
-      children: [
-        { 
-          name: 'child2.1', 
-          children: [] 
-        },
-        { 
-          name: 'child2.2', children: [
-            {
-              name: 'grandchild2.2.1'
-            }
-          ] 
-        }
-      ]
-    },
-    { 
-      name: 'root3' 
-    },
-    { 
-      name: 'root4', 
-      children: [] 
-    },
-    { 
-      name: 'root5', 
-      children: null 
-    }
-  ];
+  ngAfterViewInit(){
+    
+  }
 
   
 
@@ -116,5 +86,9 @@ export class TextTreeComponent implements OnInit {
       }
     }, 5);  
   };
+
+  showMessage(message: any) {
+    console.log(message);
+  }
 }
 

@@ -9,5 +9,20 @@
         [options]="options"
         [focused]="true"
         (activate)="onEvent($event)">
+        <ng-template #treeNodeTemplate let-node let-index="index">
+            <span [contextMenu]="basicMenu" [contextMenuSubject]="node.data">
+              {{ node.data.name }}
+            </span>
+          </ng-template>
     </tree-root>
+    <context-menu>
+        <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+          Say hi!
+        </ng-template>
+         
+        <ng-template contextMenuItem divider="true"></ng-template>
+        <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.id)">
+          Bye, {{item?.name}}
+        </ng-template>
+      </context-menu>
 </div>
