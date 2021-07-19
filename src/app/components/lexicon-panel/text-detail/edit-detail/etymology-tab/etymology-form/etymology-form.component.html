@@ -150,6 +150,31 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- RELATION -->
+                                <div formArrayName="relation" class="col-xl-12">
+                                    <div *ngFor="let sub of comp['controls'].relation['controls']; let j = index">
+                                        <div [formGroupName]="j" class="d-xl-flex" style="align-items: center;">
+                                            <div class="form-group row ml-2 mt-2 mr-2 w-100">
+                                                <div class="col-xl-6">
+                                                    <select class="form-control" formControlName="trait" name="trait">
+                                                        <option>Trait...</option>
+                                                        <option>...</option>
+                                                    </select>
+                                                </div>
+                                                <div class="input-group col-xl-6" *ngIf="{switch : false}; let variable">
+                                                    <select class="form-control" formControlName="value" name="value" style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;">
+                                                        <option>Relations...</option>
+                                                        <option>...</option>
+                                                    </select>
+                                                    <div class="input-group-append ml-2">
+                                                        <button (click)="removeRelation(i, j)" class="btn btn-danger" type="button"><i class="fa fa-trash-alt"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>                                                 
+                                        </div>
+                                    </div>
+                                </div>
                                
                             </div>
                         </div>
