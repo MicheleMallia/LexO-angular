@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
+import { ModalComponent } from 'ng-modal-lib';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
 import { v4 } from 'uuid';
@@ -57,6 +58,7 @@ export class TextTreeComponent implements OnInit {
 
 
   @ViewChild('renameInput') input:ElementRef; 
+  @ViewChild('renameFolderModel', {static: false}) modal: ModalComponent;
   
   constructor(private documentService: DocumentSystemService) { }
 
@@ -216,6 +218,7 @@ export class TextTreeComponent implements OnInit {
           console.log(data);
           this.loadTree()
           this.input.nativeElement.value = '';
+          this.modal.hide();
         },error=>{
           console.log(error)
         }
