@@ -56,24 +56,26 @@ export class TextTreeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.documentService.getDocumentSystem().subscribe(
-      data => {
-        console.log(data)
-        this.nodes = data['documentSystem']
-      },
-      error => {
-        console.log(error)
-      }
-    )
+    this.loadTree();
+
+
   }
 
   ngAfterViewInit(){
     
   }
-
   
-
   onEvent = ($event: any) => console.log($event);
+
+  onMoveNode($event) {
+    console.log($event);
+    let node_type = $event.node.type;
+    let target_type = $event.node.type;
+    if(node_type === 'directory' && target_type === 'directory'){
+      this.moveFolder($event)
+    }
+    
+  }
 
   onKey = ($event:any) => {
     var that = this;
@@ -89,6 +91,97 @@ export class TextTreeComponent implements OnInit {
 
   showMessage(message: any) {
     console.log(message);
+  }
+
+  loadTree(){
+    this.documentService.getDocumentSystem().subscribe(
+      data => {
+        console.log(data)
+        this.nodes = data['documentSystem']
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  isFolder(item : any){
+    if(item.type != undefined){
+      return item.type == 'directory';
+    }else{
+      return false
+    }
+    
+  }
+
+  addFolder(evt){
+    if(evt != undefined){
+      let element_id = evt['element-id'];
+      let parameters = {
+        "requestUUID" : "string",
+        "user-id" : 0,
+        "element-id" : element_id
+      }
+      this.documentService.addFolder(parameters).subscribe(
+        data=>{
+          console.log(data);
+          setTimeout(() => {
+            this.loadTree();
+          }, 300);
+          
+        },error=>{
+          console.log(error)
+        }
+      )
+    }
+  }
+
+  removeFolder(evt){
+    if(evt != undefined){
+      let element_id = evt['element-id'];
+      let parameters = {
+        "requestUUID" : "string",
+        "user-id" : 0,
+        "element-id" : element_id
+      }
+      this.documentService.removeFolder(parameters).subscribe(
+        data=>{
+          console.log(data);
+          setTimeout(() => {
+            this.loadTree();
+          }, 300);
+          
+        },error=>{
+          console.log(error)
+        }
+      )
+    }
+  }
+
+  moveFolder(evt){
+    if(evt != undefined){
+      console.log(evt);
+      let element_id = evt.node['element-id'];
+      let target_id = evt.to.parent['element-id'];
+      let parameters = {
+        "requestUUID": "string",
+        "user-id": 0,
+        "element-id": element_id,
+        "target-id": target_id
+      }
+      console.log(parameters)
+      this.documentService.removeFolder(parameters).subscribe(
+        data=>{
+          console.log(data);
+          setTimeout(() => {
+            this.loadTree();
+          }, 300);
+          
+        },error=>{
+          console.log(error)
+        }
+      )
+    }
   }
 }
 

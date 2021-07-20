@@ -15,4 +15,20 @@ export class DocumentSystemService {
   getDocumentSystem(): Observable<any> {
     return this.http.get(this.baseUrl_document + "api/getDocumentSystem?requestUUID=11")
   }
+
+  //POST ​/api​/crud​/addFolder --> add folder to document system
+  addFolder(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/addFolder", parameters)
+  }
+
+  //POST ​/api​/crud​/removeFolder --> remove Folder folder from document system
+  removeFolder(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/removeFolder", parameters)
+  }
+
+  //POST ​/api​/crud​/moveFolder --> move Folder to another folder
+  moveFolder(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/moveFolder", parameters)
+  }
+
 }
