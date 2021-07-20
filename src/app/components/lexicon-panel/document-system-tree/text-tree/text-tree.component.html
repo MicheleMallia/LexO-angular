@@ -28,5 +28,34 @@
         <ng-template contextMenuItem let-item [visible]="isFolder" (execute)="removeFolder($event.item)">
           Remove Folder
         </ng-template>
+        <ng-template contextMenuItem let-item [visible]="isFolder" (execute)="saveSelectedNode($event.item)">
+          <span (click)="renameFolderModel.show();">Rename Folder</span>
+        </ng-template>
       </context-menu>
 </div>
+
+<app-modal #renameFolderModel class="add_languages_modal">
+  <ng-container class="app-modal-header"></ng-container>
+  <ng-container class="app-modal-body">
+      <div class="card">
+          <div class="card-body">
+              <div class="form-group row ml-2 mt-3 mr-2">
+                  <label for="inputLabel" class="col-lg-5 col-form-label" style="font-size: 12px;">Rename Folder:</label>
+                  <div class="input-group col-lg-7" style="align-items: center;">
+                      <input type="text" class="form-control" placeholder="" #renameInput>
+                      <div class="input-group-append ml-2">
+                          <button class="btn btn-success" type="button" (click)="renameFolder(renameInput.value);"><i
+                                  class="fas fa-check"></i></button>
+                      </div>
+                     <!--  <div class="spinner-border spinner-border-sm m-1" role="status" *ngIf="loadingService">
+                          <span class="sr-only">Loading...</span>
+                      </div> -->
+                      <div class="invalid-feedback" [hidden]="validName" style="display: block; font-size: 9px;">
+                          Please, insert at least three characters.
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </ng-container>
+</app-modal>

@@ -31,4 +31,9 @@ export class DocumentSystemService {
     return this.http.post(this.baseUrl_document + "api/crud/moveFolder", parameters)
   }
 
+  //POST ​/api​/crud​/renameFolder --> rename folder
+  renameFolder(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/renameFolder", parameters)
+  }
+
 }

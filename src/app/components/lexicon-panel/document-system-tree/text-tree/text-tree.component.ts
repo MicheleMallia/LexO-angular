@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
@@ -42,6 +42,9 @@ export class TextTreeComponent implements OnInit {
   show = false;
   nodes : any;
 
+  renameNodeSelected : any;
+  validName = null;
+
   options: ITreeOptions = {
     actionMapping,
     allowDrag: (node) => node.isLeaf,
@@ -52,6 +55,9 @@ export class TextTreeComponent implements OnInit {
     })
   };
 
+
+  @ViewChild('renameInput') input:ElementRef; 
+  
   constructor(private documentService: DocumentSystemService) { }
 
   ngOnInit(): void {
@@ -113,6 +119,7 @@ export class TextTreeComponent implements OnInit {
     }
     
   }
+  
 
   addFolder(evt){
     if(evt != undefined){
@@ -182,6 +189,41 @@ export class TextTreeComponent implements OnInit {
         }
       )
     }
+  }
+
+  saveSelectedNode(evt){
+    this.renameNodeSelected = evt;
+    console.log(this.renameNodeSelected)
+  }
+
+  renameFolder(renameValue){
+    /* console.log(this.renameNodeSelected);
+    console.log(renameValue);
+    console.log(renameValue.match(/^[A-Za-z]{3,}$/)) */
+    if (renameValue.match(/^[A-Za-z]{3,}$/)) {
+      this.validName = true;
+      console.log(this.renameNodeSelected);
+      let element_id = this.renameNodeSelected['element-id'];
+      let parameters = {
+        "requestUUID": "string",
+        "user-id": 0,
+        "element-id": element_id,
+        "rename-string": renameValue
+      }
+
+      this.documentService.renameFolder(parameters).subscribe(
+        data=> {
+          console.log(data);
+          this.loadTree()
+          this.input.nativeElement.value = '';
+        },error=>{
+          console.log(error)
+        }
+      )
+    }else{
+      this.validName = false;
+    }
+    this.renameNodeSelected = null;
   }
 }
 
