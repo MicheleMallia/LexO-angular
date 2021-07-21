@@ -45,7 +45,7 @@ export class DocumentSystemTreeComponent implements OnInit {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
           if (x.data.label == newLexEntryLabel) {
-            //x.setActiveAndVisible()
+            x.setActiveAndVisible()
             x.scrollIntoView();
             return true;
           } else {
