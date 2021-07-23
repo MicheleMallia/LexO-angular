@@ -179,7 +179,7 @@ export class TextTreeComponent implements OnInit {
         "target-id": target_id
       }
       console.log(parameters)
-      this.documentService.removeFolder(parameters).subscribe(
+      this.documentService.moveFolder(parameters).subscribe(
         data=>{
           console.log(data);
           setTimeout(() => {
