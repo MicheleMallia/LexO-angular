@@ -258,7 +258,6 @@ export class LexicalEntryTreeComponent implements OnInit {
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
-    console.log(parameters)
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
         if(data['list'].length > 0){
@@ -456,6 +455,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
       this.lexicalService.getSensesList(parentInstance).subscribe(
         data => {
+          console.log(data)
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
             if (newNodes[i].creator == node.parent.data.creator) {
@@ -464,6 +464,8 @@ export class LexicalEntryTreeComponent implements OnInit {
               newNodes[i]['flagAuthor'] = true
             }
           }
+        },error => {
+          console.log(error)
         }
       )
     } else if (node.data.label == "concept") {

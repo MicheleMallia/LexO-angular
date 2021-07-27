@@ -123,49 +123,6 @@
         </div>
     </div>
 
-    <!-- EVOKES -->
-   <!--  <div class="form-group row ml-2 mt-3 mr-2">
-        <div class="input-group col-lg-12">
-            <div class="card">
-                <span class="text-id"><b>EVOKES</b></span>
-                <a class="pointer" (click)="addEvokes()"><span class="collapse-icon"><i
-                            class="fa fa-plus-square"></i></span></a>
-                <div class="card-body">
-                    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="evokes"
-                        *ngFor="let evo of coreForm.get('evokes')['controls']; let i = index">
-                        <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
-                            <ng-select #select_evokes formControlName="entity" name="entity"
-                                (change)="handleEvokes(select_evokes, i)" [items]="people" bindValue="name"
-                                bindLabel="name" placeholder="Search entity" appendTo="body" [loading]="peopleLoading"
-                                *ngIf="!variable.switch">
-                            </ng-select>
-                            <input formControlName="entity" name="entity" type="text" class="form-control"
-                                placeholder="Insert URI" *ngIf="variable.switch" (keyup)="handleEvokes($event, i)">
-                            <div class="input-group-append ml-3 form-check" style="align-items: center;">
-                                <input class="form-check-input vartrans-tooltip" type="checkbox"
-                                    (change)="variable.switch=!variable.switch" data-toggle="tooltip"
-                                    data-placement="bottom" data-trigger="hover"
-                                    title="Clicca per inserire un URI manualmente">
-                            </div>
-                            <div class="input-group-append ml-2">
-                                <button class="btn btn-primary" type="button"><i
-                                        class="fa fa-external-link-alt"></i></button>
-                            </div>
-                            <div class="input-group-append ml-2">
-                                <button (click)="removeEvokes(i)" class="btn btn-danger" type="button"><i
-                                        class="fa fa-trash-alt"></i></button>
-                            </div>
-
-                            <div class="invalid-feedback" *ngIf="evo.get('entity').invalid" style="display: block;">
-                                Please insert a valid URL...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
 
     <div class="form-group row ml-2 mt-3 mr-2">
         <div class="input-group col-lg-12">
@@ -177,9 +134,9 @@
                     <div class="form-group row ml-2 mt-3 mr-2" formArrayName="denotes"
                         *ngFor="let den of coreForm.get('denotes')['controls']; let i = index">
                         <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
-                            <ng-select #select_denotes formControlName="entity" name="entity"
-                                (change)="handleDenotes(select_denotes, i)" [items]="people" bindValue="name"
-                                bindLabel="name" placeholder="Search entity" appendTo="body" [loading]="peopleLoading"
+                            <ng-select #select_denotes formControlName="entity" name="entity" (keyup)="triggerDenotes($event)"
+                                (change)="handleDenotes(select_denotes, i)" [items]="searchResults" bindValue="label" (focus)="deleteData()"
+                                bindLabel="label" placeholder="Search entity" appendTo="body" 
                                 *ngIf="!variable.switch && den.get('type').value != 'external'">
                                 
                             </ng-select>
@@ -202,9 +159,9 @@
                             </div>
 
 
-                            <div class="invalid-feedback" *ngIf="den.get('entity').invalid" style="display: block;">
+                            <!-- <div class="invalid-feedback" *ngIf="den.get('entity').invalid" style="display: block;">
                                 Please insert a valid URL...
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
