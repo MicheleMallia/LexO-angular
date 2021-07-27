@@ -97,7 +97,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   initialValues = this.filterForm.value;
 
   constructor(private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { 
-    this.sub = interval(10000).subscribe((val) => { 
+    this.sub = interval(2000).subscribe((val) => { 
       console.log('called'); 
       //@ts-ignore
       $('.lexical-tooltip').tooltip();
