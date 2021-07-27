@@ -37,6 +37,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     valuePos = [];
     memoryPos = '';
 
+    description = '';
     staticMorpho = [];
 
     searchResults: [];
@@ -118,7 +119,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         })
 
         this.onChanges();
-
     }
 
     triggerDenotes(evt) {
@@ -217,6 +217,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
 
             if (this.object != null) {
+                
                 const lexId = this.object.lexicalEntryInstanceName;
                 this.coreForm.get('label').setValue(this.object.label, { emitEvent: false });
                 this.coreForm.get('type').setValue(this.object.type, { emitEvent: false });
@@ -239,6 +240,22 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
                     this.staticMorpho.push({ trait: trait, value: value });
                 }
+
+                setTimeout(() => {
+                    let pos = this.coreForm.get('pos').value;
+                    this.valuePos.forEach(el => {
+                        if(el.valueId == pos){
+                            console.log('updated')
+                            this.description = el.valueDescription;
+                        }
+                    })
+                    //@ts-ignore
+                    $('.pos-tooltip').tooltip({
+                        trigger: 'hover'
+                    });
+                    
+                    
+                }, 1000);
 
                 this.lexicalService.getLexEntryLinguisticRelation(lexId, 'denotes').subscribe(
                     data => {
@@ -265,6 +282,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     }
                 )
             }
+
+
         }, 10)
 
     }
@@ -339,12 +358,40 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.refreshAfterEdit(data);
                     data['request'] = 0;
                     this.lexicalService.refreshFilter({ request: true })
+
+                    setTimeout(() => {
+                        
+                        this.valuePos.forEach(el => {
+                            if(el.valueId == posValue){
+                                this.description = el.valueDescription;
+                            }
+                        })
+                        //@ts-ignore
+                        $('.pos-tooltip').tooltip({
+                            trigger: 'hover',
+                        });
+
+                    }, 1000);
                 },
                 error => {
                     console.log(error)
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                     this.lexicalService.refreshFilter({ request: true })
+
+                    setTimeout(() => {
+                        
+                        this.valuePos.forEach(el => {
+                            if(el.valueId == posValue){
+                                this.description = el.valueDescription;
+                            }
+                        })
+                        //@ts-ignore
+                        $('.pos-tooltip').tooltip({
+                            trigger: 'hover'
+                        });
+
+                    }, 1000);
                 }
             )
         }
@@ -573,7 +620,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     }
 
     handleDenotes(evt, i) {
-        
+
         if (evt instanceof NgSelectComponent) {
             if (evt.selectedItems.length > 0) {
                 let label = evt.selectedItems[0]['value']['lexicalEntry'];
@@ -642,7 +689,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             )
             this.memoryDenotes[index] = data;
         }
-        
+
 
     }
 

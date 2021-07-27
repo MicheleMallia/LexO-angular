@@ -44,13 +44,19 @@
                         <div class="col-md-4">
                             <label for="selectPos" class="col-form-label">Part of speech:</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="input-group col-md-8">
                             <select class="form-control selectTrait" formControlName="pos" name="pos"
                                 style="font-size:12px;" (change)="onChangePos($event)">
                                 <option value="">Select a value...</option>
                                 <option *ngFor="let item of valuePos;" [selected]="item.valueId == object.pos">
                                     {{item.valueId}}</option>
                             </select>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-secondary pos-tooltip" type="button" data-toggle="tooltip"
+                                data-placement="top" data-trigger="hover" [attr.data-original-title]="description"
+                                    style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
+                            </div>
+
                             <div class="invalid-feedback" *ngIf="coreForm.get('pos').value == ''"
                                 style="display: block;">
                                 Please, don't leave this field blank
@@ -76,14 +82,14 @@
                                         style="font-size: 12px; border-radius: .25rem;"><i
                                             class="fa fa-trash-alt"></i></button>
                                 </div>
-    
                             </div>
                         </div>
                     </ng-container>
-                    
-                    <ng-container formArrayName="morphoTraits" *ngFor="let morpho of coreForm.get('morphoTraits')['controls']; let i = index">
+
+                    <ng-container formArrayName="morphoTraits"
+                        *ngFor="let morpho of coreForm.get('morphoTraits')['controls']; let i = index">
                         <div class="d-flex my-2" *ngIf="i + 1 > staticMorpho.length">
-                            <div class="col-md-4" [formGroupName]="i" >
+                            <div class="col-md-4" [formGroupName]="i">
                                 <select class="form-control selectTrait" formControlName="trait" name="trait"
                                     style="font-size: 12px;" (change)="onChangeTrait($event, i)">
                                     <option value="">Select a trait...</option>
@@ -91,7 +97,8 @@
                                         [selected]="morpho.value['trait'] === mt.propertyId"
                                         [disabled]="memoryTraits.indexOf(mt.propertyId) > -1">{{mt.propertyId}}</option>
                                 </select>
-                                <div class="invalid-feedback" *ngIf="morpho.get('trait').invalid" style="display: block;">
+                                <div class="invalid-feedback" *ngIf="morpho.get('trait').invalid"
+                                    style="display: block;">
                                     Please, don't leave this field blank
                                 </div>
                             </div>
@@ -102,13 +109,13 @@
                                     <option *ngFor="let item of valueTraits[i];" [attr.data-index]="i"
                                         [selected]="morpho.value['value'] === item.valueId">{{item.valueId}}</option>
                                 </select>
-    
                                 <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
                                         class="btn btn-danger" type="button"
                                         style="font-size: 12px; border-radius: .25rem;"><i
                                             class="fa fa-trash-alt"></i></button>
                                 </div>
-                                <div class="invalid-feedback" *ngIf="morpho.get('value').invalid" style="display: block;">
+                                <div class="invalid-feedback" *ngIf="morpho.get('value').invalid"
+                                    style="display: block;">
                                     Please, don't leave this field blank
                                 </div>
                             </div>
@@ -117,7 +124,7 @@
                     </ng-container>
 
 
-                    
+
                 </div>
             </div>
         </div>
@@ -134,16 +141,19 @@
                     <div class="form-group row ml-2 mt-3 mr-2" formArrayName="denotes"
                         *ngFor="let den of coreForm.get('denotes')['controls']; let i = index">
                         <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
-                            <ng-select #select_denotes formControlName="entity" name="entity" (keyup)="triggerDenotes($event)"
-                                (change)="handleDenotes(select_denotes, i)" [items]="searchResults" bindValue="label" (focus)="deleteData()"
-                                bindLabel="label" placeholder="Search entity" appendTo="body" 
+                            <ng-select #select_denotes formControlName="entity" name="entity"
+                                (keyup)="triggerDenotes($event)" (change)="handleDenotes(select_denotes, i)"
+                                [items]="searchResults" bindValue="label" (focus)="deleteData()" bindLabel="label"
+                                placeholder="Search entity" appendTo="body"
                                 *ngIf="!variable.switch && den.get('type').value != 'external'">
-                                
+
                             </ng-select>
                             <input formControlName="entity" name="entity" type="text" [value]="den.get('entity').value"
-                                class="form-control" placeholder="Insert URI" *ngIf="variable.switch || den.get('type').value == 'external'"
+                                class="form-control" placeholder="Insert URI"
+                                *ngIf="variable.switch || den.get('type').value == 'external'"
                                 (keyup)="handleDenotes($event, i)">
-                            <div class="input-group-append ml-3 form-check" style="align-items: center;" [hidden]="den.get('type').value == 'external'">
+                            <div class="input-group-append ml-3 form-check" style="align-items: center;"
+                                [hidden]="den.get('type').value == 'external'">
                                 <input class="form-check-input vartrans-tooltip" type="checkbox"
                                     (change)="variable.switch=!variable.switch" data-toggle="tooltip"
                                     data-placement="bottom" data-trigger="hover"
@@ -157,96 +167,11 @@
                                 <button (click)="removeDenotes(i)" class="btn btn-danger" type="button"><i
                                         class="fa fa-trash-alt"></i></button>
                             </div>
-
-
-                            <!-- <div class="invalid-feedback" *ngIf="den.get('entity').invalid" style="display: block;">
-                                Please insert a valid URL...
-                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- SHOW INFERENCE -->
-    <!-- <div class="form-group row ml-2 mt-3 mr-2 inference">
-        <div class="input-group col-xl-12">
-            <div class="card">
-                <span class="text-id"><a data-toggle="collapse" href="#inferenceCollapse" role="button"
-                        aria-expanded="false" aria-controls="inferenceCollapse"><span class="badge badge-warning"><b
-                                style="color: white; font-size: 12px;">SHOW INFERENCE</b></span></a></span>
-                <div class="card-body">
-                    <div class="collapse" id="inferenceCollapse">
-
-                        <div class="form-group row ml-2 mt-3 mr-2">
-                            <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable">
-                                <div class="form-group row w-100">
-                                    <label for="inputLabel" class="col-lg-3 col-form-label">Is sense of:</label>
-                                    <div class="input-group col-lg-8">
-                                        <input type="text" class="form-control"
-                                            placeholder="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row ml-2 mr-2">
-                            <label class="col-xl-3 col-form-label">Lexicalized Sense:</label>
-                            <div class="col-xl-9 card mt-0 p-0"
-                                style="max-height: 10vh;overflow: auto; border: 1px solid rgba(0,0,0,.125) !important">
-                                <div class="form-group row ml-2 mb-0 mt-0 mr-2">
-                                    <label class="col-xl-6 col-form-label">Lexical Sense</label>
-                                </div>
-                                <div class="form-group row ml-2 mb-0 mt-0 mr-2">
-                                    <label class="col-xl-6 col-form-label">Lexical Sense</label>
-                                </div>
-                                <div class="form-group row ml-2 mb-0 mt-0 mr-2">
-                                    <label class="col-xl-6 col-form-label">Lexical Sense</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row ml-2 mr-2">
-                            <label class="col-xl-3 col-form-label">Is Evoked By:</label>
-                            <div class="col-xl-9 card mt-0 p-0"
-                                style="max-height: 10vh;overflow: auto; border: 1px solid rgba(0,0,0,.125) !important">
-                                <div class="form-group row ml-2 mb-0 mt-0 mr-2">
-                                    <label class="col-xl-6 col-form-label">Lexical Entry@LANG</label>
-                                </div>
-                                <div class="form-group row ml-2 mb-0 mt-0 mr-2">
-                                    <label class="col-xl-6 col-form-label">Lexical Entry@LANG</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row ml-2 mr-2">
-                            <label class="col-xl-3 col-form-label">Narrower:</label>
-                            <div class="col-xl-9 card mt-0 p-0"
-                                style="max-height: 10vh;overflow: auto; border: 1px solid rgba(0,0,0,.125) !important">
-                                <div class="form-group row ml-2 mb-0 mt-0 mr-2">
-                                    <label class="col-xl-6 col-form-label">Lexical Concept</label>
-                                    <label class="col-xl-6 col-form-label">Depth</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row ml-2 mr-2">
-                            <label class="col-xl-3 col-form-label">Borader:</label>
-                            <div class="col-xl-9 card mt-0 p-0"
-                                style="max-height: 10vh;overflow: auto; border: 1px solid rgba(0,0,0,.125) !important">
-                                <div class="form-group row ml-2 mb-0 mt-0 mr-2">
-                                    <label class="col-xl-6 col-form-label">Lexical Concept</label>
-                                    <label class="col-xl-6 col-form-label">Depth</label>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </div> -->
 
 </form>
