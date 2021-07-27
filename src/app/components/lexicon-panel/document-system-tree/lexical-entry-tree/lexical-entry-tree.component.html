@@ -140,7 +140,7 @@
 
     <p class="mx-3" *ngIf="show">Nessun risultato</p>
     <tree-root #lexicalEntry [(state)]="state" [nodes]="nodes" [options]="options" [focused]="true"
-        (activate)="onEvent($event)" (deactivate)="onEvent($event)">
+        (activate)="onEvent($event)" (deactivate)="onEvent($event)" class="lexicalEntryTree">
         <ng-template #treeNodeWrapperTemplate let-node let-index="index">
             <div class="node-wrapper" [style.padding-left]="node.getNodePadding()"
                 [class.node-content-wrapper-active]="node.isActive"
