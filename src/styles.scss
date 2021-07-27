@@ -36,7 +36,7 @@ tree-node-content {
     background: none;
 }
 .toggle-children {
-    height: 6px !important;
+    height: 7px !important;
     width: 7px !important;
 }
 
@@ -45,9 +45,9 @@ tree-node-content {
         padding: 2px 0px 5px 1px;
 
         .toggle-children {
-            top: -1px !important;
+            top: 0px !important;
             left: -5px !important;
-            height: 6px !important;
+            height: 7px !important;
             width: 7px !important;
         }
     }
