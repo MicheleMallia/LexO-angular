@@ -38,6 +38,8 @@ export class FormCoreFormComponent implements OnInit {
   labelData = [];
   memoryLabel = [];
 
+  typeDesc = '';
+
   staticOtherDef = [];
   staticMorpho = [];
 
@@ -79,7 +81,7 @@ export class FormCoreFormComponent implements OnInit {
 
     this.subject_ex_label.pipe(debounceTime(1000)).subscribe(
       data => {
-        
+
         this.onChangeExistingLabelValue(data['evt'], data['i']);
       }
     )
@@ -87,6 +89,7 @@ export class FormCoreFormComponent implements OnInit {
     this.lexicalService.getFormTypes().subscribe(
       data => {
         this.typesData = data;
+        console.log(this.typesData)
       },
       error => {
         console.log(error)
@@ -152,14 +155,60 @@ export class FormCoreFormComponent implements OnInit {
 
         }
 
-        for (var i = 0; i < this.object.morphology.length; i++) {
-          const trait = this.object.morphology[i]['trait'];
-          const value = this.object.morphology[i]['value'];
-          this.addMorphoTraits(trait, value);
-          this.onChangeTrait(trait, i);
+        setTimeout(() => {
+          for (var i = 0; i < this.object.morphology.length; i++) {
+            const trait = this.object.morphology[i]['trait'];
+            const value = this.object.morphology[i]['value'];
 
-          this.staticMorpho.push({ trait: trait, value: value })
-        }
+            let traitDescription = '';
+            this.morphologyData.filter(x => {
+              if (x.propertyId == trait && trait != 'partOfSpeech') {
+                x.propertyValues.filter(y => {
+                  if (y.valueId == value) {
+                    traitDescription = y.valueDescription;
+                    return true;
+                  } else {
+                    return false;
+                  }
+                })
+                return true;
+              } else {
+                return false;
+              }
+            })
+            this.addMorphoTraits(trait, value, traitDescription);
+            this.onChangeTrait(trait, i);
+
+            this.staticMorpho.push({ trait: trait, value: value })
+          }
+        }, 100);
+
+
+        setTimeout(() => {
+          let type = this.formCore.get('type').value;
+          this.typesData.forEach(el => {
+            if (el.valueId == type) {
+
+              this.typeDesc = el.valueDescription;
+            }
+          })
+          //@ts-ignore
+          $('.type-tooltip').tooltip({
+            trigger: 'hover'
+          });
+
+
+        }, 1000);
+
+        setTimeout(() => {
+
+          //@ts-ignore
+          $('.trait-tooltip').tooltip({
+            trigger: 'hover'
+          });
+
+
+        }, 1000);
       }
     }, 200)
 
@@ -183,14 +232,46 @@ export class FormCoreFormComponent implements OnInit {
         data['new_type'] = newType;
         this.lexicalService.refreshAfterEdit(data);
         this.lexicalService.updateLexCard(this.object)
+
+        setTimeout(() => {
+          let type = this.formCore.get('type').value;
+          this.typesData.forEach(el => {
+            if (el.valueId == type) {
+
+              this.typeDesc = el.valueDescription;
+            }
+          })
+          //@ts-ignore
+          $('.type-tooltip').tooltip({
+            trigger: 'hover'
+          });
+
+
+        }, 1000);
       }, error => {
         console.log(error);
         const data = this.object;
         data['request'] = 5;
         data['new_type'] = newType;
         this.lexicalService.refreshAfterEdit(data);
-        this.lexicalService.updateLexCard({lastUpdate: error.error.text })
+        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
         this.lexicalService.spinnerAction('off');
+
+        setTimeout(() => {
+          let type = this.formCore.get('type').value;
+          this.typesData.forEach(el => {
+            if (el.valueId == type) {
+
+              this.typeDesc = el.valueDescription;
+            }
+          })
+          //@ts-ignore
+          $('.type-tooltip').tooltip({
+            trigger: 'hover'
+          });
+
+
+        }, 1000);
       }
     )
   }
@@ -200,7 +281,7 @@ export class FormCoreFormComponent implements OnInit {
     this.subject_label.next({ evt, i })
   }
 
-  debounceKeyupExisting(evt, i){
+  debounceKeyupExisting(evt, i) {
     this.lexicalService.spinnerAction('on');
     this.subject_ex_label.next({ evt, i })
   }
@@ -212,7 +293,7 @@ export class FormCoreFormComponent implements OnInit {
     const oldValue = this.morphoTraits.at(i).get('value').value;
     const newValue = evt.target.value;
 
-    this.morphoTraits.at(i).get('value').setValue(newValue, {emitEvent : false});
+    this.morphoTraits.at(i).get('value').setValue(newValue, { emitEvent: false });
 
     if (newValue != '') {
       let parameters = {
@@ -260,7 +341,25 @@ export class FormCoreFormComponent implements OnInit {
       }
       let formId = this.object.formInstanceName;
 
-      this.staticMorpho.push({ trait: trait, value: value })
+      let traitDescription = '';
+      this.morphologyData.filter(x => {
+        if (x.propertyId == trait && trait != 'partOfSpeech') {
+          x.propertyValues.filter(y => {
+            if (y.valueId == value) {
+              traitDescription = y.valueDescription;
+              return true;
+            } else {
+              return false;
+            }
+          })
+          return true;
+        } else {
+          return false;
+        }
+      })
+      this.morphoTraits.at(i).get('description').setValue(traitDescription, {emitEvent : false});
+
+      this.staticMorpho.push({ trait: trait, value: value})
 
       this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
@@ -269,12 +368,30 @@ export class FormCoreFormComponent implements OnInit {
           //this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
+          setTimeout(() => {
+                    
+            //@ts-ignore
+            $('.trait-tooltip').tooltip({
+                trigger: 'hover'
+            });
+            
+            
+        }, 1000);
         },
         error => {
           console.log(error)
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
+          setTimeout(() => {
+                    
+            //@ts-ignore
+            $('.trait-tooltip').tooltip({
+                trigger: 'hover'
+            });
+            
+            
+        }, 1000);
         }
       )
     } else {
@@ -352,7 +469,7 @@ export class FormCoreFormComponent implements OnInit {
       this.staticOtherDef[i] = { trait: trait, value: newValue }
       let formId = this.object.formInstanceName;
 
-      
+
 
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
@@ -363,13 +480,13 @@ export class FormCoreFormComponent implements OnInit {
         }, error => {
           console.log(error);
           //this.lexicalService.refreshLexEntryTree();
-          
+
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
       )
 
-      if(trait == 'writtenRep'){
+      if (trait == 'writtenRep') {
         const data = this.object;
         data['whatToSearch'] = 'form';
         data['new_label'] = newValue;
@@ -412,16 +529,18 @@ export class FormCoreFormComponent implements OnInit {
     }
   }
 
-  createMorphoTraits(t?, v?): FormGroup {
+  createMorphoTraits(t?, v?, d?): FormGroup {
     if (t != undefined) {
       return this.formBuilder.group({
         trait: new FormControl(t, [Validators.required, Validators.minLength(0)]),
-        value: new FormControl(v, [Validators.required, Validators.minLength(0)])
+        value: new FormControl(v, [Validators.required, Validators.minLength(0)]),
+        description: new FormControl(d, [Validators.required, Validators.minLength(0)])
       })
     } else {
       return this.formBuilder.group({
         trait: new FormControl('', [Validators.required, Validators.minLength(0)]),
-        value: new FormControl('', [Validators.required, Validators.minLength(0)])
+        value: new FormControl('', [Validators.required, Validators.minLength(0)]),
+        description: new FormControl('', [Validators.required, Validators.minLength(0)])
       })
     }
   }
@@ -463,10 +582,10 @@ export class FormCoreFormComponent implements OnInit {
     this.inheritanceArray.push(this.createInheritance(t, v));
   }
 
-  addMorphoTraits(t?, v?) {
+  addMorphoTraits(t?, v?, d?) {
     this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
     if (t != undefined) {
-      this.morphoTraits.push(this.createMorphoTraits(t, v));
+      this.morphoTraits.push(this.createMorphoTraits(t, v, d));
     } else {
       this.morphoTraits.push(this.createMorphoTraits());
     }

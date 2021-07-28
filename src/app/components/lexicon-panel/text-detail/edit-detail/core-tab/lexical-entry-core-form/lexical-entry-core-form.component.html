@@ -1,7 +1,7 @@
 <form [formGroup]="coreForm" *ngIf="object != null">
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
-        <div class="input-group col-lg-5">
+        <div class="input-group col-lg-7">
             <input id="label" formControlName="label" name="label" type="text" class="form-control" placeholder=""
                 required>
             <div class="invalid-feedback" *ngIf="emptyLabelFlag" style="display: block;">
@@ -11,16 +11,21 @@
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputType" class="col-lg-3 col-form-label">Type:</label>
-        <div class="col-lg-5">
+        <div class="col-lg-7 input-group">
             <select formControlName="type" name="type" class="form-control">
                 <option *ngFor="let lx of lexEntryTypesData" [selected]="object.type === lx['valueId']">
                     {{lx['valueId']}}</option>
             </select>
+            <div class="input-group-append ml-2">
+                <button class="btn btn-secondary type-tooltip" type="button" data-toggle="tooltip"
+                data-placement="top" data-trigger="hover" [attr.data-original-title]="typeDesc"
+                    style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
+            </div>
         </div>
     </div>
     <div class="form-group row ml-2 mt-3 mr-2">
         <label for="inputLanguage" class="col-lg-3 col-form-label">Language:</label>
-        <div class="col-lg-5">
+        <div class="col-lg-7">
             <select formControlName="language" name="language" class="form-control" (change)="onChangeLanguage($event)">
                 <option value="">Select language....</option>
                 <option *ngFor="let la of languages" [selected]="object.language === la['label']">{{la['label']}}
@@ -53,7 +58,7 @@
                             </select>
                             <div class="input-group-append ml-2">
                                 <button class="btn btn-secondary pos-tooltip" type="button" data-toggle="tooltip"
-                                data-placement="top" data-trigger="hover" [attr.data-original-title]="description"
+                                data-placement="top" data-trigger="hover" [attr.data-original-title]="posDescription"
                                     style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
                             </div>
 
@@ -77,6 +82,11 @@
                                     <option *ngFor="let item of valueTraits[i];"
                                         [selected]="stat['value'] === item.valueId">{{item.valueId}}</option>
                                 </select>
+                                <div class="input-group-append ml-2">
+                                    <button *ngIf="coreForm['controls'].morphoTraits?.value[i] != null" class="btn btn-secondary trait-tooltip" type="button" data-toggle="tooltip"
+                                    data-placement="top" data-trigger="hover" [attr.data-original-title]="coreForm.get('morphoTraits').at(i).get('description').value"
+                                        style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
+                                </div>
                                 <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
                                         class="btn btn-danger" type="button"
                                         style="font-size: 12px; border-radius: .25rem;"><i
