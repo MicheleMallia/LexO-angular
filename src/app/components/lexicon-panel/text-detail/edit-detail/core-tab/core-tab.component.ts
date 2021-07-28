@@ -141,7 +141,6 @@ export class CoreTabComponent implements OnInit {
             }
           }
 
-          console.log(this.goBack)
         }
       }
     );
@@ -330,15 +329,16 @@ export class CoreTabComponent implements OnInit {
   deleteForm(){
     this.searchIconSpinner = true;
     let lexicalId = this.object.formInstanceName;
+    console.log(this.object)
     this.lexicalService.deleteForm(lexicalId).subscribe(
       data=>{
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(true);
+        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
         this.isForm = false;
         this.object = null;
       },error=> {
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(true);
+        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
       }
     )
   }

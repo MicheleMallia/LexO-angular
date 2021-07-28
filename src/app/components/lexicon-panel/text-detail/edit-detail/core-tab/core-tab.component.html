@@ -20,13 +20,13 @@
                     <div class="spinner-border spinner-border-sm m-1" role="status" *ngIf="searchIconSpinner">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <button class="btn btn-link" *ngIf="isLexicalEntry" (click)="deleteLexicalEntry()">
+                    <button class="btn btn-link" *ngIf="isLexicalEntry" (click)="removeElementModal.show()">
                         <i class="fa fa-trash"></i>
                     </button>
-                    <button class="btn btn-link" *ngIf="isForm" title="delete form" (click)="deleteForm()">
+                    <button class="btn btn-link" *ngIf="isForm" title="delete form" (click)="removeElementModal.show()">
                         <i class="fa fa-trash"></i>
                     </button>
-                    <button class="btn btn-link" *ngIf="isSense" title="delete sense" (click)="deleteSense()">
+                    <button class="btn btn-link" *ngIf="isSense" title="delete sense" (click)="removeElementModal.show()">
                         <i class="fa fa-trash"></i>
                     </button>
                     <button class="btn btn-link" (click)="changeStatus()" *ngIf="isLexicalEntry">
@@ -63,3 +63,39 @@
         </div>
     </div>
 </div>
+
+<app-modal #removeElementModal class="remove_element_modal" >
+    <ng-container class="app-modal-header"></ng-container>
+    <ng-container class="app-modal-body">
+        <div class="card">
+            <div class="card-body" *ngIf="object != null">
+                <div class="form-group row ml-2 mt-3 mr-2" *ngIf="isLexicalEntry">
+                    <label for="inputLabel" class="col-lg-12 col-form-label" style="font-size: 12px; text-align: center">Are you sure to delete {{object.label}}?</label>
+                </div>
+                <div class="form-group row ml-2 mt-3 mr-2" *ngIf="isForm">
+                    <label for="inputLabel" class="col-lg-12 col-form-label" style="font-size: 12px; text-align: center">Are you sure to delete {{object.label[0]['propertyValue']}}?</label>
+                </div>
+                <div class="form-group row ml-2 mt-3 mr-2 justify-content-md-center">
+                    <div class="input-group col-lg-5 justify-content-md-center" style="align-items: center; text-align: center;">
+                        <div class="input-group-append ml-2" *ngIf="isLexicalEntry">
+                            <button class="btn btn-success" type="button" (click)="deleteLexicalEntry(); removeElementModal.hide()"><i
+                                    class="fas fa-check"></i></button>
+                        </div>
+                        <div class="input-group-append ml-2" *ngIf="isForm">
+                            <button class="btn btn-success" type="button" (click)="deleteForm(); removeElementModal.hide()"><i
+                                    class="fas fa-check"></i></button>
+                        </div>
+                        <div class="input-group-append ml-2" *ngIf="isSense">
+                            <button class="btn btn-success" type="button" (click)="deleteSense(); removeElementModal.hide()"><i
+                                    class="fas fa-check"></i></button>
+                        </div>
+                        <div class="input-group-append ml-2">
+                            <button class="btn btn-danger" type="button" (click)="removeElementModal.hide()"><i
+                                    class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</app-modal>
