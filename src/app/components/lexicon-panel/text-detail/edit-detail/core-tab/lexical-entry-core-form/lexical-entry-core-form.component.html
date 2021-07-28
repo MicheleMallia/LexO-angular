@@ -150,25 +150,11 @@
                 <div class="card-body">
                     <div class="form-group row ml-2 mt-3 mr-2" formArrayName="denotes"
                         *ngFor="let den of coreForm.get('denotes')['controls']; let i = index">
-                        <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable" [formGroupName]="i">
-                            <ng-select #select_denotes formControlName="entity" name="entity"
-                                (keyup)="triggerDenotes($event)" (change)="handleDenotes(select_denotes, i)"
-                                [items]="searchResults" bindValue="label" (focus)="deleteData()" bindLabel="label"
-                                placeholder="Search entity" appendTo="body"
-                                *ngIf="!variable.switch && den.get('type').value != 'external'">
-
-                            </ng-select>
+                        <div class="input-group col-xl-12"  [formGroupName]="i">
                             <input formControlName="entity" name="entity" type="text" [value]="den.get('entity').value"
                                 class="form-control" placeholder="Insert URI"
-                                *ngIf="variable.switch || den.get('type').value == 'external'"
+                               
                                 (keyup)="handleDenotes($event, i)">
-                            <div class="input-group-append ml-3 form-check" style="align-items: center;"
-                                [hidden]="den.get('type').value == 'external'">
-                                <input class="form-check-input vartrans-tooltip" type="checkbox"
-                                    (change)="variable.switch=!variable.switch" data-toggle="tooltip"
-                                    data-placement="bottom" data-trigger="hover"
-                                    title="Clicca per inserire un URI manualmente">
-                            </div>
                             <div class="input-group-append ml-2">
                                 <button class="btn btn-primary" type="button"><i
                                         class="fa fa-external-link-alt"></i></button>
