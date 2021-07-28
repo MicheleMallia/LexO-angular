@@ -7,6 +7,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AngularEditorModule } from '@kolkov/angular-editor'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ContextMenuModule } from 'ngx-contextmenu';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -119,7 +121,8 @@ import { EtymologyFormComponent } from './components/lexicon-panel/text-detail/e
     NgSelectModule,
     ModalModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
