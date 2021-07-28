@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
-import { DataService, Person } from '../../lexicon-panel/text-detail/edit-detail/core-tab/lexical-entry-core-form/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-same-as',
@@ -32,7 +32,7 @@ export class SameAsComponent implements OnInit {
 
   sameAsArray: FormArray;
 
-  constructor(private formBuilder: FormBuilder, private lexicalService : LexicalEntriesService) {
+  constructor(private formBuilder: FormBuilder, private lexicalService : LexicalEntriesService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -93,208 +93,64 @@ export class SameAsComponent implements OnInit {
   }
 
   onChangeSameAsByInput(value, index){
-    var selectedValues = value;
-    var lexicalElementId = '';
-    if (this.object.lexicalEntryInstanceName != undefined) {
-      lexicalElementId = this.object.lexicalEntryInstanceName;
-    } else if (this.object.formInstanceName != undefined) {
-      lexicalElementId = this.object.formInstanceName;
-    } else if (this.object.senseInstanceName != undefined) {
-      lexicalElementId = this.object.senseInstanceName;
-    }
-
-    console.log(this.memorySameAs[index])
-    if (this.memorySameAs[index] == "") {
-      let parameters = {
-        type: "reference",
-        relation: "sameAs",
-        value: selectedValues
+    if(value.trim() != ''){
+      var selectedValues = value;
+      var lexicalElementId = '';
+      if (this.object.lexicalEntryInstanceName != undefined) {
+        lexicalElementId = this.object.lexicalEntryInstanceName;
+      } else if (this.object.formInstanceName != undefined) {
+        lexicalElementId = this.object.formInstanceName;
+      } else if (this.object.senseInstanceName != undefined) {
+        lexicalElementId = this.object.senseInstanceName;
       }
-      console.log(parameters)
-      this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
-        data => {
-          console.log(data)
-        }, error => {
-          console.log(error)
+  
+      console.log(this.memorySameAs[index])
+      if (this.memorySameAs[index] == "") {
+        let parameters = {
+          type: "reference",
+          relation: "sameAs",
+          value: selectedValues
         }
-      )
-
-      this.memorySameAs[index] = selectedValues;
-    } else {
-      let oldValue = this.memorySameAs[index];
-      let parameters = {
-        type: "reference",
-        relation: "sameAs",
-        value: selectedValues,
-        currentValue: oldValue
+        console.log(parameters)
+        this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
+          data => {
+            console.log(data)
+          }, error => {
+            console.log(error)
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
+        )
+  
+        this.memorySameAs[index] = selectedValues;
+      } else {
+        let oldValue = this.memorySameAs[index];
+        let parameters = {
+          type: "reference",
+          relation: "sameAs",
+          value: selectedValues,
+          currentValue: oldValue
+        }
+        console.log(parameters)
+        this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
+          data => {
+            console.log(data)
+          }, error => {
+            console.log(error)
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
+        )
       }
-      console.log(parameters)
-      this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
-        data => {
-          console.log(data)
-        }, error => {
-          console.log(error)
-        }
-      )
     }
+    
   }
-
-  /* onChangeSameAs(sameAs, index){
-    console.log(sameAs.selectedItems)
-    if(sameAs.selectedItems.length != 0){
-      var selectedValues = sameAs.selectedItems[0].value.lexicalEntry;
-      if(this.object.lexicalEntryInstanceName != undefined){
-        let lexId = this.object.lexicalEntryInstanceName;
-    
-        let parameters = {
-          type : "reference",
-          relation : "sameAs",
-          value : selectedValues
-        }
-        console.log(parameters)
-        this.lexicalService.updateGenericRelation(lexId, parameters).subscribe(
-          data=>{
-            console.log(data)
-          }, error=>{
-            console.log(error)
-          }
-        )
-      }else if(this.object.formInstanceName != undefined){
-        let formId = this.object.formInstanceName;
-    
-        let parameters = {
-          type : "reference",
-          relation : "sameAs",
-          value : selectedValues
-        }
-        console.log(parameters)
-        this.lexicalService.updateGenericRelation(formId, parameters).subscribe(
-          data=>{
-            console.log(data)
-          }, error=>{
-            console.log(error)
-          }
-        )
-      }else if(this.object.senseInstanceName != undefined){
-        let senseId = this.object.senseInstanceName;
-    
-        let parameters = {
-          type : "reference",
-          relation : "sameAs",
-          value : selectedValues
-        }
-        console.log(parameters)
-        this.lexicalService.updateGenericRelation(senseId, parameters).subscribe(
-          data=>{
-            console.log(data)
-          }, error=>{
-            console.log(error)
-          }
-        )
-      }
-      
-      
-    }
-    
-    
-  } */
 
   deleteData(){
     this.searchResults = [];
   }
-
-
-
-  /* onSearchFilter(data){
-    this.filterLoading = true;
-    this.searchResults = [];
-    if(this.object.lexicalEntryInstanceName != undefined){
-      let parameters = {
-        text: data,
-        searchMode: "startsWith",
-        type: "",
-        pos: "",
-        formType: "entry",
-        author: "",
-        lang: "",
-        status: "",
-        offset: 0,
-        limit: 500
-      }
-      console.log(data.length)
-      if(data != "" && data.length >= 3){
-        this.lexicalService.getLexicalEntriesList(parameters).subscribe(
-          data=>{
-            console.log(data)
-            this.searchResults = data['list']
-            console.log(this.searchResults)
-            this.filterLoading = false;
-          },error=>{
-            console.log(error)
-            this.filterLoading = false;
-          }
-        )
-      }else{
-        this.filterLoading = false;
-      }
-    }else if(this.object.formInstanceName != undefined){
-      if(data != "" && data.length >= 3){
-        let lexId = this.object.parentInstanceName;
-        let parameters = {
-          form: "pesca",
-          formType: "lemma",
-          lexicalEntry: lexId,
-          senseUris: "",
-          extendTo: "",
-          extensionDegree: 3
-        }
-  
-        console.log(parameters);
-        this.lexicalService.getFormList(parameters).subscribe(
-          data=>{
-            console.log(data)
-            this.searchResults = data['list']
-            this.filterLoading = false;
-          },error=>{
-            console.log(error)
-            this.filterLoading = false;
-          }
-        )
-      }
-      
-    }else if(this.object.senseInstanceName != undefined){
-      console.log("Ciao")
-      if(data != "" && data.length >= 3){
-        let parameters = {
-          text: data,
-          searchMode: "startsWith",
-          type: "",
-          pos: "",
-          formType: "entry",
-          author: "",
-          lang: "",
-          status: "",
-          offset: 0,
-          limit: 500
-        }
-  
-        this.lexicalService.getLexicalSensesList(parameters).subscribe(
-          data=>{
-            this.searchResults = data
-            this.filterLoading = false;
-          },error=>{
-            console.log(error)
-            this.filterLoading = false;
-          }
-        )
-      }
-      
-    }else{
-      this.filterLoading = false;
-    }
-    console.log(data)
-  
-  } */
 
   triggerSameAsInput(evt, i){
     if(evt.target != undefined){
@@ -302,13 +158,6 @@ export class SameAsComponent implements OnInit {
       this.subject_input.next({value, i})
     }
   }
-
-  /* triggerSameAs(evt){
-    if(evt.target != undefined){
-      this.subject.next(evt.target.value)
-    }
-    
-  } */
 
   triggerTooltip() {
     setTimeout(() => {
@@ -358,7 +207,7 @@ export class SameAsComponent implements OnInit {
         value: lexical_entity
       }
 
-      console.log(parameters)
+      
 
       this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
         data => {
@@ -367,6 +216,9 @@ export class SameAsComponent implements OnInit {
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           console.log(error)
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
         }
       )
     } else if (this.object.formInstanceName != undefined) {
@@ -377,7 +229,7 @@ export class SameAsComponent implements OnInit {
         value: lexical_entity
       }
 
-      console.log(parameters)
+      
 
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {

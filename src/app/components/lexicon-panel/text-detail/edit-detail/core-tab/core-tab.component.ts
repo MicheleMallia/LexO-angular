@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { LexicalEntriesService } from '../../../../../services/lexical-entries/lexical-entries.service';
 import { ExpanderService } from 'src/app/services/expander/expander.service';
+import { ToastrService } from 'ngx-toastr';
 
 import {
   animate,
@@ -54,7 +55,7 @@ export class CoreTabComponent implements OnInit {
 
   @ViewChild('expander') expander_body: ElementRef;
 
-  constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend: Renderer2) { }
+  constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend: Renderer2, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.lexicalService.coreData$.subscribe(
@@ -311,17 +312,21 @@ export class CoreTabComponent implements OnInit {
         this.searchIconSpinner = false;
         this.lexicalService.deleteRequest(true);
         this.lexicalEntryData = null;
-        this.isLexicalEntry = true;
+        this.isLexicalEntry = false;
         this.isForm = false;
         this.object = null;
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
+        this.lexicalService.sendToRightTab(null);
       },
       error => {
         this.searchIconSpinner = false;
         console.log(error)
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
+        this.toastr.error(error.error, 'Error', {
+          timeOut: 5000,
+        });
       }
     )
   }
@@ -374,6 +379,10 @@ export class CoreTabComponent implements OnInit {
           this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
         },error=> {
+          console.log(error)
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
           this.searchIconSpinner = false;
           //this.lexicalService.refreshLexEntryTree();
         }
@@ -398,6 +407,7 @@ export class CoreTabComponent implements OnInit {
           this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
         },error=> {
+          console.log(error)
           this.searchIconSpinner = false;
           //this.lexicalService.refreshLexEntryTree();
         }

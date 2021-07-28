@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { DataService, Person } from '../../lexicon-panel/text-detail/edit-detail/core-tab/lexical-entry-core-form/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-see-also',
@@ -36,7 +37,7 @@ export class SeeAlsoComponent implements OnInit {
 
   seeAlsoArray: FormArray;
 
-  constructor(private formBuilder: FormBuilder, private lexicalService: LexicalEntriesService) {
+  constructor(private formBuilder: FormBuilder, private lexicalService: LexicalEntriesService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -107,47 +108,57 @@ export class SeeAlsoComponent implements OnInit {
   }
 
   onChangeSeeAlsoByInput(value, index) {
-    var selectedValues = value;
-    var lexicalElementId = '';
-    if (this.object.lexicalEntryInstanceName != undefined) {
-      lexicalElementId = this.object.lexicalEntryInstanceName;
-    } else if (this.object.formInstanceName != undefined) {
-      lexicalElementId = this.object.formInstanceName;
-    } else if (this.object.senseInstanceName != undefined) {
-      lexicalElementId = this.object.senseInstanceName;
-    }
 
-    if (this.memorySeeAlso[index] == "") {
-      let parameters = {
-        type: "reference",
-        relation: "seeAlso",
-        value: selectedValues
+    if(value.trim() != ""){
+      var selectedValues = value;
+      var lexicalElementId = '';
+      if (this.object.lexicalEntryInstanceName != undefined) {
+        lexicalElementId = this.object.lexicalEntryInstanceName;
+      } else if (this.object.formInstanceName != undefined) {
+        lexicalElementId = this.object.formInstanceName;
+      } else if (this.object.senseInstanceName != undefined) {
+        lexicalElementId = this.object.senseInstanceName;
       }
-      console.log(parameters)
-      this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
-        data => {
-          console.log(data)
-        }, error => {
-          console.log(error)
+  
+      if (this.memorySeeAlso[index] == "") {
+        let parameters = {
+          type: "reference",
+          relation: "seeAlso",
+          value: selectedValues
         }
-      )
-    } else {
-      let oldValue = this.memorySeeAlso[index];
-      let parameters = {
-        type: "reference",
-        relation: "seeAlso",
-        value: selectedValues,
-        currentValue: oldValue
+        console.log(parameters)
+        this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
+          data => {
+            console.log(data)
+          }, error => {
+            console.log(error)
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
+        )
+      } else {
+        let oldValue = this.memorySeeAlso[index];
+        let parameters = {
+          type: "reference",
+          relation: "seeAlso",
+          value: selectedValues,
+          currentValue: oldValue
+        }
+        console.log(parameters)
+        this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
+          data => {
+            console.log(data)
+          }, error => {
+            console.log(error)
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
+        )
       }
-      console.log(parameters)
-      this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
-        data => {
-          console.log(data)
-        }, error => {
-          console.log(error)
-        }
-      )
     }
+    
 
   }
 
@@ -241,14 +252,14 @@ export class SeeAlsoComponent implements OnInit {
     } else if (this.object.formInstanceName != undefined) {
       let lexId = this.object.parentInstanceName;
       let parameters = {
-        form: "pesca",
+        text: data,
         formType: "lemma",
         lexicalEntry: lexId,
         senseUris: "",
         extendTo: "",
         extensionDegree: 3
       }
-
+      
       this.lexicalService.getFormList(parameters).subscribe(
         data => {
           console.log(data)
@@ -362,6 +373,9 @@ export class SeeAlsoComponent implements OnInit {
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           console.log(error)
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
         }
       )
     } else if (this.object.formInstanceName != undefined) {
@@ -381,6 +395,9 @@ export class SeeAlsoComponent implements OnInit {
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           console.log(error)
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
         }
       )
 
