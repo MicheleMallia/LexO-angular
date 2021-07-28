@@ -597,7 +597,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.coreForm.get("label").valueChanges.pipe(debounceTime(1000)).subscribe(
             updatedLabel => {
-                if (updatedLabel.length > 2) {
+                if (updatedLabel.length > 2 && updatedLabel.trim() != '') {
                     this.emptyLabelFlag = false;
                     this.lexicalService.spinnerAction('on');
                     let lexId = this.object.lexicalEntryInstanceName;
