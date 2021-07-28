@@ -100,9 +100,10 @@
                     <label for="inputLabel" class="col-lg-5 col-form-label" style="font-size: 12px;">Insert a language
                         code (max 2-3 chars):</label>
                     <div class="input-group col-lg-7" style="align-items: center;">
-                        <input id="label" type="text" class="form-control" placeholder="" #langValue>
+                        <input #inputAddLanguage id="label" type="text" class="form-control" placeholder="" #langValue>
                         <div class="input-group-append ml-2">
-                            <button class="btn btn-success" type="button" (click)="onSubmit(langValue.value);"><i
+                            <button class="btn btn-success" type="button" (click)="onSubmit(langValue.value); addLanguageModal.hide()"
+                            [disabled]="inputAddLanguage.value.length < 2 || inputAddLanguage.value.length > 3"><i
                                     class="fas fa-check"></i></button>
                         </div>
                         <div class="spinner-border spinner-border-sm m-1" role="status" *ngIf="loadingService">
