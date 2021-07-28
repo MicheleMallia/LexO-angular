@@ -10,7 +10,7 @@ export class LexicalEntriesService {
   private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _vartransData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
-  private _deleteLexicalEntryReq: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  private _deleteLexicalEntryReq: BehaviorSubject<any> = new BehaviorSubject(null);
   private _updateLexCardReq: BehaviorSubject<object> = new BehaviorSubject(null);
   private _spinnerAction: BehaviorSubject<string> = new BehaviorSubject(null);
   private _refreshLanguageTable: BehaviorSubject<object> = new BehaviorSubject(null);
@@ -45,8 +45,8 @@ export class LexicalEntriesService {
     this._rightPanelData.next(object);
   }
 
-  deleteRequest(boolean : boolean) {
-    this._deleteLexicalEntryReq.next(boolean);
+  deleteRequest(request? : any) {
+    this._deleteLexicalEntryReq.next(request);
   }
 
   updateLexCard(object: object) {
@@ -221,7 +221,7 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "ontolex/data/formType");
   }
 
-  ///GET /ontolex/data/formType --> get data about form types
+  ///GET /ontolex/data/lexicalEntryType --> get data about lexicalEntry types
   getLexEntryTypes(): Observable<any> {
     return this.http.get(this.baseUrl + "ontolex/data/lexicalEntryType");
   }

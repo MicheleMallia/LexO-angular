@@ -113,10 +113,10 @@ export class LexicalEntryTreeComponent implements OnInit {
     
     this.lexicalService.deleteReq$.subscribe(
       signal => {
-        console.log(signal)
+        
         //console.log("richiesta eliminazione lexical entry");
         if(signal != null){
-          this.lexEntryDeleteReq();
+          this.lexEntryDeleteReq(signal);     
         }
         
       }
@@ -124,14 +124,13 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     this.lexicalService.refreshFilter$.subscribe(
       signal => {
-        console.log(signal)
+        
         if(signal != null){
 
-          console.log("refreshato")
+          
           this.lexicalService.getLanguages().subscribe(
             data => {
-              console.log("languages");
-              console.log(data)
+             
               this.languages = data;
             }
           );
@@ -211,12 +210,23 @@ export class LexicalEntryTreeComponent implements OnInit {
     })
   }
 
-  lexEntryDeleteReq(){
+  lexEntryDeleteReq(signal?){
     setTimeout(() => {
-      this.filterForm.get('text').setValue('', {eventEmit : false});
-      this.lexicalEntriesFilter(this.parameters);
-      this.lexicalEntryTree.treeModel.update();
-      this.updateTreeView();
+      
+      if(typeof(signal)== 'boolean'){
+        
+        this.filterForm.get('text').setValue('', {eventEmit : false});
+        this.parameters.text = '';
+        this.lexicalEntriesFilter(this.parameters);
+        this.lexicalEntryTree.treeModel.update();
+        this.updateTreeView();
+      }else if(typeof(signal)=='string'){
+        this.filterForm.get('text').setValue(signal, {eventEmit : false});
+        this.lexicalEntriesFilter(this.parameters);
+        this.lexicalEntryTree.treeModel.update();
+        this.updateTreeView();
+      }
+      
     }, 500);  
   }
 
@@ -227,7 +237,6 @@ export class LexicalEntryTreeComponent implements OnInit {
     }, 300);
     this.searchIconSpinner = true;
     let parameters = newPar;
-    console.log(parameters)
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
         if(data['list'].length > 0){
@@ -291,6 +300,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   resetFields(){
+    this.initialValues.text = '';
     this.filterForm.reset(this.initialValues);
     setTimeout(() => {
       this.filterForm.get('text').setValue('', {eventEmit : false});
