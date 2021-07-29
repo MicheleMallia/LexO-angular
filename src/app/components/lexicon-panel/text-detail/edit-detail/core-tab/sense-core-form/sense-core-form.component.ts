@@ -150,6 +150,11 @@ export class SenseCoreFormComponent implements OnInit {
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
+          if(typeof(error.error) != 'object'){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
         }
       )
     })
@@ -204,6 +209,11 @@ export class SenseCoreFormComponent implements OnInit {
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
+          if(typeof(error.error) != 'object'){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
         }
       )
     })
@@ -265,7 +275,12 @@ export class SenseCoreFormComponent implements OnInit {
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          console.log(error);
+          if(typeof(error.error) != 'object'){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
         }
       )
     }
@@ -331,6 +346,11 @@ export class SenseCoreFormComponent implements OnInit {
           }
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
+          if(typeof(error.error) != 'object'){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
         }
       )
     }else {
