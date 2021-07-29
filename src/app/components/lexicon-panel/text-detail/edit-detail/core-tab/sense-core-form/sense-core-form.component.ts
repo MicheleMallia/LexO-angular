@@ -4,6 +4,8 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { DataService, Person } from '../lexical-entry-core-form/data.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-sense-core-form',
@@ -41,7 +43,7 @@ export class SenseCoreFormComponent implements OnInit {
   definitionArray : FormArray;
   lexicalConceptArray: FormArray;
 
-  constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) { }
+  constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -107,13 +109,19 @@ export class SenseCoreFormComponent implements OnInit {
           const pVal = this.object.definition[i]['propertyValue'];
           this.definitionData.push(pId);
 
+          if(pId == 'definition' && pVal == ''){
+            this.definitionMemory.push(pId);
+            this.addDefinition(pId, pVal)
+
+            this.staticDef.push({trait : pId, value: pVal})
+          }
+
           if(pVal != ''){
             this.definitionMemory.push(pId);
             this.addDefinition(pId, pVal)
 
             this.staticDef.push({trait : pId, value: pVal})
           }
-          
         }
         console.log(this.object)
         this.senseCore.get('topic').setValue(this.object.topic, { emitEvent : false })
@@ -147,25 +155,34 @@ export class SenseCoreFormComponent implements OnInit {
     })
 
     this.senseCore.get('topic').valueChanges.pipe(debounceTime(1000)).subscribe(newTopic => {
-      this.lexicalService.spinnerAction('on');
-      let senseId = this.object.senseInstanceName;
-      let parameters = {
-        relation: "subject",
-        value: newTopic
-      }
-      this.lexicalService.updateSense(senseId, parameters).subscribe(
-        data => {
-          console.log(data)
-          this.lexicalService.spinnerAction('off');
-          //this.lexicalService.refreshLexEntryTree();
-          this.lexicalService.updateLexCard(this.object)
-        }, error => {
-          console.log(error)
-          //this.lexicalService.refreshLexEntryTree();
-          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
-          this.lexicalService.spinnerAction('off');
+      if(newTopic.trim() != ''){
+        this.lexicalService.spinnerAction('on');
+        let senseId = this.object.senseInstanceName;
+        let parameters = {
+          relation: "subject",
+          value: newTopic
         }
-      )
+        this.lexicalService.updateSense(senseId, parameters).subscribe(
+          data => {
+            console.log(data)
+            this.lexicalService.spinnerAction('off');
+            //this.lexicalService.refreshLexEntryTree();
+            this.lexicalService.updateLexCard(this.object)
+          }, error => {
+            console.log(error)
+            //this.lexicalService.refreshLexEntryTree();
+            this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+            this.lexicalService.spinnerAction('off');
+            if(typeof(error.error) != 'object'){
+              this.toastr.error(error.error, 'Error', {
+                timeOut: 5000,
+              });
+            }
+            
+          }
+        )
+      }
+      
     })
 
     this.senseCore.get('reference').valueChanges.pipe(debounceTime(1000)).subscribe(newDef => {
