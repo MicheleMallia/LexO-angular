@@ -161,14 +161,15 @@ export class LexicalEntryTreeComponent implements OnInit {
         }
       }
     )
-
+    
+    console.log(this.parameters)
     this.lexicalService.getLexicalEntriesList(this.parameters).subscribe(
       data => {
         this.nodes = data['list'];
         this.counter = data['totalHits'];
       },
       error => {
-
+        console.log(error)
       }
     );
 
