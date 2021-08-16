@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-header">
-        <ul class="nav nav-tabs" id="editDictTab" role="tablist">
+        <ul class="nav nav-tabs" id="editDictTab" role="tablist" #navtabs>
             <li class="nav-item">
-                <a class="nav-link active" id="core-tab" data-toggle="tab" href="#core" role="tab" aria-controls="core" aria-selected="true">Core</a>
+                <a [class.active] = "showTrigger" class="nav-link active" id="core-tab" data-toggle="tab" href="#core" role="tab" aria-controls="core" aria-selected="true">Core</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="vartrans-tab" data-toggle="tab" href="#vartrans" role="tab" aria-controls="vartrans" aria-selected="true">Vartrans</a>
@@ -22,7 +22,7 @@
         </ul>
     </div>
     <div class="card-body">
-        <div class="tab-content" id="tab-content">
+        <div class="tab-content" id="tab-content" #navcontent>
             <div class="tab-pane fade show active" id="core" role="tabpanel" aria-labelledby="core-tab">
                 <app-core-tab></app-core-tab>
             </div>
