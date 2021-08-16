@@ -147,6 +147,9 @@ export class LanguageManagerComponent implements OnInit {
             }, error => {
               console.log(error)
               this.lexicalService.refreshLangTable();
+              this.toastr.error(error.error, 'Error', {
+                timeOut: 5000,
+              });
             }
           )
         }
