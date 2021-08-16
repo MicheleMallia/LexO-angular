@@ -14,12 +14,15 @@ import { interval } from 'rxjs';
 
 const actionMapping: IActionMapping = {
   mouse: {
-    dblClick: (tree, node, $event) => {
-      if (node.hasChildren) {
+    
+    click: (tree, node, $event) => {
+      
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
-      }
+        TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
+        if (node.hasChildren) {
+          console.log(node)
+        }
     },
-    click: TREE_ACTIONS.TOGGLE_ACTIVE,
     contextMenu: (tree, node, $event) => { 
       
     
@@ -482,18 +485,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     } else if (node.data.label == "concept") {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
       console.log("cercare concetto")
-      /* this.lexicalService.getSensesList(parentInstance).subscribe(
-        data => {
-          newNodes = data.map((c) => Object.assign({}, c));
-          for (var i = 0; i < newNodes.length; i++) {
-            if (newNodes[i].author == node.parent.data.author) {
-              newNodes[i]['flagAuthor'] = false
-            } else {
-              newNodes[i]['flagAuthor'] = true
-            }
-          }
-        }
-      ) */
+      
     }
     
     return new Promise((resolve, reject) => {
