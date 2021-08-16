@@ -446,6 +446,15 @@ export class LexicalEntryTreeComponent implements OnInit {
             return obj.count != 0;
           })
           newNodes = data["elements"].map((c) => Object.assign({}, c));
+
+          newNodes.forEach(element => {
+            setTimeout(() => {
+              const someNode = this.lexicalEntryTree.treeModel.getNodeById(element.id);
+              someNode.expand();
+            }, 1000);
+            
+          });
+          
         },
         error => {
 

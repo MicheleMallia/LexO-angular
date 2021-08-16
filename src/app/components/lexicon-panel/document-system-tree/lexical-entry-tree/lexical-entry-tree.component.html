@@ -193,12 +193,6 @@
                             [title]="node.data.note"></i>
                     </div>
                     <div style="width: 30%;">
-                        <!-- <i *ngIf="node.data.author != '' && node.data.author != undefined && node.data.flagAuthor == undefined"
-                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.author"></i>
-                        <i *ngIf="node.data.flagAuthor && node.data.author == ''"
-                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.creator"></i> -->
                         <i *ngIf="node.data.lexicalEntryInstanceName != undefined && !flagAuthor && node.data.status == 'working'"
                             class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
                             [title]="node.data.creator"></i>
