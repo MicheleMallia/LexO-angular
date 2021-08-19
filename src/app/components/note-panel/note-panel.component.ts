@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -15,6 +15,16 @@ export class NotePanelComponent implements OnInit, OnChanges {
   object : any;
   private subject : Subject<string> = new Subject();
   
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event)
+    if(event.key == 'Alt'){
+      console.log("scusa")
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+  }
 
   htmlContent : '';
   editorConfig: AngularEditorConfig = {
@@ -75,7 +85,6 @@ export class NotePanelComponent implements OnInit, OnChanges {
         'insertImage',
         'insertVideo',
         'insertHorizontalRule',
-        'removeFormat',
         'toggleEditorMode'
       ]
     ]
@@ -192,7 +201,10 @@ export class NotePanelComponent implements OnInit, OnChanges {
   }
 
   onChanges(evt){
-    this.subject.next(this.noteData);
+    if(evt.key != "Control" && evt.key != 'Alt'){
+      this.subject.next(this.noteData);
+    }
+    
   }
 
 }
