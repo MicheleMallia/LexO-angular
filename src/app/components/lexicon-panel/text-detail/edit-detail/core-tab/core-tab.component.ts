@@ -354,12 +354,12 @@ export class CoreTabComponent implements OnInit {
     this.lexicalService.deleteSense(lexicalId).subscribe(
       data=>{
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(true);
+        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
         this.isSense = false;
         this.object = null;
       },error=> {
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(true);
+        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
       }
     )
   }

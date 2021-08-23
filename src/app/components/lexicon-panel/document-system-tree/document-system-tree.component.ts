@@ -60,6 +60,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 //@ts-ignore
                 $('.note_'+x.data.id).attr('data-original-title', data['new_note']);
 
+                data['new_note'] = undefined;
                 return true;
               }else{
                 return false;
@@ -70,7 +71,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.note = data['new_note']
                 that.lexTree.lexicalEntryTree.treeModel.update();
                 that.lexTree.updateTreeView();
-                
+                data['new_note'] = undefined;
                 return true;
               }else{
                 return false;
@@ -81,7 +82,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.note = data['new_note']
                 that.lexTree.lexicalEntryTree.treeModel.update();
                 that.lexTree.updateTreeView();
-                
+                data['new_note'] = undefined;
                 return true;
               }else{
                 return false;
@@ -112,6 +113,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.label = data['new_label']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_label'] = undefined
                 return true;
               }else{
                 return false;
@@ -122,6 +124,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.label = data['new_label']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_label'] = undefined
                 return true;
               }else{
                 return false;
@@ -132,6 +135,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.label = data['new_label']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_label'] = undefined
                 return true;
               }else{
                 return false;
@@ -161,7 +165,9 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.type = data['new_type']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_type'] = undefined
                 return true;
+                
               }else{
                 return false;
               }
@@ -171,6 +177,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.type = data['new_type']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_type'] = undefined
                 return true;
               }else{
                 return false;
@@ -181,6 +188,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.type = data['new_type']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_type'] = undefined
                 return true;
               }else{
                 return false;
@@ -210,6 +218,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.language = data['new_lang']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_lang'] = undefined
                 return true;
               }else{
                 return false;
@@ -220,6 +229,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.language = data['new_lang']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_lang'] = undefined
                 return true;
               }else{
                 return false;
@@ -230,6 +240,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.language = data['new_lang']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_lang'] = undefined
                 return true;
               }else{
                 return false;
@@ -259,6 +270,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.pos = data['new_pos']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_pos'] = undefined
                 return true;
               }else{
                 return false;
@@ -269,6 +281,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.pos = data['new_pos']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_pos'] = undefined
                 return true;
               }else{
                 return false;
@@ -279,6 +292,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 x.data.pos = data['new_pos']
                 x.setActiveAndVisible()
                 x.scrollIntoView();
+                data['new_pos'] = undefined
                 return true;
               }else{
                 return false;
