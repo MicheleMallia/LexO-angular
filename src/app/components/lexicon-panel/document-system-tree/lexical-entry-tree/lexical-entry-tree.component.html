@@ -189,7 +189,7 @@
                 <div class="icons-container">
                     <div style="width: 30%;">
                         <i *ngIf="node.data.note != '' && node.data.note != null"
-                            class="far fa-comment-dots lexical-tooltip" data-toggle="tooltip" data-html="true"
+                            class="far fa-comment-dots note-tooltip note_{{node.data.id}}" data-toggle="tooltip" data-html="true"
                             [title]="node.data.note"></i>
                     </div>
                     <div style="width: 30%;">

@@ -366,7 +366,7 @@ export class CoreTabComponent implements OnInit {
 
   addNewForm(){
     this.searchIconSpinner = true;
-    console.log(this.object)
+    /* console.log(this.object) */
     if(this.isLexicalEntry){
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewForm(lexicalId).subscribe(

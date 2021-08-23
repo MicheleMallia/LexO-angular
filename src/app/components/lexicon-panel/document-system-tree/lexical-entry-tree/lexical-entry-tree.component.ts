@@ -20,7 +20,7 @@ const actionMapping: IActionMapping = {
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
         TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
         if (node.hasChildren) {
-          console.log(node)
+          /* console.log(node) */
         }
     },
     contextMenu: (tree, node, $event) => { 
@@ -104,6 +104,8 @@ export class LexicalEntryTreeComponent implements OnInit {
       console.log('called'); 
       //@ts-ignore
       $('.lexical-tooltip').tooltip();
+      //@ts-ignore
+      $('.note-tooltip').tooltip();
     });
   }
 
@@ -478,7 +480,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
       this.lexicalService.getSensesList(parentInstance).subscribe(
         data => {
-          console.log(data)
+          /* console.log(data) */
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
             if (newNodes[i].creator == node.parent.data.creator) {

@@ -86,6 +86,7 @@
                                     <button *ngIf="coreForm['controls'].morphoTraits?.value[i] != null" class="btn btn-secondary trait-tooltip" type="button" data-toggle="tooltip"
                                     data-placement="top" data-trigger="hover" [attr.data-original-title]="coreForm.get('morphoTraits').at(i).get('description').value"
                                         style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
+                                        
                                 </div>
                                 <div (click)="removeElement(i)" class="input-group-append ml-2"> <button
                                         class="btn btn-danger" type="button"
@@ -112,6 +113,7 @@
                                     Please, don't leave this field blank
                                 </div>
                             </div>
+                            nuovo
                             <div class="input-group col-md-8" [formGroupName]="i">
                                 <select class="form-control selectTrait" formControlName="value" name="value"
                                     style="font-size:12px;" (change)="onChangeValue(i)">

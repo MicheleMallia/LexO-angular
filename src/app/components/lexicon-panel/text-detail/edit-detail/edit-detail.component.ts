@@ -23,9 +23,9 @@ export class EditDetailComponent implements OnInit {
              object['formInstanceName'] != undefined){
 
             var navTabLinks = this.navtabs.nativeElement.querySelectorAll('a')
-            console.log(navTabLinks)
+            
             navTabLinks.forEach(element => {
-              console.log(element)
+              /* console.log(element) */
               if(element.text == 'Core'){
                 element.classList.add('active')
               }else{
@@ -34,9 +34,9 @@ export class EditDetailComponent implements OnInit {
             });
 
             var navContent = this.navcontent.nativeElement.querySelectorAll('.tab-pane');
-            console.log(navContent)
+            
             navContent.forEach(element => {
-              console.log(element)
+              
               if(element.id == 'core'){
                 element.classList.add('active')
                 element.classList.add('show')

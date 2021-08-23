@@ -17,13 +17,10 @@ export class NotePanelComponent implements OnInit, OnChanges {
   
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    console.log(event)
-    if(event.key == 'Alt'){
-      console.log("scusa")
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
+    /* console.log(event) */
+    event.preventDefault();
+    event.stopPropagation();
+    return;
   }
 
   htmlContent : '';
@@ -131,7 +128,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
             this.lexicalService.updateForm(formId, parameters).subscribe(
               data => {
                 console.log(data);
-                data['request'] = 4;
+                data['request'] = 0;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
@@ -139,7 +136,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
               error => {
                 console.log(error);
                 const data = this.object;
-                data['request'] = 4;
+                data['request'] = 0;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.updateLexCard({lastUpdate : error.error.text})
@@ -155,7 +152,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
             this.lexicalService.updateSense(senseId, parameters).subscribe(
               data => {
                 console.log(data);
-                data['request'] = 8;
+                data['request'] = 0;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
@@ -163,7 +160,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
               error => {
                 console.log(error);
                 const data = this.object;
-                data['request'] = 8;
+                data['request'] = 0;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.updateLexCard({lastUpdate : error.error.text})
@@ -196,12 +193,12 @@ export class NotePanelComponent implements OnInit, OnChanges {
         this.object = changes.noteData.currentValue;
       }
       
-      console.log(changes)
+      /* console.log(changes) */
     
   }
 
   onChanges(evt){
-    if(evt.key != "Control" && evt.key != 'Alt'){
+    if(evt.key != "Control" && evt.key != 'Alt' && evt.key != 'Shift'){
       this.subject.next(this.noteData);
     }
     

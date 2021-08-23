@@ -185,7 +185,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.lexicalService.getMorphologyData().subscribe(
             data => {
                 this.morphologyData = data;
-                console.log(this.morphologyData)
+                /* console.log(this.morphologyData) */
                 this.valuePos = this.morphologyData.filter(x => {
                     if (x.propertyId == 'partOfSpeech') {
                         return true;
@@ -235,8 +235,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.memoryDenotes = [];
                 this.memoryValues = [];
 
-                console.log('MORFOLOGIA')
-                console.log(this.object.morphology)
+               /*  console.log('MORFOLOGIA')
+                console.log(this.object.morphology) */
                 setTimeout(() => {
                     for (var i = 0; i < this.object.morphology.length; i++) {
                         const trait = this.object.morphology[i]['trait'];
@@ -366,12 +366,16 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     console.log(data)
                     this.lexicalService.spinnerAction('off');
                     data['request'] = 0;
+                    data['new_lang'] = langValue;
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.refreshLangTable();
                     this.lexicalService.refreshFilter({ request: true })
                 }, error => {
                     console.log(error)
-                    this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
+                    const data = this.object;
+                    data['request'] = 0;
+                    data['new_lang'] = langValue;
+                    this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshLangTable();
                     this.lexicalService.refreshFilter({ request: true })
@@ -409,9 +413,10 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
                 data => {
                     console.log(data)
+                    data['request'] = 0;
+                    data['new_pos'] = posValue;
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshAfterEdit(data);
-                    data['request'] = 0;
                     this.lexicalService.refreshFilter({ request: true })
 
                     setTimeout(() => {
@@ -431,7 +436,10 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 error => {
                     console.log(error)
                     this.lexicalService.spinnerAction('off');
-                    this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
+                    const data = this.object;
+                    data['request'] = 0;
+                    data['new_pos'] = posValue;
+                    this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.refreshFilter({ request: true })
 
                     setTimeout(() => {
@@ -528,7 +536,24 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.refreshFilter({ request: true })
 
                     setTimeout(() => {
-                    
+                        
+                        let traitDescription = '';
+                        this.morphologyData.filter(x => {
+                            if (x.propertyId == trait && trait != 'partOfSpeech') {
+                                x.propertyValues.filter(y => {
+                                    if(y.valueId == value){
+                                        traitDescription = y.valueDescription;
+                                        return true;
+                                    }else{
+                                        return false;
+                                    }
+                                })
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        })
+
                         //@ts-ignore
                         $('.trait-tooltip').tooltip({
                             trigger: 'hover'
@@ -544,7 +569,27 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.refreshFilter({ request: true })
 
                     setTimeout(() => {
-                    
+                        
+                        let traitDescription = '';
+                        this.morphologyData.filter(x => {
+                            if (x.propertyId == trait && trait != 'partOfSpeech') {
+                                x.propertyValues.filter(y => {
+                                    if(y.valueId == value){
+                                        traitDescription = y.valueDescription;
+                                        return true;
+                                    }else{
+                                        return false;
+                                    }
+                                })
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        })
+
+                        this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
+                        this.morphoTraits.at(i).patchValue({ trait: trait, value: value, description: traitDescription });
+                        
                         //@ts-ignore
                         $('.trait-tooltip').tooltip({
                             trigger: 'hover'
@@ -609,12 +654,16 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                         data => {
                             console.log(data);
                             data['request'] = 0;
+                            data['new_label'] = updatedLabel
                             this.lexicalService.refreshAfterEdit(data);
                             this.lexicalService.spinnerAction('off');
                         },
                         error => {
                             console.log(error);
-                            this.lexicalService.refreshAfterEdit({ request: 0, label: updatedLabel });
+                            const data = this.object;
+                            data['request'] = 0;
+                            data['new_label'] = updatedLabel;
+                            this.lexicalService.refreshAfterEdit(data);
                             this.lexicalService.spinnerAction('off');
                         }
                     )
@@ -626,18 +675,19 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         )
 
         this.coreForm.get("type").valueChanges.pipe(debounceTime(200)).subscribe(
-            data => {
+            newType => {
                 this.lexicalService.spinnerAction('on');
                 let lexId = this.object.lexicalEntryInstanceName;
                 let parameters = {
                     relation: 'type',
-                    value: data
+                    value: newType
                 }
                 this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                     data => {
                         console.log(data);
                         this.lexicalService.spinnerAction('off');
                         data['request'] = 0;
+                        data['new_type'] = newType;
                         this.lexicalService.refreshAfterEdit(data);
                         this.lexicalService.refreshFilter({ request: true })
 
@@ -660,7 +710,10 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     },
                     error => {
                         console.log(error);
-                        this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
+                        const data = this.object;
+                        data['request'] = 0;
+                        data['new_type'] = newType;
+                        this.lexicalService.refreshAfterEdit(data);
                         this.lexicalService.spinnerAction('off');
                         this.lexicalService.refreshFilter({ request: true })
 
@@ -695,7 +748,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         } else {
             return this.formBuilder.group({
                 trait: new FormControl('', [Validators.required, Validators.minLength(0)]),
-                value: new FormControl('', [Validators.required, Validators.minLength(0)])
+                value: new FormControl('', [Validators.required, Validators.minLength(0)]),
+                description : new FormControl(null, [Validators.required, Validators.minLength(0)])
             })
         }
     }
@@ -762,10 +816,15 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.refreshAfterEdit(data);
                 }, error => {
                     console.log(error)
-                    this.toastr.error(error.error, 'Error', {
+
+                    /* this.toastr.error(error.error, 'Error', {
                         timeOut: 5000,
-                    });
-                    //this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
+                    }); */
+                    if(typeof(error.error) != 'object'){
+                        this.toastr.error(error.error, 'Error', {
+                          timeOut: 5000,
+                        });
+                    }
                     this.lexicalService.spinnerAction('off');
                 }
             )

@@ -33,27 +33,265 @@ export class DocumentSystemTreeComponent implements OnInit {
   }
 
   lexEdit(data){
-    let newLexEntryLabel = data['label'];
-    let parameters = this.lexTree.getParameters();
-    parameters['text'] = newLexEntryLabel + "~0.5";
-    parameters['offset'] = 0
-    console.log(parameters)
-    this.lexTree.lexicalEntriesFilterAfterEdit(parameters);
-    this.lexTree.lexicalEntryTree.treeModel.update();
-    this.lexTree.updateTreeView();
-    setTimeout(() => {
-      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-        function (x) {
-          if (x.data.label == newLexEntryLabel) {
-            x.setActiveAndVisible()
-            x.scrollIntoView();
-            return true;
-          } else {
-            return false;
+
+    var that = this;
+    
+    if(data['new_note'] != undefined){
+
+      let instanceName = '';
+      if(data['lexicalEntryInstanceName'] != undefined){
+        instanceName = data['lexicalEntryInstanceName']
+      }else if(data['formInstanceName'] != undefined){
+        instanceName = data['formInstanceName']
+      }else if(data['senseInstanceName'] != undefined){
+        instanceName = data['senseInstanceName']
+      };
+      setTimeout(() => {
+        this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+          function (x) {
+            if (data['lexicalEntryInstanceName'] != undefined) {
+              if(x.data.lexicalEntryInstanceName == instanceName){
+                
+                x.data.note = data['new_note']
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+
+                console.log(x)
+                //@ts-ignore
+                $('.note_'+x.data.id).attr('data-original-title', data['new_note']);
+
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['formInstanceName'] != undefined) {
+              
+              if(x.data.formInstanceName == instanceName){
+                x.data.note = data['new_note']
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+                
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['senseInstanceName'] != undefined) {
+              
+              if(x.data.senseInstanceName == instanceName){
+                x.data.note = data['new_note']
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+                
+                return true;
+              }else{
+                return false;
+              }
+            }
+            else {
+              return false;
+            } 
           }
-        }
-      );
-    }, 500);
+        );
+      }, 500); 
+    }else if(data['new_label'] != undefined){
+      console.log("cambio label cambio tutto")
+      console.log(data)
+      let instanceName = '';
+      if(data['lexicalEntryInstanceName'] != undefined){
+        instanceName = data['lexicalEntryInstanceName']
+      }else if(data['formInstanceName'] != undefined){
+        instanceName = data['formInstanceName']
+      }else if(data['senseInstanceName'] != undefined){
+        instanceName = data['senseInstanceName']
+      };
+      setTimeout(() => {
+        this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+          function (x) {
+            if (data['lexicalEntryInstanceName'] != undefined) {
+              if(x.data.lexicalEntryInstanceName == instanceName){
+                x.data.label = data['new_label']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['formInstanceName'] != undefined) {
+              
+              if(x.data.formInstanceName == instanceName){
+                x.data.label = data['new_label']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['senseInstanceName'] != undefined) {
+              
+              if(x.data.senseInstanceName == instanceName){
+                x.data.label = data['new_label']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            }
+            else {
+              return false;
+            } 
+          }
+        );
+      }, 500); 
+    }else if(data['new_type'] != undefined){
+      console.log("cambio type cambio tutto")
+      let instanceName = '';
+      if(data['lexicalEntryInstanceName'] != undefined){
+        instanceName = data['lexicalEntryInstanceName']
+      }else if(data['formInstanceName'] != undefined){
+        instanceName = data['formInstanceName']
+      }else if(data['senseInstanceName'] != undefined){
+        instanceName = data['senseInstanceName']
+      };
+      setTimeout(() => {
+        this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+          function (x) {
+            if (data['lexicalEntryInstanceName'] != undefined) {
+              if(x.data.lexicalEntryInstanceName == instanceName){
+                x.data.type = data['new_type']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['formInstanceName'] != undefined) {
+              
+              if(x.data.formInstanceName == instanceName){
+                x.data.type = data['new_type']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['senseInstanceName'] != undefined) {
+              
+              if(x.data.senseInstanceName == instanceName){
+                x.data.type = data['new_type']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            }
+            else {
+              return false;
+            } 
+          }
+        );
+      }, 500); 
+    }else if(data['new_lang'] != undefined){
+      console.log("cambio lang cambio tutto")
+      let instanceName = '';
+      if(data['lexicalEntryInstanceName'] != undefined){
+        instanceName = data['lexicalEntryInstanceName']
+      }else if(data['formInstanceName'] != undefined){
+        instanceName = data['formInstanceName']
+      }else if(data['senseInstanceName'] != undefined){
+        instanceName = data['senseInstanceName']
+      };
+      setTimeout(() => {
+        this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+          function (x) {
+            if (data['lexicalEntryInstanceName'] != undefined) {
+              if(x.data.lexicalEntryInstanceName == instanceName){
+                x.data.language = data['new_lang']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['formInstanceName'] != undefined) {
+              
+              if(x.data.formInstanceName == instanceName){
+                x.data.language = data['new_lang']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['senseInstanceName'] != undefined) {
+              
+              if(x.data.senseInstanceName == instanceName){
+                x.data.language = data['new_lang']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            }
+            else {
+              return false;
+            } 
+          }
+        );
+      }, 500); 
+    }else if(data['new_pos'] != undefined){
+      console.log("cambio pos cambio tutto")
+      let instanceName = '';
+      if(data['lexicalEntryInstanceName'] != undefined){
+        instanceName = data['lexicalEntryInstanceName']
+      }else if(data['formInstanceName'] != undefined){
+        instanceName = data['formInstanceName']
+      }else if(data['senseInstanceName'] != undefined){
+        instanceName = data['senseInstanceName']
+      };
+      setTimeout(() => {
+        this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
+          function (x) {
+            if (data['lexicalEntryInstanceName'] != undefined) {
+              if(x.data.lexicalEntryInstanceName == instanceName){
+                x.data.pos = data['new_pos']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['formInstanceName'] != undefined) {
+              
+              if(x.data.formInstanceName == instanceName){
+                x.data.pos = data['new_pos']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['senseInstanceName'] != undefined) {
+              
+              if(x.data.senseInstanceName == instanceName){
+                x.data.pos = data['new_pos']
+                x.setActiveAndVisible()
+                x.scrollIntoView();
+                return true;
+              }else{
+                return false;
+              }
+            }
+            else {
+              return false;
+            } 
+          }
+        );
+      }, 500); 
+    }
+    
   }
 
   childRequest(data){
@@ -124,6 +362,7 @@ export class DocumentSystemTreeComponent implements OnInit {
             x.data.children.forEach(element => {
               if(element.label == 'form'){
                 data['label'] = data['formInstanceName']
+                element.count++;
                 element.children.push(data);
                 setTimeout(() => {
                   that.lexTree.lexicalEntryTree.treeModel.update();
@@ -158,6 +397,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 data['definition'] = "";
                 data['hasChildren'] = false;
                 data['label'] = "no definition";
+                element.count++;
                 element.children.push(data);
                 setTimeout(() => {
                   that.lexTree.lexicalEntryTree.treeModel.update();
@@ -223,7 +463,7 @@ export class DocumentSystemTreeComponent implements OnInit {
     }, 500);
   }
 
-  changeFormNote(data){
+  /* changeFormNote(data){
     var that = this;
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
@@ -245,9 +485,9 @@ export class DocumentSystemTreeComponent implements OnInit {
         }
       );
     }, 500);
-  }
+  } */
 
-  changeSenseNote(data){
+  /* changeSenseNote(data){
     var that = this;
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
@@ -269,7 +509,7 @@ export class DocumentSystemTreeComponent implements OnInit {
         }
       );
     }, 500);
-  }
+  } */
 
   changeFormType(data){
     var that = this;
@@ -314,11 +554,11 @@ export class DocumentSystemTreeComponent implements OnInit {
           case 1 : this.childRequest(data); break;
           case 2 : this.pushNewForm(data); break;
           case 3 : this.changeFormLabel(data); break;
-          case 4 : this.changeFormNote(data); break;
+          /* case 4 : this.changeFormNote(data); break; */
           case 5 : this.changeFormType(data); break;
           case 6 : this.changeSenseDefinition(data); break;
           case 7 : this.pushNewSense(data); break;
-          case 8 : this.changeSenseNote(data); data;
+          /* case 8 : this.changeSenseNote(data); data; */
         }
       }, 100);
     }
