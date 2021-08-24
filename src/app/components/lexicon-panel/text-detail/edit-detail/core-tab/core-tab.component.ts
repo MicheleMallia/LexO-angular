@@ -450,6 +450,7 @@ export class CoreTabComponent implements OnInit {
           data['parentNode'] = this.object.label; 
           data['whatToSearch'] = 'sense';
           data['instanceName'] = data['senseInstanceName'];
+          data['hasChildren'] = false;
           this.searchIconSpinner = false;
           this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
@@ -468,6 +469,7 @@ export class CoreTabComponent implements OnInit {
           data['parentNode'] = parentNodeLabel;
           data['parentNodeInstanceName'] = parentNodeInstanceName;
           data['whatToSearch'] = 'sense';
+          data['hasChildren'] = false;
           data['instanceName'] = data['senseInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;

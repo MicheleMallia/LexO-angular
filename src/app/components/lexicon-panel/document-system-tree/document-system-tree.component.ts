@@ -477,53 +477,7 @@ export class DocumentSystemTreeComponent implements OnInit {
     }, 500);
   }
 
-  /* changeFormNote(data){
-    var that = this;
-    setTimeout(() => {
-      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-        function (x) {
-          if(x.data.formInstanceName != undefined){
-              if(x.data.formInstanceName == data['formInstanceName']){
-                x.data.note = data['new_note'];
-                console.log(x.data.note)
-                that.lexTree.lexicalEntryTree.treeModel.update();
-                that.lexTree.updateTreeView();
-                return true;
-              }else{
-                return false;
-              }
-            
-          }else{
-            return false;
-          }
-        }
-      );
-    }, 500);
-  } */
-
-  /* changeSenseNote(data){
-    var that = this;
-    setTimeout(() => {
-      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-        function (x) {
-          if(x.data.senseInstanceName != undefined){
-              if(x.data.senseInstanceName == data['senseInstanceName']){
-                x.data.note = data['new_note'];
-                console.log(x.data.note)
-                that.lexTree.lexicalEntryTree.treeModel.update();
-                that.lexTree.updateTreeView();
-                return true;
-              }else{
-                return false;
-              }
-            
-          }else{
-            return false;
-          }
-        }
-      );
-    }, 500);
-  } */
+  
 
   changeFormType(data){
     var that = this;
