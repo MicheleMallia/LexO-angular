@@ -53,6 +53,13 @@ export class FormCoreFormComponent implements OnInit {
     this.lexicalService.getMorphologyData().subscribe(
       data => {
         this.morphologyData = data;
+        this.morphologyData = this.morphologyData.filter(x=> {
+          if(x.propertyId != 'partOfSpeech'){
+            return true;
+          }else{
+            return false
+          }
+        })
         /* console.log(this.morphologyData) */
       }
     )
@@ -413,7 +420,7 @@ export class FormCoreFormComponent implements OnInit {
           this.valueTraits[i] = arrayValues;
           this.memoryTraits[i] = evt.target.value;
         } else {
-          var arrayValues = [];
+          let arrayValues = [];
           this.valueTraits[i] = arrayValues
           this.memoryTraits.splice(i, 1)
         }

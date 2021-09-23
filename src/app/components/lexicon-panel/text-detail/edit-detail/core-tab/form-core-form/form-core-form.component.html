@@ -129,9 +129,13 @@
                         </div>
                     </div>
                     
-                    <div class="d-flex my-2" formArrayName="morphoTraits"
+                    <div>
+
+                    </div>
+                    
+                    <div class="d-flex" formArrayName="morphoTraits"
                         *ngFor="let morpho of formCore.get('morphoTraits')['controls']; let i = index">
-                        <div class="col-md-4" [formGroupName]="i" *ngIf="i + 1 > staticMorpho.length">
+                        <div class="col-md-4 my-2" [formGroupName]="i" *ngIf="i + 1 > staticMorpho.length">
                             <select class="form-control selectTrait" formControlName="trait" name="trait"
                                 style="font-size: 12px;" (change)="onChangeTrait($event, i)">
                                 <option value="">Select a trait...</option>
@@ -143,7 +147,7 @@
                                 Please, don't leave this field blank
                             </div>
                         </div>
-                        <div class="input-group col-md-8" [formGroupName]="i" *ngIf="i + 1> staticMorpho.length">
+                        <div class="input-group col-md-8 my-2" [formGroupName]="i" *ngIf="i + 1> staticMorpho.length">
                             <select class="form-control selectTrait" formControlName="value" name="value"
                                 style="font-size:12px;" (change)="onChangeValue(i)">
                                 <option value="">Select a value...</option>
