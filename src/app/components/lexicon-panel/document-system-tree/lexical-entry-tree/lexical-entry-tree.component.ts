@@ -339,10 +339,11 @@ export class LexicalEntryTreeComponent implements OnInit {
     if ($event.eventName == 'activate' && $event.node.data.lexicalEntry != undefined 
                                        && $event.node.data.form == undefined
                                        && $event.node.data.sense == undefined) {
-      this.lexicalService.sendToCoreTab($event.node.data);
+      //this.lexicalService.sendToCoreTab($event.node.data);
       let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
         data => {
+          this.lexicalService.sendToCoreTab(data);
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
         },
@@ -483,6 +484,7 @@ export class LexicalEntryTreeComponent implements OnInit {
           /* console.log(data) */
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
+            newNodes[i]['hasChildren'] = null;
             if (newNodes[i].creator == node.parent.data.creator) {
               newNodes[i]['flagAuthor'] = false
             } else {

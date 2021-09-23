@@ -611,7 +611,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;
                 this.morphoTraits.at(i).patchValue({ trait: evt.target.value, value: "" });
                 if (evt.target.value != '') {
-                    var arrayValues = this.morphologyData.filter(x => {
+                    let arrayValues = this.morphologyData.filter(x => {
                         return x['propertyId'] == evt.target.value;
                     })['0']['propertyValues'];
                     this.valueTraits[i] = arrayValues;
@@ -619,7 +619,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.memoryValues[i] = "";
                 } else {
                     this.memoryValues.splice(i, 1);
-                    var arrayValues = [];
+                    let arrayValues = [];
                     this.valueTraits[i] = arrayValues
                     this.memoryTraits.splice(i, 1)
                 }
@@ -1027,7 +1027,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     console.log(data)
                     //TODO: inserire updater per card last update
                     this.lexicalService.updateLexCard(this.object)
-                    console.log(data)
                     this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshFilter({ request: true })
