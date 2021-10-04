@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { DataService, Person } from '../lexical-entry-core-form/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-core-form',
@@ -47,7 +48,7 @@ export class FormCoreFormComponent implements OnInit {
   inheritanceArray: FormArray;
   labelArray: FormArray;
 
-  constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) { }
+  constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.lexicalService.getMorphologyData().subscribe(
@@ -340,7 +341,7 @@ export class FormCoreFormComponent implements OnInit {
     const trait = this.morphoTraits.at(i).get('trait').value;
     const value = this.morphoTraits.at(i).get('value').value;
     if (trait != '' && value != '') {
-      console.log("qua chiamo il servizio");
+      
       let parameters = {
         type: "morphology",
         relation: trait,
@@ -364,6 +365,7 @@ export class FormCoreFormComponent implements OnInit {
           return false;
         }
       })
+      console.log(parameters);
       this.morphoTraits.at(i).get('description').setValue(traitDescription, {emitEvent : false});
 
       this.staticMorpho.push({ trait: trait, value: value})
@@ -372,8 +374,6 @@ export class FormCoreFormComponent implements OnInit {
         data => {
           console.log(data)
           this.lexicalService.spinnerAction('off');
-          //this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
           setTimeout(() => {
                     
@@ -387,9 +387,11 @@ export class FormCoreFormComponent implements OnInit {
         },
         error => {
           console.log(error)
-          //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+        });
           setTimeout(() => {
                     
             //@ts-ignore

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-document-system-tree',
@@ -12,7 +13,7 @@ export class DocumentSystemTreeComponent implements OnInit {
   switcher = false;
   @ViewChild('lexTree') lexTree: any;
 
-  constructor(private lexicalService: LexicalEntriesService) { }
+  constructor(private lexicalService: LexicalEntriesService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.lexicalService.refreshAfterEdit$.subscribe(
@@ -566,7 +567,10 @@ export class DocumentSystemTreeComponent implements OnInit {
         }, 200);
       },
       error => {
-        console.log(error)
+        console.log(error);
+        this.toastr.error(error.error, 'Error', {
+          timeOut: 5000,
+        });
       }
     )
   }
