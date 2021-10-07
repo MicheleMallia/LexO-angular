@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header" id="metadataHeading">
+        <h5 class="mb-0">
+            <a class="btn btn-link w-100 d-flex align-self-center collapsed" data-toggle="collapse"
+                data-target="#metadataCollapse" aria-expanded="true" aria-controls="metadataCollapse">
+                Metadata Panel<i class="fa ml-auto"></i>
+            </a>
+        </h5>
+    </div>
+    <div id="metadataCollapse" class="collapse" aria-labelledby="metadataHeading">
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab"
+                        aria-controls="file" aria-selected="true">File</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="epidoc-tab" data-toggle="tab" href="#epidoc" role="tab"
+                        aria-controls="epidoc" aria-selected="false">Epidoc</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="text-tab" data-toggle="tab" href="#text" role="tab"
+                        aria-controls="text" aria-selected="false">Epigraphy Metadata</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="file" role="tabpanel" aria-labelledby="file-tab">
+                    <app-form-tab></app-form-tab>
+                </div>
+                <div class="tab-pane fade" id="epidoc" role="tabpanel" aria-labelledby="epidoc-tab">
+                    <app-sense-tab></app-sense-tab>
+                </div>
+                <div class="tab-pane fade" id="text" role="tabpanel" aria-labelledby="text-tab">
+                    <app-frame-tab></app-frame-tab>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

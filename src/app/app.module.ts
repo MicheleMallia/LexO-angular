@@ -59,6 +59,7 @@ import { LexicalConceptFormComponent } from './components/lexicon-panel/text-det
 import { LanguageManagerComponent } from './components/lexicon-panel/document-system-tree/language-manager/language-manager.component';
 import { EtymologyTabComponent } from './components/lexicon-panel/text-detail/edit-detail/etymology-tab/etymology-tab.component';
 import { EtymologyFormComponent } from './components/lexicon-panel/text-detail/edit-detail/etymology-tab/etymology-form/etymology-form.component';
+import { MetadataPanelComponent } from './components/metadata-panel/metadata-panel.component';
 
 
 @NgModule({
@@ -106,7 +107,8 @@ import { EtymologyFormComponent } from './components/lexicon-panel/text-detail/e
     LexicalConceptFormComponent,
     LanguageManagerComponent,
     EtymologyTabComponent,
-    EtymologyFormComponent
+    EtymologyFormComponent,
+    MetadataPanelComponent
   ],
   imports: [
     ContextMenuModule.forRoot({useBootstrap4: true}),

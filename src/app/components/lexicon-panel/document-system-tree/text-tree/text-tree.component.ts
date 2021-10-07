@@ -135,7 +135,7 @@ export class TextTreeComponent implements OnInit {
         data=>{
           console.log(data);
           setTimeout(() => {
-            this.loadTree();
+            //this.loadTree();
           }, 300);
           
         },error=>{
@@ -157,7 +157,7 @@ export class TextTreeComponent implements OnInit {
         data=>{
           console.log(data);
           setTimeout(() => {
-            this.loadTree();
+            //this.loadTree();
           }, 300);
           
         },error=>{
@@ -183,7 +183,7 @@ export class TextTreeComponent implements OnInit {
         data=>{
           console.log(data);
           setTimeout(() => {
-            this.loadTree();
+            //this.loadTree();
           }, 300);
           
         },error=>{
