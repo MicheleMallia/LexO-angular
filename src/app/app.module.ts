@@ -60,6 +60,9 @@ import { LanguageManagerComponent } from './components/lexicon-panel/document-sy
 import { EtymologyTabComponent } from './components/lexicon-panel/text-detail/edit-detail/etymology-tab/etymology-tab.component';
 import { EtymologyFormComponent } from './components/lexicon-panel/text-detail/edit-detail/etymology-tab/etymology-form/etymology-form.component';
 import { MetadataPanelComponent } from './components/metadata-panel/metadata-panel.component';
+import { FileTabComponent } from './components/metadata-panel/file-tab/file-tab.component';
+import { EpidocTabComponent } from './components/metadata-panel/epidoc-tab/epidoc-tab.component';
+import { TextTabComponent } from './components/metadata-panel/text-tab/text-tab.component';
 
 
 @NgModule({
@@ -108,7 +111,10 @@ import { MetadataPanelComponent } from './components/metadata-panel/metadata-pan
     LanguageManagerComponent,
     EtymologyTabComponent,
     EtymologyFormComponent,
-    MetadataPanelComponent
+    MetadataPanelComponent,
+    FileTabComponent,
+    EpidocTabComponent,
+    TextTabComponent
   ],
   imports: [
     ContextMenuModule.forRoot({useBootstrap4: true}),
