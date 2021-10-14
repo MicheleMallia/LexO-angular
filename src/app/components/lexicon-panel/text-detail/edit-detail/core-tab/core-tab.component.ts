@@ -66,7 +66,7 @@ export class CoreTabComponent implements OnInit {
           this.senseData = null;
         }
         this.object = object
-        console.log(this.object)
+        /* //console.log(this.object) */
         if(this.object != null){
           this.creator = this.object.creator;
           this.revisor = this.object.revisor;
@@ -188,7 +188,7 @@ export class CoreTabComponent implements OnInit {
 
   changeStatus() {
 
-    console.log(this.goBack)
+    //console.log(this.goBack)
 
     if(!this.goBack){
       this.lock++;
@@ -204,7 +204,7 @@ export class CoreTabComponent implements OnInit {
 
     this.searchIconSpinner = true;
     let lexicalId = this.object.lexicalEntryInstanceName;
-    console.log(this.lock)
+    //console.log(this.lock)
     switch(this.lock){
       case 0 : {
           let parameters = {
@@ -321,7 +321,7 @@ export class CoreTabComponent implements OnInit {
       },
       error => {
         this.searchIconSpinner = false;
-        console.log(error)
+        //console.log(error)
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
         this.toastr.error(error.error, 'Error', {
@@ -334,7 +334,7 @@ export class CoreTabComponent implements OnInit {
   deleteForm(){
     this.searchIconSpinner = true;
     let lexicalId = this.object.formInstanceName;
-    console.log(this.object)
+    //console.log(this.object)
     this.lexicalService.deleteForm(lexicalId).subscribe(
       data=>{
         this.searchIconSpinner = false;
@@ -366,7 +366,7 @@ export class CoreTabComponent implements OnInit {
 
   addNewForm(){
     this.searchIconSpinner = true;
-    /* console.log(this.object) */
+    /* //console.log(this.object) */
     if(this.isLexicalEntry){
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewForm(lexicalId).subscribe(
@@ -379,7 +379,7 @@ export class CoreTabComponent implements OnInit {
           this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
         },error=> {
-          console.log(error)
+          //console.log(error)
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
           });
@@ -390,7 +390,7 @@ export class CoreTabComponent implements OnInit {
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 2;
@@ -407,7 +407,7 @@ export class CoreTabComponent implements OnInit {
           this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
         },error=> {
-          console.log(error)
+          //console.log(error)
           this.searchIconSpinner = false;
           //this.lexicalService.refreshLexEntryTree();
         }
@@ -415,7 +415,7 @@ export class CoreTabComponent implements OnInit {
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 1;
@@ -462,7 +462,7 @@ export class CoreTabComponent implements OnInit {
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 7;
@@ -487,7 +487,7 @@ export class CoreTabComponent implements OnInit {
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 1;

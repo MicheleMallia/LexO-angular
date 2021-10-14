@@ -84,7 +84,7 @@ export class LexicalEntryDecompFormComponent implements OnInit {
 
   onChanges(): void {
     this.decompForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-      console.log(searchParams)
+      //console.log(searchParams)
     })
   }
 

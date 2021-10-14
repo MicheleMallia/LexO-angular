@@ -17,7 +17,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
   
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    /* console.log(event) */
+    /* //console.log(event) */
     event.preventDefault();
     event.stopPropagation();
     return;
@@ -94,7 +94,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
       newNote => {
         if(this.noteData != null){
           this.lexicalService.spinnerAction('on');
-          console.log(this.object)
+          //console.log(this.object)
           if(this.object.lexicalEntryInstanceName != undefined){
             var lexId = this.object.lexicalEntryInstanceName;
             var parameters = {
@@ -103,14 +103,14 @@ export class NotePanelComponent implements OnInit, OnChanges {
             }
             this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
               data => {
-                console.log(data);
+                //console.log(data);
                 data['request'] = 0;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
               },
               error => {
-                console.log(error);
+                //console.log(error);
                 const data = this.object;
                 data['request'] = 0;
                 data['new_note'] = newNote;
@@ -127,14 +127,14 @@ export class NotePanelComponent implements OnInit, OnChanges {
             }
             this.lexicalService.updateForm(formId, parameters).subscribe(
               data => {
-                console.log(data);
+                //console.log(data);
                 data['request'] = 0;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
               },
               error => {
-                console.log(error);
+                //console.log(error);
                 const data = this.object;
                 data['request'] = 0;
                 data['new_note'] = newNote;
@@ -151,14 +151,14 @@ export class NotePanelComponent implements OnInit, OnChanges {
             }
             this.lexicalService.updateSense(senseId, parameters).subscribe(
               data => {
-                console.log(data);
+                //console.log(data);
                 data['request'] = 0;
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
               },
               error => {
-                console.log(error);
+                //console.log(error);
                 const data = this.object;
                 data['request'] = 0;
                 data['new_note'] = newNote;
@@ -193,7 +193,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
         this.object = changes.noteData.currentValue;
       }
       
-      /* console.log(changes) */
+      /* //console.log(changes) */
     
   }
 

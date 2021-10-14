@@ -63,14 +63,14 @@ export class SameAsComponent implements OnInit {
         this.sameAsArray.clear();
         
         this.memorySameAs = [];
-        console.log(this.object)
+        //console.log(this.object)
   
         this.object.array.forEach(element => {
           this.addSameAsEntry(element.lexicalEntity, element.inferred)
           this.memorySameAs.push(element.lexicalEntity);
         });
 
-        console.log(this.memorySameAs)
+        //console.log(this.memorySameAs)
 
         if(this.object.lexicalEntryInstanceName != undefined){
           this.isLexEntry = true;
@@ -104,19 +104,19 @@ export class SameAsComponent implements OnInit {
         lexicalElementId = this.object.senseInstanceName;
       }
   
-      console.log(this.memorySameAs[index])
+      //console.log(this.memorySameAs[index])
       if (this.memorySameAs[index] == "") {
         let parameters = {
           type: "reference",
           relation: "sameAs",
           value: selectedValues
         }
-        console.log(parameters)
+        //console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
           }, error => {
-            console.log(error)
+            //console.log(error)
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
@@ -132,12 +132,12 @@ export class SameAsComponent implements OnInit {
           value: selectedValues,
           currentValue: oldValue
         }
-        console.log(parameters)
+        //console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
           }, error => {
-            console.log(error)
+            //console.log(error)
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
@@ -211,11 +211,11 @@ export class SameAsComponent implements OnInit {
 
       this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
           });
@@ -233,11 +233,11 @@ export class SameAsComponent implements OnInit {
 
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
         }
       )
 
@@ -250,15 +250,15 @@ export class SameAsComponent implements OnInit {
         value: lexical_entity
       }
 
-      console.log(parameters)
+      //console.log(parameters)
 
       this.lexicalService.deleteLinguisticRelation(senseId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     }

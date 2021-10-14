@@ -31,15 +31,15 @@ export class LanguageManagerComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.loadLangData();
+    /* this.loadLangData(); */
 
     /*  this.onChanges(); */
     this.lexicalService.refreshLangTable$.subscribe(
       data => {
-        /* console.log("refresh"); */
+        /* //console.log("refresh"); */
         this.loadLangData();
       }, error => {
-        console.log("no refresh")
+        //console.log("no refresh")
       }
     )
 
@@ -54,16 +54,16 @@ export class LanguageManagerComponent implements OnInit {
   loadLangData() {
     this.lexicalService.getLexiconLanguages().subscribe(
       data => {
-        /* console.log(data) */
+        /* //console.log(data) */
         this.languageList = data;
       }, error => {
-        console.log(error)
+        //console.log(error)
       }
     )
   }
 
   onSubmit(inputValue: string) {
-    console.log(inputValue.match(/^[A-Za-z]{2,3}$/))
+    //console.log(inputValue.match(/^[A-Za-z]{2,3}$/))
     if (inputValue.match(/^[A-Za-z]{2,3}$/)) {
       this.isValid = true;
       this.loadingService = true;
@@ -74,7 +74,7 @@ export class LanguageManagerComponent implements OnInit {
           this.lexicalService.refreshFilter({request: true});
           this.lexicalService.refreshLangTable();
         }, error => {
-          console.log(error)
+          //console.log(error)
           this.loadingService = false;
           this.lexicalService.refreshLangTable();
           this.lexicalService.refreshFilter({request: true});
@@ -101,17 +101,17 @@ export class LanguageManagerComponent implements OnInit {
   
         this.lexicalService.updateLanguage(langId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
           }, error => {
-            console.log(error)
+            //console.log(error)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
           }
         )
       } else if (data['i'] == "lexvo") {
-        console.log(data)
+        //console.log(data)
         let langId = this.editLangArray['languageInstanceName'];
         let parameters = {
           relation: 'lexvo',
@@ -120,11 +120,11 @@ export class LanguageManagerComponent implements OnInit {
   
         this.lexicalService.updateLanguage(langId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
           }, error => {
-            console.log(error)
+            //console.log(error)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
             this.toastr.error(error.error, 'Error', {
@@ -142,10 +142,10 @@ export class LanguageManagerComponent implements OnInit {
     
           this.lexicalService.updateLanguage(langId, parameters).subscribe(
             data => {
-              console.log(data)
+              //console.log(data)
               this.lexicalService.refreshLangTable();
             }, error => {
-              console.log(error)
+              //console.log(error)
               this.lexicalService.refreshLangTable();
               this.toastr.error(error.error, 'Error', {
                 timeOut: 5000,
@@ -164,7 +164,7 @@ export class LanguageManagerComponent implements OnInit {
     this.editLangForm.get('description').setValue(this.editLangArray['description'], { eventEmit: false })
     this.editLangForm.get('lexvo').setValue(this.editLangArray['lexvo'], { eventEmit: false })
     this.editLangForm.get('label').setValue(this.editLangArray['label'], { eventEmit: false })
-    console.log(this.editLangArray)
+    //console.log(this.editLangArray)
   }
 
   checkEditValid(index) {
@@ -179,11 +179,11 @@ export class LanguageManagerComponent implements OnInit {
     let langId = this.removeMessage;
     this.lexicalService.deleteLanguage(langId).subscribe(
       data=>{
-        console.log(data);
+        //console.log(data);
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
       },error=>{
-        console.log(error);
+        //console.log(error);
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
         this.toastr.error(error.error, 'Error', {

@@ -15,15 +15,10 @@
     </ng-template>
   </tree-root>
   <context-menu>
-    <!--  <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
-          Say hi!
-        </ng-template>
-         
-        <ng-template contextMenuItem divider="true"></ng-template> -->
     <ng-template contextMenuItem let-item [visible]="isFolder" (execute)="addFolder($event.item)">
       Add Folder
     </ng-template>
-    <ng-template contextMenuItem let-item [visible]="isFolder" (execute)="removeFolder($event.item)">
+    <ng-template contextMenuItem let-item [visible]="isFolder" [enabled]="noRoot" (execute)="removeFolder($event.item)">
       Remove Folder
     </ng-template>
     <ng-template contextMenuItem let-item [visible]="isFolder" (execute)="saveSelectedNode($event.item)">

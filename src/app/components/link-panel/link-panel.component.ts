@@ -26,13 +26,13 @@ export class LinkPanelComponent implements OnInit {
       this.sameAsData = null;
       this.seeAlsoData = null;
       
-      /* console.log(changes.linkData.currentValue) */
+      /* //console.log(changes.linkData.currentValue) */
 
       if(this.object.lexicalEntryInstanceName != undefined){
         let lexId = this.object.lexicalEntryInstanceName;
         this.lexicalService.getLexEntryLinguisticRelation(lexId, 'sameAs').subscribe(
           data=>{
-            console.log(data);
+            //console.log(data);
             this.sameAsData = {}
             this.sameAsData['array'] = data;
             this.sameAsData['parentNodeLabel']= this.object['lexicalEntry'];
@@ -42,14 +42,14 @@ export class LinkPanelComponent implements OnInit {
             this.sameAsData['array'] = [];
             this.sameAsData['parentNodeLabel']= this.object['lexicalEntry'];
             this.sameAsData['lexicalEntryInstanceName']= this.object['lexicalEntryInstanceName'];
-            console.log(error);
+            //console.log(error);
             
           }
         )
 
         this.lexicalService.getLexEntryLinguisticRelation(lexId, 'seeAlso').subscribe(
           data=>{
-            console.log(data)
+            //console.log(data)
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = data;
             this.seeAlsoData['parentNodeLabel']= this.object['lexicalEntry'];
@@ -59,12 +59,12 @@ export class LinkPanelComponent implements OnInit {
             this.seeAlsoData['array'] = [];
             this.seeAlsoData['parentNodeLabel']= this.object['lexicalEntry'];
             this.seeAlsoData['lexicalEntryInstanceName']= this.object['lexicalEntryInstanceName'];
-            console.log(error);
+            //console.log(error);
             
           }
         )
 
-        console.log(this.object)
+        //console.log(this.object)
         this.object.links.forEach(element => {
           if(element.type != undefined){
             if(element.type == 'Reference'){
@@ -78,7 +78,7 @@ export class LinkPanelComponent implements OnInit {
         let formId = this.object.formInstanceName;
         this.lexicalService.getLexEntryLinguisticRelation(formId, 'sameAs').subscribe(
           data=>{
-            console.log(data);
+            //console.log(data);
             this.sameAsData = {}
             this.sameAsData['array'] = data;
             this.sameAsData['formInstanceName']= this.object['formInstanceName'];
@@ -86,7 +86,7 @@ export class LinkPanelComponent implements OnInit {
             this.sameAsData = {}
             this.sameAsData['array'] = [];
             this.sameAsData['formInstanceName']= this.object['formInstanceName'];
-            console.log(error);
+            //console.log(error);
             
           }
         )
@@ -100,12 +100,12 @@ export class LinkPanelComponent implements OnInit {
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = [];
             this.seeAlsoData['formInstanceName']= this.object['formInstanceName'];
-            console.log(error);
+            //console.log(error);
             
           }
         )
 
-        console.log(this.object)
+        //console.log(this.object)
         if(this.object.links != null){
           this.object.links.forEach(element => {
             if(element.type != undefined){
@@ -122,7 +122,7 @@ export class LinkPanelComponent implements OnInit {
         let senseId = this.object.senseInstanceName;
         this.lexicalService.getLexEntryLinguisticRelation(senseId, 'sameAs').subscribe(
           data=>{
-            console.log(data);
+            //console.log(data);
             this.sameAsData = {}
             this.sameAsData['array'] = data;
             this.sameAsData['senseInstanceName']= this.object['senseInstanceName'];
@@ -130,14 +130,14 @@ export class LinkPanelComponent implements OnInit {
             this.sameAsData = {}
             this.sameAsData['array'] = [];
             this.sameAsData['senseInstanceName']= this.object['senseInstanceName'];
-            console.log(error);
+            //console.log(error);
             
           }
         )
 
         this.lexicalService.getLexEntryLinguisticRelation(senseId, 'seeAlso').subscribe(
           data=>{
-            console.log(data)
+            //console.log(data)
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = data;
             this.seeAlsoData['senseInstanceName']= this.object['senseInstanceName'];
@@ -145,12 +145,12 @@ export class LinkPanelComponent implements OnInit {
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = [];
             this.seeAlsoData['senseInstanceName']= this.object['senseInstanceName'];
-            console.log(error);
+            //console.log(error);
             
           }
         )
 
-        console.log(this.object)
+        //console.log(this.object)
         if(this.object.links != null){
           this.object.links.forEach(element => {
             if(element.type != undefined){

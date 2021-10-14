@@ -160,11 +160,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             if (data != "" && data.length >= 3) {
                 this.lexicalService.getLexicalEntriesList(parameters).subscribe(
                     data => {
-                        console.log(data)
+                        //console.log(data)
                         this.searchResults = data['list']
                         this.filterLoading = false;
                     }, error => {
-                        console.log(error)
+                        //console.log(error)
                         this.filterLoading = false;
                     }
                 )
@@ -185,7 +185,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.lexicalService.getMorphologyData().subscribe(
             data => {
                 this.morphologyData = data;
-                /* console.log(this.morphologyData) */
+                /* //console.log(this.morphologyData) */
                 this.valuePos = this.morphologyData.filter(x => {
                     if (x.propertyId == 'partOfSpeech') {
                         return true;
@@ -235,8 +235,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 this.memoryDenotes = [];
                 this.memoryValues = [];
 
-               /*  console.log('MORFOLOGIA')
-                console.log(this.object.morphology) */
+               /*  //console.log('MORFOLOGIA')
+                //console.log(this.object.morphology) */
                 setTimeout(() => {
                     for (var i = 0; i < this.object.morphology.length; i++) {
                         const trait = this.object.morphology[i]['trait'];
@@ -314,7 +314,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
                 this.lexicalService.getLexEntryLinguisticRelation(lexId, 'denotes').subscribe(
                     data => {
-                        console.log(data)
+                        //console.log(data)
                         for (var i = 0; i < data.length; i++) {
                             let entity = data[i]['lexicalEntity'];
                             let type = data[i]['linkType'];
@@ -322,7 +322,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                             this.memoryDenotes.push(data[i])
                         }
                     }, error => {
-                        console.log(error)
+                        //console.log(error)
                     }
                 )
 
@@ -333,7 +333,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                             this.addEvokes(entity);
                         }
                     }, error => {
-                        console.log(error)
+                        //console.log(error)
                     }
                 )
             }
@@ -363,7 +363,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
           
             this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                 data => {
-                    console.log(data)
+                    //console.log(data)
                     this.lexicalService.spinnerAction('off');
                     data['request'] = 0;
                     data['new_lang'] = langValue;
@@ -371,7 +371,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.refreshLangTable();
                     this.lexicalService.refreshFilter({ request: true })
                 }, error => {
-                    console.log(error)
+                    //console.log(error)
                     const data = this.object;
                     data['request'] = 0;
                     data['new_lang'] = langValue;
@@ -412,7 +412,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
                 data => {
-                    console.log(data)
+                    //console.log(data)
                     data['request'] = 0;
                     data['new_pos'] = posValue;
                     this.lexicalService.spinnerAction('off');
@@ -434,7 +434,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     }, 1000);
                 },
                 error => {
-                    console.log(error)
+                    //console.log(error)
                     this.lexicalService.spinnerAction('off');
                     const data = this.object;
                     data['request'] = 0;
@@ -482,14 +482,14 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
                 data => {
-                    console.log(data)
+                    //console.log(data)
                     data['request'] = 0;
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshFilter({ request: true })
                 },
                 error => {
-                    console.log(error)
+                    //console.log(error)
                     this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshFilter({ request: true })
@@ -529,7 +529,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
                 data => {
-                    console.log(data)
+                    //console.log(data)
                     data['request'] = 0;
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.spinnerAction('off');
@@ -563,7 +563,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     }, 1000);
                 },
                 error => {
-                    console.log(error)
+                    //console.log(error)
                     this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshFilter({ request: true })
@@ -627,7 +627,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         } else {
 
             setTimeout(() => {
-
+                
+                
                 var arrayValues = this.morphologyData.filter(x => {
                     return x['propertyId'] == evt;
                 })['0']['propertyValues'];
@@ -652,14 +653,14 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     }
                     this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                         data => {
-                            console.log(data);
+                            //console.log(data);
                             data['request'] = 0;
                             data['new_label'] = updatedLabel
                             this.lexicalService.refreshAfterEdit(data);
                             this.lexicalService.spinnerAction('off');
                         },
                         error => {
-                            console.log(error);
+                            //console.log(error);
                             const data = this.object;
                             data['request'] = 0;
                             data['new_label'] = updatedLabel;
@@ -684,7 +685,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 }
                 this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
                     data => {
-                        console.log(data);
+                        //console.log(data);
                         this.lexicalService.spinnerAction('off');
                         data['request'] = 0;
                         data['new_type'] = newType;
@@ -709,7 +710,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                         
                     },
                     error => {
-                        console.log(error);
+                        //console.log(error);
                         const data = this.object;
                         data['request'] = 0;
                         data['new_type'] = newType;
@@ -806,16 +807,16 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 relation: "denotes",
                 value: newValue
             }
-            console.log(parameters)
+            //console.log(parameters)
             let lexId = this.object.lexicalEntryInstanceName;
             this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
                 data => {
-                    console.log(data);
+                    //console.log(data);
                     this.lexicalService.spinnerAction('off');
                     data['request'] = 0;
                     this.lexicalService.refreshAfterEdit(data);
                 }, error => {
-                    console.log(error)
+                    //console.log(error)
 
                     /* this.toastr.error(error.error, 'Error', {
                         timeOut: 5000,
@@ -843,16 +844,16 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             }
            
             let lexId = this.object.lexicalEntryInstanceName;
-            console.log(parameters)
+            //console.log(parameters)
             this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
                 data => {
-                    console.log(data);
+                    //console.log(data);
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.updateLexCard(data)
                     data['request'] = 0;
                     this.lexicalService.refreshAfterEdit(data);
                 }, error => {
-                    console.log(error)
+                    //console.log(error)
                     const data = this.object;
                     data['request'] = 0;
                     this.toastr.error(error.error, 'Error', {
@@ -888,7 +889,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.evokesArray = this.coreForm.get("evokes") as FormArray;
         let isValid = this.evokesArray.at(index).get('entity').valid
         if (isValid) {
-            console.log(data)
+            //console.log(data)
             if (this.memoryEvokes[index] == undefined) {
                 //TODO il denotes è nuovo di zecca
                 const newValue = data['name']
@@ -901,12 +902,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
               
                 this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
                     data => {
-                        console.log(data);
+                        //console.log(data);
                         this.lexicalService.spinnerAction('off');
                         data['request'] = 0;
                         this.lexicalService.refreshAfterEdit(data);
                     }, error => {
-                        console.log(error)
+                        //console.log(error)
                         this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                         this.lexicalService.spinnerAction('off');
                     }
@@ -916,7 +917,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
             } else {
                 //TODO c'era già qualche altro valore
-                /* console.log("c'era qualcos'altro") */
+                /* //console.log("c'era qualcos'altro") */
                 const oldValue = this.memoryEvokes[index]['lexicalEntity']
                 const newValue = data['name']
                 const parameters = {
@@ -928,12 +929,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 let lexId = this.object.lexicalEntryInstanceName;
                 this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
                     data => {
-                        console.log(data);
+                        //console.log(data);
                         this.lexicalService.spinnerAction('off');
                         data['request'] = 0;
                         this.lexicalService.refreshAfterEdit(data);
                     }, error => {
-                        console.log(error)
+                        //console.log(error)
                         this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                         this.lexicalService.spinnerAction('off');
                     }
@@ -968,11 +969,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
             data => {
-                console.log(data)
+                //console.log(data)
                 //TODO: inserire updater per card last update
                 this.lexicalService.updateLexCard(this.object)
             }, error => {
-                console.log(error)
+                //console.log(error)
             }
         )
 
@@ -1020,18 +1021,18 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 value: value
             }
 
-            console.log(parameters)
+            //console.log(parameters)
 
             this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
                 data => {
-                    console.log(data)
+                    //console.log(data)
                     //TODO: inserire updater per card last update
                     this.lexicalService.updateLexCard(this.object)
                     this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshFilter({ request: true })
                 }, error => {
-                    console.log(error)
+                    //console.log(error)
                     this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshFilter({ request: true })
@@ -1059,11 +1060,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         if (entity != '') {
             this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
                 data => {
-                    console.log(data)
+                    //console.log(data)
                     //TODO: inserire updater per card last update
                     this.lexicalService.updateLexCard(this.object)
                 }, error => {
-                    console.log(error)
+                    //console.log(error)
                     this.toastr.error(error.error, 'Error', {
                         timeOut: 5000,
                     });

@@ -123,7 +123,7 @@ export class SenseCoreFormComponent implements OnInit {
             this.staticDef.push({trait : pId, value: pVal})
           }
         }
-        console.log(this.object)
+        //console.log(this.object)
         this.senseCore.get('topic').setValue(this.object.topic, { emitEvent : false })
         this.senseCore.get('usage').setValue(this.object.usage, { emitEvent: false });
         this.addLexicalConcept(this.object.concept);
@@ -169,12 +169,12 @@ export class SenseCoreFormComponent implements OnInit {
         }
         this.lexicalService.updateSense(senseId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
             this.lexicalService.spinnerAction('off');
             //this.lexicalService.refreshLexEntryTree();
             this.lexicalService.updateLexCard(this.object)
           }, error => {
-            console.log(error)
+            //console.log(error)
             //this.lexicalService.refreshLexEntryTree();
             this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
             this.lexicalService.spinnerAction('off');
@@ -197,15 +197,15 @@ export class SenseCoreFormComponent implements OnInit {
         relation: "reference",
         value: newDef[0]['entity']
       }
-      console.log(senseId)
-      console.log(parameters);
+      //console.log(senseId)
+      //console.log(parameters);
       this.lexicalService.updateSense(senseId, parameters).subscribe(
         data => {
           this.lexicalService.spinnerAction('off');
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
@@ -258,7 +258,7 @@ export class SenseCoreFormComponent implements OnInit {
     const trait = this.definitionArray.at(index).get('propertyID').value;
     const value = this.definitionArray.at(index).get('propertyValue').value;
 
-    console.log(trait + value)
+    //console.log(trait + value)
 
     if (trait != '') {
 
@@ -271,11 +271,11 @@ export class SenseCoreFormComponent implements OnInit {
       
       this.lexicalService.deleteLinguisticRelation(senseId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error);
+          //console.log(error);
           if(typeof(error.error) != 'object'){
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
@@ -327,7 +327,7 @@ export class SenseCoreFormComponent implements OnInit {
       this.staticDef[i] = {trait : trait, value : newValue};
       this.lexicalService.updateSense(senseId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.lexicalService.spinnerAction('off');
           //this.lexicalService.refreshLexEntryTree();
           if(trait == 'definition'){
@@ -335,7 +335,7 @@ export class SenseCoreFormComponent implements OnInit {
           }
           this.lexicalService.updateLexCard(data)
         }, error => {
-          console.log(error);
+          //console.log(error);
           //this.lexicalService.refreshLexEntryTree();
           if(trait == 'definition'){
             const data = this.object;
@@ -372,12 +372,12 @@ export class SenseCoreFormComponent implements OnInit {
       this.staticDef.push({trait : trait, value : newValue});
       this.lexicalService.updateSense(senseId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.lexicalService.spinnerAction('off');
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(data)
         }, error => {
-          console.log(error);
+          //console.log(error);
           //this.lexicalService.refreshLexEntryTree();
           if(trait == 'definition'){
             const data = this.object;

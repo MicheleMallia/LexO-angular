@@ -17,7 +17,7 @@ export class LexicalEntriesService {
   private _refreshAfterEdit : BehaviorSubject<object> = new BehaviorSubject(null);
   private _refreshFilter : BehaviorSubject<object> = new BehaviorSubject(null);
 
-  private baseUrl = "/LexO-backend-beta/service/"
+  private baseUrl = "/LexO-backend-itant/service/"
   private key = "PRINitant19";
   private author = "michele";
 
@@ -35,8 +35,8 @@ export class LexicalEntriesService {
 
   sendToCoreTab(object: object) {
     this._coreFormData.next(object)
-  }
-
+  } 
+  
   sendToVartransTab(object: object) {
     this._vartransData.next(object)
   }

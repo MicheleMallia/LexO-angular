@@ -61,7 +61,7 @@ export class FormCoreFormComponent implements OnInit {
             return false
           }
         })
-        /* console.log(this.morphologyData) */
+        /* //console.log(this.morphologyData) */
       }
     )
 
@@ -97,10 +97,10 @@ export class FormCoreFormComponent implements OnInit {
     this.lexicalService.getFormTypes().subscribe(
       data => {
         this.typesData = data;
-        console.log(this.typesData)
+        //console.log(this.typesData)
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
 
@@ -130,7 +130,7 @@ export class FormCoreFormComponent implements OnInit {
         this.staticOtherDef = [];
       }
       this.object = changes.formData.currentValue;
-      console.log(this.object)
+      //console.log(this.object)
       if (this.object != null) {
 
         this.valueTraits = [];
@@ -224,7 +224,7 @@ export class FormCoreFormComponent implements OnInit {
 
   onChanges(): void {
     /* this.formCore.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-      console.log(searchParams)
+      //console.log(searchParams)
     }) */
   }
 
@@ -257,7 +257,7 @@ export class FormCoreFormComponent implements OnInit {
 
         }, 1000);
       }, error => {
-        console.log(error);
+        //console.log(error);
         const data = this.object;
         data['request'] = 5;
         data['new_type'] = newType;
@@ -313,17 +313,17 @@ export class FormCoreFormComponent implements OnInit {
 
       this.staticMorpho[i] = { trait: trait, value: newValue }
       let formId = this.object.formInstanceName;
-      console.log(parameters)
+      //console.log(parameters)
 
       this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //this.lexicalService.refreshAfterEdit(data);
           this.lexicalService.updateLexCard(data)
           this.lexicalService.spinnerAction('off');
         },
         error => {
-          console.log(error)
+          //console.log(error)
           //this.lexicalService.refreshAfterEdit({ label: this.object.label });
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
@@ -365,14 +365,14 @@ export class FormCoreFormComponent implements OnInit {
           return false;
         }
       })
-      console.log(parameters);
+      //console.log(parameters);
       this.morphoTraits.at(i).get('description').setValue(traitDescription, {emitEvent : false});
 
       this.staticMorpho.push({ trait: trait, value: value})
 
       this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.lexicalService.spinnerAction('off');
           this.lexicalService.updateLexCard(this.object)
           setTimeout(() => {
@@ -386,7 +386,7 @@ export class FormCoreFormComponent implements OnInit {
         }, 1000);
         },
         error => {
-          console.log(error)
+          //console.log(error)
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
           this.toastr.error(error.error, 'Error', {
@@ -414,7 +414,7 @@ export class FormCoreFormComponent implements OnInit {
       setTimeout(() => {
         this.morphoTraits = this.formCore.get('morphoTraits') as FormArray;
         this.morphoTraits.at(i).patchValue({ trait: evt.target.value, value: "" });
-        console.log(evt.target.value)
+        //console.log(evt.target.value)
         if (evt.target.value != '') {
           var arrayValues = this.morphologyData.filter(x => {
             return x['propertyId'] == evt.target.value;
@@ -438,7 +438,7 @@ export class FormCoreFormComponent implements OnInit {
           return x['propertyId'] == evt;
         })['0']['propertyValues'];
         this.valueTraits[i] = arrayValues;
-        console.log(this.valueTraits)
+        //console.log(this.valueTraits)
         this.memoryTraits.push(evt);
 
       }, 500);
@@ -450,7 +450,7 @@ export class FormCoreFormComponent implements OnInit {
     setTimeout(() => {
       this.labelArray = this.formCore.get('label') as FormArray;
       this.labelArray.at(i).patchValue({ propertyID: evt.target.value, propertyValue: "" });
-      console.log(this.labelArray)
+      //console.log(this.labelArray)
       if (evt.target.value != '') {
 
         this.memoryLabel[i] = evt.target.value;
@@ -470,7 +470,7 @@ export class FormCoreFormComponent implements OnInit {
     const trait = this.labelArray.at(i).get('propertyID').value;
     const newValue = evt.target.value;
 
-    console.log(this.object)
+    //console.log(this.object)
 
     if (newValue != '') {
       const parameters = { relation: trait, value: newValue }
@@ -482,12 +482,12 @@ export class FormCoreFormComponent implements OnInit {
 
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.lexicalService.spinnerAction('off');
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(data)
         }, error => {
-          console.log(error);
+          //console.log(error);
           //this.lexicalService.refreshLexEntryTree();
 
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
@@ -516,19 +516,19 @@ export class FormCoreFormComponent implements OnInit {
     const newValue = object.evt.target.value;
     const formId = this.object.formInstanceName;
     const parameters = { relation: trait, value: newValue }
-    console.log(this.object)
+    //console.log(this.object)
 
     this.staticOtherDef.push({ trait: trait, value: newValue })
 
     if (trait != undefined && newValue != '') {
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.lexicalService.spinnerAction('off');
           /* this.lexicalService.refreshAfterEdit(data); */
           this.lexicalService.updateLexCard(data)
         }, error => {
-          console.log(error);
+          //console.log(error);
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -606,7 +606,7 @@ export class FormCoreFormComponent implements OnInit {
     const trait = this.morphoTraits.at(index).get('trait').value;
     const value = this.morphoTraits.at(index).get('value').value;
 
-    console.log(trait + value)
+    //console.log(trait + value)
 
     if (trait != '') {
 
@@ -620,11 +620,11 @@ export class FormCoreFormComponent implements OnInit {
 
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     }
@@ -640,7 +640,7 @@ export class FormCoreFormComponent implements OnInit {
     const trait = this.labelArray.at(index).get('propertyID').value;
     const value = this.labelArray.at(index).get('propertyValue').value;
 
-    console.log(trait + value)
+    //console.log(trait + value)
 
     if (trait != '') {
 
@@ -654,11 +654,11 @@ export class FormCoreFormComponent implements OnInit {
 
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     }

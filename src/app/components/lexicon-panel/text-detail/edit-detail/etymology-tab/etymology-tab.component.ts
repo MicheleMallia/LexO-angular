@@ -61,7 +61,7 @@ export class EtymologyTabComponent implements OnInit {
           
         }
         this.object = object
-        console.log(this.object)
+        /* //console.log(this.object) */
       }
     );
 
@@ -118,7 +118,7 @@ export class EtymologyTabComponent implements OnInit {
 
   addNewForm(){
     this.searchIconSpinner = true;
-    console.log(this.object)
+    //console.log(this.object)
     if(this.isLexicalEntry){
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewForm(lexicalId).subscribe(
@@ -138,7 +138,7 @@ export class EtymologyTabComponent implements OnInit {
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 2;
@@ -162,7 +162,7 @@ export class EtymologyTabComponent implements OnInit {
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 1;
@@ -208,7 +208,7 @@ export class EtymologyTabComponent implements OnInit {
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 7;
@@ -232,7 +232,7 @@ export class EtymologyTabComponent implements OnInit {
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
       let parentNodeLabel = this.object.parentNodeLabel;
-      console.log(this.object);
+      //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
           data['request'] = 1;

@@ -46,7 +46,7 @@ export class SeeAlsoComponent implements OnInit {
     })
 
     this.onChanges();
-    /* console.log(this.seeAlsoForm) */
+    /* //console.log(this.seeAlsoForm) */
     this.subject.pipe(debounceTime(1000)).subscribe(
       data => {
         this.onSearchFilter(data)
@@ -79,7 +79,7 @@ export class SeeAlsoComponent implements OnInit {
         this.seeAlsoArray.clear();
         this.memorySeeAlso = [];
 
-        console.log(this.object)
+        //console.log(this.object)
 
         this.object.array.forEach(element => {
           this.addSeeAlsoEntry(element.label, element.inferred, element.lexicalEntityInstanceName)
@@ -126,12 +126,12 @@ export class SeeAlsoComponent implements OnInit {
           relation: "seeAlso",
           value: selectedValues
         }
-        console.log(parameters)
+        //console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
           }, error => {
-            console.log(error)
+            //console.log(error)
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
@@ -145,12 +145,12 @@ export class SeeAlsoComponent implements OnInit {
           value: selectedValues,
           currentValue: oldValue
         }
-        console.log(parameters)
+        //console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
           }, error => {
-            console.log(error)
+            //console.log(error)
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
@@ -163,7 +163,7 @@ export class SeeAlsoComponent implements OnInit {
   }
 
   onChangeSeeAlso(seeAlso, index) {
-    console.log(seeAlso.selectedItems)
+    //console.log(seeAlso.selectedItems)
     if (seeAlso.selectedItems.length != 0) {
       var selectedValues = seeAlso.selectedItems[0].value.lexicalEntryInstanceName;
       var lexicalElementId = '';
@@ -181,12 +181,12 @@ export class SeeAlsoComponent implements OnInit {
           relation: "seeAlso",
           value: selectedValues
         }
-        console.log(parameters)
+        //console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
           }, error => {
-            console.log(error)
+            //console.log(error)
           }
         )
       } else {
@@ -197,12 +197,12 @@ export class SeeAlsoComponent implements OnInit {
           value: selectedValues,
           currentValue: oldValue
         }
-        console.log(parameters)
+        //console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
           }, error => {
-            console.log(error)
+            //console.log(error)
           }
         )
       }
@@ -234,15 +234,15 @@ export class SeeAlsoComponent implements OnInit {
         offset: 0,
         limit: 500
       }
-      console.log(data.length)
+      //console.log(data.length)
       if (data != "" && data.length >= 3) {
         this.lexicalService.getLexicalEntriesList(parameters).subscribe(
           data => {
-            console.log(data)
+            //console.log(data)
             this.searchResults = data['list']
             this.filterLoading = false;
           }, error => {
-            console.log(error)
+            //console.log(error)
             this.filterLoading = false;
           }
         )
@@ -262,11 +262,11 @@ export class SeeAlsoComponent implements OnInit {
       
       this.lexicalService.getFormList(parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.searchResults = data['list']
           this.filterLoading = false;
         }, error => {
-          console.log(error)
+          //console.log(error)
           this.filterLoading = false;
         }
       )
@@ -287,18 +287,18 @@ export class SeeAlsoComponent implements OnInit {
 
       this.lexicalService.getLexicalSensesList(parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.searchResults = data
           this.filterLoading = false;
         }, error => {
-          console.log(error)
+          //console.log(error)
           this.filterLoading = false;
         }
       )
     } else {
       this.filterLoading = false;
     }
-    console.log(data)
+    //console.log(data)
 
   }
 
@@ -317,7 +317,7 @@ export class SeeAlsoComponent implements OnInit {
   }
   onChanges(): void {
     this.seeAlsoForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-      console.log(searchParams)
+      //console.log(searchParams)
     })
   }
 
@@ -364,15 +364,15 @@ export class SeeAlsoComponent implements OnInit {
         value: lexical_entity
       }
 
-      console.log(parameters)
+      //console.log(parameters)
 
       this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
           });
@@ -386,15 +386,15 @@ export class SeeAlsoComponent implements OnInit {
         value: lexical_entity
       }
 
-      console.log(parameters)
+      //console.log(parameters)
 
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
           });
@@ -410,15 +410,15 @@ export class SeeAlsoComponent implements OnInit {
         value: lexical_entity
       }
 
-      console.log(parameters)
+      //console.log(parameters)
 
       this.lexicalService.deleteLinguisticRelation(senseId, parameters).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     }

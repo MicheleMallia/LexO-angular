@@ -57,7 +57,7 @@ export class DocumentSystemTreeComponent implements OnInit {
                 that.lexTree.lexicalEntryTree.treeModel.update();
                 that.lexTree.updateTreeView();
 
-                console.log(x)
+                //console.log(x)
                 //@ts-ignore
                 $('.note_'+x.data.id).attr('data-original-title', data['new_note']);
 
@@ -96,8 +96,8 @@ export class DocumentSystemTreeComponent implements OnInit {
         );
       }, 500); 
     }else if(data['new_label'] != undefined){
-      console.log("cambio label cambio tutto")
-      console.log(data)
+      //console.log("cambio label cambio tutto")
+      //console.log(data)
       let instanceName = '';
       if(data['lexicalEntryInstanceName'] != undefined){
         instanceName = data['lexicalEntryInstanceName']
@@ -149,7 +149,7 @@ export class DocumentSystemTreeComponent implements OnInit {
         );
       }, 500); 
     }else if(data['new_type'] != undefined){
-      console.log("cambio type cambio tutto")
+      //console.log("cambio type cambio tutto")
       let instanceName = '';
       if(data['lexicalEntryInstanceName'] != undefined){
         instanceName = data['lexicalEntryInstanceName']
@@ -202,7 +202,7 @@ export class DocumentSystemTreeComponent implements OnInit {
         );
       }, 500); 
     }else if(data['new_lang'] != undefined){
-      console.log("cambio lang cambio tutto")
+      //console.log("cambio lang cambio tutto")
       let instanceName = '';
       if(data['lexicalEntryInstanceName'] != undefined){
         instanceName = data['lexicalEntryInstanceName']
@@ -254,7 +254,7 @@ export class DocumentSystemTreeComponent implements OnInit {
         );
       }, 500); 
     }else if(data['new_pos'] != undefined){
-      console.log("cambio pos cambio tutto")
+      //console.log("cambio pos cambio tutto")
       let instanceName = '';
       if(data['lexicalEntryInstanceName'] != undefined){
         instanceName = data['lexicalEntryInstanceName']
@@ -318,7 +318,7 @@ export class DocumentSystemTreeComponent implements OnInit {
     this.lexTree.lexicalEntryTree.treeModel.update();
     this.lexTree.updateTreeView();
     var that = this;
-    console.log(data)
+    //console.log(data)
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
@@ -369,7 +369,7 @@ export class DocumentSystemTreeComponent implements OnInit {
 
   pushNewForm(data){
     var that = this;
-    console.log(data)
+    //console.log(data)
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
@@ -399,14 +399,14 @@ export class DocumentSystemTreeComponent implements OnInit {
 
   pushNewSense(data){
     var that = this;
-    console.log(data)
+    //console.log(data)
     setTimeout(() => {
 
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
           
           if(x.data.lexicalEntryInstanceName == data['parentNodeInstanceName'] && x.data.sense == undefined){
-            console.log(x)
+            //console.log(x)
             x.data.children.forEach(element => {
               if(element.label == 'sense'){
                 data['definition'] = "";
@@ -482,14 +482,14 @@ export class DocumentSystemTreeComponent implements OnInit {
 
   changeFormType(data){
     var that = this;
-    console.log("prova")
+    //console.log("prova")
     setTimeout(() => {
       this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
         function (x) {
           if(x.data.formInstanceName != undefined){
               if(x.data.formInstanceName == data['formInstanceName']){
                 x.data.type = data['new_type'];
-                console.log(x.data.note)
+                //console.log(x.data.note)
                 that.lexTree.lexicalEntryTree.treeModel.update();
                 that.lexTree.updateTreeView();
                 return true;
@@ -543,7 +543,7 @@ export class DocumentSystemTreeComponent implements OnInit {
 
     this.lexicalService.newLexicalEntry().subscribe(
       data => {
-        console.log(data);
+        //console.log(data);
         setTimeout(() => {
           let newLexEntryLabel = data['label'];
           let parameters = this.lexTree.getParameters();
@@ -567,7 +567,7 @@ export class DocumentSystemTreeComponent implements OnInit {
         }, 200);
       },
       error => {
-        console.log(error);
+        //console.log(error);
         this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
         });

@@ -25,7 +25,7 @@ export class EditDetailComponent implements OnInit {
             var navTabLinks = this.navtabs.nativeElement.querySelectorAll('a')
             
             navTabLinks.forEach(element => {
-              /* console.log(element) */
+              /* //console.log(element) */
               if(element.text == 'Core'){
                 element.classList.add('active')
               }else{

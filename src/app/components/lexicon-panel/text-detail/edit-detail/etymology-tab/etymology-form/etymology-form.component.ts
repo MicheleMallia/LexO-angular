@@ -87,7 +87,7 @@ export class EtymologyFormComponent implements OnInit {
 
   onChanges(): void {
     this.etyForm.valueChanges.pipe(debounceTime(200)).subscribe(searchParams => {
-      console.log(searchParams)
+      //console.log(searchParams)
     })
   }
 

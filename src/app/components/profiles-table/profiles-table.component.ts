@@ -25,7 +25,7 @@ export class ProfilesTableComponent implements OnInit, AfterViewInit {
 
   someClickHandler(info: any): void {
     this.message = info.id + ' - ' + info.firstname;
-    console.log(this.message);
+    //console.log(this.message);
   }
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class ProfilesTableComponent implements OnInit, AfterViewInit {
     this.httpClient.get<any[]>('http://lari2.ilc.cnr.it:81/belexo/api/getUsers?requestUUID=12')
       .subscribe(data => {
         this.users = (data as any).users;
-        console.log(this.users)
+        //console.log(this.users)
         // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
       });

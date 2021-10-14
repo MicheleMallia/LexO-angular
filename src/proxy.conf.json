@@ -1,5 +1,5 @@
 {
-    "/LexO-backend-beta/service/*": {
+    "/LexO-backend-itant/service/*": {
         "target": "https://licodemo.ilc.cnr.it",
         "secure": false,
         "changeOrigin": true,

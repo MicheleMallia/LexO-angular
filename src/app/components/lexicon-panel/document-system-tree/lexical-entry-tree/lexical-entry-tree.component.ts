@@ -15,17 +15,27 @@ import { interval } from 'rxjs';
 const actionMapping: IActionMapping = {
   mouse: {
     
-    click: (tree, node, $event) => {
+    /* click: (tree, node, $event) => {
       
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
         TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
         if (node.hasChildren) {
-          /* console.log(node) */
+          //console.log(node)
         }
     },
     contextMenu: (tree, node, $event) => { 
       
     
+    }, */
+    dblClick: (tree, node, $event) => {
+      if (node.hasChildren) {
+        TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
+      }
+    },
+    click: (tree, node, $event) => {
+      $event.shiftKey
+        ? TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(tree, node, $event)
+        : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
     },
   }
 };
@@ -101,7 +111,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   constructor(private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { 
     this.sub = interval(2000).subscribe((val) => { 
-      console.log('called'); 
+      //console.log('called'); 
       //@ts-ignore
       $('.lexical-tooltip').tooltip();
       //@ts-ignore
@@ -119,7 +129,7 @@ export class LexicalEntryTreeComponent implements OnInit {
     this.lexicalService.deleteReq$.subscribe(
       signal => {
         
-        //console.log("richiesta eliminazione lexical entry");
+        ////console.log("richiesta eliminazione lexical entry");
         if(signal != null){
           this.lexEntryDeleteReq(signal);     
         }
@@ -167,14 +177,14 @@ export class LexicalEntryTreeComponent implements OnInit {
       }
     )
     
-    console.log(this.parameters)
+    /* //console.log(this.parameters) */
     this.lexicalService.getLexicalEntriesList(this.parameters).subscribe(
       data => {
         this.nodes = data['list'];
         this.counter = data['totalHits'];
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     );
 
@@ -329,7 +339,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   }
 
   onEvent = ($event: any) => {
-    console.log($event);
+    //console.log($event);
 
     setTimeout(() => {
       //@ts-ignore
@@ -363,7 +373,7 @@ export class LexicalEntryTreeComponent implements OnInit {
           this.lexicalService.sendToRightTab(data)
         },
         error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     
@@ -379,7 +389,7 @@ export class LexicalEntryTreeComponent implements OnInit {
           this.lexicalService.sendToRightTab(data)
         },
         error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     }
@@ -449,10 +459,11 @@ export class LexicalEntryTreeComponent implements OnInit {
             return obj.count != 0;
           })
           newNodes = data["elements"].map((c) => Object.assign({}, c));
-
+          
           newNodes.forEach(element => {
             setTimeout(() => {
               const someNode = this.lexicalEntryTree.treeModel.getNodeById(element.id);
+              
               someNode.expand();
             }, 1000);
             
@@ -481,7 +492,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
       this.lexicalService.getSensesList(parentInstance).subscribe(
         data => {
-          /* console.log(data) */
+          /* //console.log(data) */
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
             newNodes[i]['hasChildren'] = null;
@@ -492,12 +503,12 @@ export class LexicalEntryTreeComponent implements OnInit {
             }
           }
         },error => {
-          console.log(error)
+          //console.log(error)
         }
       )
     } else if (node.data.label == "concept") {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
-      console.log("cercare concetto")
+      //console.log("cercare concetto")
       
     }
     
