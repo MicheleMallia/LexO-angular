@@ -9,7 +9,8 @@ import {
   trigger,
   state
 } from "@angular/animations";
-import { debounceTime } from 'rxjs/operators';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-etymology-tab',
@@ -52,19 +53,10 @@ export class EtymologyTabComponent implements OnInit {
 
   @ViewChild('expander') expander_body: ElementRef;
 
-  constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend: Renderer2) { }
+  constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend: Renderer2, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.lexicalService.coreData$.subscribe(
-      object => {
-        if(this.object != object){
-          
-        }
-        this.object = object
-        /* //console.log(this.object) */
-      }
-    );
-
+    
     this.expand.exp$.subscribe(
       trigger => {
         if(trigger){
@@ -118,68 +110,63 @@ export class EtymologyTabComponent implements OnInit {
 
   addNewForm(){
     this.searchIconSpinner = true;
-    //console.log(this.object)
+    /* console.log(this.object) */
+    this.object['request'] = 'form'
     if(this.isLexicalEntry){
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewForm(lexicalId).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = this.object.label; 
-          data['whatToSearch'] = 'form';
-          data['instanceName'] = data['formInstanceName']
+          //console.log(data);
+          if(data['creator'] == this.object.creator){
+            data['flagAuthor'] = false;
+          }else{
+            data['flagAuthor'] = true;
+          }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
+          //console.log(error)
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
       //console.log(this.object);
+      this.object['request'] = 'form';
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 2;
-          data['parentNodeInstanceName'] = parentNodeInstanceName;
-          data['parentNode'] = parentNodeLabel;
-          data['whatToSearch'] = 'form';
-          data['instanceName'] = data['formInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
+          //console.log(error)
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
+      this.object['request'] = 'form';
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
       //console.log(this.object);
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = parentNodeLabel;
-          data['whatToSearch'] = 'form';
-          data['instanceName'] = data['formInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }
@@ -188,64 +175,58 @@ export class EtymologyTabComponent implements OnInit {
 
   addNewSense(){
     this.searchIconSpinner = true;
-    let lexicalId = this.object.lexicalEntryInstanceName;
+    this.object['request'] = 'sense'
     if(this.isLexicalEntry){
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewSense(lexicalId).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = this.object.label; 
-          data['whatToSearch'] = 'sense';
-          data['instanceName'] = data['senseInstanceName'];
+          if(data['creator'] == this.object.creator){
+            data['flagAuthor'] = false;
+          }else{
+            data['flagAuthor'] = true;
+          }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
+          
         }
       )
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
+      this.object['request'] = 'sense'
       //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 7;
-          data['parentNode'] = parentNodeLabel;
-          data['parentNodeInstanceName'] = parentNodeInstanceName;
-          data['whatToSearch'] = 'sense';
-          data['instanceName'] = data['senseInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
+      this.object['request'] = 'sense'
       //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = parentNodeLabel;
-          data['whatToSearch'] = 'sense';
-          data['instanceName'] = data['senseInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
@@ -253,6 +234,6 @@ export class EtymologyTabComponent implements OnInit {
         }
       )
     }
-
   }
+  
 }

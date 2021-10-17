@@ -112,7 +112,7 @@ export class DocumentSystemTreeComponent implements OnInit {
             if (data['lexicalEntryInstanceName'] != undefined) {
               if(x.data.lexicalEntryInstanceName == instanceName){
                 x.data.label = data['new_label']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_label'] = undefined
                 return true;
@@ -123,7 +123,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.formInstanceName == instanceName){
                 x.data.label = data['new_label']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_label'] = undefined
                 return true;
@@ -134,7 +134,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.senseInstanceName == instanceName){
                 x.data.label = data['new_label']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_label'] = undefined
                 return true;
@@ -164,7 +164,7 @@ export class DocumentSystemTreeComponent implements OnInit {
             if (data['lexicalEntryInstanceName'] != undefined) {
               if(x.data.lexicalEntryInstanceName == instanceName){
                 x.data.type = data['new_type']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_type'] = undefined
                 return true;
@@ -176,7 +176,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.formInstanceName == instanceName){
                 x.data.type = data['new_type']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_type'] = undefined
                 return true;
@@ -187,7 +187,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.senseInstanceName == instanceName){
                 x.data.type = data['new_type']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_type'] = undefined
                 return true;
@@ -217,7 +217,7 @@ export class DocumentSystemTreeComponent implements OnInit {
             if (data['lexicalEntryInstanceName'] != undefined) {
               if(x.data.lexicalEntryInstanceName == instanceName){
                 x.data.language = data['new_lang']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_lang'] = undefined
                 return true;
@@ -228,7 +228,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.formInstanceName == instanceName){
                 x.data.language = data['new_lang']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_lang'] = undefined
                 return true;
@@ -239,7 +239,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.senseInstanceName == instanceName){
                 x.data.language = data['new_lang']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_lang'] = undefined
                 return true;
@@ -269,7 +269,7 @@ export class DocumentSystemTreeComponent implements OnInit {
             if (data['lexicalEntryInstanceName'] != undefined) {
               if(x.data.lexicalEntryInstanceName == instanceName){
                 x.data.pos = data['new_pos']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_pos'] = undefined
                 return true;
@@ -280,7 +280,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.formInstanceName == instanceName){
                 x.data.pos = data['new_pos']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_pos'] = undefined
                 return true;
@@ -291,7 +291,7 @@ export class DocumentSystemTreeComponent implements OnInit {
               
               if(x.data.senseInstanceName == instanceName){
                 x.data.pos = data['new_pos']
-                x.setActiveAndVisible()
+                //x.setActiveAndVisible()
                 x.scrollIntoView();
                 data['new_pos'] = undefined
                 return true;
@@ -307,129 +307,6 @@ export class DocumentSystemTreeComponent implements OnInit {
       }, 500); 
     }
     
-  }
-
-  childRequest(data){
-    let parentNode = data['parentNode'];
-    let parameters = this.lexTree.getParameters();
-    parameters['text'] = parentNode + "~0.5";
-    parameters['offset'] = 0
-    this.lexTree.lexicalEntriesFilterAfterEdit(parameters);
-    this.lexTree.lexicalEntryTree.treeModel.update();
-    this.lexTree.updateTreeView();
-    var that = this;
-    //console.log(data)
-    setTimeout(() => {
-      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-        function (x) {
-          if (x.data.label == parentNode) {
-            that.lexTree.getChildren(x);
-            setTimeout(() => {
-              x.expand();
-              setTimeout(() => {
-                that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-                  function(y) {
-                    if(y.data.label == data['whatToSearch']){
-                      that.lexTree.getChildren(y);
-                      setTimeout(() => {
-                        y.expand();
-                        setTimeout(() => {
-                          that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-                            function(z){
-                              if(data.sense != undefined){
-                                if(z.data.senseInstanceName == data['instanceName']){
-                                  z.setActiveAndVisible();
-                                  return true;
-                                }else{
-                                  return false;
-                                }
-                              }else if(z.data.label == data['instanceName']){
-                                z.setActiveAndVisible()
-                                return true;
-                              }else{
-                                return false;
-                              }
-                            }
-                          );
-                        }, 1500);
-                      }, 1000);
-                    }
-                  }
-                )
-              }, 1000);
-            }, 500);
-            return true;
-          } else {
-            return false;
-          }
-        }
-      );
-    }, 500);
-  }
-
-  pushNewForm(data){
-    var that = this;
-    //console.log(data)
-    setTimeout(() => {
-      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-        function (x) {
-          if(x.data.lexicalEntryInstanceName == data['parentNodeInstanceName'] && x.data.label == data['parentNode'] && x.data.form == undefined){
-            x.data.children.forEach(element => {
-              if(element.label == 'form'){
-                data['label'] = data['formInstanceName']
-                element.count++;
-                element.children.push(data);
-                setTimeout(() => {
-                  that.lexTree.lexicalEntryTree.treeModel.update();
-                  that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-                    function (y) {
-                      if(y.data.label == data['label']){
-                        y.setActiveAndVisible();
-                      }
-                    }
-                  )
-                }, 10);
-              }
-            });
-          }
-        }
-      );
-    }, 500);
-  }
-
-  pushNewSense(data){
-    var that = this;
-    //console.log(data)
-    setTimeout(() => {
-
-      this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-        function (x) {
-          
-          if(x.data.lexicalEntryInstanceName == data['parentNodeInstanceName'] && x.data.sense == undefined){
-            //console.log(x)
-            x.data.children.forEach(element => {
-              if(element.label == 'sense'){
-                data['definition'] = "";
-                data['hasChildren'] = false;
-                data['label'] = "no definition";
-                element.count++;
-                element.children.push(data);
-                setTimeout(() => {
-                  that.lexTree.lexicalEntryTree.treeModel.update();
-                  that.lexTree.lexicalEntryTree.treeModel.getNodeBy(
-                    function (y) {
-                      if(y.data.senseInstanceName == data['senseInstanceName']){
-                        y.setActiveAndVisible();
-                      }
-                    }
-                  )
-                }, 10);
-              }
-            });
-          }
-        }
-      );
-    }, 500);
   }
 
   changeSenseDefinition(data){
@@ -508,26 +385,16 @@ export class DocumentSystemTreeComponent implements OnInit {
   refreshAfterEdit(data) {
     //TODO: inserire valori numerici per richieste specifiche, numeri interi, utilizzare lo switch e separare codice in apposite funzioni separate
     // 0 -> lexEdit: quando creo una nuova lexical entry
-    // 1 -> childRequest: quando creo una nuova forma e c'è una lexical entry attiva
-    // 2 -> !childRequest && !changeLabel: quando creo una forma e devo solo pushare il nodo senza refreshare l'albero
     // 3 -> quando devo cambiare solo la label di una forma
-    // 4 -> quando devo cambiare la nota di una label
     // 5 -> quando devo cambiare il tipo di una forma
     // 6 -> quando devo cambiare definizione a un senso
-    // 7 -> quando devo pushare un nuovo senso
-    // 8 -> quando cambio nota a un senso
     if(data != null){
       setTimeout(() => {
         switch(data['request']){
           case 0 : this.lexEdit(data); break;
-          case 1 : this.childRequest(data); break;
-          case 2 : this.pushNewForm(data); break;
           case 3 : this.changeFormLabel(data); break;
-          /* case 4 : this.changeFormNote(data); break; */
           case 5 : this.changeFormType(data); break;
           case 6 : this.changeSenseDefinition(data); break;
-          case 7 : this.pushNewSense(data); break;
-          /* case 8 : this.changeSenseNote(data); data; */
         }
       }, 100);
     }
@@ -543,7 +410,7 @@ export class DocumentSystemTreeComponent implements OnInit {
 
     this.lexicalService.newLexicalEntry().subscribe(
       data => {
-        //console.log(data);
+        console.log(data);
         setTimeout(() => {
           let newLexEntryLabel = data['label'];
           let parameters = this.lexTree.getParameters();

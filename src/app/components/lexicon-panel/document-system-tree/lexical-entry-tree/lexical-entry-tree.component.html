@@ -286,7 +286,10 @@
                             class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
                             [title]="node.data.revisor"></i>
 
-                        <i *ngIf="node.data.formInstanceName != undefined && flagAuthor"
+                        <i *ngIf="node.data.formInstanceName != undefined && node.data.flagAuthor"
+                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
+                            [title]="node.data.creator"></i>
+                        <i *ngIf="node.data.senseInstanceName != undefined && node.data.flagAuthor"
                             class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
                             [title]="node.data.creator"></i>
                     </div>

@@ -308,22 +308,20 @@ export class CoreTabComponent implements OnInit {
     this.searchIconSpinner = true;
     let lexicalId = this.object.lexicalEntryInstanceName
     this.lexicalService.deleteLexicalEntry(lexicalId).subscribe(
-      data => {
+      data=>{
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(true);
+        this.lexicalService.deleteRequest(this.object);
         this.lexicalEntryData = null;
         this.isLexicalEntry = false;
-        this.isForm = false;
         this.object = null;
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
         this.lexicalService.sendToRightTab(null);
-      },
-      error => {
+      },error=> {
         this.searchIconSpinner = false;
-        //console.log(error)
-        this.lexicalService.refreshLangTable();
-        this.lexicalService.refreshFilter({request : true})
+        //this.lexicalService.deleteRequest(this.object);
+        //this.lexicalService.refreshLangTable();
+        //this.lexicalService.refreshFilter({request : true})
         this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
         });
@@ -333,17 +331,16 @@ export class CoreTabComponent implements OnInit {
 
   deleteForm(){
     this.searchIconSpinner = true;
-    let lexicalId = this.object.formInstanceName;
-    //console.log(this.object)
+    let lexicalId = this.object.formInstanceName;    
     this.lexicalService.deleteForm(lexicalId).subscribe(
       data=>{
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
+        this.lexicalService.deleteRequest(this.object);
         this.isForm = false;
         this.object = null;
       },error=> {
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
+        this.lexicalService.deleteRequest(this.object);
       }
     )
   }
@@ -351,88 +348,79 @@ export class CoreTabComponent implements OnInit {
   deleteSense(){
     this.searchIconSpinner = true;
     let lexicalId = this.object.senseInstanceName;
+    
     this.lexicalService.deleteSense(lexicalId).subscribe(
       data=>{
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
+        this.lexicalService.deleteRequest(this.object);
         this.isSense = false;
         this.object = null;
       },error=> {
         this.searchIconSpinner = false;
-        this.lexicalService.deleteRequest(this.object.parentNodeLabel);
+        this.lexicalService.deleteRequest(this.object);
       }
     )
   }
 
   addNewForm(){
     this.searchIconSpinner = true;
-    /* //console.log(this.object) */
+    /* console.log(this.object) */
+    this.object['request'] = 'form'
     if(this.isLexicalEntry){
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewForm(lexicalId).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = this.object.label; 
-          data['whatToSearch'] = 'form';
-          data['instanceName'] = data['formInstanceName']
+          //console.log(data);
+          if(data['creator'] == this.object.creator){
+            data['flagAuthor'] = false;
+          }else{
+            data['flagAuthor'] = true;
+          }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           //console.log(error)
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
           });
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
       //console.log(this.object);
+      this.object['request'] = 'form';
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 2;
-          data['parentNodeInstanceName'] = parentNodeInstanceName;
-          data['parentNode'] = parentNodeLabel;
-          data['whatToSearch'] = 'form';
-          data['instanceName'] = data['formInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           //console.log(error)
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
+      this.object['request'] = 'form';
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
       //console.log(this.object);
       this.lexicalService.createNewForm(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = parentNodeLabel;
-          data['whatToSearch'] = 'form';
-          data['instanceName'] = data['formInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }
@@ -441,66 +429,58 @@ export class CoreTabComponent implements OnInit {
 
   addNewSense(){
     this.searchIconSpinner = true;
-    let lexicalId = this.object.lexicalEntryInstanceName;
+    this.object['request'] = 'sense'
     if(this.isLexicalEntry){
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewSense(lexicalId).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = this.object.label; 
-          data['whatToSearch'] = 'sense';
-          data['instanceName'] = data['senseInstanceName'];
-          data['hasChildren'] = false;
+          if(data['creator'] == this.object.creator){
+            data['flagAuthor'] = false;
+          }else{
+            data['flagAuthor'] = true;
+          }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
+          
         }
       )
     }else if(this.isSense){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
+      this.object['request'] = 'sense'
       //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 7;
-          data['parentNode'] = parentNodeLabel;
-          data['parentNodeInstanceName'] = parentNodeInstanceName;
-          data['whatToSearch'] = 'sense';
-          data['hasChildren'] = false;
-          data['instanceName'] = data['senseInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
-          //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
-          //this.lexicalService.refreshLexEntryTree();
         }
       )
     }else if(this.isForm){
       let parentNodeInstanceName = this.object.parentNodeInstanceName;
-      let parentNodeLabel = this.object.parentNodeLabel;
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
+      this.object['request'] = 'sense'
       //console.log(this.object);
       this.lexicalService.createNewSense(parentNodeInstanceName).subscribe(
         data=>{
-          data['request'] = 1;
-          data['parentNode'] = parentNodeLabel;
-          data['whatToSearch'] = 'sense';
-          data['instanceName'] = data['senseInstanceName'];
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
             data['flagAuthor'] = true;
           }
+          this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
-          this.lexicalService.refreshAfterEdit(data);
           //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
