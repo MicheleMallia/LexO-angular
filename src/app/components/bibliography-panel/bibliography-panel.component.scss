@@ -26,3 +26,159 @@ a {
 .fa {
     margin-top: 2px;
 }
+// Required
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+
+
+.row {
+    align-items: center;
+}
+
+.btn{
+    height: 38px;
+    border-radius: .25rem !important;
+}
+
+.form-control {
+    font-size: 12px;
+}
+
+.btn {
+    font-size: 12px;
+    height: 32px;
+}
+
+.form-check-input {
+    margin-top: .55rem;
+}
+
+
+.card {
+    width: 100%;
+}
+
+.card-body {
+    padding: 0.5rem 0 0 0 !important;
+}
+
+#accordion {
+    width: 100%;
+}
+
+.text-id {
+    position: absolute;
+    left: 10px;
+    top: -12px;
+    background: white;
+    text-align: center;
+    color: $gray-900;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.collapse-icon {
+    position: absolute;
+    right: 4px;
+    top: -16px;
+    background: white;
+    text-align: center;
+    color: $gray-900;
+    padding: 5px 5px;
+    font-size: 16px;
+}
+
+.badge {
+    font-size: 11px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.resizeNgSelect {
+    width: 15%;
+}
+
+.dropdown-item {
+    font-size: 12px;
+}
+
+.disabled {
+    color: #dfdfdf;
+    pointer-events: none;
+}
+
+
+.row {
+    align-items: center;
+}
+
+.btn{
+    height: 38px;
+    border-radius: .25rem !important;
+}
+
+.form-control {
+    font-size: 12px;
+}
+
+.btn {
+    font-size: 12px;
+    height: 32px;
+}
+
+.form-check-input {
+    margin-top: .55rem;
+}
+
+
+#accordion {
+    width: 100%;
+}
+
+.add-icon {
+    position: absolute;
+    right: 28px;
+    top: -14px;
+    background: white;
+    text-align: center;
+    color: #212529;
+    padding: 5px 5px;
+    font-size: 14px;
+}
+
+.trash-icon {
+    position: absolute;
+    right: 6px;
+    top: -14px;
+    background: white;
+    text-align: center;
+    color: #212529;
+    padding: 5px 5px;
+    font-size: 14px;
+}
+
+.text-id {
+    position: absolute;
+    left: 10px;
+    top: -12px;
+    background: white;
+    text-align: center;
+    color: $gray-900;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.badge {
+    font-size: 11px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.resizeNgSelect {
+    width: 15%;
+}
