@@ -602,6 +602,12 @@ export class LexicalEntryTreeComponent implements OnInit {
                 const someNode = this.lexicalEntryTree.treeModel.getNodeById(element.id);
               
                 someNode.expand();
+
+                var that = this;
+                this.interval = setInterval((val)=>{                
+                               
+                  
+                }, 2000)
               }catch(e){
                 console.log(e)
               }
@@ -622,10 +628,8 @@ export class LexicalEntryTreeComponent implements OnInit {
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
             if (newNodes[i].creator == node.parent.data.creator) {
-              console.log(true)
               newNodes[i]['flagAuthor'] = false
             } else {
-              console.log(false)
               newNodes[i]['flagAuthor'] = true
             }
           }
