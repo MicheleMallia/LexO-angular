@@ -24,7 +24,6 @@ import { NotePanelComponent } from './components/note-panel/note-panel.component
 import { LinkPanelComponent } from './components/link-panel/link-panel.component';
 import { SearchPageComponent } from './views/search-page/search-page.component';
 import { DataSearchFormComponent } from './components/data-search-form/data-search-form.component';
-import { BibliographySearchFormComponent } from './components/bibliography-search-form/bibliography-search-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentSystemTreeComponent } from './components/lexicon-panel/document-system-tree/document-system-tree.component';
 import { TextTreeComponent } from './components/lexicon-panel/document-system-tree/text-tree/text-tree.component';
@@ -79,7 +78,6 @@ import { TextTabComponent } from './components/metadata-panel/text-tab/text-tab.
     LinkPanelComponent,
     SearchPageComponent,
     DataSearchFormComponent,
-    BibliographySearchFormComponent,
     DocumentSystemTreeComponent,
     TextTreeComponent,
     TextDetailComponent,
