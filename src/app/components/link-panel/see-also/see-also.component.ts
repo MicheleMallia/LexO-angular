@@ -42,7 +42,7 @@ export class SeeAlsoComponent implements OnInit {
 
   ngOnInit() {
     this.seeAlsoForm = this.formBuilder.group({
-      seeAlsoArray: this.formBuilder.array([this.createSeeAlsoEntry('ciao')])
+      seeAlsoArray: this.formBuilder.array([])
     })
 
     this.onChanges();

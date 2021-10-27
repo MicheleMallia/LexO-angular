@@ -3,42 +3,74 @@
         <h5 class="mb-0">
             <a class="btn btn-link w-100 d-flex align-self-center collapsed" data-toggle="collapse"
                 data-target="#bibliographyCollapse" aria-expanded="true" aria-controls="bibliographyCollapse">
-                Bibliography Panel<i class="fa ml-auto"></i>
+                Bibliography Panel
+                <span *ngIf="countElement > 0">&nbsp;({{countElement}})</span>
+                <i class="fa ml-auto"></i>
             </a>
         </h5>
     </div>
     <div id="bibliographyCollapse" class="collapse" aria-labelledby="bibliographyHeading">
 
         <div class="card-body">
+            <div id="accordion">
             <!----- FORM ----->
-            <form [formGroup]="bibliographyForm"> <!-- *ngIf="object!=null" -->
+            <form [formGroup]="bibliographyForm" *ngIf="object!=null"> <!--  -->
                 <div formArrayName="bibliography">
                     <div *ngFor="let biblio of bibliographyForm['controls'].bibliography['controls']; let i = index">
                         <div [formGroupName]="i">
                             <div class="form-group row ml-2 mt-3 mr-2">
                                 <div class="input-group col-xl-12 p-0">
+                                    
                                     <div class="card">
-                                        <!-- <span class="text-id"><b>COMPONENT</b></span> -->
-                                        <a class="pointer"><span class="add-icon"><i class="fa fa-plus-square"></i></span></a> <!-- (click)="addRelation(i)" -->
-                                        <a class="pointer"><span class="trash-icon"><i class="fa fa-trash"></i></span></a> <!-- (click)="removeComponent(i)" -->
-                                        <div class="card-body">
-                                            <div class="form-group row ml-2 mt-3 mr-2">
-                                                <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
-                                                <div class="input-group col-lg-9 pl-0">
-                                                    <input id="label"  formControlName="label" name="label" type="text" class="form-control" placeholder="" required>
-                                                    <!--  <div class="invalid-feedback" style="display: block;"> 
-                                                        Please, insert at least three characters.
-                                                    </div> -->
+                                        <a class="biblioCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'+i" aria-expanded="true" [attr.aria-controls]="'#collapse-'+i"><span class="text-id pointer"><b>Item {{i+1}}</b></span></a>
+                                        <span *ngIf="bibliographyData[i] != undefined"><a *ngIf="bibliographyData[i]['url'] != ''" [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="add-icon"><i class="fas fa-external-link-alt"></i></span></a></span> <!-- (click)="addRelation(i)" -->
+                                        <a class="pointer" (click)="removeItem(i)"><span class="trash-icon"><i class="fa fa-trash text-danger"></i></span></a> 
+                                        
+                                        <div [id]="'collapse-'+i" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="form-group row ml-2 mr-2 mb-0">
+                                                    <label for="inputLabel" class="col-lg-4 col-form-label">Title:</label>
+                                                    <div class="input-group col-lg-8 pl-0">
+                                                        <input id="title" formControlName="title" name="title" type="text" class="form-control" placeholder="" disabled>
+                                                    </div>
+                                                </div>           
+                                                <div class="form-group row ml-2 mr-2 mb-0">
+                                                    <label for="inputLabel" class="col-lg-4 col-form-label">Author:</label>
+                                                    <div class="input-group col-lg-8 pl-0">
+                                                        <input id="author"  formControlName="author" name="author" type="text" class="form-control" placeholder="" disabled>
+                                                    </div>
+                                                </div>   
+                                                <div class="form-group row ml-2 mr-2 mb-0">
+                                                    <label for="inputLabel" class="col-lg-4 col-form-label">Date:</label>
+                                                    <div class="input-group col-lg-8 pl-0">
+                                                        <input id="date"  formControlName="date" name="date" type="text" class="form-control" placeholder="" disabled>
+                                                    </div>
                                                 </div>
-                                            </div>                
-                                        </div>
+                                                <div class="form-group row ml-2 mr-2">
+                                                    <label for="inputLabel" class="col-lg-4 col-form-label">Note:</label>
+                                                    <div class="input-group col-lg-8 pl-0">
+                                                        <!-- <input id="note"  formControlName="note" name="note" type="text" class="form-control" placeholder=""> -->
+                                                        <textarea (keyup)="debounceKeyup($event, i, 'note')" formControlName="note" name="note" class="form-control" style="resize: none;"></textarea>
+                                                    </div>
+                                                </div>  
+                                                <!-- <div class="form-group row ml-2 mr-2">
+                                                    <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
+                                                    <div class="input-group col-lg-9 pl-0">
+                                                        <input id="label"  formControlName="label" name="label" type="text" class="form-control" placeholder="">
+                                                    </div>
+                                                </div>   -->   
+                                            </div>
+                                        </div>                                            
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+            </div>
+           
         </div>
     </div>
 </div>

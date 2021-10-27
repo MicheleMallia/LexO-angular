@@ -83,15 +83,39 @@ tree-node-content {
     }
 }
 
-.modal-backdrop {
+#biblioModal {
     position: absolute !important;
-    top: 0;
-    left: 0;
-    z-index: 1040;
-    width: inherit !important;
-    height: inherit !important;
-    background-color: #000;
+
+    /* .modal-dialog {
+        margin: 85% 30% !important;
+    } */
 }
+
+.biblio_modal {
+    .modal-backdrop {
+        position: absolute !important;
+        width: inherit !important;
+        height: calc(100vh - 26.5rem);
+        top: 0;
+        left: 0;
+        z-index: 1040;
+        background-color: #000;
+    }
+}
+
+.tree-view {
+    .modal-backdrop {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        z-index: 1040;
+        width: inherit !important;
+        height: inherit !important;
+        background-color: #000;
+    }
+}
+
+
 
 .card-body {
     padding: 0.55rem !important;
@@ -167,4 +191,21 @@ tree-node-content {
 .dropdown-menu.show {
 
     font-size: 12px !important;
+}
+
+.biblio_modal {
+    .ui-modal{
+        width: 70rem;
+        /* max-width: 70rem;
+        min-width: 60rem;
+
+        height: 48rem;
+        max-height: 48rem;
+        min-height: 48rem; */
+    }
+    
+
+    .ui-modal-footer{
+        display: none !important;
+    }
 }

@@ -43,6 +43,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     typeDesc = '';
     staticMorpho = [];
 
+    interval;
+
     searchResults: [];
     filterLoading = false;
 
@@ -626,15 +628,27 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             }, 500);
         } else {
 
-            setTimeout(() => {
+            var that = this;
+            this.interval = setInterval((val)=>{                
+                
+                try{
+                    var arrayValues = this.morphologyData.filter(x => {
+                        return x['propertyId'] == evt;
+                    })['0']['propertyValues'];
+                    this.valueTraits[i] = arrayValues;
+                    this.memoryTraits.push(evt);
+                    clearInterval(that.interval)
+                }catch(e){
+                    console.log(e)
+                }
+                    
+                       
+            }, 500)
+            /* setTimeout(() => {
                 
                 
-                var arrayValues = this.morphologyData.filter(x => {
-                    return x['propertyId'] == evt;
-                })['0']['propertyValues'];
-                this.valueTraits[i] = arrayValues;
-                this.memoryTraits.push(evt);
-            }, 500);
+                
+            }, 500); */
         }
     }
 

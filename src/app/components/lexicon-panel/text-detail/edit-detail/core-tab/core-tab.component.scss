@@ -42,3 +42,53 @@ $font-size: 12px;
 .dropdown-item {
     font-size: 12px;
 }
+
+.biblio_modal {
+
+    table {
+        font-size: 12px;
+
+        th, td {
+            padding: 0.55rem;
+        }
+    }
+
+    .table-responsive {
+        /* height: 40rem; */
+    }
+
+    tbody {
+        display: block;
+        height: calc(100vh - 29rem);
+        overflow: auto;
+
+        i{
+            width: 16px !important;
+        }
+    }
+    thead, tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;/* even columns width , fix width of table too*/
+    }
+
+    .selected {
+        background-color: #5b9bd582;
+    }
+
+    .table-body {
+        position: relative;
+    }
+
+    table.table-hover tbody tr:hover {
+        background-color: #5b9bd582; 
+    }
+
+    .disable_click_fire{
+        pointer-events: none;
+    }
+
+    .no-results{
+        height: calc(100vh - 25rem);
+    }
+}

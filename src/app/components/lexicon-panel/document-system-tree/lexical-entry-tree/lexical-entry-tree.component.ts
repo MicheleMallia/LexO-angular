@@ -249,7 +249,7 @@ export class LexicalEntryTreeComponent implements OnInit {
                 if(x.data.children != undefined){
                   this.lexicalEntryTree.treeModel.getNodeBy(y=>{
                     if(y.data[instanceName] != undefined){
-                      console.log(y.data[instanceName])
+                      /* console.log(y.data[instanceName]) */
                       if(y.data[instanceName] === data[instanceName]){
                         y.setActiveAndVisible();
                         clearInterval(that.interval)
@@ -521,6 +521,7 @@ export class LexicalEntryTreeComponent implements OnInit {
         data => {
           data['parentNodeLabel'] = $event.node.parent.parent.data.label;
           data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
+          console.log(data)
           this.lexicalService.sendToCoreTab(data)
           this.lexicalService.sendToRightTab(data)
         },

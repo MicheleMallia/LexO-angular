@@ -227,7 +227,7 @@ export class TextTreeComponent implements OnInit {
 
   renameFolder(renameValue){
     
-    if (renameValue.match(/^[A-Za-z-_0-9]{3,}$/)) {
+    if (renameValue.match(/^[A-Za-z-_0-9.]{3,}$/)) {
       this.validName = true;
       //console.log(this.renameNodeSelected);
       let element_id = this.renameNodeSelected['element-id'];

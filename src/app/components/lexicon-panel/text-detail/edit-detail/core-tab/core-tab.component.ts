@@ -11,6 +11,9 @@ import {
   state
 } from "@angular/animations";
 import { debounceTime } from 'rxjs/operators';
+import { ModalComponent } from 'ng-modal-lib';
+import { BibliographyService } from 'src/app/services/bibliography-service/bibliography.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-core-tab',
@@ -43,6 +46,9 @@ export class CoreTabComponent implements OnInit {
   searchIconSpinner = false;
   goBack = false;
 
+  bibliography = [];
+  selectedItem;
+
   lexicalEntryData : any;
   formData : any;
   senseData : any;
@@ -53,11 +59,24 @@ export class CoreTabComponent implements OnInit {
   creator : any;
   revisor : any;
 
-  @ViewChild('expander') expander_body: ElementRef;
+  start = 0;
+  sortField = 'title';
+  direction = 'asc';
+  memorySort = {field : '', direction : ''}
+  queryTitle = '';
+  queryMode = 'titleCreatorYear';
 
-  constructor(private lexicalService: LexicalEntriesService, private expand: ExpanderService, private rend: Renderer2, private toastr: ToastrService) { }
+  private searchSubject : Subject<any> = new Subject();
+
+  @ViewChild('expander') expander_body: ElementRef;
+  @ViewChild('addBibliography', {static: false}) modal: ModalComponent;
+  @ViewChild('table_body') tableBody: ElementRef;
+  @ViewChild('searchBiblio') searchBiblio: ElementRef;
+
+  constructor(private lexicalService: LexicalEntriesService, private biblioService : BibliographyService, private expand: ExpanderService, private rend: Renderer2, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+
     this.lexicalService.coreData$.subscribe(
       object => {
         if(this.object != object){
@@ -66,7 +85,7 @@ export class CoreTabComponent implements OnInit {
           this.senseData = null;
         }
         this.object = object
-        /* //console.log(this.object) */
+        /* console.log(this.object) */
         if(this.object != null){
           this.creator = this.object.creator;
           this.revisor = this.object.revisor;
@@ -182,6 +201,41 @@ export class CoreTabComponent implements OnInit {
       },
       error => {
 
+      }
+    )
+
+    this.searchSubject.pipe(debounceTime(1000)).subscribe(
+      data => {
+        this.queryTitle  = data.query;
+        data.queryMode ? this.queryMode = 'everything' : this.queryMode = 'titleCreatorYear';
+        this.searchBibliography(this.queryTitle, this.queryMode);
+      }
+    )
+
+    //@ts-ignore
+    $("#biblioModal").modal("show");
+    $('.modal-backdrop').appendTo('.ui-modal');
+    //@ts-ignore
+    $('#biblioModal').modal({backdrop: 'static', keyboard: false})  
+    
+    $('.modal-backdrop').css('height', 'inherit');
+    $('body').removeClass("modal-open")
+    $('body').css("padding-right", "");
+
+    this.biblioService.bootstrapData(this.start, this.sortField, this.direction).subscribe(
+      data=> {
+        this.memorySort = {field : this.sortField, direction : this.direction}
+        this.bibliography = data;
+        this.bibliography.forEach(element => {
+          element['selected'] = false;
+        })
+        
+        
+        //@ts-ignore
+        $('#biblioModal').modal('hide');
+        $('.modal-backdrop').remove();
+      },error=>{
+        console.log(error)
       }
     )
   }
@@ -493,5 +547,266 @@ export class CoreTabComponent implements OnInit {
 
   addNewEtymology(){
     
+  }
+
+  showBiblioModal(){
+    this.modal.show();
+  }
+
+  addBibliographyItem(item?){
+    //@ts-ignore
+    $("#biblioModal").modal("show");
+    $('.modal-backdrop').appendTo('.ui-modal');
+    //@ts-ignore
+    $('#biblioModal').modal({backdrop: 'static', keyboard: false})  
+    
+    $('.modal-backdrop').css('height', 'inherit');
+    $('body').removeClass("modal-open")
+    $('body').css("padding-right", "");
+
+    let instance = '';
+    if(this.object.lexicalEntryInstanceName != undefined
+      && this.object.lexicalEntryInstanceName.senseInstanceName == undefined){
+        instance = this.object.lexicalEntryInstanceName;
+    }else if(this.object.formInstanceName != undefined){
+      instance = this.object.formInstanceName;
+    }else if(this.object.senseInstanceName != undefined){
+      instance = this.object.senseInstanceName;
+    }
+
+    if(item != undefined){
+
+      let id = item.data.key != undefined ? item.data.key : '';
+      let title = item.data.title != undefined ? item.data.title : '';
+      let author;
+      
+      item.data.creators.forEach(element => {
+        if(element.creatorType == 'author'){
+          author = element.lastName + ' ' + element.firstName;
+          return true;
+        }else{
+          return false;
+        }
+      });
+      author = author != undefined ? author : ''
+      let date = item.data.date != undefined ? item.data.date : '';
+      let url = item.data.url != undefined ? item.data.url : ''
+      let seeAlsoLink = '';
+
+      let parameters = {
+        id : id,
+        title: title,
+        author: author,
+        date: date,
+        url: url,
+        seeAlsoLink: seeAlsoLink
+      }
+      /* console.log(instance, parameters) */
+      this.lexicalService.addBibliographyData(instance, parameters).subscribe(
+        data=>{
+          console.log(data);
+          //@ts-ignore
+          $('#biblioModal').modal('hide');
+          $('.modal-backdrop').remove();
+          this.biblioService.sendDataToBibliographyPanel(data);
+        },error=>{
+          console.log(error)
+          
+          setTimeout(() => {
+            //@ts-ignore
+            $('#biblioModal').modal('hide');
+            $('.modal-backdrop').remove();
+          }, 12);
+          
+        }
+      )
+    }
+    
+  }
+
+  checkIfCreatorExist(item?){
+    return item.some(element => element.creatorType === 'author')
+  }
+
+  triggerSearch(evt, query, queryMode) {
+    if(evt.key != 'Control' && evt.key != 'Shift' && evt.key != 'Alt'){
+      this.searchSubject.next({query, queryMode})
+    }
+  }
+
+  searchBibliography(query?:string, queryMode?:any){
+    this.start = 0;
+    this.selectedItem = null;
+    //@ts-ignore
+    $("#biblioModal").modal("show");
+    $('.modal-backdrop').appendTo('.table-body');
+    //@ts-ignore
+    $('#biblioModal').modal({backdrop: 'static', keyboard: false})  
+    $('body').removeClass("modal-open")
+    $('body').css("padding-right", "");
+    this.tableBody.nativeElement.scrollTop = 0;
+    if(this.queryTitle != ''){
+      this.biblioService.filterBibliography(this.start, this.sortField, this.direction, this.queryTitle, this.queryMode).subscribe(
+        data => {
+          console.log(data);
+          this.bibliography = [];
+          data.forEach(element => {
+            this.bibliography.push(element)
+          });
+          //@ts-ignore
+          $('#biblioModal').modal('hide');
+          $('.modal-backdrop').remove();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }else{
+      this.biblioService.filterBibliography(this.start, this.sortField, this.direction, this.queryTitle, this.queryMode).subscribe(
+        data => {
+          console.log(data);
+          this.bibliography = [];
+          data.forEach(element => {
+            this.bibliography.push(element)
+          });
+          //@ts-ignore
+          $('#biblioModal').modal('hide');
+          $('.modal-backdrop').remove();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
+  }
+
+  onScrollDown(){
+    //@ts-ignore
+    $("#biblioModal").modal("show");
+    $('.modal-backdrop').appendTo('.table-body');
+    //@ts-ignore
+    $('#biblioModal').modal({backdrop: 'static', keyboard: false})  
+    $('.modal-backdrop').appendTo('.table-body');
+    $('body').removeClass("modal-open")
+    $('body').css("padding-right", "");
+
+    this.start += 25;
+    
+    if(this.queryTitle != ''){
+      this.biblioService.filterBibliography(this.start, this.sortField, this.direction, this.queryTitle, this.queryMode).subscribe(
+        data=>{
+          console.log(data)
+          //@ts-ignore
+          $('#biblioModal').modal('hide');
+          $('.modal-backdrop').remove();
+          data.forEach(element => {
+            this.bibliography.push(element)
+          });
+        },error=>{
+          console.log(error)
+        }
+      )
+    }else{
+      this.biblioService.filterBibliography(this.start, this.sortField, this.direction, this.queryTitle, this.queryMode).subscribe(
+        data=> {
+          
+          data.forEach(element => {
+            this.bibliography.push(element)
+          });
+                  
+          //@ts-ignore
+          $('#biblioModal').modal('hide');
+          $('.modal-backdrop').remove();
+        },error=>{
+          console.log(error)
+        }
+      );
+    }
+
+    
+  }
+
+  selectItem(evt, i){
+    /* console.log(evt, i); */
+    if(evt.shiftKey){
+
+    }
+    this.bibliography.forEach(element=> {
+      if(element.key == i.key){
+        element.selected = !element.selected;
+        element.selected ? this.selectedItem = element : this.selectedItem = null;
+        return true;
+      }else{
+        element.selected = false;
+        return false;
+      }
+    })
+    
+  }
+
+  sortBibliography(evt?, val?){
+    
+    
+    if(this.memorySort.field == val){
+      if(this.direction == 'asc'){
+        this.direction = 'desc'
+        this.memorySort.direction = 'desc';
+      }else{
+        this.direction = 'asc';
+        this.memorySort.direction = 'asc';
+      }
+    }else{
+      this.sortField = val;
+      this.direction = 'asc';
+      this.memorySort = {field : this.sortField, direction : this.direction};
+    }
+
+    //@ts-ignore
+    $("#biblioModal").modal("show");
+    $('.modal-backdrop').appendTo('.table-body');
+    //@ts-ignore
+    $('#biblioModal').modal({backdrop: 'static', keyboard: false})  
+    $('.modal-backdrop').appendTo('.table-body');
+    $('body').removeClass("modal-open")
+    $('body').css("padding-right", "");
+    this.start = 0;
+    this.tableBody.nativeElement.scrollTop = 0;
+
+    this.biblioService.filterBibliography(this.start, this.sortField, this.direction, this.queryTitle, this.queryMode).subscribe(
+      data=>{
+        console.log(data)
+        this.bibliography = [];
+        //@ts-ignore
+        $('#biblioModal').modal('hide');
+        $('.modal-backdrop').remove();
+        data.forEach(element => {
+          this.bibliography.push(element)
+        });
+      },error=>{
+        console.log(error)
+      }
+    )
+    
+  }
+
+  onCloseModal(){
+    this.selectedItem = null;
+    this.start = 0;
+    this.sortField = 'title';
+    this.direction = 'asc';
+    this.tableBody.nativeElement.scrollTop = 0;
+    this.memorySort = { field: this.sortField, direction: this.direction}
+    this.biblioService.bootstrapData(this.start, this.sortField, this.direction).subscribe(
+      data=> {
+        this.bibliography = data;
+        this.bibliography.forEach(element => {
+          element['selected'] = false;
+        }) 
+                
+       
+      },error=>{
+        console.log(error)
+      }
+    );
   }
 }

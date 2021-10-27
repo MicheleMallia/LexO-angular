@@ -107,6 +107,10 @@ export class EtymologyTabComponent implements OnInit {
     
   }
 
+  showBiblioModal(){
+    
+  }
+
 
   addNewForm(){
     this.searchIconSpinner = true;

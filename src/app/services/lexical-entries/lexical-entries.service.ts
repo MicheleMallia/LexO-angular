@@ -253,4 +253,17 @@ export class LexicalEntriesService {
     return this.http.post(this.baseUrl + "lexicon/update/" + langId + "/language?key=" + this.key + "&author=" + this.author, parameters);
   }
   
+
+  //BIBLIOGRAPHY
+  getBibliographyData(instance: string) : Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/bibliography?key=lexodemo");
+  }
+
+  addBibliographyData(instance : string, parameters){
+    return this.http.post(this.baseUrl + "lexicon/creation/bibliography?lexicalEntityID=" + instance + "&key="+ this.key +"&author=+"+this.author+"", parameters);
+  }
+
+  removeBibliographyItem(instance: string) {
+    return this.http.get(this.baseUrl + "lexicon/delete/" + instance + "/bibliography?key=PRINitant19");
+  }
 }

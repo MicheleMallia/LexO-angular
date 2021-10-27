@@ -14,6 +14,7 @@ export class LexiconPageComponent implements OnInit {
 
   notes = '';
   link = [];
+  bibliography = [];
   ngOnInit(): void {
     this.lexicalService.rightPanelData$.subscribe(
       object => {
@@ -21,10 +22,11 @@ export class LexiconPageComponent implements OnInit {
         if(this.object !=null){
           this.notes = this.object;
           this.link = this.object;
-          
+          this.bibliography = this.object;
         }else{
           this.notes = null;
           this.link = null;
+          this.bibliography = null;
         }
       }
     );
