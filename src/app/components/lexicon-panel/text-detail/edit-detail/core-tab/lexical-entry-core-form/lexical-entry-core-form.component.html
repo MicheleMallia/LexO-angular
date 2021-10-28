@@ -9,17 +9,31 @@
             </div>
         </div>
     </div>
-    <div class="form-group row ml-2 mt-3 mr-2">
-        <label for="inputType" class="col-lg-3 col-form-label">Type:</label>
+    <div class="form-group row ml-2 mt-3 mr-2" *ngIf="{etymon : coreForm.get('type').value == 'Etymon'}; let variable">
+        <div class="col-lg-1 col-form-label">
+            <label for="inputType">Type:</label>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-check p-0">
+                <label class="form-check-label" for="gridCheck1">
+                    Etymon
+                </label>
+                <input [checked]="coreForm.get('type').value == 'Etymon'" class="form-check-input" style="margin-left: 10px;" type="checkbox" id="gridCheck1" onchange="document.getElementById('typeSelect').disabled = this.checked;" (change)="variable.etymon = !variable.etymon; isEtymon(variable.etymon);">
+            </div>
+        </div>
         <div class="col-lg-7 input-group">
-            <select formControlName="type" name="type" class="form-control">
+            <select id="typeSelect" formControlName="type" name="type" class="form-control" >
                 <option *ngFor="let lx of lexEntryTypesData" [selected]="object.type === lx['valueId']">
-                    {{lx['valueId']}}</option>
+                    {{lx['valueId']}}
+                </option>
             </select>
             <div class="input-group-append ml-2">
-                <button class="btn btn-secondary type-tooltip" type="button" data-toggle="tooltip"
+                <button *ngIf="!variable.etymon" class="btn btn-secondary type-tooltip" type="button" data-toggle="tooltip"
                 data-placement="top" data-trigger="hover" [attr.data-original-title]="typeDesc"
                     style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
+                <button *ngIf="variable.etymon" class="btn btn-secondary type-tooltip" type="button" data-toggle="tooltip"
+                data-placement="top" data-trigger="hover" title="Etymon' is a subclass of Lexical Entry that consists of individuals whose role is to describe the origin and history of another Lexical Entry."
+                style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
             </div>
         </div>
     </div>

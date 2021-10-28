@@ -226,6 +226,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 
                 const lexId = this.object.lexicalEntryInstanceName;
                 this.coreForm.get('label').setValue(this.object.label, { emitEvent: false });
+                if(this.object.type == 'Etymon'){
+                    this.coreForm.get('type').disable({onlySelf: true, emitEvent: false})
+                }else{
+                    this.coreForm.get('type').enable({onlySelf: true, emitEvent: false})
+                }
                 this.coreForm.get('type').setValue(this.object.type, { emitEvent: false });
                 this.coreForm.get('language').setValue(this.object.language, { emitEvent: false });
                 this.coreForm.get('pos').setValue(this.object.pos, { emitEvent: false });
@@ -644,11 +649,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     
                        
             }, 500)
-            /* setTimeout(() => {
-                
-                
-                
-            }, 500); */
+
         }
     }
 
@@ -1091,4 +1092,50 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
         this.memoryDenotes.splice(index, 1)
     }
+
+    isEtymon(boolean: boolean){
+        
+        setTimeout(() => {
+            //@ts-ignore
+        $('.type-tooltip').tooltip({
+            trigger: 'hover'
+        });
+        }, 700);
+
+        this.lexicalService.spinnerAction('on');
+        let lexId = this.object.lexicalEntryInstanceName;
+        let value = '';
+        if(boolean){
+            value = 'Etymon'
+            this.coreForm.get('type').setValue('Etymon', { emitEvent: false });
+            this.coreForm.get('type').disable({onlySelf: true, emitEvent: false})
+        }else{
+            value = 'LexicalEntry'
+            this.coreForm.get('type').setValue('LexicalEntry', { emitEvent: false });
+            this.coreForm.get('type').enable({onlySelf: true, emitEvent: false})
+        }
+
+        let parameters = {
+            relation: 'type',
+            value: value
+        }
+
+        this.lexicalService.updateLexicalEntry(lexId, parameters).subscribe(
+            data => {
+                //console.log(data);
+                this.lexicalService.spinnerAction('off');
+
+                this.lexicalService.refreshFilter({ request: true })
+
+               
+            },
+            error => {
+                //console.log(error);
+                const data = this.object;
+                this.lexicalService.spinnerAction('off');
+                this.lexicalService.refreshFilter({ request: true })
+
+            }
+        )
+    } 
 }

@@ -459,8 +459,8 @@ export class LexicalEntryTreeComponent implements OnInit {
       this.lexicalEntriesFilter(this.parameters);
       this.lexicalEntryTree.treeModel.update();
       this.updateTreeView();
-      this.lexicalService.sendToCoreTab(null);
-      this.lexicalService.sendToRightTab(null);
+      /* this.lexicalService.sendToCoreTab(null);
+      this.lexicalService.sendToRightTab(null); */
     }, 500);  
     
   }
