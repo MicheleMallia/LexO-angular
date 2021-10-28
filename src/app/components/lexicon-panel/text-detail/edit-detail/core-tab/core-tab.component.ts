@@ -370,6 +370,7 @@ export class CoreTabComponent implements OnInit {
         this.object = null;
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
+        this.lexicalService.sendToCoreTab(null);
         this.lexicalService.sendToRightTab(null);
       },error=> {
         this.searchIconSpinner = false;
