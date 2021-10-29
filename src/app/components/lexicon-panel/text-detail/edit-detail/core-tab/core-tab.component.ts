@@ -372,6 +372,7 @@ export class CoreTabComponent implements OnInit {
         this.lexicalService.refreshFilter({request : true})
         this.lexicalService.sendToCoreTab(null);
         this.lexicalService.sendToRightTab(null);
+        this.biblioService.sendDataToBibliographyPanel(null);
       },error=> {
         this.searchIconSpinner = false;
         //this.lexicalService.deleteRequest(this.object);
@@ -602,13 +603,15 @@ export class CoreTabComponent implements OnInit {
         url: url,
         seeAlsoLink: seeAlsoLink
       }
-      /* console.log(instance, parameters) */
+      console.log(instance, parameters)
       this.lexicalService.addBibliographyData(instance, parameters).subscribe(
         data=>{
           console.log(data);
-          //@ts-ignore
-          $('#biblioModal').modal('hide');
-          $('.modal-backdrop').remove();
+          setTimeout(() => {
+            //@ts-ignore
+            $('#biblioModal').modal('hide');
+            $('.modal-backdrop').remove();
+          }, 300);
           this.biblioService.sendDataToBibliographyPanel(data);
         },error=>{
           console.log(error)
@@ -617,7 +620,7 @@ export class CoreTabComponent implements OnInit {
             //@ts-ignore
             $('#biblioModal').modal('hide');
             $('.modal-backdrop').remove();
-          }, 12);
+          }, 300);
           
         }
       )

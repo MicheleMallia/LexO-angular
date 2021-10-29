@@ -260,7 +260,7 @@ export class LexicalEntriesService {
   }
 
   addBibliographyData(instance : string, parameters){
-    return this.http.post(this.baseUrl + "lexicon/creation/bibliography?lexicalEntityID=" + instance + "&key="+ this.key +"&author=+"+this.author+"", parameters);
+    return this.http.post(this.baseUrl + "lexicon/creation/bibliography?lexicalEntityID=" + instance + "&key="+ this.key +"&author="+this.author+"", parameters);
   }
 
   removeBibliographyItem(instance: string) {

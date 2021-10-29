@@ -24,6 +24,7 @@ export class BibliographyPanelComponent implements OnInit {
   })
   biblioArray: FormArray;
   memoryNote = [];
+  memoryTextualRef = [];
 
   private subject: Subject<any> = new Subject();
 
@@ -38,14 +39,18 @@ export class BibliographyPanelComponent implements OnInit {
       incomingBiblio => {
         if(incomingBiblio != null){
           
-          let title = incomingBiblio.title != undefined ? incomingBiblio.title : 'no information';
-          let author = incomingBiblio.author != undefined ? incomingBiblio.author : 'no information';
-          let date = incomingBiblio.date != undefined ? incomingBiblio.date : 'no information';
-          let note = incomingBiblio.note != undefined ? incomingBiblio.note : 'no information';
-
-          this.addBibliographyElement(title, author, date, note);
+          let title = incomingBiblio.title != undefined ? incomingBiblio.title : '';
+          let author = incomingBiblio.author != undefined ? incomingBiblio.author : '';
+          let date = incomingBiblio.date != undefined ? incomingBiblio.date : '';
+          let note = incomingBiblio.note != undefined ? incomingBiblio.note : '';
+          let textualReference = incomingBiblio.textualReference != undefined ? incomingBiblio.textualReference : '';          this.bibliographyData.push(incomingBiblio)
+          this.addBibliographyElement(title, author, date, note, textualReference);
           this.memoryNote.push(note)
+          this.memoryTextualRef.push(textualReference)
           this.countElement++;
+        }else{
+          this.object = null;
+          this.bibliographyData = null;
         }
       }
     )
@@ -65,6 +70,7 @@ export class BibliographyPanelComponent implements OnInit {
       this.bibliographyData = [];
       this.countElement = 0;
       this.memoryNote = [];
+      this.memoryTextualRef = [];
       this.biblioArray = this.bibliographyForm.get('bibliography') as FormArray;
       this.biblioArray.clear();
       
@@ -77,8 +83,9 @@ export class BibliographyPanelComponent implements OnInit {
             data.forEach(element => {
               this.bibliographyData.push(element);
 
-              this.addBibliographyElement(element.title, element.author, element.date, element.note, /* element.label */)
+              this.addBibliographyElement(element.title, element.author, element.date, element.note, element.textualReference)
               this.memoryNote[count] = element.note;
+              this.memoryTextualRef[count] = element.textualReference
               count++;
               this.countElement++;
             });
@@ -106,8 +113,9 @@ export class BibliographyPanelComponent implements OnInit {
             data.forEach(element => {
               this.bibliographyData.push(element);
 
-              this.addBibliographyElement(element.title, element.author, element.date, element.note, /* element.label */)
+              this.addBibliographyElement(element.title, element.author, element.date, element.note, element.textualReference)
               this.memoryNote[count] = element.note;
+              this.memoryTextualRef[count] = element.textualReference
               count++;
               this.countElement++;
             });
@@ -132,8 +140,9 @@ export class BibliographyPanelComponent implements OnInit {
             data.forEach(element => {
               this.bibliographyData.push(element);
 
-              this.addBibliographyElement(element.title, element.author, element.date, element.note, /* element.label */)
+              this.addBibliographyElement(element.title, element.author, element.date, element.note, element.textualReference)
               this.memoryNote[count] = element.note;
+              this.memoryTextualRef[count] = element.textualReference
               count++;
               this.countElement++;
             });
@@ -162,6 +171,7 @@ export class BibliographyPanelComponent implements OnInit {
 
   onChanges(data){
     let fieldType = '';
+    console.log(data)
     if(data != undefined){
       
       let newValue = data.evt.target.value;
@@ -169,29 +179,39 @@ export class BibliographyPanelComponent implements OnInit {
       let index = data?.index;
 
       if(newValue.length > 2){
-        if(data['field'] == 'note'){
-          fieldType = data['field']
+        let oldValue = '';
+        fieldType = data['field']
+        if(fieldType == 'note'){
+          oldValue = this.memoryNote[index];
+        }else if(fieldType == 'textualReference'){
+          oldValue = this.memoryTextualRef[index];
         }
         
         //this.biblioArray = this.bibliographyForm.get('bibliography') as FormArray;
 
-        const oldValue = this.memoryNote[index];
-
-        let instanceName = '';
-        if(this.object['lexicalEntryInstanceName'] != undefined && this.object['sense'] == undefined){
-          instanceName = this.object['lexicalEntryInstanceName']
-        }else if(this.object['formInstanceName'] != undefined){
-          instanceName = this.object['formInstanceName']
-        }else if(this.object['senseInstanceName'] != undefined){
-          instanceName = this.object['senseInstanceName']
-        };
         
-        let parameters = {
-          type: "bibliography",
-          relation: fieldType,
-          value : newValue,
-          currentValue : oldValue
+
+        let instanceName = this.bibliographyData[index].bibliographyInstanceName;
+        
+
+        let parameters;
+
+        if(oldValue == ''){
+          parameters = {
+            type: "bibliography",
+            relation: fieldType,
+            value : newValue
+          }
+        }else{
+          parameters = {
+            type: "bibliography",
+            relation: fieldType,
+            value : newValue,
+            currentValue : oldValue
+          }
         }
+        
+        
         
         console.log(this.biblioArray.at(index))
         console.log(parameters)
@@ -208,9 +228,15 @@ export class BibliographyPanelComponent implements OnInit {
           }
         )
 
-        this.memoryNote[index] = newValue;
-      }else{
         
+        if(fieldType == 'note'){
+          this.memoryNote[index] = newValue;
+        }else if(fieldType == 'textualReference'){
+          this.memoryTextualRef[index] = newValue;
+        }
+        
+      }else{
+        this.lexicalService.spinnerAction('off');
         this.toastr.error("Insert at leat 3 characters", 'Error', {
           timeOut: 5000,
         });
@@ -223,62 +249,27 @@ export class BibliographyPanelComponent implements OnInit {
     this.biblioArray = this.bibliographyForm.get('bibliography') as FormArray;
     this.countElement--;
 
-    if (this.object.lexicalEntryInstanceName != undefined) {
+    let instanceName = this.bibliographyData[index].bibliographyInstanceName;
 
-      let lexId = this.object.lexicalEntryInstanceName;
+    this.lexicalService.removeBibliographyItem(instanceName).subscribe(
+      data => {
+        console.log(data)
+        //TODO: inserire updater per card last update
+        this.lexicalService.updateLexCard(this.object)
+      }, error => {
+        //console.log(error)
+        this.toastr.error(error.error, 'Error', {
+          timeOut: 5000,
+        });
+      }
+    )
 
-
-
-      //console.log(parameters)
-
-      this.lexicalService.removeBibliographyItem(lexId).subscribe(
-        data => {
-          console.log(data)
-          //TODO: inserire updater per card last update
-          this.lexicalService.updateLexCard(this.object)
-        }, error => {
-          //console.log(error)
-          this.toastr.error(error.error, 'Error', {
-            timeOut: 5000,
-          });
-        }
-      )
-    } else if (this.object.formInstanceName != undefined) {
-      let formId = this.object.formInstanceName;
-
-      //console.log(parameters)
-
-      this.lexicalService.removeBibliographyItem(formId).subscribe(
-        data => {
-          //console.log(data)
-          //TODO: inserire updater per card last update
-          this.lexicalService.updateLexCard(this.object)
-        }, error => {
-          //console.log(error)
-          this.toastr.error(error.error, 'Error', {
-            timeOut: 5000,
-          });
-        }
-      )
-
-    } else if (this.object.senseInstanceName != undefined) {
-      let senseId = this.object.senseInstanceName;
-
-      //console.log(parameters)
-
-      this.lexicalService.removeBibliographyItem(senseId).subscribe(
-        data => {
-          //console.log(data)
-          //TODO: inserire updater per card last update
-          this.lexicalService.updateLexCard(this.object)
-        }, error => {
-          //console.log(error)
-        }
-      )
-    }
+  
     this.biblioArray.removeAt(index);
     this.bibliographyData.splice(index, 1);
     this.memoryNote.splice(index, 1)
+    this.memoryTextualRef.splice(index, 1)
+    
   }
   
 
@@ -298,7 +289,7 @@ export class BibliographyPanelComponent implements OnInit {
         author: new FormControl(null),
         date: new FormControl(null),
         note: new FormControl(null),
-        /* label: new FormControl(null) */
+        textualReference: new FormControl(null)
       })
     }else{
       return this.formBuilder.group({
@@ -306,7 +297,7 @@ export class BibliographyPanelComponent implements OnInit {
         author: new FormControl(a),
         date: new FormControl(d),
         note: new FormControl(n),
-        /* label: new FormControl(l) */
+        textualReference: new FormControl(l)
       })
     }
   

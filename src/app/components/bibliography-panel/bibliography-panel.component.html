@@ -23,7 +23,11 @@
                                     
                                     <div class="card">
                                         <a class="biblioCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'+i" aria-expanded="true" [attr.aria-controls]="'#collapse-'+i"><span class="text-id pointer"><b>Item {{i+1}}</b></span></a>
-                                        <span *ngIf="bibliographyData[i] != undefined"><a *ngIf="bibliographyData[i]['url'] != ''" [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="add-icon"><i class="fas fa-external-link-alt"></i></span></a></span> <!-- (click)="addRelation(i)" -->
+                                        <span *ngIf="bibliographyData != undefined">
+                                            <!-- {{bibliographyData[i]['url'] | json}} -->
+                                            <span *ngIf="bibliographyData[i] != undefined"><a *ngIf="bibliographyData[i]['url'] != ''" [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="add-icon"><i class="fas fa-external-link-alt"></i></span></a></span> <!-- (click)="addRelation(i)" -->
+                                        </span>
+                                        
                                         <a class="pointer" (click)="removeItem(i)"><span class="trash-icon"><i class="fa fa-trash text-danger"></i></span></a> 
                                         
                                         <div [id]="'collapse-'+i" class="collapse" data-parent="#accordion">
@@ -53,12 +57,13 @@
                                                         <textarea (keyup)="debounceKeyup($event, i, 'note')" formControlName="note" name="note" class="form-control" style="resize: none;"></textarea>
                                                     </div>
                                                 </div>  
-                                                <!-- <div class="form-group row ml-2 mr-2">
-                                                    <label for="inputLabel" class="col-lg-3 col-form-label">Label:</label>
-                                                    <div class="input-group col-lg-9 pl-0">
-                                                        <input id="label"  formControlName="label" name="label" type="text" class="form-control" placeholder="">
+                                                <div class="form-group row ml-2 mr-2">
+                                                    <label for="inputLabel" class="col-lg-4 col-form-label">TextualRef:</label>
+                                                    <div class="input-group col-lg-8 pl-0">
+                                                        <!-- <input id="note"  formControlName="note" name="note" type="text" class="form-control" placeholder=""> -->
+                                                        <textarea (keyup)="debounceKeyup($event, i, 'label')" formControlName="textualReference" name="textualReference" class="form-control" style="resize: none;"></textarea>
                                                     </div>
-                                                </div>   -->   
+                                                </div>     
                                             </div>
                                         </div>                                            
                                     </div>
