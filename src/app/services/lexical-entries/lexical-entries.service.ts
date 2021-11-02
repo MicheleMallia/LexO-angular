@@ -266,4 +266,10 @@ export class LexicalEntriesService {
   removeBibliographyItem(instance: string) {
     return this.http.get(this.baseUrl + "lexicon/delete/" + instance + "/bibliography?key=PRINitant19");
   }
+
+
+  //ETYMOLOGY
+  createNewEtymology(instance: string) : Observable<any>{
+    return this.http.get(this.baseUrl + "lexicon/creation/etymology?lexicalEntryID="+instance+"&key="+this.key+"&author="+this.author+"");
+  }
 }

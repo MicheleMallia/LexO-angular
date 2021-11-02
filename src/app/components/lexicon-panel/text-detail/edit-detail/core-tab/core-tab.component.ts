@@ -548,7 +548,37 @@ export class CoreTabComponent implements OnInit {
   }
 
   addNewEtymology(){
-    
+    this.searchIconSpinner = true;
+    this.object['request'] = 'etymology'
+    let parentNodeInstanceName = '';
+    if(this.object.lexicalEntryInstanceName != undefined
+      && this.object.lexicalEntryInstanceName.senseInstanceName == undefined){
+        parentNodeInstanceName = this.object.lexicalEntryInstanceName;
+    }else if(this.object.formInstanceName != undefined){
+      let parentNodeInstanceName = this.object.parentNodeInstanceName;
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
+      this.object['request'] = 'sense'
+    }else if(this.object.senseInstanceName != undefined){
+      let parentNodeInstanceName = this.object.parentNodeInstanceName;
+      this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
+      this.object['request'] = 'sense'
+    }
+
+    this.lexicalService.createNewEtymology(parentNodeInstanceName).subscribe(
+      data=>{
+        console.log(data)
+        if(data['creator'] == this.object.creator){
+          data['flagAuthor'] = false;
+        }else{
+          data['flagAuthor'] = true;
+        }
+        this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
+        this.searchIconSpinner = false;
+      },error=> {
+        this.searchIconSpinner = false;
+      }
+    )
+
   }
 
   showBiblioModal(){

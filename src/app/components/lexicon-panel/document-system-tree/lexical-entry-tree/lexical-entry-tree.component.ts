@@ -238,6 +238,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       switch(lex.request){
         case 'form' : instanceName = 'formInstanceName'; break;
         case 'sense' : instanceName = 'senseInstanceName'; break;
+        case 'etymology' : instanceName = 'etymologyInstanceName'; break;
       }
       this.lexicalEntryTree.treeModel.getNodeBy(x=>{
         if(lex.lexicalEntryInstanceName != undefined){
@@ -603,7 +604,7 @@ export class LexicalEntryTreeComponent implements OnInit {
                 const someNode = this.lexicalEntryTree.treeModel.getNodeById(element.id);
               
                 someNode.expand();
-
+                console.log(someNode)
                 var that = this;
                 this.interval = setInterval((val)=>{                
                                

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { DataService, Person } from '../../core-tab/lexical-entry-core-form/data.service';
@@ -27,12 +27,17 @@ export class EtymologyFormComponent implements OnInit {
     label: new FormControl(''),
     author: new FormControl(''),
     uncertain : new FormControl(null),
-    component: new FormArray([this.createComponent()]),
-    subterm: new FormArray([this.createSubterm()])
+    etylink: new FormArray([this.createEtyLink()]),
+    cognates: new FormArray([this.createCognate()])
   })
 
-  componentArray: FormArray;
-  subtermArray: FormArray;
+  etyLinkArray: FormArray;
+  cognatesArray: FormArray;
+
+  private subject_cognates: Subject<any> = new Subject();
+  private subject_cognates_input: Subject<any> = new Subject();
+  searchResults: [];
+  filterLoading = false;
 
   constructor(private dataService: DataService, private lexicalService: LexicalEntriesService, private formBuilder: FormBuilder) { }
 
@@ -42,13 +47,20 @@ export class EtymologyFormComponent implements OnInit {
       label: '',
       author: '',
       uncertain : false,
-      component: this.formBuilder.array([]),
-      subterm : this.formBuilder.array([]),
+      etylink: this.formBuilder.array([]),
+      cognates : this.formBuilder.array([]),
     })
     this.onChanges();
     this.loadPeople();
     this.triggerTooltip();
+
+    this.subject_cognates.pipe(debounceTime(1000)).subscribe(
+      data => {
+        this.onSearchFilter(data)
+      }
+    )
   }
+  
 
   triggerTooltip() {
     setTimeout(() => {
@@ -62,9 +74,9 @@ export class EtymologyFormComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     setTimeout(() => {
       if (this.object != changes.etymData.currentValue) {
-        if (this.componentArray != null || this.subtermArray != null) {
-          this.componentArray.clear();
-          this.subtermArray.clear();
+        if (this.etyLinkArray != null || this.cognatesArray != null) {
+          this.etyLinkArray.clear();
+          this.cognatesArray.clear();
           
         }
       }
@@ -91,45 +103,25 @@ export class EtymologyFormComponent implements OnInit {
     })
   }
 
-  addSubterm() {
-    this.subtermArray = this.etyForm.get('subterm') as FormArray;
-    this.subtermArray.push(this.createSubterm());
+  addCognate() {
+    this.cognatesArray = this.etyForm.get('cognates') as FormArray;
+    this.cognatesArray.push(this.createCognate());
     
    }
 
-  addComponent() { 
-    this.componentArray = this.etyForm.get('component') as FormArray;
-    this.componentArray.push(this.createComponent());
+  addEtyLink() { 
+    this.etyLinkArray = this.etyForm.get('etylink') as FormArray;
+    this.etyLinkArray.push(this.createEtyLink());
   }
 
-  removeComponent(index){
-    this.componentArray = this.etyForm.get('component') as FormArray;
-    this.componentArray.removeAt(index);
+  removeEtyLink(index){
+    this.etyLinkArray = this.etyForm.get('etylink') as FormArray;
+    this.etyLinkArray.removeAt(index);
   }
 
-  addRelation(index){
-    const control = (<FormArray>this.etyForm.controls['component']).at(index).get('relation') as FormArray;
-    control.push(this.createRelation());
-  }
-
-  removeRelation(ix, iy){
-    const control = (<FormArray>this.etyForm.controls['component']).at(ix).get('relation') as FormArray;
-    control.removeAt(iy);
-  }
-
-  addSubtermElement(index){
-    const control = (<FormArray>this.etyForm.controls['subterm']).at(index).get('subterm_array') as FormArray;
-    control.push(this.createSubtermComponent());
-  }
-
-  removeSubtermElement(ix, iy){
-    const control = (<FormArray>this.etyForm.controls['subterm']).at(ix).get('subterm_array') as FormArray;
-    control.removeAt(iy);
-  }
-
-  removeSubterm(index){
-    this.componentArray = this.etyForm.get('subterm') as FormArray;
-    this.componentArray.removeAt(index);
+  removeCognate(index){
+    this.etyLinkArray = this.etyForm.get('cognates') as FormArray;
+    this.etyLinkArray.removeAt(index);
     
   }
 
@@ -140,34 +132,150 @@ export class EtymologyFormComponent implements OnInit {
     })
   }
 
-  removeSubtermComponent(ix, iy){
-    const control = (<FormArray>this.etyForm.controls['component']).at(ix).get('sub_term') as FormArray;
-    control.removeAt(iy);
-  }
-
-  removeCorrespondsToComponent(ix, iy){
-    const control = (<FormArray>this.etyForm.controls['component']).at(ix).get('corresponds_to') as FormArray;
-    control.removeAt(iy);
-  }
-
-  createComponent() {
+  createEtyLink() {
     return this.formBuilder.group({
-      sub_term: new FormArray([this.createSubtermComponent()]),
-      corresponds_to: new FormArray([this.createSubtermComponent()]),
-      relation: new FormArray([])
+      lex_entity: new FormControl(null),
+      label: new FormControl(null),
+      etyLinkType: new FormControl(null),
+      etySource : new FormControl(null),
+      etyTarget : new FormControl(null)
     })
   }
 
-  createSubtermComponent() {
+
+  createCognate() {
     return this.formBuilder.group({
-      entity: ''
+      cognate : new FormControl(null),
+      label : new FormControl(null)
     })
   }
 
-  createSubterm() {
-    return this.formBuilder.group({
-      subterm_array : new FormArray([this.createSubtermComponent()])
-    })
+  triggerCognates(evt) {
+    if (evt.target != undefined) {
+      this.subject_cognates.next(evt.target.value)
+    }
+  }
+
+  triggerCognatesInput(evt, i) {
+    if (evt.target != undefined) {
+      let value = evt.target.value;
+      this.subject_cognates_input.next({ value, i })
+    }
+  }
+
+  deleteData() {
+    this.searchResults = [];
+  }
+
+  onSearchFilter(data) {
+    this.filterLoading = true;
+    this.searchResults = [];
+    let parameters = {
+      text: data,
+      searchMode: "startsWith",
+      type: "",
+      pos: "",
+      formType: "entry",
+      author: "",
+      lang: "",
+      status: "",
+      offset: 0,
+      limit: 500
+    }
+    //console.log(data.length)
+    if (data != "" && data.length >= 3) {
+      this.lexicalService.getLexicalEntriesList(parameters).subscribe(
+        data => {
+          //console.log(data)
+          this.searchResults = data['list']
+          this.filterLoading = false;
+        }, error => {
+          //console.log(error)
+          this.filterLoading = false;
+        }
+      )
+    } else {
+      this.filterLoading = false;
+    }
+    /* if (this.object.lexicalEntryInstanceName != undefined) {
+      let parameters = {
+        text: data,
+        searchMode: "startsWith",
+        type: "",
+        pos: "",
+        formType: "entry",
+        author: "",
+        lang: "",
+        status: "",
+        offset: 0,
+        limit: 500
+      }
+      //console.log(data.length)
+      if (data != "" && data.length >= 3) {
+        this.lexicalService.getLexicalEntriesList(parameters).subscribe(
+          data => {
+            //console.log(data)
+            this.searchResults = data['list']
+            this.filterLoading = false;
+          }, error => {
+            //console.log(error)
+            this.filterLoading = false;
+          }
+        )
+      } else {
+        this.filterLoading = false;
+      }
+    } else if (this.object.formInstanceName != undefined) {
+      let lexId = this.object.parentInstanceName;
+      let parameters = {
+        text: data,
+        formType: "lemma",
+        lexicalEntry: lexId,
+        senseUris: "",
+        extendTo: "",
+        extensionDegree: 3
+      }
+      
+      this.lexicalService.getFormList(parameters).subscribe(
+        data => {
+          //console.log(data)
+          this.searchResults = data['list']
+          this.filterLoading = false;
+        }, error => {
+          //console.log(error)
+          this.filterLoading = false;
+        }
+      )
+    } else if (this.object.senseInstanceName != undefined) {
+
+      let parameters = {
+        text: data,
+        searchMode: "startsWith",
+        type: "",
+        pos: "",
+        formType: "entry",
+        author: "",
+        lang: "",
+        status: "",
+        offset: 0,
+        limit: 500
+      }
+
+      this.lexicalService.getLexicalSensesList(parameters).subscribe(
+        data => {
+          //console.log(data)
+          this.searchResults = data
+          this.filterLoading = false;
+        }, error => {
+          //console.log(error)
+          this.filterLoading = false;
+        }
+      )
+    } else {
+      this.filterLoading = false;
+    } */
+    //console.log(data)
+
   }
 
 }
