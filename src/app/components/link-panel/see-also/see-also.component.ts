@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class SeeAlsoComponent implements OnInit {
 
   @Input() seeAlsoData: any[] | any;
+  @Output() countRefresh = new EventEmitter<any>();
 
   private subject: Subject<any> = new Subject();
   private subject_input: Subject<any> = new Subject();
@@ -82,8 +83,15 @@ export class SeeAlsoComponent implements OnInit {
         //console.log(this.object)
 
         this.object.array.forEach(element => {
-          this.addSeeAlsoEntry(element.label, element.inferred, element.lexicalEntityInstanceName)
-          this.memorySeeAlso.push(element.lexicalEntityInstanceName)
+          if(element.label != ''){
+            this.addSeeAlsoEntry(element.label, element.inferred, element.lexicalEntityInstanceName, element.linkType)
+            this.memorySeeAlso.push(element.lexicalEntityInstanceName)
+          }else{
+            this.addSeeAlsoEntry(element.lexicalEntity, element.inferred, element.lexicalEntityInstanceName, element.linkType)
+            this.memorySeeAlso.push(element.lexicalEntity)
+          }
+          
+          
         });
 
         if (this.object.lexicalEntryInstanceName != undefined) {
@@ -120,7 +128,7 @@ export class SeeAlsoComponent implements OnInit {
         lexicalElementId = this.object.senseInstanceName;
       }
   
-      if (this.memorySeeAlso[index] == "") {
+      if (this.memorySeeAlso[index] == "" || this.memorySeeAlso[index] == undefined) {
         let parameters = {
           type: "reference",
           relation: "seeAlso",
@@ -135,6 +143,9 @@ export class SeeAlsoComponent implements OnInit {
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
+            if(error.statusText == 'OK'){
+              this.memorySeeAlso.push(selectedValues)
+            }
           }
         )
       } else {
@@ -154,6 +165,9 @@ export class SeeAlsoComponent implements OnInit {
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
+            if(error.statusText == 'OK'){
+              this.memorySeeAlso.push(selectedValues)
+            }
           }
         )
       }
@@ -184,9 +198,12 @@ export class SeeAlsoComponent implements OnInit {
         //console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            //console.log(data)
+            console.log(data)
           }, error => {
-            //console.log(error)
+           console.log(error);
+           if(error.statusText == 'OK'){
+              this.memorySeeAlso[index] = selectedValues
+            }
           }
         )
       } else {
@@ -197,12 +214,15 @@ export class SeeAlsoComponent implements OnInit {
           value: selectedValues,
           currentValue: oldValue
         }
-        //console.log(parameters)
+        console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
-            //console.log(data)
+            console.log(data)
           }, error => {
-            //console.log(error)
+            console.log(error)
+            if(error.statusText == 'OK'){
+              this.memorySeeAlso[index] = selectedValues
+            }
           }
         )
       }
@@ -321,39 +341,47 @@ export class SeeAlsoComponent implements OnInit {
     })
   }
 
-  createSeeAlsoEntry(e?, i?, le?) {
+  createSeeAlsoEntry(e?, i?, le?, lt?) {
     if (e == undefined) {
       return this.formBuilder.group({
         entity: null,
         inferred: false,
-        lexical_entity: null
+        lexical_entity: null,
+        link_type : 'internal'
       })
     } else {
       return this.formBuilder.group({
         entity: e,
         inferred: i,
-        lexical_entity: le
+        lexical_entity: le,
+        link_type : lt
       })
     }
 
   }
 
-  addSeeAlsoEntry(e?, i?, le?) {
+  addSeeAlsoEntry(e?, i?, le?, lt?) {
     this.seeAlsoArray = this.seeAlsoForm.get('seeAlsoArray') as FormArray;
 
     if (e == undefined) {
       this.seeAlsoArray.push(this.createSeeAlsoEntry());
     } else {
-      this.seeAlsoArray.push(this.createSeeAlsoEntry(e, i, le));
+      this.seeAlsoArray.push(this.createSeeAlsoEntry(e, i, le, lt));
     }
 
+    this.countRefresh.emit(this.seeAlsoArray.length);
     this.triggerTooltip();
   }
 
   removeElement(index) {
     this.seeAlsoArray = this.seeAlsoForm.get('seeAlsoArray') as FormArray;
 
-    const lexical_entity = this.seeAlsoArray.at(index).get('lexical_entity').value;
+    let lexical_entity = this.seeAlsoArray.at(index).get('lexical_entity').value;
+    //console.log('Lexical Entity: '+lexical_entity)
+    if(lexical_entity == '' || lexical_entity == null){
+      lexical_entity = this.seeAlsoArray.at(index).get('entity').value;
+      //console.log('Entity: '+lexical_entity)
+    }
 
     if (this.object.lexicalEntryInstanceName != undefined) {
 
@@ -365,7 +393,7 @@ export class SeeAlsoComponent implements OnInit {
       }
 
       //console.log(parameters)
-
+      //console.log(index)
       this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
         data => {
           //console.log(data)
@@ -424,6 +452,8 @@ export class SeeAlsoComponent implements OnInit {
     }
     this.memorySeeAlso.splice(index, 1)
     this.seeAlsoArray.removeAt(index);
+
+    this.countRefresh.emit(this.seeAlsoArray.length);
   }
 
 }

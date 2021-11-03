@@ -12,7 +12,7 @@
                         <div *ngFor="let seeAlso of seeAlsoForm.get('seeAlsoArray')['controls']; let i = index">
                             <div [formGroupName]="i">
                                 <div class="d-flex">
-                                    <div class="form-group row ml-2  mr-2 w-100" *ngIf="{switch : false}; let variable">
+                                    <div class="form-group row ml-2  mr-2 w-100" *ngIf="{switch : seeAlso.get('link_type').value != 'internal'}; let variable">
                                         <div class="input-group" *ngIf="{boolean : seeAlso.get('inferred').value}; let inf">
                                             
                                             <ng-select #seeAlso formControlName="entity" name="entity"
@@ -36,10 +36,11 @@
                                             <div class="input-group-append" *ngIf="!inf.boolean">
                                                 <div class="input-group-append ml-2 form-check">
                                                     <input class="form-check-input see-also-tooltip" type="checkbox"
-                                                        (change)="variable.switch=!variable.switch"
+                                                        (change)="variable.switch=!variable.switch; variable.switch ? seeAlso.get('link_type').value = 'external' : seeAlso.get('link_type').value = 'internal'"
                                                         data-toggle="tooltip" data-placement="bottom"
                                                         data-trigger="hover"
-                                                        title="Clicca per inserire un URI manualmente">
+                                                        title="Clicca per inserire un URI manualmente"
+                                                        [checked]="variable.switch">
                                                     <label class="form-check-label" for="extCheck"></label>
                                                 </div>
                                                 <div class="input-group-append ml-2">

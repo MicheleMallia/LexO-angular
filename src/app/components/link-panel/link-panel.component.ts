@@ -49,7 +49,7 @@ export class LinkPanelComponent implements OnInit {
 
         this.lexicalService.getLexEntryLinguisticRelation(lexId, 'seeAlso').subscribe(
           data=>{
-            //console.log(data)
+            console.log(data)
             this.seeAlsoData = {}
             this.seeAlsoData['array'] = data;
             this.seeAlsoData['parentNodeLabel']= this.object['lexicalEntry'];
@@ -171,6 +171,10 @@ export class LinkPanelComponent implements OnInit {
       this.sameAsData = null;
       this.seeAlsoData = null;
     }
+  }
+
+  refreshCounter(evt?){
+    this.counterElement = evt;
   }
 
 }

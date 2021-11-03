@@ -169,6 +169,7 @@ export class BibliographyPanelComponent implements OnInit {
     this.subject.next({ evt, index,  field})
   }
 
+  
   onChanges(data){
     let fieldType = '';
     console.log(data)
@@ -183,7 +184,7 @@ export class BibliographyPanelComponent implements OnInit {
         fieldType = data['field']
         if(fieldType == 'note'){
           oldValue = this.memoryNote[index];
-        }else if(fieldType == 'textualReference'){
+        }else if(fieldType == 'label'){
           oldValue = this.memoryTextualRef[index];
         }
         
@@ -231,7 +232,7 @@ export class BibliographyPanelComponent implements OnInit {
         
         if(fieldType == 'note'){
           this.memoryNote[index] = newValue;
-        }else if(fieldType == 'textualReference'){
+        }else if(fieldType == 'label'){
           this.memoryTextualRef[index] = newValue;
         }
         

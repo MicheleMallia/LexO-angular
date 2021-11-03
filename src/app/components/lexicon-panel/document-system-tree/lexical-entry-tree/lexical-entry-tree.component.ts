@@ -490,6 +490,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
         data => {
+          console.log(data)
           this.lexicalService.sendToCoreTab(data);
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
