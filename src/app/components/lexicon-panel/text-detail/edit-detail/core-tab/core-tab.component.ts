@@ -182,6 +182,7 @@ export class CoreTabComponent implements OnInit {
 
     this.lexicalService.updateLexCardReq$.subscribe(
       data => {
+        console.log(data)
         if(data != null){
           this.lastUpdateDate = data['lastUpdate']
           if(data['creationDate'] != undefined){
@@ -269,6 +270,7 @@ export class CoreTabComponent implements OnInit {
           data => {
             this.searchIconSpinner = false;
             data['request'] = 0;
+            this.lexicalService.updateLexCard(data)
             this.lexicalService.refreshAfterEdit(data);
             setTimeout(() => {
               //@ts-ignore
@@ -298,6 +300,7 @@ export class CoreTabComponent implements OnInit {
 
             this.searchIconSpinner = false;
             data['request'] = 0;
+            this.lexicalService.updateLexCard(data)
             this.lexicalService.refreshAfterEdit(data);
             setTimeout(() => {
               //@ts-ignore
@@ -326,6 +329,7 @@ export class CoreTabComponent implements OnInit {
           data => {
             this.searchIconSpinner = false;
             data['request'] = 0;
+            this.lexicalService.updateLexCard(data)
             this.lexicalService.refreshAfterEdit(data);
             setTimeout(() => {
               //@ts-ignore

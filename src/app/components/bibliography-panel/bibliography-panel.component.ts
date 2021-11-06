@@ -157,6 +157,32 @@ export class BibliographyPanelComponent implements OnInit {
             
           }
         )
+      }else if(this.object.etymologyInstanceName != undefined){
+        let etymId = this.object.etymologyInstanceName;
+        this.lexicalService.getBibliographyData(etymId).subscribe(
+          data=>{
+            console.log(data);
+            let count = 0;
+            data.forEach(element => {
+              this.bibliographyData.push(element);
+
+              this.addBibliographyElement(element.title, element.author, element.date, element.note, element.textualReference)
+              this.memoryNote[count] = element.note;
+              this.memoryTextualRef[count] = element.textualReference
+              count++;
+              this.countElement++;
+            });
+            
+            this.bibliographyData['parentNodeLabel']= this.object['sense'];
+            this.bibliographyData['etymologyInstanceName']= this.object['etymologyInstanceName'];
+          }, error=>{
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+            console.log(error);
+            
+          }
+        )
       }
     }else{
       /* this.counterElement = 0; */

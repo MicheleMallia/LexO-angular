@@ -141,87 +141,7 @@
     <p class="mx-3" *ngIf="show">Nessun risultato</p>
     <tree-root #lexicalEntry [(state)]="state" [nodes]="nodes" [options]="options" [focused]="true"
         (activate)="onEvent($event)" (deactivate)="onEvent($event)" class="lexicalEntryTree">
-        <!-- <ng-template #treeNodeWrapperTemplate let-node let-index="index">
-            <div class="node-wrapper" [style.padding-left]="node.getNodePadding()"
-                [class.node-content-wrapper-active]="node.isActive"
-                [class.node-content-wrapper-focused]="node.isFocused" (click)="node.mouseAction('click', $event)"
-                (dblclick)="node.mouseAction('dblClick', $event)"
-                (contextmenu)="node.mouseAction('contextMenu', $event)">
-                <div class="node-content-wrapper" style="padding-top:0; width: 70%;">
-                    <tree-node-expander *ngIf="node.data.hasChildren != undefined" [node]="node"
-                        class="lexicalEntryTreeNodeExpander">
-                    </tree-node-expander>
-                    <span
-                        *ngIf="node.data.count == undefined && labelView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined">{{
-                        node.data.label }}</span>
-                    <span
-                        *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined">{{
-                        node.data.lexicalEntryInstanceName }}</span>
-
-                    <span
-                        *ngIf="node.data.count == undefined && labelView && node.data.definition == undefined && node.data.type=='canonicalForm' && node.data.sense == undefined"><b>{{
-                            node.data.label }}</b></span>
-                    <span
-                        *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type=='canonicalForm' && node.data.sense == undefined"><b>{{
-                            node.data.formInstanceName }}</b></span>
-                    <span
-                        *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined">{{
-                        node.data.formInstanceName }}</span>
-                    <span
-                        *ngIf="node.data.count == undefined && idView && node.data.definition != undefined">{{
-                        node.data.senseInstanceName }}</span>
-
-                    <span class="lexical-tooltip"
-                        *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined"
-                        data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{node.data.label.length > 10 ? (node.data.label | slice:0:10) +'...' : node.data.label}}</span>
-                    <span class="lexical-tooltip"
-                        *ngIf="node.data.count == undefined && idView && node.data.definition != undefined"
-                        data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.instanceName
-                        }}</span>
-
-                    <span *ngIf="node.data.count != undefined"><i><span
-                                style="color: #6e6e6e">{{node.data.label}}</span></i>&nbsp;({{ node.data.count
-                        }})</span>
-                    <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
-                    <sub *ngIf="labelView && node.data.sense == undefined">{{node.data.pos}}</sub>
-                    <span *ngIf="node.data.language != null && labelView" class="lang">@{{node.data.language}}</span>
-                </div>
-                <div class="icons-container">
-                    <div style="width: 30%;">
-                        <i *ngIf="node.data.note != '' && node.data.note != null"
-                            class="far fa-comment-dots note-tooltip note_{{node.data.id}}" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.note"></i>
-                    </div>
-                    <div style="width: 30%;">
-                        <i *ngIf="node.data.lexicalEntryInstanceName != undefined && !flagAuthor && node.data.status == 'working'"
-                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.creator"></i>
-
-                        <i *ngIf="node.data.lexicalEntryInstanceName != undefined && !flagAuthor && node.data.status == 'completed'"
-                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.author"></i>
-
-                        <i *ngIf="node.data.lexicalEntryInstanceName != undefined && !flagAuthor && node.data.status == 'reviewed'"
-                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.revisor"></i>
-
-                        <i *ngIf="node.data.formInstanceName != undefined && flagAuthor"
-                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
-                            [title]="node.data.creator"></i>
-                    </div>
-                    <div style="width: 30%;">
-                        <i *ngIf="node.data.status != undefined && node.data.status == 'working'" class="fa fa-circle"
-                            style="color:red;"></i>
-                        <i *ngIf="node.data.status != undefined && node.data.status == 'completed'" class="fa fa-circle"
-                            style="color:yellow;"></i>
-                        <i *ngIf="node.data.status != undefined && node.data.status == 'reviewed'"
-                            class="fa fa-circle lexical-tooltip" style="color: green;" data-toggle="tooltip"
-                            data-html="true" [title]="node.data.revisor"></i>
-                    </div>
-
-                </div>
-            </div>
-        </ng-template> -->
+        
         <ng-template #treeNodeWrapperTemplate let-node let-index="index">
             <div class="node-wrapper"  style="justify-content: space-between; padding: 0px 15px;"> <!-- [style.padding-left]="node.getNodePadding()" -->
                 <div>
@@ -250,11 +170,11 @@
                             node.data.senseInstanceName }}</span>
     
                         <span class="lexical-tooltip"
-                            *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined"
+                            *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined && node.data.label != undefined"
                             data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{node.data.label.length >
                             10 ? (node.data.label | slice:0:10) +'...' : node.data.label}}</span>
                         <span class="lexical-tooltip"
-                            *ngIf="node.data.count == undefined && idView && node.data.definition != undefined"
+                            *ngIf="node.data.count == undefined && idView && node.data.definition != undefined && node.data.label != undefined"
                             data-toggle="tooltip" data-html="true" [title]="node.data.definition">{{ node.data.instanceName
                             }}</span>
     
@@ -290,6 +210,9 @@
                             class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
                             [title]="node.data.creator"></i>
                         <i *ngIf="node.data.senseInstanceName != undefined && node.data.flagAuthor"
+                            class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
+                            [title]="node.data.creator"></i>
+                            <i *ngIf="node.data.etymologyInstanceName != undefined && node.data.flagAuthor"
                             class="fas fa-user lexical-tooltip" data-toggle="tooltip" data-html="true"
                             [title]="node.data.creator"></i>
                     </div>

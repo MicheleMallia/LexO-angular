@@ -162,10 +162,51 @@ export class LinkPanelComponent implements OnInit {
             }
           });
         }
-      }
+      }else if(this.object.etymologyInstanceName != undefined){
+        let etymId = this.object.etymologyInstanceName;
+        this.lexicalService.getLexEntryLinguisticRelation(etymId, 'sameAs').subscribe(
+          data=>{
+            //console.log(data);
+            this.sameAsData = {}
+            this.sameAsData['array'] = data;
+            this.sameAsData['etymologyInstanceName']= this.object['etymologyInstanceName'];
+          }, error=>{
+            this.sameAsData = {}
+            this.sameAsData['array'] = [];
+            this.sameAsData['etymologyInstanceName']= this.object['etymologyInstanceName'];
+            //console.log(error);
+            
+          }
+        )
 
-      
-      
+        this.lexicalService.getLexEntryLinguisticRelation(etymId, 'seeAlso').subscribe(
+          data=>{
+            //console.log(data)
+            this.seeAlsoData = {}
+            this.seeAlsoData['array'] = data;
+            this.seeAlsoData['etymologyInstanceName']= this.object['etymologyInstanceName'];
+          }, error=>{
+            this.seeAlsoData = {}
+            this.seeAlsoData['array'] = [];
+            this.seeAlsoData['etymologyInstanceName']= this.object['etymologyInstanceName'];
+            //console.log(error);
+            
+          }
+        )
+
+        //console.log(this.object)
+        if(this.object.links != null){
+          this.object.links.forEach(element => {
+            if(element.type != undefined){
+              if(element.type == 'Reference'){
+                element.elements.forEach(sub => {
+                  this.counterElement += sub.count;
+                });
+              }
+            }
+          });
+        }
+      }  
     }else{
       this.counterElement = 0;
       this.sameAsData = null;

@@ -94,6 +94,7 @@ export class NotePanelComponent implements OnInit, OnChanges {
       newNote => {
         if(this.noteData != null){
           this.lexicalService.spinnerAction('on');
+          console.log(this.object)
           //console.log(this.object)
           if(this.object.lexicalEntryInstanceName != undefined){
             var lexId = this.object.lexicalEntryInstanceName;
@@ -150,6 +151,30 @@ export class NotePanelComponent implements OnInit, OnChanges {
               value : newNote
             }
             this.lexicalService.updateSense(senseId, parameters).subscribe(
+              data => {
+                //console.log(data);
+                data['request'] = 0;
+                data['new_note'] = newNote;
+                this.lexicalService.refreshAfterEdit(data);
+                this.lexicalService.spinnerAction('off');
+              },
+              error => {
+                //console.log(error);
+                const data = this.object;
+                data['request'] = 0;
+                data['new_note'] = newNote;
+                this.lexicalService.refreshAfterEdit(data);
+                this.lexicalService.updateLexCard({lastUpdate : error.error.text})
+                this.lexicalService.spinnerAction('off');
+              }
+            )
+          }else if(this.object.etymologyInstanceName != undefined){
+            var etymId = this.object.etymologyInstanceName;
+            var parameters = {
+              relation : "note",
+              value : newNote
+            }
+            this.lexicalService.updateEtymology(etymId, parameters).subscribe(
               data => {
                 //console.log(data);
                 data['request'] = 0;

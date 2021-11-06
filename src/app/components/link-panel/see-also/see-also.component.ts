@@ -126,7 +126,11 @@ export class SeeAlsoComponent implements OnInit {
         lexicalElementId = this.object.formInstanceName;
       } else if (this.object.senseInstanceName != undefined) {
         lexicalElementId = this.object.senseInstanceName;
+      }else if (this.object.etymology.etymologyInstanceName != undefined) {
+        lexicalElementId = this.object.etymology.etymologyInstanceName;
       }
+
+      console.log(this.object)
   
       if (this.memorySeeAlso[index] == "" || this.memorySeeAlso[index] == undefined) {
         let parameters = {
@@ -139,7 +143,8 @@ export class SeeAlsoComponent implements OnInit {
           data => {
             //console.log(data)
           }, error => {
-            //console.log(error)
+           console.log(error)
+           if(typeof error.error != 'object')
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
@@ -161,7 +166,7 @@ export class SeeAlsoComponent implements OnInit {
           data => {
             //console.log(data)
           }, error => {
-            //console.log(error)
+            console.log(error)
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,
             });
@@ -187,6 +192,8 @@ export class SeeAlsoComponent implements OnInit {
         lexicalElementId = this.object.formInstanceName;
       } else if (this.object.senseInstanceName != undefined) {
         lexicalElementId = this.object.senseInstanceName;
+      }else if (this.object.etymologyInstanceName != undefined) {
+        lexicalElementId = this.object.etymologyInstanceName;
       }
 
       if (this.memorySeeAlso[index] == undefined) {
@@ -315,6 +322,31 @@ export class SeeAlsoComponent implements OnInit {
           this.filterLoading = false;
         }
       )
+    } else if (this.object.etymologyInstanceName != undefined) {
+
+      let parameters = {
+        text: data,
+        searchMode: "startsWith",
+        type: "",
+        pos: "",
+        formType: "entry",
+        author: "",
+        lang: "",
+        status: "",
+        offset: 0,
+        limit: 500
+      }
+
+      this.lexicalService.getLexicalEntriesList(parameters).subscribe(
+        data => {
+          console.log(data)
+          this.searchResults = data['list']
+          this.filterLoading = false;
+        }, error => {
+          //console.log(error)
+          this.filterLoading = false;
+        }
+      )
     } else {
       this.filterLoading = false;
     }
@@ -400,7 +432,7 @@ export class SeeAlsoComponent implements OnInit {
           //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          //console.log(error)
+          console.log(error)
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
           });
@@ -441,6 +473,26 @@ export class SeeAlsoComponent implements OnInit {
       //console.log(parameters)
 
       this.lexicalService.deleteLinguisticRelation(senseId, parameters).subscribe(
+        data => {
+          //console.log(data)
+          //TODO: inserire updater per card last update
+          this.lexicalService.updateLexCard(this.object)
+        }, error => {
+          //console.log(error)
+        }
+      )
+    } else if (this.object.etymologyInstanceName != undefined) {
+      let etymId = this.object.etymologyInstanceName;
+
+      let parameters = {
+        type: 'morphology',
+        relation: 'seeAlso',
+        value: lexical_entity
+      }
+
+      //console.log(parameters)
+
+      this.lexicalService.deleteLinguisticRelation(etymId, parameters).subscribe(
         data => {
           //console.log(data)
           //TODO: inserire updater per card last update

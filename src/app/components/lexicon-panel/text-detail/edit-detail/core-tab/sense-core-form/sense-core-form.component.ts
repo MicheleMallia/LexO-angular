@@ -276,6 +276,7 @@ export class SenseCoreFormComponent implements OnInit {
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           //console.log(error);
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           if(typeof(error.error) != 'object'){
             this.toastr.error(error.error, 'Error', {
               timeOut: 5000,

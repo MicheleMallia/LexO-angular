@@ -8,7 +8,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class LexicalEntriesService {
 
   private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
-  private _vartransData: BehaviorSubject<object> = new BehaviorSubject(null);
+  /* private _vartransData: BehaviorSubject<object> = new BehaviorSubject(null); */
+  private _etymologyData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _deleteLexicalEntryReq: BehaviorSubject<any> = new BehaviorSubject(null);
   private _addSubElementReq: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -23,7 +24,8 @@ export class LexicalEntriesService {
   private author = "michele";
 
   coreData$ = this._coreFormData.asObservable();
-  vartransData = this._vartransData.asObservable();
+  /* vartransData = this._vartransData.asObservable(); */
+  etymologyData$ = this._etymologyData.asObservable();
   rightPanelData$ = this._rightPanelData.asObservable();
   deleteReq$ = this._deleteLexicalEntryReq.asObservable();
   addSubReq$ = this._addSubElementReq.asObservable();
@@ -39,12 +41,16 @@ export class LexicalEntriesService {
     this._coreFormData.next(object)
   } 
   
-  sendToVartransTab(object: object) {
+  /* sendToVartransTab(object: object) {
     this._vartransData.next(object)
-  }
+  } */
 
   sendToRightTab(object: object) {
     this._rightPanelData.next(object);
+  }
+
+  sendToEtymologyTab(object: object) {
+    this._etymologyData.next(object);
   }
 
   deleteRequest(request? : any) {
@@ -271,5 +277,26 @@ export class LexicalEntriesService {
   //ETYMOLOGY
   createNewEtymology(instance: string) : Observable<any>{
     return this.http.get(this.baseUrl + "lexicon/creation/etymology?lexicalEntryID="+instance+"&key="+this.key+"&author="+this.author+"");
+  }
+
+  getEtymologies(instance: string) : Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/etymologies?key="+this.key+"");
+  }
+
+  getEtymologyData(instance: string)  : Observable<any> {
+    return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/etymology?key="+this.key+"");
+  }
+
+  updateEtymology(etymId, parameters): Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/update/" + etymId + "/etymology?key=" + this.key + "&author=" + this.author, parameters);
+  }
+
+  createNewEtylink(lexInstance: string, etymInstance : string) : Observable<any>{
+    return this.http.get(this.baseUrl + "lexicon/creation/etymologicalLink?lexicalEntryID="+lexInstance+"&etymologyID="+etymInstance+"&key="+this.key+"&author="+this.author+"");
+  }
+
+  //PER CAMBIARE ETYLINKTYPE E NOTE
+  updateEtylink(etymId, parameters): Observable<any> {
+    return this.http.post(this.baseUrl + "lexicon/update/" + etymId + "/etymologicalLink?key=" + this.key + "&author=" + this.author, parameters);
   }
 }

@@ -251,6 +251,11 @@ export class LexicalEntryTreeComponent implements OnInit {
                   this.lexicalEntryTree.treeModel.getNodeBy(y=>{
                     if(y.data[instanceName] != undefined){
                       /* console.log(y.data[instanceName]) */
+                      if(y.data['creator'] == x.data.creator){
+                        y.data['flagAuthor'] = false;
+                      }else{
+                        y.data['flagAuthor'] = true;
+                      }
                       if(y.data[instanceName] === data[instanceName]){
                         y.setActiveAndVisible();
                         clearInterval(that.interval)
@@ -263,7 +268,7 @@ export class LexicalEntryTreeComponent implements OnInit {
                     }           
                   })                  
                 }
-              }, 2000)
+              }, 3000)
               
             }else if(x.data.children != undefined){
               let checkExistence = x.data.children.filter(element => {
@@ -274,6 +279,13 @@ export class LexicalEntryTreeComponent implements OnInit {
                   if(element.label === lex.request){
                     if(lex.request == 'sense'){
                       data['definition'] = 'no definition'
+                    }
+                    console.log(data['creator'] == x.data.creator);
+                    console.log(data['creator'], x.data.creator)
+                    if(data['creator'] == x.data.creator){
+                      data['flagAuthor'] = false;
+                    }else{
+                      data['flagAuthor'] = true;
                     }
                     data['label'] = data[instanceName];
                     element.count++;
@@ -305,6 +317,13 @@ export class LexicalEntryTreeComponent implements OnInit {
                 this.lexicalEntryTree.treeModel.update();
                 x.data.children.filter(element => {
                   if(element.label === lex.request){
+                    console.log(data['creator'] == x.data.creator);
+                    console.log(data['creator'], x.data.creator)
+                    if(data['creator'] == x.data.creator){
+                      data['flagAuthor'] = false;
+                    }else{
+                      data['flagAuthor'] = true;
+                    }
                     if(lex.request == 'sense'){
                       data['definition'] = 'no definition'
                     }
@@ -485,7 +504,8 @@ export class LexicalEntryTreeComponent implements OnInit {
     
     if ($event.eventName == 'activate' && $event.node.data.lexicalEntry != undefined 
                                        && $event.node.data.form == undefined
-                                       && $event.node.data.sense == undefined) {
+                                       && $event.node.data.sense == undefined
+                                       && $event.node.data.etymology == undefined) {
       //this.lexicalService.sendToCoreTab($event.node.data);
       let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
@@ -493,6 +513,7 @@ export class LexicalEntryTreeComponent implements OnInit {
           console.log(data)
           this.lexicalService.sendToCoreTab(data);
           this.lexicalService.sendToRightTab(data);
+          this.lexicalService.sendToEtymologyTab(null);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
         },
         error => {
@@ -505,10 +526,13 @@ export class LexicalEntryTreeComponent implements OnInit {
 
       this.lexicalService.getFormData(formId, 'core').subscribe(
         data => {
+          console.log(data)
           data['parentNodeLabel'] = $event.node.parent.parent.data.label;
           data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
           this.lexicalService.sendToCoreTab(data)
-          this.lexicalService.sendToRightTab(data)
+          this.lexicalService.sendToEtymologyTab(null);
+          this.lexicalService.sendToRightTab(data);
+          this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']})
         },
         error => {
           //console.log(error)
@@ -525,10 +549,30 @@ export class LexicalEntryTreeComponent implements OnInit {
           data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
           console.log(data)
           this.lexicalService.sendToCoreTab(data)
-          this.lexicalService.sendToRightTab(data)
+          this.lexicalService.sendToEtymologyTab(null);
+          this.lexicalService.sendToRightTab(data);
+          this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']})
         },
         error => {
           //console.log(error)
+        }
+      )
+    }else if($event.eventName == 'activate' && $event.node.data.etymology != undefined){
+
+      let etymologyId = $event.node.data.etymologyInstanceName;
+
+      this.lexicalService.getEtymologyData(etymologyId).subscribe(
+        data => {
+          data['parentNodeLabel'] = $event.node.parent.parent.data.label;
+          data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
+          console.log(data)
+          this.lexicalService.sendToCoreTab(null);
+          this.lexicalService.sendToEtymologyTab(data);
+          this.lexicalService.sendToRightTab(data);
+          this.lexicalService.updateLexCard({lastUpdate : data['etymology']['lastUpdate'], creationDate : data['etymology']['creationDate']})
+        },
+        error => {
+          console.log(error)
         }
       )
     }
@@ -605,12 +649,12 @@ export class LexicalEntryTreeComponent implements OnInit {
                 const someNode = this.lexicalEntryTree.treeModel.getNodeById(element.id);
               
                 someNode.expand();
-                console.log(someNode)
+                //console.log(someNode)
                 var that = this;
-                this.interval = setInterval((val)=>{                
+                /* this.interval = setInterval((val)=>{                
                                
                   
-                }, 2000)
+                }, 2000) */
               }catch(e){
                 console.log(e)
               }
@@ -656,9 +700,24 @@ export class LexicalEntryTreeComponent implements OnInit {
           //console.log(error)
         }
       )
-    } else if (node.data.label == "concept") {
+    } else if (node.data.label == "etymology") {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
-      //console.log("cercare concetto")
+      this.lexicalService.getEtymologies(parentInstance).subscribe(
+        data => {
+          /* //console.log(data) */
+          newNodes = data.map((c) => Object.assign({}, c));
+          for (var i = 0; i < newNodes.length; i++) {
+            newNodes[i]['hasChildren'] = null;
+            if (newNodes[i].creator == node.parent.data.creator) {
+              newNodes[i]['flagAuthor'] = false
+            } else {
+              newNodes[i]['flagAuthor'] = true
+            }
+          }
+        },error => {
+          //console.log(error)
+        }
+      )
       
     }
     

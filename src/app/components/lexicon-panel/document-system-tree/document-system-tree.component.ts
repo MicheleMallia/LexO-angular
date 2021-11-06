@@ -46,6 +46,8 @@ export class DocumentSystemTreeComponent implements OnInit {
         instanceName = data['formInstanceName']
       }else if(data['senseInstanceName'] != undefined){
         instanceName = data['senseInstanceName']
+      }else if(data['etymologyInstanceName'] != undefined){
+        instanceName = data['etymologyInstanceName']
       };
       setTimeout(() => {
         this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
@@ -89,6 +91,18 @@ export class DocumentSystemTreeComponent implements OnInit {
                 return false;
               }
             }
+            else if (data['etymologyInstanceName'] != undefined) {
+              
+              if(x.data.etymologyInstanceName == instanceName){
+                x.data.note = data['new_note']
+                that.lexTree.lexicalEntryTree.treeModel.update();
+                that.lexTree.updateTreeView();
+                data['new_note'] = undefined;
+                return true;
+              }else{
+                return false;
+              }
+            }
             else {
               return false;
             } 
@@ -105,7 +119,9 @@ export class DocumentSystemTreeComponent implements OnInit {
         instanceName = data['formInstanceName']
       }else if(data['senseInstanceName'] != undefined){
         instanceName = data['senseInstanceName']
-      };
+      }else if(data['etymologyInstanceName'] != undefined){
+        instanceName = data['etymologyInstanceName']
+      };;
       setTimeout(() => {
         this.lexTree.lexicalEntryTree.treeModel.getNodeBy(
           function (x) {
@@ -133,6 +149,17 @@ export class DocumentSystemTreeComponent implements OnInit {
             } else if (data['senseInstanceName'] != undefined) {
               
               if(x.data.senseInstanceName == instanceName){
+                x.data.label = data['new_label']
+                //x.setActiveAndVisible()
+                x.scrollIntoView();
+                data['new_label'] = undefined
+                return true;
+              }else{
+                return false;
+              }
+            } else if (data['etymologyInstanceName'] != undefined) {
+              
+              if(x.data.etymologyInstanceName == instanceName){
                 x.data.label = data['new_label']
                 //x.setActiveAndVisible()
                 x.scrollIntoView();

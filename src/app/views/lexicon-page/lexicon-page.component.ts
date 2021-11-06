@@ -19,10 +19,17 @@ export class LexiconPageComponent implements OnInit {
     this.lexicalService.rightPanelData$.subscribe(
       object => {
         this.object = object;
+        /* console.log(this.object) */
         if(this.object !=null){
-          this.notes = this.object;
-          this.link = this.object;
-          this.bibliography = this.object;
+          if(this.object.etymology != undefined){
+            this.notes = this.object['etymology'];
+            this.link = this.object['etymology'];
+            this.bibliography = this.object['etymology'];
+          }else{
+            this.notes = this.object;
+            this.link = this.object;
+            this.bibliography = this.object;
+          }
         }else{
           this.notes = null;
           this.link = null;
