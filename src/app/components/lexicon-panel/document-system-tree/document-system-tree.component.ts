@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { ToastrService } from 'ngx-toastr';
+import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
+import { TreeNode } from '@circlon/angular-tree-component';
 
 @Component({
   selector: 'app-document-system-tree',
@@ -12,8 +14,9 @@ export class DocumentSystemTreeComponent implements OnInit {
 
   switcher = false;
   @ViewChild('lexTree') lexTree: any;
+  @ViewChild('textTree') textTree: any;
 
-  constructor(private lexicalService: LexicalEntriesService, private toastr: ToastrService) { }
+  constructor(private lexicalService: LexicalEntriesService, private toastr: ToastrService, private renderer: Renderer2, private documentService: DocumentSystemService) { }
 
   ngOnInit(): void {
     this.lexicalService.refreshAfterEdit$.subscribe(
@@ -467,5 +470,75 @@ export class DocumentSystemTreeComponent implements OnInit {
         });
       }
     )
+  }
+
+
+  addNewFile(evt?){
+    let element_id = 0;
+    let file_name = evt.target.files[0].name;
+    let parameters = {
+      "requestUUID" : "string",
+      "user-id" : 0,
+      "element-id" : element_id,
+      "file_name" : file_name
+    }
+    
+    const expandedNodes = this.textTree.treeText.treeModel.expandedNodes;
+    console.log(parameters)
+    this.documentService.uploadFile(parameters).subscribe(
+      data=>{
+        console.log(data)
+        this.textTree.nodes = data['documentSystem'];
+        
+        expandedNodes.forEach( (node: TreeNode) => {
+          
+          setTimeout(() => {
+            this.textTree.treeText.treeModel.getNodeBy(x => {
+              if(x.data['element-id'] === node.data['element-id']){
+                x.setActiveAndVisible()
+              }
+            })              
+          }, 300);
+        })
+        
+      },error=>{
+        console.log(error)
+      }
+    )
+    console.log(evt);
+  }
+
+  addNewFolder(){
+    
+    let element_id = 0;
+    let parameters = {
+      "requestUUID" : "string",
+      "user-id" : 0,
+      "element-id" : element_id
+    }
+    
+    const expandedNodes = this.textTree.treeText.treeModel.expandedNodes;
+    
+    this.documentService.addFolder(parameters).subscribe(
+      data=>{
+        console.log(data)
+        this.textTree.nodes = data['documentSystem'];
+        setTimeout(() => {
+          this.textTree.treeText.treeModel.getNodeBy(x => {
+            if(x.data['element-id'] === element_id){
+              x.expand()
+            }
+          })              
+        }, 300);
+        expandedNodes.forEach( (node: TreeNode) => {
+          
+          
+        })
+        
+      },error=>{
+        //console.log(error)
+      }
+    )
+    
   }
 }

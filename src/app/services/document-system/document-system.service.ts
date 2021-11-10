@@ -36,4 +36,44 @@ export class DocumentSystemService {
     return this.http.post(this.baseUrl_document + "api/crud/renameFolder", parameters)
   }
 
+
+  //POST ​/api​/crud​/uploadFile --> upload text
+  uploadFile(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/uploadFile", parameters)
+  }
+
+  //POST ​/api​/crud​/removeFile --> upload text
+  removeFile(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/removeFile", parameters)
+  }
+
+  //POST ​/api​/crud​/renameFile --> upload text
+  renameFile(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/renameFile", parameters)
+  }
+
+  //POST ​/api​/crud​/moveFileTo --> move file to another folder
+  moveFileTo(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/moveFileTo", parameters)
+  }
+
+  //POST ​/api​/crud​/copyFileTo --> move file to another folder
+  copyFileTo(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/copyFileTo", parameters)
+  }
+
+  //POST ​/api​/crud​/downloadFile --> move file to another folder
+  downloadFile(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/downloadFile", parameters)
+  }
+
+  //POST ​/api​/crud​/updateMetadata --> move file to another folder
+  updateMetadata(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/updateMetadata", parameters)
+  }
+  
+  //POST ​/api​/crud​/deleteMetadata --> move file to another folder
+  deleteMetadata(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/deleteMetadata", parameters)
+  }
 }

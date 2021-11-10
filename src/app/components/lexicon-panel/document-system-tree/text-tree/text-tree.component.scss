@@ -1,4 +1,11 @@
+// Required
+@import "../../../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../../../node_modules/bootstrap/scss/variables";
+@import "../../../../../../node_modules/bootstrap/scss/mixins";
+
 $font-size-input: 12px;
+
+$font-size: 12px;
 
 .form-control {
     font-size: $font-size-input;
@@ -7,4 +14,21 @@ $font-size-input: 12px;
 .tree-view {
     padding-top: 15px;
     height: calc(100vh - 500px);
+}
+
+
+.btn {
+    font-size: 12px;
+    height: 32px;
+}
+
+.card,
+.btn {
+    font-size: $font-size;
+}
+.card {
+    width: 100%;
+}
+.card-header {
+    padding: 5px 18px;
 }

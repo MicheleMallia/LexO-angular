@@ -704,7 +704,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       let parentInstance = node.parent.data.lexicalEntryInstanceName;
       this.lexicalService.getEtymologies(parentInstance).subscribe(
         data => {
-          /* //console.log(data) */
+          console.log(data)
           newNodes = data.map((c) => Object.assign({}, c));
           for (var i = 0; i < newNodes.length; i++) {
             newNodes[i]['hasChildren'] = null;

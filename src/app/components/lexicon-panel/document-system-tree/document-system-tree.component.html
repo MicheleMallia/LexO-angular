@@ -9,17 +9,23 @@
                     aria-controls="epigrafi">
                     <i class="fa"></i> Epigrafi
                 </button>
-                <div class="icons-container">
-                    <button class="btn btn-link"><i class="fa fa-plus"></i></button>
+                <div class="icons-container dropdown">
+                    <button class="btn btn-link" type="button" id="textTreeActionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></button>
                     <button class="btn btn-link"><i class="fa fa-file-import"></i></button>
                     <button class="btn btn-link"><i class="fa fa-download"></i></button>
                     <button class="btn btn-link" title="Language"><i class="fa fa-globe-americas"></i></button>
+                    <div class="dropdown-menu" aria-labelledby="textTreeActionDropdown">
+                        <a class="dropdown-item" (click)="addFile.click()" style="cursor: pointer;">Add new file</a>
+                        <input #addFile type="file" hidden (change)="addNewFile($event)">
+                        <a class="dropdown-item" (click)="addNewFolder()" style="cursor: pointer;">Add new folder</a>
+                      </div>
                 </div>
+               
             </h5>
         </div>
         <div id="epigrafi" class="collapse show" aria-labelledby="headingOne" data-parent="#tree-accordion">
             <div class="card-body">
-                <app-text-tree></app-text-tree>
+                <app-text-tree #textTree></app-text-tree>
             </div>
         </div>
     </div>
