@@ -444,7 +444,8 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     let data= {};
                     data['request'] = 0;
                     data['new_pos'] = posValue;
-                    this.lexicalService.updateLexCard(data)
+                    data['lexicalEntryInstanceName'] = this.object.lexicalEntryInstanceName;
+                    //this.lexicalService.updateLexCard(data)
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.refreshFilter({ request: true })
