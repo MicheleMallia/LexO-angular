@@ -361,7 +361,6 @@ export class LexicalEntryTreeComponent implements OnInit {
 
     setTimeout(() => {
       
-      
       this.lexicalEntryTree.treeModel.getNodeBy(x => {
         if(signal.lexicalEntryInstanceName != undefined){
           if(x.data.lexicalEntryInstanceName === signal.lexicalEntryInstanceName){
@@ -402,6 +401,26 @@ export class LexicalEntryTreeComponent implements OnInit {
         }else if(signal.senseInstanceName != undefined){
           if(x.data.senseInstanceName === signal.senseInstanceName){
             
+            x.parent.data.children.splice(x.parent.data.children.indexOf(x.data), 1);
+            let countSense = x.parent.data.count;
+            if(countSense != 0){
+              x.parent.data.count--;
+              countSense--;
+            }
+            
+            if(countSense == 0){
+              x.parent.parent.data.children.splice(x.parent.parent.data.children.indexOf(x.parent.data), 1)
+            }
+            console.log(x.parent)
+            
+            this.lexicalEntryTree.treeModel.update()
+            
+            return true;
+          }else{
+            return false;
+          }
+        }else if(signal.etymology.etymologyInstanceName != undefined){
+          if(x.data.etymologyInstanceName === signal.etymology.etymologyInstanceName){
             x.parent.data.children.splice(x.parent.data.children.indexOf(x.data), 1);
             let countSense = x.parent.data.count;
             if(countSense != 0){

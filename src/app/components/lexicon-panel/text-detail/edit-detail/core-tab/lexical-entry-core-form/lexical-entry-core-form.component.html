@@ -20,12 +20,12 @@
                 </div>
             </div>
         </div>
-        <div class="form-group row ml-2 mt-3 mr-2">
+        <div class="form-group row ml-2 mt-3 mr-2" *ngIf="!variable.etymon">
             <div class="col-lg-3 col-form-label">
                 <label for="inputType">Type:</label>
             </div>
             <div class="col-lg-7 input-group">
-                <select id="typeSelect" formControlName="type" name="type" class="form-control" >
+                <select id="typeSelect" formControlName="type" name="type" class="form-control">
                     <option *ngFor="let lx of lexEntryTypesData" [selected]="object.type === lx['valueId']">
                         {{lx['valueId']}}
                     </option>
@@ -42,10 +42,10 @@
         </div>
         <div class="form-group row ml-2 mt-3 mr-2">
             <label for="inputLanguage" class="col-lg-3 col-form-label">Language:</label>
-            <div class="col-lg-7">
+            <div class="col-lg-7">                
                 <select formControlName="language" name="language" class="form-control" (change)="onChangeLanguage($event)">
                     <option value="">Select language....</option>
-                    <option *ngFor="let la of languages" [selected]="object.language.toLowerCase() === la['label'].toLowerCase()">{{la['label']}}
+                    <option *ngFor="let la of languages" [value]="la['label'].toLowerCase()" [selected]="object.language.toLowerCase() == la['label'].toLowerCase()">{{la['label']}} {{object.language.toLowerCase() === la['label'].toLowerCase()}}
                     </option>
                 </select>
                 <div class="invalid-feedback" *ngIf="coreForm.get('language').value == ''" style="display: block;">
@@ -81,7 +81,7 @@
                                     style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="coreForm.get('pos').value == ''"
+                            <div class="invalid-feedback" *ngIf="!coreForm.get('pos').valid"
                                 style="display: block;">
                                 Please, don't leave this field blank
                             </div>
