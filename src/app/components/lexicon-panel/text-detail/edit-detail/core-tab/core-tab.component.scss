@@ -20,8 +20,8 @@ $font-size: 12px;
 }
 
 .card-body {
-    max-height: 42vh;
-    min-height: 42vh;
+    max-height: calc(50vh - 5rem);
+    min-height: calc(50vh - 5rem);
     overflow: auto;
 }
 
@@ -51,10 +51,6 @@ $font-size: 12px;
         th, td {
             padding: 0.55rem;
         }
-    }
-
-    .table-responsive {
-        /* height: 40rem; */
     }
 
     tbody {

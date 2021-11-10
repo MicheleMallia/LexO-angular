@@ -18,11 +18,11 @@ import {
   animations: [
     trigger('slideInOut', [
       state('in', style({
-        height: '68vh',
+        height: 'calc(100vh - 18.7rem)',
         
       })),
       state('out', style({
-        height: '42vh',
+        height: 'calc(50vh - 5rem)',
       })),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out'))
@@ -71,13 +71,13 @@ export class DecompositionTabComponent implements OnInit {
     this.expand.exp$.subscribe(
       trigger => {
         if(trigger){
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', '42vh')
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 5rem)')
           this.exp_trig = 'in';
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', '68vh')
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 18.7rem)')
         }else if(trigger==null){
           return;
         }else{
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', '42vh');
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 5rem)');
           this.exp_trig = 'out';
         }
       }

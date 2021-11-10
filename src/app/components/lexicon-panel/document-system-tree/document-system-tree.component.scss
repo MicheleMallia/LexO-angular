@@ -27,8 +27,8 @@ $font-size-btn: 12px;
 }
 
 #entrate-lessicali > .card-body {
-    height: 78vh;
-    max-height: 78vh !important;
+    height: calc(100vh - 13rem);
+    max-height: calc(100vh - 13rem) !important;
     overflow-y: auto !important;
     padding-right: 10px;
 }

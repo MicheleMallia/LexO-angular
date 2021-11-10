@@ -347,6 +347,8 @@ export class EtymologyFormComponent implements OnInit {
       instanceName = etyLink;
     }
     
+    console.log(index);
+    console.log(this.object.etyLinks[index])
     if (this.object.etymology.etymologyInstanceName != undefined) {
       etymId = this.object.etyLinks[index].etymologicalLinkInstanceName;
     }
@@ -360,6 +362,7 @@ export class EtymologyFormComponent implements OnInit {
         value: selectedValues,
         currentValue: oldValue
       }
+
       console.log(parameters)
       this.lexicalService.updateLinguisticRelation(etymId, parameters).subscribe(
         data => {

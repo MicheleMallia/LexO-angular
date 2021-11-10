@@ -13,7 +13,8 @@ $font-size: 12px;
 
 .tree-view {
     padding-top: 15px;
-    height: calc(100vh - 500px);
+    height: calc(100vh - 18rem);
+    max-height: calc(100vh - 18rem);
 }
 
 
