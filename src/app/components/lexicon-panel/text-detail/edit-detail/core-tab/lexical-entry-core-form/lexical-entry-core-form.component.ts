@@ -61,7 +61,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         label: new FormControl('', [Validators.required, Validators.minLength(3)]),
         type: new FormControl(''),
         language: new FormControl('', [Validators.required, Validators.minLength(0)]),
-        pos: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        pos: new FormControl(''),
         morphoTraits: new FormArray([this.createMorphoTraits()]),
         evokes: new FormArray([this.createEvokes()]),
         denotes: new FormArray([this.createDenotes()])
@@ -104,7 +104,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.languages = [];
                     this.lexicalService.getLexiconLanguages().subscribe(
                         data => {
-            
+                            console.log(data)
                             for (var i = 0; i < data.length; i++) {
                                 this.languages[i] = data[i]
                             }
@@ -419,7 +419,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.lexicalService.spinnerAction('on');
         let posValue = evt.target.value;
         let lexId = this.object.lexicalEntryInstanceName;
-        if (posValue != '') {
             let parameters;
             if (this.memoryPos == '') {
 
@@ -438,9 +437,11 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 }
             }
             
+            console.log(parameters)
             this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
-                data => {
-                    //console.log(data)
+                response => {
+                    console.log(response)
+                    let data= {};
                     data['request'] = 0;
                     data['new_pos'] = posValue;
                     this.lexicalService.updateLexCard(data)
@@ -463,7 +464,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     }, 1000);
                 },
                 error => {
-                    //console.log(error)
+                    console.log(error)
                     this.lexicalService.spinnerAction('off');
                     const data = this.object;
                     data['request'] = 0;
@@ -486,7 +487,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     }, 1000);
                 }
             )
-        }
+        
 
     }
 
