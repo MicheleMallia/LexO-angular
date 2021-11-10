@@ -95,11 +95,30 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             }
         )
 
+        this.lexicalService.refreshFilter$.subscribe(
+            //TODO: inserire get languages
+            data=>{
+                console.log(data)
+                this.languages = [];
+                this.lexicalService.getLexiconLanguages().subscribe(
+                    data => {
+        
+                        for (var i = 0; i < data.length; i++) {
+                            this.languages[i] = data[i]
+                        }
+                    }
+                );
+            },
+            error =>{
+                console.log(error)
+            }
+        );
+
         this.lexicalService.getLexiconLanguages().subscribe(
             data => {
-
+                this.languages = [];
                 for (var i = 0; i < data.length; i++) {
-                    this.languages.push(data[i])
+                    this.languages[i] = data[i]
                 }
             }
         );
