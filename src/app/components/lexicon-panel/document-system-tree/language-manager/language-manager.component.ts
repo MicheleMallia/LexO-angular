@@ -72,12 +72,14 @@ export class LanguageManagerComponent implements OnInit {
         data => {
           this.loadingService = false;
           this.lexicalService.refreshFilter({request: true});
+          this.lexicalService.updateLangSelect({request: true});
           this.lexicalService.refreshLangTable();
         }, error => {
           //console.log(error)
           this.loadingService = false;
           this.lexicalService.refreshLangTable();
           this.lexicalService.refreshFilter({request: true});
+          this.lexicalService.updateLangSelect({request: true});
         }
       )
     } else {

@@ -18,6 +18,7 @@ export class LexicalEntriesService {
   private _refreshLanguageTable: BehaviorSubject<object> = new BehaviorSubject(null);
   private _refreshAfterEdit : BehaviorSubject<object> = new BehaviorSubject(null);
   private _refreshFilter : BehaviorSubject<object> = new BehaviorSubject(null);
+  private _updateLangSelect : BehaviorSubject<object> = new BehaviorSubject(null);
 
   private baseUrl = "/LexO-backend-itant/service/"
   private key = "PRINitant19";
@@ -34,6 +35,7 @@ export class LexicalEntriesService {
   refreshLangTable$ = this._refreshLanguageTable.asObservable();
   refreshAfterEdit$ = this._refreshAfterEdit.asObservable();
   refreshFilter$ = this._refreshFilter.asObservable();
+  updateLangSelect$ = this._updateLangSelect.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -79,6 +81,10 @@ export class LexicalEntriesService {
 
   refreshFilter(object: object){
     this._refreshFilter.next(object);
+  }
+
+  updateLangSelect(object: object){
+    this._updateLangSelect.next(object);
   }
 
   //POST: /lexicon/lexicalEntries ---> get lexical entries list
