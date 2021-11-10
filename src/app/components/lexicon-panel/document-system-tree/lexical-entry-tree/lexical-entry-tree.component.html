@@ -154,7 +154,7 @@
                             *ngIf="node.data.count == undefined && labelView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined">{{
                             node.data.label }}</span>
                         <span
-                            *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined">{{
+                            *ngIf="node.data.count == undefined && idView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined && node.data.etymologyInstanceName == undefined">{{
                             node.data.lexicalEntryInstanceName }}</span>
     
                         <span
@@ -168,6 +168,9 @@
                             node.data.formInstanceName }}</span>
                         <span *ngIf="node.data.count == undefined && idView && node.data.definition != undefined">{{
                             node.data.senseInstanceName }}</span>
+
+                        <span *ngIf="node.data.count == undefined && idView && node.data.etymologyInstanceName != undefined">{{
+                            node.data.etymologyInstanceName }}</span>
     
                         <span class="lexical-tooltip"
                             *ngIf="node.data.count == undefined && labelView && node.data.definition != undefined && node.data.label != undefined"
