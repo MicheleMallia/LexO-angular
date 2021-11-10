@@ -39,6 +39,7 @@ export class EtymologyFormComponent implements OnInit {
   private subject_etylink: Subject<any> = new Subject();
   private subject_etylink_input: Subject<any> = new Subject();
   private etylink_note_subject : Subject<any> = new Subject();
+  private etylink_label_subject : Subject<any> = new Subject();
   searchResults: [];
   filterLoading = false;
 
@@ -99,6 +100,12 @@ export class EtymologyFormComponent implements OnInit {
         this.onChangeEtylinkNote(data)
       }
     )
+
+    this.etylink_label_subject.pipe(debounceTime(1000)).subscribe(
+      data => {
+        this.onChangeEtylinkLabel(data)
+      }
+    )
   }
   
 
@@ -134,14 +141,16 @@ export class EtymologyFormComponent implements OnInit {
         if(this.object.etyLinks != undefined){
           if(this.object.etyLinks.length != 0){
             this.object.etyLinks.forEach(element => {
-              let lex_entity = element.etySourceLabel;
-              let label = element.etySourceLabel;
+              let lex_entity = element.etySourceLabel == '' ? element.etySource : element.etySourceLabel;
+              let label = element.label == '' ? element.etySourceLabel : element.label;
               let ety_type = element.etyLinkType;
               let ety_source = element.etySource;
               let ety_target = element.etyTarget;
               let note = element.note;
-              this.addEtyLink(lex_entity, label, ety_type, ety_source, ety_target, note);
+              let external_iri = element.externalIRI;
+              this.addEtyLink(lex_entity, label, ety_type, ety_source, ety_target, note, external_iri);
               this.memoryLinks.push(element);
+              /* console.log(element) */
             });
           }
         }
@@ -194,6 +203,8 @@ export class EtymologyFormComponent implements OnInit {
       )
 
     });
+
+    //TODO: inserire servizio per modifica type link external/internal
 
     this.etyForm.get("label").valueChanges.pipe(debounceTime(1000)).subscribe(
       updatedLabel => {
@@ -298,6 +309,44 @@ export class EtymologyFormComponent implements OnInit {
     }
   }
 
+  onChangeEtylinkLabel(data){
+    console.log(data)
+    if(data != undefined){
+      
+      let newValue = data.evt.target.value;
+      let currentValue;
+      let index = data?.index;
+      
+      let oldValue = this.memoryLinks[index].note;
+
+      let instanceName = this.object.etyLinks[index].etymologicalLinkInstanceName;
+      
+
+      let parameters = {
+        relation: 'label',
+        value : newValue,
+        currentValue : oldValue
+      };
+
+      console.log(parameters)
+
+      this.lexicalService.updateEtylink(instanceName, parameters).subscribe(
+        data=> {
+          console.log(data);
+          this.lexicalService.spinnerAction('off');
+          this.lexicalService.updateLexCard(this.object)
+          this.memoryLinks[index].note = newValue
+        },error=> {
+          console.log(error);
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+          this.lexicalService.spinnerAction('off');
+          this.memoryLinks[index].note = newValue
+        }
+      )
+    
+    }
+  }
+
   onChangeEtylinkType(index, evt){
     console.log(index, evt.target.value)
     this.etyLinkArray = this.etyForm.get('etylink') as FormArray;
@@ -370,7 +419,7 @@ export class EtymologyFormComponent implements OnInit {
         }, error => {
           console.log(error)
           if(error.statusText == 'OK'){
-            this.memoryLinks[index] = selectedValues;
+            /* this.memoryLinks[index]['etySourceLabel'] = ; */
             this.etyLinkArray.at(index).patchValue({ label: etySourceLabel});
             this.etyLinkArray.at(index).patchValue({ etySource: instanceName});
             this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
@@ -389,14 +438,19 @@ export class EtymologyFormComponent implements OnInit {
     
   }
 
+  debounceEtylinkLabel(evt, index){
+    this.lexicalService.spinnerAction('on');
+    this.etylink_label_subject.next({ evt, index})
+  }
+
   debounceEtylinkNote(evt, index) {
     this.lexicalService.spinnerAction('on');
     this.etylink_note_subject.next({ evt, index})
   }
 
-  addEtyLink(le?, l?, elt?, es?, et?, n?){
+  addEtyLink(le?, l?, elt?, es?, et?, n?, el?){
     this.etyLinkArray = this.etyForm.get('etylink') as FormArray;
-    this.etyLinkArray.push(this.createEtyLink(le, l, elt, es, et, n));
+    this.etyLinkArray.push(this.createEtyLink(le, l, elt, es, et, n, el));
   }
 
   addNewEtyLink() { 
@@ -417,6 +471,8 @@ export class EtymologyFormComponent implements OnInit {
           let etyType = data['etyLinkType']
           this.etyLinkArray.at(index).patchValue({ etyTarget: etyTarget});
           this.etyLinkArray.at(index).patchValue({ etyLinkType: etyType});
+          this.object.etyLinks[index] = data;
+          this.memoryLinks[index] = data;
         }
       },error=>{
         console.log(error)
@@ -426,6 +482,17 @@ export class EtymologyFormComponent implements OnInit {
 
   removeEtyLink(index){
     this.etyLinkArray = this.etyForm.get('etylink') as FormArray;
+    let etyLinkId = this.memoryLinks[index]['etymologicalLinkInstanceName']
+    this.lexicalService.deleteEtylink(etyLinkId).subscribe(
+      data =>{
+        console.log(data)
+        //this.lexicalService.updateLexCard(this.object)
+      },
+      error =>{
+        console.log(error)
+        //this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+      }
+    )
     this.etyLinkArray.removeAt(index);
     this.memoryLinks.splice(index, 1)
   }
@@ -443,7 +510,7 @@ export class EtymologyFormComponent implements OnInit {
     })
   }
 
-  createEtyLink(le?, l?, elt?, es?, et?, n?) {
+  createEtyLink(le?, l?, elt?, es?, et?, n?, el?) {
     if(le!= undefined){
       return this.formBuilder.group({
         lex_entity: new FormControl(le),
@@ -451,7 +518,8 @@ export class EtymologyFormComponent implements OnInit {
         etyLinkType: new FormControl(elt),
         etySource : new FormControl(es),
         etyTarget : new FormControl(et),
-        note: new FormControl(n)
+        note: new FormControl(n),
+        external_iri : new FormControl(el)
       })
     }else{
       return this.formBuilder.group({
@@ -460,7 +528,8 @@ export class EtymologyFormComponent implements OnInit {
         etyLinkType: new FormControl(null),
         etySource : new FormControl(null),
         etyTarget : new FormControl(null),
-        note : new FormControl(null)
+        note : new FormControl(null),
+        external_iri : new FormControl(null)
       })
     }
     

@@ -113,6 +113,7 @@ export class EtymologyTabComponent implements OnInit {
 
     this.lexicalService.updateLexCardReq$.subscribe(
       data => {
+        console.log(data)
         if(data != null){
           this.lastUpdateDate = data['lastUpdate']
           if(data['creationDate'] != undefined){
@@ -166,7 +167,30 @@ export class EtymologyTabComponent implements OnInit {
 
 
   deleteEtymology(){
-    
+    this.searchIconSpinner = true;
+    let etymId = this.object.etymology.etymologyInstanceName
+    this.lexicalService.deleteEtymology(etymId).subscribe(
+      data=>{
+        this.searchIconSpinner = false;
+        this.lexicalService.deleteRequest(this.object);
+        this.lexicalEntryData = null;
+        this.isLexicalEntry = false;
+        this.object = null;
+        this.lexicalService.refreshLangTable();
+        this.lexicalService.refreshFilter({request : true})
+        this.lexicalService.sendToCoreTab(null);
+        this.lexicalService.sendToRightTab(null);
+        this.biblioService.sendDataToBibliographyPanel(null);
+      },error=> {
+        this.searchIconSpinner = false;
+        //this.lexicalService.deleteRequest(this.object);
+        //this.lexicalService.refreshLangTable();
+        //this.lexicalService.refreshFilter({request : true})
+        this.toastr.error(error.error, 'Error', {
+          timeOut: 5000,
+        });
+      }
+    )
   }
 
   addNewEtymology(){

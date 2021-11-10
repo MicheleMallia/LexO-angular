@@ -301,8 +301,15 @@ export class LexicalEntriesService {
     return this.http.get(this.baseUrl + "lexicon/creation/etymologicalLink?lexicalEntryID="+lexInstance+"&etymologyID="+etymInstance+"&key="+this.key+"&author="+this.author+"");
   }
 
-  //PER CAMBIARE ETYLINKTYPE E NOTE
+  deleteEtymology(etymInstance : string) : Observable<any>{
+    return this.http.get(this.baseUrl + "lexicon/delete/"+etymInstance+"/etymology?key="+this.key+"&author="+this.author+"");
+  }
+
   updateEtylink(etymId, parameters): Observable<any> {
     return this.http.post(this.baseUrl + "lexicon/update/" + etymId + "/etymologicalLink?key=" + this.key + "&author=" + this.author, parameters);
+  }
+
+  deleteEtylink(etyLinkInstance: string) : Observable<any>{
+    return this.http.get(this.baseUrl + "lexicon/delete/"+etyLinkInstance+"/etymologicalLink?=&key="+this.key+"&author="+this.author+"");
   }
 }
