@@ -375,11 +375,12 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         let langLabel = evt.target.value;
         let langValue;
         this.languages.forEach(element => {
-            if (element['label'] == langLabel) {
+            if (element['label'].toLowerCase() == langLabel.toLowerCase()) {
                 langValue = element['label'];
                 return;
             }
         });
+
         if (langValue != undefined) {
             let lexId = this.object.lexicalEntryInstanceName;
             let parameters = {
@@ -393,7 +394,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.updateLexCard(data)
                     data['request'] = 0;
-                    data['new_lang'] = langValue;
+                    data['new_lang'] = langValue.toLowerCase();
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.refreshLangTable();
                     this.lexicalService.refreshFilter({ request: true })
@@ -401,7 +402,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     //console.log(error)
                     const data = this.object;
                     data['request'] = 0;
-                    data['new_lang'] = langValue;
+                    data['new_lang'] = langValue.toLowerCase();
                     this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.spinnerAction('off');
                     this.lexicalService.refreshLangTable();
@@ -419,75 +420,77 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.lexicalService.spinnerAction('on');
         let posValue = evt.target.value;
         let lexId = this.object.lexicalEntryInstanceName;
-            let parameters;
-            if (this.memoryPos == '') {
+        let parameters;
+        if (this.memoryPos == '') {
 
-                parameters = {
-                    type: "morphology",
-                    relation: 'partOfSpeech',
-                    value: posValue
-                }
-
-            } else {
-                parameters = {
-                    type: "morphology",
-                    relation: 'partOfSpeech',
-                    value: posValue,
-                    currentValue: this.memoryPos
-                }
+            parameters = {
+                type: "morphology",
+                relation: 'partOfSpeech',
+                value: posValue
             }
-            
-            console.log(parameters)
-            this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
-                response => {
-                    console.log(response)
-                    let data= {};
-                    data['request'] = 0;
-                    data['new_pos'] = posValue;
-                    data['lexicalEntryInstanceName'] = this.object.lexicalEntryInstanceName;
-                    //this.lexicalService.updateLexCard(data)
-                    this.lexicalService.spinnerAction('off');
-                    this.lexicalService.refreshAfterEdit(data);
-                    this.lexicalService.refreshFilter({ request: true })
 
-                    setTimeout(() => {
-                        
-                        this.valuePos.forEach(el => {
-                            if(el.valueId == posValue){
-                                this.posDescription = el.valueDescription;
-                            }
-                        })
-                        //@ts-ignore
-                        $('.pos-tooltip').tooltip({
-                            trigger: 'hover',
-                        });
+        } else {
+            parameters = {
+                type: "morphology",
+                relation: 'partOfSpeech',
+                value: posValue,
+                currentValue: this.memoryPos
+            }
+        }
+        
+        console.log(parameters)
+        this.lexicalService.updateLinguisticRelation(lexId, parameters).pipe(debounceTime(1000)).subscribe(
+            response => {
+                console.log(response)
+                this.memoryPos = posValue;
+                let data= {};
+                data['request'] = 0;
+                data['new_pos'] = posValue;
+                data['lexicalEntryInstanceName'] = this.object.lexicalEntryInstanceName;
+                //this.lexicalService.updateLexCard(data)
+                this.lexicalService.spinnerAction('off');
+                this.lexicalService.refreshAfterEdit(data);
+                this.lexicalService.refreshFilter({ request: true })
+                
+                setTimeout(() => {
+                    
+                    this.valuePos.forEach(el => {
+                        if(el.valueId == posValue){
+                            this.posDescription = el.valueDescription;
+                        }
+                    })
+                    //@ts-ignore
+                    $('.pos-tooltip').tooltip({
+                        trigger: 'hover',
+                    });
 
-                    }, 1000);
-                },
-                error => {
-                    console.log(error)
-                    this.lexicalService.spinnerAction('off');
-                    const data = this.object;
-                    data['request'] = 0;
-                    data['new_pos'] = posValue;
-                    this.lexicalService.refreshAfterEdit(data);
-                    this.lexicalService.refreshFilter({ request: true })
-                    this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
-                    setTimeout(() => {
-                        
-                        this.valuePos.forEach(el => {
-                            if(el.valueId == posValue){
-                                this.posDescription = el.valueDescription;
-                            }
-                        })
-                        //@ts-ignore
-                        $('.pos-tooltip').tooltip({
-                            trigger: 'hover'
-                        });
+                }, 1000);
+            },
+            error => {
+                console.log(error);
+                this.memoryPos = posValue;
+                this.lexicalService.spinnerAction('off');
+                const data = this.object;
+                data['request'] = 0;
+                data['new_pos'] = posValue;
+                this.lexicalService.refreshAfterEdit(data);
+                this.lexicalService.refreshFilter({ request: true })
+                this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+                setTimeout(() => {
+                    
+                    this.valuePos.forEach(el => {
+                        if(el.valueId == posValue){
+                            this.posDescription = el.valueDescription;
+                        }
+                    })
+                    //@ts-ignore
+                    $('.pos-tooltip').tooltip({
+                        trigger: 'hover'
+                    });
 
-                    }, 1000);
-                }
-            )
+                }, 1000);
+            }
+        )
         
 
     }
