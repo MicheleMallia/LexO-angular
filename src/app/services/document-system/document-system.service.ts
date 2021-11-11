@@ -76,4 +76,9 @@ export class DocumentSystemService {
   deleteMetadata(parameters): Observable<any> {
     return this.http.post(this.baseUrl_document + "api/crud/deleteMetadata", parameters)
   }
+
+  //POST ​/api​/crud​/searchFiles --> move file to another folder
+  searchFiles(parameters): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/searchFiles", parameters)
+  }
 }

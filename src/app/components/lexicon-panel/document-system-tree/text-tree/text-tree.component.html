@@ -1,7 +1,89 @@
-<div class="col-md-12 mt-3">
-  <input id="filterText" type="text" (keyup)="onKey($event)" class="form-control" #filterText
-    (keyup)="treeText.treeModel.filterNodes(filterText.value)" placeholder="Search" />
-</div>
+<form [formGroup]="textFilterForm">
+  <div class="input-group col-md-12 mt-3">
+    <input formControlName="search_text" id="filterLexicalEntry" name="search_text" type="text" class="form-control" placeholder="Search" />
+    <div class="input-group-append">
+        <span class="input-group-text loading_icon_append" id="basic-addon2">
+            <div class="spinner-border spinner-border-sm m-1" role="status" *ngIf="searchIconSpinner">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </span>
+    </div>
+    <div id="buttons-container" class="input-group-append">
+        <button class="btn btn-secondary btn-block filter-button" type="button" value="Filter" title="Filter"
+            data-toggle="collapse" data-target="#metadataFilterCollapse" aria-expanded="false"
+            aria-controls="metadataFilterCollapse"><i class="fa fa-filter"></i></button>
+        <button class="btn btn-danger btn-block reset-button" type="button" value="Reset" title="Reset"
+            (click)="resetFields();" style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;"><i
+                class="fa fa-times"></i></button>
+        <button class="btn btn-block counter-button" type="button"><span
+                class="font-weight-bold font-italic text-muted">{{counter}}</span></button>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap mt-3">
+      <div class="col-md-3 col-sm-3">
+          <div class="form-check">
+              <input formControlName="search_mode" class="form-check-input" type="radio" name="search_mode"
+                  id="startRadio" value="start">
+              <label class="form-check-label" for="startRadio">
+                  Starts
+              </label>
+          </div>
+      </div>
+      <div class="col-md-3 col-sm-3">
+          <div class="form-check">
+              <input formControlName="search_mode" class="form-check-input" type="radio" name="search_mode"
+                  id="containsRadio" value="contains">
+              <label class="form-check-label" for="containsRadio">
+                  Contains
+              </label>
+          </div>
+      </div>
+  </div>
+
+  <div class="collapse multi-collapse" id="metadataFilterCollapse">
+  
+      <div class="d-flex flex-wrap mt-3">
+        <div class="col-md-12">
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4 col-form-label">Date mode:</label>
+            <div class="col-sm-8">
+              <select formControlName="date_mode" class="form-control" name="date_mode">
+                <option value="exact">Exact</option>
+                <option value="from">From</option>
+                <option value="until">Until</option>
+            </select>
+            </div>
+          </div>
+        </div> 
+      </div>
+      
+      <div class="d-flex flex-wrap">
+        <div class="col-md-12">
+          <input formControlName="import_date" type="datetime-local" class="form-control"
+                name="import_date" value="date"
+                min="2018-06-07T00:00" [max]="date">
+        </div>
+      </div>
+
+      <div class="d-flex flex-wrap mt-3">
+        <div class="col-md-12">
+          <ng-select #metadata_tags 
+            [items]="[]"
+            [addTag]="true"
+            [multiple]="true"
+            [selectOnTab]="true"
+            placeholder="Insert metadata tags"
+            (change)="triggerMetadata()"
+            [isOpen]="false">
+          </ng-select>
+          
+        </div>
+      </div>
+  </div>
+</form>
+
+
 <div class="col-md-12 mt-3 rounded border border-secondary tree-view">
   <p *ngIf="show">Nessun risultato</p>
   <tree-root #treeText [nodes]="nodes" [options]="options" [focused]="true" (activate)="onEvent($event)"
@@ -54,10 +136,10 @@
 
     <ng-template contextMenuItem divider="true"></ng-template>
     <!-- METADATA -->
-    <ng-template contextMenuItem let-item [enabled]="noRoot" (execute)="populateMetadata($event.item)">
+    <ng-template contextMenuItem let-item (execute)="populateMetadata($event.item)">
       <span (click)="editMetadata.show();">Edit Metadata</span>
     </ng-template>
-    <ng-template contextMenuItem let-item [enabled]="noRoot" (execute)="copyFile($event.item)">
+    <ng-template contextMenuItem let-item (execute)="copyFile($event.item)">
       <span (click)="removeMetadataModal.show();"> Delete Metadata</span>
     </ng-template>
   </context-menu>

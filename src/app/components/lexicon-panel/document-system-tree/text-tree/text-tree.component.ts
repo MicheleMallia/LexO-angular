@@ -1,8 +1,10 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder, ValidatorFn, AbstractControl } from '@angular/forms';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
 import { ModalComponent } from 'ng-modal-lib';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { debounceTime } from 'rxjs/operators';
 import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
 import { v4 } from 'uuid';
 
@@ -35,11 +37,12 @@ const actionMapping: IActionMapping = {
 @Component({
   selector: 'app-text-tree',
   templateUrl: './text-tree.component.html',
-  styleUrls: ['./text-tree.component.scss']
+  styleUrls: ['./text-tree.component.scss'],
+  providers: [DatePipe]
 })
 
 export class TextTreeComponent implements OnInit {
-
+  @ViewChild('metadata_tags') metadata_tags_element: any;
   @ViewChild('treeText') treeText: any;
   @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
   
@@ -48,7 +51,7 @@ export class TextTreeComponent implements OnInit {
 
   renameNodeSelected : any;
   validName = null;
-
+  searchIconSpinner = false;
   selectedFileToCopy : any;
 
   memoryMetadata = [];
@@ -57,9 +60,10 @@ export class TextTreeComponent implements OnInit {
     metadata_array: new FormArray([], [Validators.required]),
   })
   
-  objectKeys = Object.keys;
+  
   metadata_array: FormArray;
-
+  metadata_search : FormArray;
+  
   options: ITreeOptions = {
     actionMapping,
     allowDrag: (node) => node.isLeaf,
@@ -70,32 +74,63 @@ export class TextTreeComponent implements OnInit {
     })
   };
 
-
+  
   @ViewChild('renameFolderInput') renameFolder_input:ElementRef; 
   @ViewChild('renameFileInput') renameFile_input:ElementRef; 
   @ViewChild('uploadFile') uploadFile_input:ElementRef; 
   @ViewChild('renameFolderModel', {static: false}) renameFolderModal: ModalComponent;
   @ViewChild('editMetadata', {static: false}) editMetadataModal: ModalComponent;
   
-  constructor(private documentService: DocumentSystemService, private renderer: Renderer2, private formBuilder: FormBuilder) { }
+  date = this.datePipe.transform(new Date(), 'yyyy-MM-ddThh:mm');
+  counter = 0;
+
+  textFilterForm = new FormGroup({
+    search_text : new FormControl(null),
+    search_mode : new FormControl(null),
+    import_date : new FormControl(this.date),
+    date_mode : new FormControl(''),
+    /* metadata_array : new FormArray([this.createMetadataItemSearch()]) */
+  })
+
+  initialValues;
+
+  
+  
+  constructor(private element: ElementRef, private documentService: DocumentSystemService, private renderer: Renderer2, private formBuilder: FormBuilder, private datePipe:DatePipe) { }
 
   ngOnInit(): void {
-
     this.loadTree();
 
+    this.textFilterForm = this.formBuilder.group({
+      search_text : new FormControl(null),
+      search_mode : new FormControl('start'),
+      import_date : new FormControl(this.date),
+      date_mode : new FormControl('until'),
+      metadata_array : new FormArray([])
+    })
+
+    this.onChanges();
+    
     this.metadataForm = this.formBuilder.group({
       element_id : new FormControl(null),
       metadata_array: new FormArray([], [Validators.required]),
-    })
+    });
+
+    this.initialValues = this.textFilterForm.value
   }
 
-  ngAfterViewInit(){
-    
+  onChanges() {
+    this.textFilterForm.valueChanges.pipe(debounceTime(500)).subscribe(searchParams => {
+      console.log(searchParams)
+      this.searchFilter(searchParams)
+    })
   }
   
   onEvent = ($event: any) => {
     console.log($event);
   }
+
+  
 
   onMoveNode($event) {
     console.log($event);
@@ -109,27 +144,12 @@ export class TextTreeComponent implements OnInit {
     
   }
 
-  onKey = ($event:any) => {
-    var that = this;
-    setTimeout(function(){ 
-      var results = document.body.querySelectorAll('tree-node-collection > div')[0].children.length;
-      if(results == 0){
-        that.show = true;
-      } else {
-        that.show = false;
-      }
-    }, 5);  
-  };
-
-  showMessage(message: any) {
-    //console.log(message);
-  }
-
   loadTree(){
     this.documentService.getDocumentSystem().subscribe(
       data => {
         console.log(data)
-        this.nodes = data['documentSystem'][0]['children']
+        this.nodes = data['documentSystem'][0]['children'];
+        this.counter = data['results'];
       },
       error => {
         //console.log(error)
@@ -605,6 +625,12 @@ export class TextTreeComponent implements OnInit {
     
   }
 
+  /* createMetadataItemSearch(metadata?){
+    return this.formBuilder.group({
+      meta_chips : new FormControl(metadata)
+    })
+  } */
+
   createMetadataItem(k?, v?){
     if(k != undefined){
       return this.formBuilder.group({
@@ -632,6 +658,78 @@ export class TextTreeComponent implements OnInit {
       return null
     }
     
+  }
+
+  updateTreeView() {
+
+    setTimeout(() => {
+      this.treeText.sizeChanged();
+      //@ts-ignore
+      $('.lexical-tooltip').tooltip();
+    }, 1000);
+  }
+
+  resetFields(){
+    
+    this.textFilterForm.reset(this.initialValues, {emitEvent : false});
+    setTimeout(() => {
+      this.loadTree();
+      this.treeText.treeModel.update();
+      this.updateTreeView();
+      
+    }, 500);  
+    
+  }
+
+  searchFilter(newPar) {
+    
+    setTimeout(() => {
+      const viewPort_prova = this.element.nativeElement.querySelector('tree-viewport') as HTMLElement;
+      viewPort_prova.scrollTop = 0
+    }, 300);
+    let search_text = newPar.search_text != null ? newPar.search_text : '';
+    let date_pipe = this.datePipe.transform(newPar.import_date, 'yyyy-MM-ddThh:mm:ss.zzzZ')
+    this.searchIconSpinner = true;
+    let parameters = {
+      "requestUUID" : "string",
+      "contains" : newPar.search_mode == 'contains' ? true : false,
+      "metadata" : {},
+      "search-text": search_text,
+      "start-with" : newPar.search_mode == 'start' ? true : false,
+      "user-id": 0,
+      "import-date": date_pipe,
+      "exact-date": newPar.date_mode == 'exact' ? true : false,
+      "from-date":  newPar.date_mode == 'from' ? true : false,
+      "util-date":  newPar.date_mode == 'until' ? true : false
+    };
+    
+    console.log(parameters)
+    
+    this.documentService.searchFiles(newPar).subscribe(
+      data => {
+        if(data['files'].length > 0){
+          this.show = false;
+        }else {
+          this.show = true;
+        }
+        this.nodes = data['files'];
+        this.counter = data['results'];
+        this.treeText.treeModel.update();
+        this.updateTreeView();
+        this.searchIconSpinner = false;
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  addTagFn(name) {
+    return { name: name, tag: true };
+  }
+
+  triggerMetadata(){
+    console.log(this.metadata_tags_element.selectedItems)
   }
 
 }
