@@ -480,7 +480,7 @@ export class DocumentSystemTreeComponent implements OnInit {
       "requestUUID" : "string",
       "user-id" : 0,
       "element-id" : element_id,
-      "file_name" : file_name
+      "file-name" : file_name
     }
     
     const expandedNodes = this.textTree.treeText.treeModel.expandedNodes;
@@ -488,7 +488,7 @@ export class DocumentSystemTreeComponent implements OnInit {
     this.documentService.uploadFile(parameters).subscribe(
       data=>{
         console.log(data)
-        this.textTree.nodes = data['documentSystem'];
+        this.textTree.nodes = data['documentSystem'][0]['children'];
         
         expandedNodes.forEach( (node: TreeNode) => {
           
@@ -522,7 +522,7 @@ export class DocumentSystemTreeComponent implements OnInit {
     this.documentService.addFolder(parameters).subscribe(
       data=>{
         console.log(data)
-        this.textTree.nodes = data['documentSystem'];
+        this.textTree.nodes = data['documentSystem'][0]['children'];
         setTimeout(() => {
           this.textTree.treeText.treeModel.getNodeBy(x => {
             if(x.data['element-id'] === element_id){

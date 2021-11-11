@@ -128,8 +128,8 @@ export class TextTreeComponent implements OnInit {
   loadTree(){
     this.documentService.getDocumentSystem().subscribe(
       data => {
-        /* //console.log(data) */
-        this.nodes = data['documentSystem']
+        console.log(data)
+        this.nodes = data['documentSystem'][0]['children']
       },
       error => {
         //console.log(error)
@@ -172,7 +172,7 @@ export class TextTreeComponent implements OnInit {
       this.documentService.addFolder(parameters).subscribe(
         data=>{
           console.log(data)
-          this.nodes = data['documentSystem'];
+          this.nodes = data['documentSystem'][0]['children'];
           console.log(expandedNodes)  
           expandedNodes.forEach( (node: TreeNode) => {
 
@@ -211,7 +211,7 @@ export class TextTreeComponent implements OnInit {
     this.documentService.uploadFile(parameters).subscribe(
       data=>{
         console.log(data)
-        this.nodes = data['documentSystem'];
+        this.nodes = data['documentSystem'][0]['children'];
         expandedNodes.forEach( (node: TreeNode) => {
           
           setTimeout(() => {
@@ -256,7 +256,7 @@ export class TextTreeComponent implements OnInit {
     this.documentService.copyFileTo(parameters).subscribe(
       data=>{
         console.log(data);
-        this.nodes = data['documentSystem'];
+        this.nodes = data['documentSystem'][0]['children'];
         setTimeout(() => {
           
           this.treeText.treeModel.getNodeBy(x => {
@@ -310,7 +310,7 @@ export class TextTreeComponent implements OnInit {
         data=>{
           //console.log(data);
           
-          this.nodes = data['documentSystem'];
+          this.nodes = data['documentSystem'][0]['children'];
           expandedNodes.forEach( (node: TreeNode) => {
           
             setTimeout(() => {
@@ -384,7 +384,7 @@ export class TextTreeComponent implements OnInit {
         data=>{
           //console.log(data);
           
-          this.nodes = data['documentSystem'];
+          this.nodes = data['documentSystem'][0]['children'];
           expandedNodes.forEach( (node: TreeNode) => {
           
             setTimeout(() => {
@@ -511,7 +511,7 @@ export class TextTreeComponent implements OnInit {
     this.documentService.updateMetadata(parameters).subscribe(
       data=> {
         //console.log(data);
-        this.nodes = data['documentSystem'];
+        this.nodes = data['documentSystem'][0]['children'];
         expandedNodes.forEach( (node: TreeNode) => {
           
           setTimeout(() => {
@@ -562,7 +562,7 @@ export class TextTreeComponent implements OnInit {
     this.documentService.deleteMetadata(parameters).subscribe(
       data=> {
         //console.log(data);
-        this.nodes = data['documentSystem'];
+        this.nodes = data['documentSystem'][0]['children'];
         expandedNodes.forEach( (node: TreeNode) => {
           
           setTimeout(() => {
