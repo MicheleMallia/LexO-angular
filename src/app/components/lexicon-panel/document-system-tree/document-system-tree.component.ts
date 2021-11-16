@@ -483,23 +483,22 @@ export class DocumentSystemTreeComponent implements OnInit {
       "file-name" : file_name
     }
     
-    const expandedNodes = this.textTree.treeText.treeModel.expandedNodes;
-    console.log(parameters)
     this.documentService.uploadFile(parameters).subscribe(
       data=>{
-        console.log(data)
-        this.textTree.nodes = data['documentSystem'][0]['children'];
-        
-        expandedNodes.forEach( (node: TreeNode) => {
-          
-          setTimeout(() => {
-            this.textTree.treeText.treeModel.getNodeBy(x => {
-              if(x.data['element-id'] === node.data['element-id']){
-                x.setActiveAndVisible()
-              }
-            })              
-          }, 300);
-        })
+        let id_new_node = 243;
+        let new_node = {
+          "children" : [],
+          "element-id" : id_new_node,
+          "id" : Math.floor(Math.random() * (99999 - 10) + 10),
+          "metadata" : {},
+          "path" : "",
+          "name" : "new-file_"+ Math.floor(Math.random() * (99999 - 10) + 10),
+          "type" : "file"
+        }
+
+        this.textTree.nodes.push(new_node);
+        this.textTree.updateTreeView();
+        this.textTree.treeText.treeModel.update();
         
       },error=>{
         console.log(error)
@@ -517,26 +516,26 @@ export class DocumentSystemTreeComponent implements OnInit {
       "element-id" : element_id
     }
     
-    const expandedNodes = this.textTree.treeText.treeModel.expandedNodes;
-    
+
     this.documentService.addFolder(parameters).subscribe(
       data=>{
-        console.log(data)
-        this.textTree.nodes = data['documentSystem'][0]['children'];
-        setTimeout(() => {
-          this.textTree.treeText.treeModel.getNodeBy(x => {
-            if(x.data['element-id'] === element_id){
-              x.expand()
-            }
-          })              
-        }, 300);
-        expandedNodes.forEach( (node: TreeNode) => {
-          
-          
-        })
-        
+
+        let id_new_node = 243;
+        let new_node = {
+          "children" : [],
+          "element-id" : id_new_node,
+          "id" : Math.floor(Math.random() * (99999 - 10) + 10),
+          "metadata" : {},
+          "path" : "",
+          "name" : "new-folder_"+ Math.floor(Math.random() * (99999 - 10) + 10),
+          "type" : "directory"
+        }
+
+        this.textTree.nodes.push(new_node);
+        this.textTree.updateTreeView();
+        this.textTree.treeText.treeModel.update();
       },error=>{
-        //console.log(error)
+
       }
     )
     

@@ -281,10 +281,10 @@ export class BibliographyPanelComponent implements OnInit {
     this.lexicalService.removeBibliographyItem(instanceName).subscribe(
       data => {
         console.log(data)
-        //TODO: inserire updater per card last update
         this.lexicalService.updateLexCard(this.object)
       }, error => {
         //console.log(error)
+        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
         this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
         });

@@ -191,19 +191,30 @@ export class TextTreeComponent implements OnInit {
       
       this.documentService.addFolder(parameters).subscribe(
         data=>{
-          console.log(data)
-          this.nodes = data['documentSystem'][0]['children'];
-          console.log(expandedNodes)  
-          expandedNodes.forEach( (node: TreeNode) => {
-
-            setTimeout(() => {
-              this.treeText.treeModel.getNodeBy(x => {
-                if(x.data['element-id'] === node.data['element-id']){
-                  x.expand()
-                }
-              })              
-            }, 300);
-          })
+          this.treeText.treeModel.getNodeBy(x => {
+            if(x.data['element-id'] === element_id){
+              x.expand()
+              let element_id_new_node = Math.floor(Math.random() * (9728157429307 - 1728157429307) + 1728157429307);
+              let id_new_node = Math.floor(Math.random() * (9728157429307 - 1728157429307) + 1728157429307);
+              let new_node = {
+                "children" : [],
+                "element-id" : element_id_new_node,
+                "id" : id_new_node,
+                "metadata" : {},
+                "path" : "",
+                "name" : "new-folder_"+ Math.floor(Math.random() * (99999 - 10) + 10),
+                "type" : "directory"
+              }
+              console.log(x)
+              x.data.children.push(new_node)
+              setTimeout(() => {
+                this.updateTreeView();
+                this.treeText.treeModel.update();
+                this.treeText.treeModel.getNodeById(id_new_node).setActiveAndVisible();
+              }, 100);
+              
+            }
+          }) 
           
         },error=>{
           //console.log(error)
@@ -231,17 +242,33 @@ export class TextTreeComponent implements OnInit {
     this.documentService.uploadFile(parameters).subscribe(
       data=>{
         console.log(data)
-        this.nodes = data['documentSystem'][0]['children'];
-        expandedNodes.forEach( (node: TreeNode) => {
-          
-          setTimeout(() => {
-            this.treeText.treeModel.getNodeBy(x => {
-              if(x.data['element-id'] === node.data['element-id']){
-                x.expand()
-              }
-            })              
-          }, 300);
-        })
+       
+        this.treeText.treeModel.getNodeBy(x => {
+          if(x.data['element-id'] === element_id){
+            x.expand()
+            let element_id_new_node = Math.floor(Math.random() * (9728157429307 - 1728157429307) + 1728157429307);
+            let id_new_node = Math.floor(Math.random() * (9728157429307 - 1728157429307) + 1728157429307);
+            let new_node = {
+              "children" : [],
+              "element-id" : element_id_new_node,
+              "id" : id_new_node,
+              "metadata" : {},
+              "path" : "",
+              "name" : "new-file_"+ Math.floor(Math.random() * (99999 - 10) + 10),
+              "type" : "file"
+            }
+            console.log(x)
+            x.data.children.push(new_node)
+            setTimeout(() => {
+              this.updateTreeView();
+              this.treeText.treeModel.update();
+              this.treeText.treeModel.getNodeById(id_new_node).setActiveAndVisible();
+            }, 100);
+            
+          }
+        })    
+        
+        
         
       },error=>{
         console.log(error)
