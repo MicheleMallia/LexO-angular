@@ -52,7 +52,7 @@
                                         <div class="col-xl-9">
                                             <div class="form-group row ml-2 mt-3 mr-2">
                                                 <div class="input-group" >
-                                                    <ng-select #etyLink (change)="onChangeEtylink(etyLink, i)" formControlName="lex_entity" name="lex_entity" [items]="searchResults" class="resizeNgSelect" bindLabel="label" bindValue="label" placeholder="Search entity" appendTo="body"
+                                                    <ng-select #etyLink [addTag]="createNewEtymon" (change)="onChangeEtylink(etyLink, i)" formControlName="lex_entity" name="lex_entity" [items]="searchResults" class="resizeNgSelect" bindLabel="label" bindValue="label" placeholder="Search entity" appendTo="body"
                                                          *ngIf="!variable.external" (keyup)="triggerEtylink($event)" bindValue="label" class="resizeNgSelect" [items]="searchResults"
                                                         bindLabel="label" placeholder="Search entity" appendTo="body" (focus)="deleteData()">
                                                     </ng-select>

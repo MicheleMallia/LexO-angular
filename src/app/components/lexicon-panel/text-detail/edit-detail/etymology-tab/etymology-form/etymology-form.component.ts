@@ -204,7 +204,6 @@ export class EtymologyFormComponent implements OnInit {
 
     });
 
-    //TODO: inserire servizio per modifica type link external/internal
 
     this.etyForm.get("label").valueChanges.pipe(debounceTime(1000)).subscribe(
       updatedLabel => {
@@ -371,7 +370,6 @@ export class EtymologyFormComponent implements OnInit {
         }, error => {
           console.log(error)
           if(error.statusText == 'OK'){
-            //TODO: inserire update lexical entry
             this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           }
         }
@@ -396,13 +394,13 @@ export class EtymologyFormComponent implements OnInit {
       instanceName = etyLink;
     }
     
-    console.log(index);
-    console.log(this.object.etyLinks[index])
+    //console.log(index);
+    //console.log(this.object.etyLinks[index])
     if (this.object.etymology.etymologyInstanceName != undefined) {
       etymId = this.object.etyLinks[index].etymologicalLinkInstanceName;
     }
 
-    if(selectedValues != null){
+    if(selectedValues != null && etyLink.selectedItems[0].value.new_etymon == undefined){
       
       let oldValue = this.memoryLinks[index].etySource;
       let parameters = {
@@ -419,7 +417,7 @@ export class EtymologyFormComponent implements OnInit {
         }, error => {
           console.log(error)
           if(error.statusText == 'OK'){
-            /* this.memoryLinks[index]['etySourceLabel'] = ; */
+            this.memoryLinks[index]['etySourceLabel'] = etySourceLabel;
             this.etyLinkArray.at(index).patchValue({ label: etySourceLabel});
             this.etyLinkArray.at(index).patchValue({ etySource: instanceName});
             this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
@@ -427,9 +425,95 @@ export class EtymologyFormComponent implements OnInit {
         }
       )
       
-    }
-    
+    }else if(etyLink.selectedItems[0].value.new_etymon){
+      
+      let label_new_lexical_entry = etyLink.selectedItems[0].value.name;
+      this.lexicalService.newLexicalEntry().subscribe(
+        data=> {
+          console.log(data);
+          let lexical_entry = data.lexicalEntry;
+          let lexical_entry_in = data.lexicalEntryInstanceName;
+          this.memoryLinks[index]['etySourceLabel'] = etySourceLabel;
+          this.etyLinkArray.at(index).patchValue({ lex_entity: label_new_lexical_entry});
+          this.etyLinkArray.at(index).patchValue({ etySource: lexical_entry});
 
+          
+          let parameters = {
+            relation: 'label',
+            value: label_new_lexical_entry
+          }
+          console.log(parameters)
+          this.lexicalService.updateLexicalEntry(lexical_entry_in, parameters).subscribe(
+            data => {
+                console.log(data);
+                
+            },
+            error => {
+                //console.log(error);
+                this.lexicalService.spinnerAction('off');
+                this.lexicalService.spinnerAction('off');
+
+                parameters = {
+                  relation: 'type',
+                  value: 'Etymon'
+                }
+
+                this.lexicalService.updateLexicalEntry(lexical_entry_in, parameters).subscribe(
+                  data => {
+                      console.log(data);
+                      this.lexicalService.spinnerAction('off');
+                      this.lexicalService.refreshLangTable();
+                      this.lexicalService.refreshFilter({ request: true })
+                      
+                  },
+                  error => {
+                      console.log(error);
+                      let oldValue = this.memoryLinks[index].etySource;
+                      let parameters = {
+                        type: "etyLink",
+                        relation: "etySource",
+                        value: lexical_entry_in,
+                        currentValue: oldValue
+                      }
+                      this.lexicalService.refreshFilter({ request: true })
+                      console.log(parameters)
+                      console.log
+                      this.lexicalService.updateLinguisticRelation(etymId, parameters).subscribe(
+                        data => {
+                          console.log(data)
+                        }, error => {
+                          console.log(error)
+                          if(error.statusText == 'OK'){
+                            
+                            this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+                          }
+                        }
+                      )
+                      this.lexicalService.spinnerAction('off');
+
+                  }
+              )
+            }
+          )
+
+
+          
+        },error => {
+          console.log(error)
+        }
+      )
+      //      cambiare tipo lexical entry in etymon
+      //      cambiare label lexical entry
+    }
+  }
+
+  createNewEtymon(name){
+    return new Promise((resolve) => {
+      // Simulate backend call.
+      setTimeout(() => {
+          resolve({ id: 5, name: name, new_etymon: true });
+      }, 1000);
+    })
   }
 
   addCognate() {
@@ -593,7 +677,7 @@ export class EtymologyFormComponent implements OnInit {
     if (data != "" && data.length >= 3) {
       this.lexicalService.getLexicalEntriesList(parameters).subscribe(
         data => {
-          //console.log(data)
+          console.log(data)
           this.searchResults = data['list']
           this.filterLoading = false;
         }, error => {

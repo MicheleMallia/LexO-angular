@@ -413,7 +413,6 @@ export class DocumentSystemTreeComponent implements OnInit {
   }
 
   refreshAfterEdit(data) {
-    //TODO: inserire valori numerici per richieste specifiche, numeri interi, utilizzare lo switch e separare codice in apposite funzioni separate
     // 0 -> lexEdit: quando creo una nuova lexical entry
     // 3 -> quando devo cambiare solo la label di una forma
     // 5 -> quando devo cambiare il tipo di una forma
@@ -485,6 +484,7 @@ export class DocumentSystemTreeComponent implements OnInit {
     
     this.documentService.uploadFile(parameters).subscribe(
       data=>{
+        console.log(data)
         let id_new_node = 243;
         let new_node = {
           "children" : [],
@@ -519,7 +519,7 @@ export class DocumentSystemTreeComponent implements OnInit {
 
     this.documentService.addFolder(parameters).subscribe(
       data=>{
-
+        console.log(data)
         let id_new_node = 243;
         let new_node = {
           "children" : [],

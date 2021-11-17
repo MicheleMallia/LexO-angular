@@ -96,7 +96,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         )
 
         this.lexicalService.updateLangSelect$.subscribe(
-            //TODO: inserire get languages
             signal => {
         
                 if(signal != null){
@@ -848,7 +847,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         var index = data['i'];
         this.denotesArray = this.coreForm.get("denotes") as FormArray;
         if (this.memoryDenotes[index] == undefined) {
-            //TODO il denotes è nuovo di zecca
             const newValue = data['name']
             const parameters = {
                 type: "conceptRef",
@@ -883,7 +881,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
 
         } else {
-            //TODO c'era già qualche altro valore
             const oldValue = this.memoryDenotes[index]['lexicalEntity']
             const newValue = data['name']
             const parameters = {
@@ -941,7 +938,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         if (isValid) {
             //console.log(data)
             if (this.memoryEvokes[index] == undefined) {
-                //TODO il denotes è nuovo di zecca
                 const newValue = data['name']
                 const parameters = {
                     type: "conceptRef",
@@ -968,7 +964,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
 
             } else {
-                //TODO c'era già qualche altro valore
                 /* //console.log("c'era qualcos'altro") */
                 const oldValue = this.memoryEvokes[index]['lexicalEntity']
                 const newValue = data['name']
@@ -1024,7 +1019,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
             data => {
                 //console.log(data)
-                //TODO: inserire updater per card last update
                 this.lexicalService.updateLexCard(this.object)
             }, error => {
                 //console.log(error)
@@ -1081,7 +1075,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
                 data => {
                     //console.log(data)
-                    //TODO: inserire updater per card last update
                     this.lexicalService.updateLexCard(this.object)
                     this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
                     this.lexicalService.spinnerAction('off');
@@ -1117,7 +1110,6 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
                 data => {
                     //console.log(data)
-                    //TODO: inserire updater per card last update
                     this.lexicalService.updateLexCard(this.object)
                 }, error => {
                     //console.log(error)

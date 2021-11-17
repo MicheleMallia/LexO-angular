@@ -108,7 +108,6 @@ export class LexicalEntriesService {
   }
 
   //GET ​/lexicon​/data​/{id}​/lexicalEntry --> get specific aspect (morphology, syntax, ...) associated with a given lexical entry
-  //TODO: RICORDA CHE PRIMA O POI DEVI CAMBIARE ASPETTO QUANDO QUESTI ULTIMI SARANNO DISPONIBILI
   getLexEntryData(instance: string): Observable<any> {
     return this.http.get(this.baseUrl + "lexicon/data/" + instance + "/lexicalEntry?key=" + this.key + "&aspect=core");
   }

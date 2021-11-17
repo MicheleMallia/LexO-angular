@@ -429,7 +429,6 @@ export class SeeAlsoComponent implements OnInit {
       this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
         data => {
           //console.log(data)
-          //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           console.log(error)
@@ -451,7 +450,6 @@ export class SeeAlsoComponent implements OnInit {
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {
           //console.log(data)
-          //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           //console.log(error)
@@ -475,7 +473,6 @@ export class SeeAlsoComponent implements OnInit {
       this.lexicalService.deleteLinguisticRelation(senseId, parameters).subscribe(
         data => {
           //console.log(data)
-          //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           //console.log(error)
@@ -495,7 +492,6 @@ export class SeeAlsoComponent implements OnInit {
       this.lexicalService.deleteLinguisticRelation(etymId, parameters).subscribe(
         data => {
           //console.log(data)
-          //TODO: inserire updater per card last update
           this.lexicalService.updateLexCard(this.object)
         }, error => {
           //console.log(error)
