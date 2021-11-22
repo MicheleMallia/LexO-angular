@@ -365,7 +365,7 @@ export class FormCoreFormComponent implements OnInit {
           return false;
         }
       })
-      //console.log(parameters);
+      console.log(parameters);
       this.morphoTraits.at(i).get('description').setValue(traitDescription, {emitEvent : false});
 
       this.staticMorpho.push({ trait: trait, value: value})
@@ -389,9 +389,16 @@ export class FormCoreFormComponent implements OnInit {
           //console.log(error)
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
-          this.toastr.error(error.error, 'Error', {
-            timeOut: 5000,
-        });
+          if(typeof(error.error) != 'object'){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }else{
+            this.toastr.info('', 'Ok', {
+              timeOut: 5000,
+            });
+          }
+          
           setTimeout(() => {
                     
             //@ts-ignore
@@ -630,6 +637,7 @@ export class FormCoreFormComponent implements OnInit {
 
     this.staticMorpho.splice(index, 1);
     this.morphoTraits.removeAt(index);
+    this.memoryTraits.splice(index, 1)
   }
 
   removeLabel(index) {

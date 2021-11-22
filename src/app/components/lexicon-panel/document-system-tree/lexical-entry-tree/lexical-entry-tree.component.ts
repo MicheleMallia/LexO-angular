@@ -234,6 +234,7 @@ export class LexicalEntryTreeComponent implements OnInit {
       let instanceName;
       let lex = signal.lex;
       let data = signal.data;
+      console.log(lex)
       console.log(data)
       switch(lex.request){
         case 'form' : instanceName = 'formInstanceName'; break;
@@ -279,20 +280,28 @@ export class LexicalEntryTreeComponent implements OnInit {
                   if(element.label === lex.request){
                     if(lex.request == 'sense'){
                       data['definition'] = 'no definition'
+                    }else if(lex.request == 'etymology'){
+                      data['label'] = "Etymology of: "+lex.parentNodeLabel;
+                      console.log(data['label'])
+                    }else{
+                      data['label'] = data[instanceName];
                     }
-                    console.log(data['creator'] == x.data.creator);
-                    console.log(data['creator'], x.data.creator)
+                    /* console.log(data['creator'] == x.data.creator);
+                    console.log(data['creator'], x.data.creator) */
+
                     if(data['creator'] == x.data.creator){
                       data['flagAuthor'] = false;
                     }else{
                       data['flagAuthor'] = true;
                     }
-                    data['label'] = data[instanceName];
+                    
                     element.count++;
                     element.children.push(data);
                     this.lexicalEntryTree.treeModel.update();
                     this.lexicalEntryTree.treeModel.getNodeBy(y => {
-                      if(y.data.label === data['label']){
+                      if(y.data.etymology == undefined && y.data.label === data['label']){
+                        y.setActiveAndVisible();
+                      }else if(y.data.etymology != undefined && y.data.etymologyInstanceName === data['etymologyInstanceName']){
                         y.setActiveAndVisible();
                       }
                     })
