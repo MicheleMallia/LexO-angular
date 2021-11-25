@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder, ValidatorFn, AbstractControl } from '@angular/forms';
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
 import { ModalComponent } from 'ng-modal-lib';
@@ -11,16 +11,30 @@ import { v4 } from 'uuid';
 
 const actionMapping: IActionMapping = {
   mouse: {
-    dblClick: (tree, node, $event) => {
+    /* dblClick: (tree, node, $event) => {
       if (node.hasChildren) {
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
       }
-    },
+    }, */
     click: (tree, node, $event) => {
-      $event.shiftKey
+      /* $event.shiftKey
         ? TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(tree, node, $event)
-        : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
+        : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event); */
+      
+      if(node.data.rename_mode){
+        $event.preventDefault();
+      }else{
+        TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
+      }
     },
+    expanderClick: (tree, node, $event) => {
+      if(node.data.rename_mode){
+        $event.preventDefault();
+      }else{
+        console.log(node);
+        TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
+      }
+    }
     /* contextMenu: (tree, node, $event) => {
       //$event.preventDefault();
       //alert(`context menu for ${node.data.name}`);
@@ -46,12 +60,39 @@ export class TextTreeComponent implements OnInit {
   @ViewChild('treeText') treeText: any;
   @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
   
+  @HostListener('document:click', ['$event'])
+  clickout(event : MouseEvent) {
+    if(this.renameNode_input != undefined){
+      if(this.renameNode_input.nativeElement.contains(event.target)) {
+        console.log("clicked inside");
+        event.stopPropagation();
+      } else {
+        console.log("clicked outside");
+        
+        var that = this;
+
+        setTimeout(() => {
+          //@ts-ignore
+          $('.input-tooltip').tooltip('hide');
+          setTimeout(() => {
+            that.treeText.treeModel.getNodeBy(
+              item => {
+                item.data.rename_mode = false;
+              }
+            )
+          }, 100);
+        }, 300);
+      }
+    }
+  }
+  
   show = false;
   nodes : any;
 
   renameNodeSelected : any;
   validName = null;
   searchIconSpinner = false;
+  searchIconSpinner_input = false;
   selectedFileToCopy : any;
 
   memoryMetadata = [];
@@ -75,10 +116,11 @@ export class TextTreeComponent implements OnInit {
   };
 
   
-  @ViewChild('renameFolderInput') renameFolder_input:ElementRef; 
-  @ViewChild('renameFileInput') renameFile_input:ElementRef; 
+/*   @ViewChild('renameFolderInput') renameFolder_input:ElementRef; 
+  @ViewChild('renameFileInput') renameFile_input:ElementRef;  */
   @ViewChild('uploadFile') uploadFile_input:ElementRef; 
-  @ViewChild('renameFolderModel', {static: false}) renameFolderModal: ModalComponent;
+  @ViewChild('renameNodeInput') renameNode_input:ElementRef; 
+  /* @ViewChild('renameFolderModel', {static: false}) renameFolderModal: ModalComponent; */
   @ViewChild('editMetadata', {static: false}) editMetadataModal: ModalComponent;
   
   date = this.datePipe.transform(new Date(), 'yyyy-MM-ddThh:mm');
@@ -147,12 +189,20 @@ export class TextTreeComponent implements OnInit {
   loadTree(){
     this.documentService.getDocumentSystem().subscribe(
       data => {
-        console.log(data)
+        //console.log(data)
         this.nodes = data['documentSystem'][0]['children'];
+        setTimeout(() => {
+          this.treeText.treeModel.getNodeBy(
+            item => {
+              item.data.rename_mode = false;
+            }
+          )
+        }, 100);
+        
         this.counter = data['results'];
       },
       error => {
-        //console.log(error)
+        console.log(error)
       }
     )
   }
@@ -203,7 +253,8 @@ export class TextTreeComponent implements OnInit {
                 "metadata" : {},
                 "path" : "",
                 "name" : "new-folder_"+ Math.floor(Math.random() * (99999 - 10) + 10),
-                "type" : "directory"
+                "type" : "directory",
+                "rename_mode" : false
               }
               console.log(x)
               x.data.children.push(new_node)
@@ -255,7 +306,8 @@ export class TextTreeComponent implements OnInit {
               "metadata" : {},
               "path" : "",
               "name" : "new-file_"+ Math.floor(Math.random() * (99999 - 10) + 10),
-              "type" : "file"
+              "type" : "file",
+              "rename_mode" : false
             }
             console.log(x)
             x.data.children.push(new_node)
@@ -378,7 +430,7 @@ export class TextTreeComponent implements OnInit {
   }
   
 
-  renameFile(renameValue){
+  /* renameFile(renameValue){
     console.log(renameValue)
     if (renameValue.match(/^[A-Za-z-_0-9. ]{3,}$/)) {
       this.validName = true;
@@ -394,7 +446,6 @@ export class TextTreeComponent implements OnInit {
       this.documentService.renameFile(parameters).subscribe(
         data=> {
           //console.log(data);
-          /* this.loadTree() */
           setTimeout(() => {
             this.treeText.treeModel.getNodeBy(x => {
               if(x.data['element-id'] === element_id){
@@ -413,7 +464,7 @@ export class TextTreeComponent implements OnInit {
     }
     this.renameNodeSelected = null;
   
-  }
+  } */
 
 
   removeFolder(evt){
@@ -498,12 +549,163 @@ export class TextTreeComponent implements OnInit {
     }
   }
 
-  saveSelectedNode(evt){
-    this.renameNodeSelected = evt;
-    //console.log(this.renameNodeSelected)
+  renameNode(evt){
+    setTimeout(() => {
+      this.renameNode_input.nativeElement.focus();
+      //@ts-ignore
+      $('.input-tooltip').tooltip({
+          trigger: 'hover'
+      });
+    }, 300);
+    console.log(evt)
+    this.treeText.treeModel.getNodeBy(
+      node => {
+        if(node.data['element-id'] == evt['element-id']){
+          node.data.rename_mode = true;
+          
+        }else{
+          node.data.rename_mode = false;
+        }
+      }
+    )
   }
 
-  renameFolder(renameValue){
+  onRenamingNode(evt, node, new_value){
+    console.log(evt, node);
+    
+    switch(evt.key){
+      case 'Enter' : this.updateNodeName(node, new_value); break;
+      case 'Escape': this.exitRenamingMode(); break;
+      default: console.log(evt)
+    }
+    
+  }
+
+  updateNodeName(node, new_value){
+    this.searchIconSpinner_input = true;
+    let node_type = node.data.type;
+
+    if(new_value.match(/^[A-Za-z-_0-9. ]{3,}$/)){
+      let element_id = node.data['element-id'];
+      let parameters = {
+        "requestUUID": "string",
+        "user-id": 0,
+        "element-id": element_id,
+        "rename-string": new_value
+      }
+
+      if(node_type == 'directory'){
+        
+        this.documentService.renameFolder(parameters).subscribe(
+          data=> {
+            //console.log(data);
+            setTimeout(() => {
+              this.treeText.treeModel.getNodeBy(x => {
+                if(x.data['element-id'] === element_id){
+                  x.data.name = new_value;
+                }
+              })              
+            }, 300);
+            this.searchIconSpinner_input = false;
+            this.renameNode_input.nativeElement.value = '';
+            var that = this;
+
+            setTimeout(() => {
+              //@ts-ignore
+              $('.input-tooltip').tooltip('hide');
+              setTimeout(() => {
+                that.treeText.treeModel.getNodeBy(
+                  item => {
+                    item.data.rename_mode = false;
+                  }
+                )
+              }, 100);
+            }, 100);
+          },error=>{
+            console.log(error)
+            var that = this;
+
+            setTimeout(() => {
+              //@ts-ignore
+              $('.input-tooltip').tooltip('hide');
+              setTimeout(() => {
+                that.treeText.treeModel.getNodeBy(
+                  item => {
+                    item.data.rename_mode = false;
+                  }
+                )
+              }, 100);
+            }, 100);
+          }
+        )
+
+      }else if(node_type == 'file'){
+        this.documentService.renameFile(parameters).subscribe(
+          data=> {
+            //console.log(data);
+            setTimeout(() => {
+              this.treeText.treeModel.getNodeBy(x => {
+                if(x.data['element-id'] === element_id){
+                  x.data.name = new_value;
+                }
+              })              
+            }, 300);
+            this.searchIconSpinner_input = false;
+            this.renameNode_input.nativeElement.value = '';
+            var that = this;
+
+            setTimeout(() => {
+              //@ts-ignore
+              $('.input-tooltip').tooltip('hide');
+              setTimeout(() => {
+                that.treeText.treeModel.getNodeBy(
+                  item => {
+                    item.data.rename_mode = false;
+                  }
+                )
+              }, 100);
+            }, 100);
+          },error=>{
+            console.log(error)
+            var that = this;
+
+            setTimeout(() => {
+              //@ts-ignore
+              $('.input-tooltip').tooltip('hide');
+              setTimeout(() => {
+                that.treeText.treeModel.getNodeBy(
+                  item => {
+                    item.data.rename_mode = false;
+                  }
+                )
+              }, 100);
+            }, 100);
+          }
+        )
+      }
+    }
+    
+  }
+
+  exitRenamingMode(){
+    var that = this;
+
+    setTimeout(() => {
+      //@ts-ignore
+      $('.input-tooltip').tooltip('hide');
+      setTimeout(() => {
+        
+        that.searchIconSpinner_input = false;
+        that.treeText.treeModel.getNodeBy(
+          item => {
+            item.data.rename_mode = false;
+          }
+        )
+      }, 100);
+    }, 300);
+  }
+
+  /* renameFolder(renameValue){
     
     if (renameValue.match(/^[A-Za-z-_0-9.]{3,}$/)) {
       this.validName = true;
@@ -519,7 +721,6 @@ export class TextTreeComponent implements OnInit {
       this.documentService.renameFolder(parameters).subscribe(
         data=> {
           //console.log(data);
-          /* this.loadTree() */
           setTimeout(() => {
             this.treeText.treeModel.getNodeBy(x => {
               if(x.data['element-id'] === element_id){
@@ -537,7 +738,7 @@ export class TextTreeComponent implements OnInit {
       this.validName = false;
     }
     this.renameNodeSelected = null;
-  }
+  } */
 
   saveMetadata(){
     console.log(this.metadata_array.value)
@@ -688,7 +889,13 @@ export class TextTreeComponent implements OnInit {
   }
 
   updateTreeView() {
-
+    setTimeout(() => {
+      //@ts-ignore
+      $('.input-tooltip').tooltip({
+          trigger: 'hover'
+      });
+    }, 300);
+    
     setTimeout(() => {
       this.treeText.sizeChanged();
       //@ts-ignore

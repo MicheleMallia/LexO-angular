@@ -11,10 +11,29 @@ $font-size: 12px;
     font-size: $font-size-input;
 }
 
+
+
 .tree-view {
     padding-top: 15px;
     height: calc(100vh - 23rem);
     max-height: calc(100vh - 23rem);
+
+    .input-group-text {
+      height: 22px;
+      font-size: 12px;
+      font-size: 10px;
+      color: white;
+      background-color: #6c757d;
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    .loading_icon_append{
+      background-color: transparent;
+      color: black;
+      border: none;
+      padding: 0;
+    }
 }
 
 
@@ -36,82 +55,89 @@ $font-size: 12px;
 
 #filterLexicalEntry {
     border-right: none;
-  }
+}
+
+#filterLexicalEntry:hover,
+#filterLexicalEntry:focus,
+#filterLexicalEntry:active{
+  outline:0px !important;
+  -webkit-appearance:none;
+  box-shadow: none !important;
+  border-color: #ccc;
+}
+
+.loading_icon_append {
+  height: 32px;
+  background-color: white;
+  border-left: none;
+}
+
+
+.lang {
+  color: blue;
+}
+
+/* .node-wrapper {
+  justify-content: space-between;
+} */
+
+.icons-container {
+  display: flex;
+  align-self: flex-end;
+  justify-content: space-between;
+  width: 25%;
+}
+
+.reset-button,
+.filter-button,
+.popover-dismiss,
+.counter-button {
+  margin: 0;
+  font-size: 10px;
+}
+
+.counter-button {
+  background-color: white;
+}
+
+.counter-button:hover {
   
-  #filterLexicalEntry:hover,
-  #filterLexicalEntry:focus,
-  #filterLexicalEntry:active{
-    outline:0px !important;
-    -webkit-appearance:none;
-    box-shadow: none !important;
-    border-color: #ccc;
-  }
-  
-  .loading_icon_append {
-    height: 32px;
-    background-color: white;
-    border-left: none;
-  }
+  background-color: unset;
+  border-color: unset;
+  border: none;
+}
+
+.counter-button:focus {
+  border: none;
+  border-color:white;
+  box-shadow: none;
+}
+
+
+
+input {
+  margin-top: 0;
+}
+
+.custom-control-label::before {
+  top: 0;
+}
+
+.custom-switch .custom-control-label::after {
+  top: calc(.25rem + -2px);
+}
+
+.canonicalForm {
+  font-weight: 800;
+}
+
+.btn {
+  transition: none !important;
+}
+
+.disablePointer {
+  pointer-events: none;
+}
 
   
-  .lang {
-    color: blue;
-  }
-  
-  /* .node-wrapper {
-    justify-content: space-between;
-  } */
-  
-  .icons-container {
-    display: flex;
-    align-self: flex-end;
-    justify-content: space-between;
-    width: 25%;
-  }
-  
-  .reset-button,
-  .filter-button,
-  .popover-dismiss,
-  .counter-button {
-    margin: 0;
-    font-size: 10px;
-  }
-  
-  .counter-button {
-    background-color: white;
-  }
-  
-  .counter-button:hover {
-    
-    background-color: unset;
-    border-color: unset;
-    border: none;
-  }
-  
-  .counter-button:focus {
-    border: none;
-    border-color:white;
-    box-shadow: none;
-  }
-  
-  
-  
-  input {
-    margin-top: 0;
-  }
-  
-  .custom-control-label::before {
-    top: 0;
-  }
-  
-  .custom-switch .custom-control-label::after {
-    top: calc(.25rem + -2px);
-  }
-  
-  .canonicalForm {
-    font-weight: 800;
-  }
-  
-  .btn {
-    transition: none !important;
-  }
+
