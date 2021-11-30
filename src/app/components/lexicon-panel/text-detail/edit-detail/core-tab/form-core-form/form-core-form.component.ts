@@ -28,6 +28,7 @@ export class FormCoreFormComponent implements OnInit {
   morphologyData = [];
   valueTraits = [];
   memoryTraits = [];
+  interval;
 
   formCore = new FormGroup({
     inheritance: new FormArray([this.createInheritance()]),
@@ -439,7 +440,24 @@ export class FormCoreFormComponent implements OnInit {
       }, 500);
     } else {
 
-      setTimeout(() => {
+      var timer = setInterval((val)=>{                 
+        try{
+            var arrayValues = this.morphologyData.filter(x => {
+                return x['propertyId'] == evt;
+            })['0']['propertyValues'];
+            this.valueTraits[i] = arrayValues;
+            this.memoryTraits.push(evt);
+            console.log("CIAO")
+            if(this.valueTraits != undefined){
+              clearInterval(timer)
+            }
+            
+        }catch(e){
+            console.log(e)
+        }    
+      }, 500)
+
+      /* setTimeout(() => {
 
         var arrayValues = this.morphologyData.filter(x => {
           return x['propertyId'] == evt;
@@ -448,7 +466,7 @@ export class FormCoreFormComponent implements OnInit {
         //console.log(this.valueTraits)
         this.memoryTraits.push(evt);
 
-      }, 500);
+      }, 500); */
     }
   }
 
