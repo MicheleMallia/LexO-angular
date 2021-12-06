@@ -70,12 +70,17 @@ export class LanguageManagerComponent implements OnInit {
       
       this.lexicalService.createNewLanguage(inputValue).subscribe(
         data => {
+          console.log(data)
           this.loadingService = false;
           this.lexicalService.refreshFilter({request: true});
           this.lexicalService.updateLangSelect({request: true});
           this.lexicalService.refreshLangTable();
+          this.toastr.info('Language '+ data['label'] + ' created', '', {
+            timeOut: 5000,
+          });
+
         }, error => {
-          //console.log(error)
+          console.log(error)
           this.loadingService = false;
           this.lexicalService.refreshLangTable();
           this.lexicalService.refreshFilter({request: true});
@@ -93,7 +98,7 @@ export class LanguageManagerComponent implements OnInit {
 
   onEditLanguage(data) {
     
-    if(data['v'] != ''){
+    if(data['v'].trim() != ''){
       if (data['i'] == "description") {
         let langId = this.editLangArray['languageInstanceName'];
         let parameters = {
@@ -103,13 +108,22 @@ export class LanguageManagerComponent implements OnInit {
   
         this.lexicalService.updateLanguage(langId, parameters).subscribe(
           data => {
-            //console.log(data)
+            console.log(data)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
           }, error => {
-            //console.log(error)
+            console.log(error)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
+            if(error.statusText == 'OK'){
+              this.toastr.info('Description for '+langId+' updated', '', {
+                timeOut: 5000,
+              });
+            }else{
+              this.toastr.error(error.error, 'Error', {
+                timeOut: 5000,
+              });
+            }
           }
         )
       } else if (data['i'] == "lexvo") {
@@ -122,16 +136,22 @@ export class LanguageManagerComponent implements OnInit {
   
         this.lexicalService.updateLanguage(langId, parameters).subscribe(
           data => {
-            //console.log(data)
+            console.log(data)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
           }, error => {
-            //console.log(error)
+            console.log(error)
             this.lexicalService.refreshLangTable();
             this.lexicalService.refreshFilter({request : true})
-            this.toastr.error(error.error, 'Error', {
-              timeOut: 5000,
-            });
+            if(error.statusText == 'OK'){
+              this.toastr.info('Description for '+langId+' updated', '', {
+                timeOut: 5000,
+              });
+            }else{
+              this.toastr.error(error.error, 'Error', {
+                timeOut: 5000,
+              });
+            }
           }
         )
       }else if (data['i'] == "label") {
@@ -144,19 +164,33 @@ export class LanguageManagerComponent implements OnInit {
     
           this.lexicalService.updateLanguage(langId, parameters).subscribe(
             data => {
-              //console.log(data)
+              console.log(data)
               this.lexicalService.refreshLangTable();
             }, error => {
-              //console.log(error)
+              console.log(error)
               this.lexicalService.refreshLangTable();
-              this.toastr.error(error.error, 'Error', {
-                timeOut: 5000,
-              });
+              if(error.statusText == 'OK'){
+                this.toastr.info('Description for '+langId+' updated', '', {
+                  timeOut: 5000,
+                });
+              }else{
+                this.toastr.error(error.error, 'Error', {
+                  timeOut: 5000,
+                });
+              }
             }
           )
+        }else{
+          this.toastr.error('Not valid string for label field', 'Error', {
+            timeOut: 5000,
+          });
         }
         
       }
+    }else{
+      this.toastr.error("Don't insert empty value", 'Error', {
+        timeOut: 5000,
+      });
     }
     
   }
@@ -181,11 +215,14 @@ export class LanguageManagerComponent implements OnInit {
     let langId = this.removeMessage;
     this.lexicalService.deleteLanguage(langId).subscribe(
       data=>{
-        //console.log(data);
+        console.log(data);
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
+        this.toastr.info('Language ' +langId+' removed', '', {
+          timeOut: 5000,
+        });
       },error=>{
-        //console.log(error);
+        console.log(error);
         this.lexicalService.refreshLangTable();
         this.lexicalService.refreshFilter({request : true})
         this.toastr.error(error.error, 'Error', {

@@ -447,7 +447,7 @@ export class FormCoreFormComponent implements OnInit {
             })['0']['propertyValues'];
             this.valueTraits[i] = arrayValues;
             this.memoryTraits.push(evt);
-            console.log("CIAO")
+            //console.log("CIAO")
             if(this.valueTraits != undefined){
               clearInterval(timer)
             }

@@ -133,7 +133,20 @@ textarea.form-control{
     width: 100%;
 }
 
-.add-icon {
+
+
+.download-icon {
+    position: absolute;
+    right: 52px;
+    top: -14px;
+    background: white;
+    text-align: center;
+    color: #212529;
+    padding: 5px 5px;
+    font-size: 14px;
+}
+
+.external-icon {
     position: absolute;
     right: 28px;
     top: -14px;

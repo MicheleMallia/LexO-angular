@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators, FormArray, FormBuilder, ValidatorFn
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from '@circlon/angular-tree-component';
 import { ModalComponent } from 'ng-modal-lib';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
 import { v4 } from 'uuid';
@@ -138,11 +139,11 @@ export class TextTreeComponent implements OnInit {
 
   
   
-  constructor(private element: ElementRef, private documentService: DocumentSystemService, private renderer: Renderer2, private formBuilder: FormBuilder, private datePipe:DatePipe) { }
+  constructor(private element: ElementRef, private documentService: DocumentSystemService, private renderer: Renderer2, private formBuilder: FormBuilder, private datePipe:DatePipe, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadTree();
-
+    
     this.textFilterForm = this.formBuilder.group({
       search_text : new FormControl(null),
       search_mode : new FormControl('start'),
@@ -155,6 +156,7 @@ export class TextTreeComponent implements OnInit {
     
     this.metadataForm = this.formBuilder.group({
       element_id : new FormControl(null),
+      name : new FormControl(null),
       metadata_array: new FormArray([], [Validators.required]),
     });
 
@@ -241,6 +243,9 @@ export class TextTreeComponent implements OnInit {
       
       this.documentService.addFolder(parameters).subscribe(
         data=>{
+          this.toastr.info('New folder added', '', {
+            timeOut: 5000,
+          });
           this.treeText.treeModel.getNodeBy(x => {
             if(x.data['element-id'] === element_id){
               x.expand()
@@ -257,7 +262,8 @@ export class TextTreeComponent implements OnInit {
                 "rename_mode" : false
               }
               console.log(x)
-              x.data.children.push(new_node)
+              x.data.children.push(new_node);
+              
               setTimeout(() => {
                 this.updateTreeView();
                 this.treeText.treeModel.update();
@@ -268,7 +274,7 @@ export class TextTreeComponent implements OnInit {
           }) 
           
         },error=>{
-          //console.log(error)
+          console.log(error)
         }
       )
     }
@@ -309,6 +315,9 @@ export class TextTreeComponent implements OnInit {
               "type" : "file",
               "rename_mode" : false
             }
+            this.toastr.info('New file added', '', {
+              timeOut: 5000,
+            });
             console.log(x)
             x.data.children.push(new_node)
             setTimeout(() => {
@@ -356,6 +365,9 @@ export class TextTreeComponent implements OnInit {
       data=>{
         console.log(data);
         this.nodes = data['documentSystem'][0]['children'];
+        this.toastr.info('File '+ evt['name'] +' copied', '', {
+          timeOut: 5000,
+        });
         setTimeout(() => {
           
           this.treeText.treeModel.getNodeBy(x => {
@@ -386,6 +398,9 @@ export class TextTreeComponent implements OnInit {
     this.documentService.downloadFile(parameters).subscribe(
       data=>{
         console.log(data);
+        this.toastr.info('File '+ evt['name'] +' downloaded', '', {
+          timeOut: 5000,
+        });
         
       },error=>{
         //console.log(error)
@@ -408,7 +423,9 @@ export class TextTreeComponent implements OnInit {
       this.documentService.removeFile(parameters).subscribe(
         data=>{
           //console.log(data);
-          
+          this.toastr.info('File '+ evt['name'] +' deleted', '', {
+            timeOut: 5000,
+          });
           this.nodes = data['documentSystem'][0]['children'];
           expandedNodes.forEach( (node: TreeNode) => {
           
@@ -423,48 +440,18 @@ export class TextTreeComponent implements OnInit {
           
           
         },error=>{
-          //console.log(error)
+          console.log(error)
+          if(typeof(error.error) == 'string'){
+            this.toastr.info(error.error, '', {
+              timeOut: 5000,
+            });
+          }
+          
         }
       )
     }
   }
   
-
-  /* renameFile(renameValue){
-    console.log(renameValue)
-    if (renameValue.match(/^[A-Za-z-_0-9. ]{3,}$/)) {
-      this.validName = true;
-      //console.log(this.renameNodeSelected);
-      let element_id = this.renameNodeSelected['element-id'];
-      let parameters = {
-        "requestUUID": "string",
-        "user-id": 0,
-        "element-id": element_id,
-        "rename-string": renameValue
-      }
-
-      this.documentService.renameFile(parameters).subscribe(
-        data=> {
-          //console.log(data);
-          setTimeout(() => {
-            this.treeText.treeModel.getNodeBy(x => {
-              if(x.data['element-id'] === element_id){
-                x.data.name = renameValue;
-              }
-            })              
-          }, 300);
-          this.renameFolder_input.nativeElement.value = '';
-          this.renameFolderModal.hide();
-        },error=>{
-          //console.log(error)
-        }
-      )
-    }else{
-      this.validName = false;
-    }
-    this.renameNodeSelected = null;
-  
-  } */
 
 
   removeFolder(evt){
@@ -475,7 +462,9 @@ export class TextTreeComponent implements OnInit {
         "user-id" : 0,
         "element-id" : element_id
       }
-
+      this.toastr.info('Folder '+ evt['name'] +' deleted', '', {
+        timeOut: 5000,
+      });
       const expandedNodes = this.treeText.treeModel.expandedNodes;
 
       this.documentService.removeFolder(parameters).subscribe(
@@ -496,7 +485,12 @@ export class TextTreeComponent implements OnInit {
           
           
         },error=>{
-          //console.log(error)
+          console.log(error)
+          if(typeof(error.error) == 'string'){
+            this.toastr.info(error.error, '', {
+              timeOut: 5000,
+            });
+          }
         }
       )
     }
@@ -517,9 +511,12 @@ export class TextTreeComponent implements OnInit {
       
       this.documentService.moveFolder(parameters).subscribe(
         data=>{
+          this.toastr.info('Folder '+ evt.node['name'] +' moved', '', {
+            timeOut: 5000,
+          });
           /* //console.log(data); */
         },error=>{
-          //console.log(error)
+          console.log(error)
         }
       )
     }
@@ -541,6 +538,9 @@ export class TextTreeComponent implements OnInit {
       this.documentService.moveFileTo(parameters).subscribe(
         data=>{
           console.log(data);
+          this.toastr.info('File '+ evt['name'] +' moved', '', {
+            timeOut: 5000,
+          });
           
         },error=>{
           //console.log(error)
@@ -558,6 +558,7 @@ export class TextTreeComponent implements OnInit {
       });
     }, 300);
     console.log(evt)
+    
     this.treeText.treeModel.getNodeBy(
       node => {
         if(node.data['element-id'] == evt['element-id']){
@@ -572,7 +573,12 @@ export class TextTreeComponent implements OnInit {
 
   onRenamingNode(evt, node, new_value){
     console.log(evt, node);
-    
+    setTimeout(() => {
+      //@ts-ignore
+      $('.input-tooltip').tooltip({
+          trigger: 'hover'
+      });
+    }, 300);
     switch(evt.key){
       case 'Enter' : this.updateNodeName(node, new_value); break;
       case 'Escape': this.exitRenamingMode(); break;
@@ -599,6 +605,9 @@ export class TextTreeComponent implements OnInit {
         this.documentService.renameFolder(parameters).subscribe(
           data=> {
             //console.log(data);
+            this.toastr.info('Folder '+ node.data.name +' name updated', '', {
+              timeOut: 5000,
+            });
             setTimeout(() => {
               this.treeText.treeModel.getNodeBy(x => {
                 if(x.data['element-id'] === element_id){
@@ -642,6 +651,9 @@ export class TextTreeComponent implements OnInit {
       }else if(node_type == 'file'){
         this.documentService.renameFile(parameters).subscribe(
           data=> {
+            this.toastr.info('Folder name updated', '', {
+              timeOut: 5000,
+            });
             //console.log(data);
             setTimeout(() => {
               this.treeText.treeModel.getNodeBy(x => {
@@ -705,44 +717,10 @@ export class TextTreeComponent implements OnInit {
     }, 300);
   }
 
-  /* renameFolder(renameValue){
-    
-    if (renameValue.match(/^[A-Za-z-_0-9.]{3,}$/)) {
-      this.validName = true;
-      //console.log(this.renameNodeSelected);
-      let element_id = this.renameNodeSelected['element-id'];
-      let parameters = {
-        "requestUUID": "string",
-        "user-id": 0,
-        "element-id": element_id,
-        "rename-string": renameValue
-      }
-
-      this.documentService.renameFolder(parameters).subscribe(
-        data=> {
-          //console.log(data);
-          setTimeout(() => {
-            this.treeText.treeModel.getNodeBy(x => {
-              if(x.data['element-id'] === element_id){
-                x.data.name = renameValue;
-              }
-            })              
-          }, 300);
-          this.renameFile_input.nativeElement.value = '';
-          this.renameFolderModal.hide();
-        },error=>{
-          //console.log(error)
-        }
-      )
-    }else{
-      this.validName = false;
-    }
-    this.renameNodeSelected = null;
-  } */
-
   saveMetadata(){
     console.log(this.metadata_array.value)
     let element_id = this.metadataForm.get('element_id').value;
+    let name = this.metadataForm.get('name').value;
     let parameters = {
       "requestUUID": "string",
       "metadata": {},
@@ -758,6 +736,9 @@ export class TextTreeComponent implements OnInit {
 
     this.documentService.updateMetadata(parameters).subscribe(
       data=> {
+        this.toastr.info('Metadata updated for ' + name + ' node' , '', {
+          timeOut: 5000,
+        });
         //console.log(data);
         this.nodes = data['documentSystem'][0]['children'];
         expandedNodes.forEach( (node: TreeNode) => {
@@ -778,9 +759,14 @@ export class TextTreeComponent implements OnInit {
 
   removeMetadataItem(index){
     this.metadata_array = this.metadataForm.get('metadata_array') as FormArray;
+    let name = this.metadata_array.at(index).get('name').value;
+    this.toastr.info('Metadata deleted for ' + name + ' node' , '', {
+      timeOut: 5000,
+    });
     this.memoryMetadata.splice(index, 1)
     this.metadata_array.removeAt(index);
     this.metadataForm.markAsTouched();
+    
   }
 
   addMetadata(k?, v?){
@@ -799,17 +785,21 @@ export class TextTreeComponent implements OnInit {
 
   deleteMetadata(){
     let element_id = this.selectedFileToCopy['element-id'];
+    let name = this.selectedFileToCopy['name'];
     let parameters = {
       "requestUUID": "string",
       "user-id": 0,
       "element-id": element_id
     }
-
+    
     const expandedNodes = this.treeText.treeModel.expandedNodes;
 
     this.documentService.deleteMetadata(parameters).subscribe(
       data=> {
         //console.log(data);
+        this.toastr.info('Metadata deleted for ' + name + ' node' , '', {
+          timeOut: 5000,
+        });
         this.nodes = data['documentSystem'][0]['children'];
         expandedNodes.forEach( (node: TreeNode) => {
           
@@ -835,6 +825,8 @@ export class TextTreeComponent implements OnInit {
 
   populateMetadata(item : any){
     let element_id = item['element-id'];
+    let name = item['name'];
+    this.metadataForm.get('name').setValue(name, {emitEvent : false})
     this.metadataForm.get('element_id').setValue(element_id, {emitEvent : false});
     this.editMetadataModal.show();
 
@@ -852,12 +844,6 @@ export class TextTreeComponent implements OnInit {
     }
     
   }
-
-  /* createMetadataItemSearch(metadata?){
-    return this.formBuilder.group({
-      meta_chips : new FormControl(metadata)
-    })
-  } */
 
   createMetadataItem(k?, v?){
     if(k != undefined){
@@ -921,6 +907,7 @@ export class TextTreeComponent implements OnInit {
       const viewPort_prova = this.element.nativeElement.querySelector('tree-viewport') as HTMLElement;
       viewPort_prova.scrollTop = 0
     }, 300);
+
     let search_text = newPar.search_text != null ? newPar.search_text : '';
     let date_pipe = this.datePipe.transform(newPar.import_date, 'yyyy-MM-ddThh:mm:ss.zzzZ')
     this.searchIconSpinner = true;

@@ -84,12 +84,21 @@ tree-node-content {
 }
 
 #biblioModal,
-#biblioModalEtym {
+#biblioModalEtym,
+#coreTabModal,
+#etymologyTabModal {
     position: absolute !important;
 
-    /* .modal-dialog {
-        margin: 85% 30% !important;
-    } */
+    .modal-dialog {
+        margin: 25% 45%!important;
+    }
+}
+
+.core-tab-body,
+.etym-tab-body{
+    .modal-backdrop {
+        position: absolute !important;
+    }
 }
 
 .biblio_modal {

@@ -9,8 +9,7 @@ declare var $: JQueryStatic;
 
 
 import { debounceTime } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
-import { interval } from 'rxjs';
+
 
 const actionMapping: IActionMapping = {
   mouse: {
@@ -60,6 +59,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   types;
   authors;
   partOfSpeech;
+  selectedNodeId;
   status = [{ "label": "false", "count": 0 }, { "label": "true", "count": 0 }];
   parameters: LexicalEntryRequest = {
     text: "",
@@ -533,46 +533,70 @@ export class LexicalEntryTreeComponent implements OnInit {
     if ($event.eventName == 'activate' && $event.node.data.lexicalEntry != undefined 
                                        && $event.node.data.form == undefined
                                        && $event.node.data.sense == undefined
-                                       && $event.node.data.etymology == undefined) {
+                                       && $event.node.data.etymology == undefined
+                                       && $event.node.data.lexicalEntryInstanceName != this.selectedNodeId) {
       //this.lexicalService.sendToCoreTab($event.node.data);
       let idLexicalEntry = $event.node.data.lexicalEntryInstanceName;
       this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
         data => {
-          console.log(data)
+          
+          console.log(data);
+          this.selectedNodeId = $event.node.data.lexicalEntryInstanceName;
           this.lexicalService.sendToCoreTab(data);
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.sendToEtymologyTab(null);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
+
+          //@ts-ignore
+          $("#coreTabModal").modal("show");
+          $('.modal-backdrop').appendTo('.core-tab-body');
+          //@ts-ignore
+          $('#coreTabModal').modal({backdrop: 'static', keyboard: false})  
+          $('body').removeClass("modal-open")
+          $('body').css("padding-right", "");
         },
         error => {
 
         }
       )
-    } else if($event.eventName == 'activate' && $event.node.data.form != undefined){
+    } else if($event.eventName == 'activate' 
+              && $event.node.data.form != undefined 
+              && $event.node.data.formInstanceName != this.selectedNodeId){
 
       let formId = $event.node.data.formInstanceName;
 
       this.lexicalService.getFormData(formId, 'core').subscribe(
         data => {
           console.log(data)
+          this.selectedNodeId = $event.node.data.formInstanceName;
           data['parentNodeLabel'] = $event.node.parent.parent.data.label;
           data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
           this.lexicalService.sendToCoreTab(data)
           this.lexicalService.sendToEtymologyTab(null);
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']})
+          //@ts-ignore
+          $("#coreTabModal").modal("show");
+          $('.modal-backdrop').appendTo('.core-tab-body');
+          //@ts-ignore
+          $('#coreTabModal').modal({backdrop: 'static', keyboard: false})  
+          $('body').removeClass("modal-open")
+          $('body').css("padding-right", "");
         },
         error => {
           //console.log(error)
         }
       )
     
-    }else if($event.eventName == 'activate' && $event.node.data.sense != undefined){
+    }else if($event.eventName == 'activate' 
+            && $event.node.data.sense != undefined 
+            && $event.node.data.senseInstanceName != this.selectedNodeId){
 
       let senseId = $event.node.data.senseInstanceName;
 
       this.lexicalService.getSenseData(senseId, 'core').subscribe(
         data => {
+          this.selectedNodeId = $event.node.data.senseInstanceName;
           data['parentNodeLabel'] = $event.node.parent.parent.data.label;
           data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
           console.log(data)
@@ -580,17 +604,27 @@ export class LexicalEntryTreeComponent implements OnInit {
           this.lexicalService.sendToEtymologyTab(null);
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']})
+          //@ts-ignore
+          $("#coreTabModal").modal("show");
+          $('.modal-backdrop').appendTo('.core-tab-body');
+          //@ts-ignore
+          $('#coreTabModal').modal({backdrop: 'static', keyboard: false})  
+          $('body').removeClass("modal-open")
+          $('body').css("padding-right", "");
         },
         error => {
           //console.log(error)
         }
       )
-    }else if($event.eventName == 'activate' && $event.node.data.etymology != undefined){
+    }else if($event.eventName == 'activate' 
+            && $event.node.data.etymology != undefined 
+            && $event.node.data.etymologyInstanceName != this.selectedNodeId){
 
       let etymologyId = $event.node.data.etymologyInstanceName;
 
       this.lexicalService.getEtymologyData(etymologyId).subscribe(
         data => {
+          this.selectedNodeId = $event.node.data.etymologyInstanceName;
           data['parentNodeLabel'] = $event.node.parent.parent.data.label;
           data['parentNodeInstanceName'] = $event.node.parent.parent.data.lexicalEntryInstanceName;
           console.log(data)
@@ -598,6 +632,13 @@ export class LexicalEntryTreeComponent implements OnInit {
           this.lexicalService.sendToEtymologyTab(data);
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.updateLexCard({lastUpdate : data['etymology']['lastUpdate'], creationDate : data['etymology']['creationDate']})
+          //@ts-ignore
+          $("#etymologyTabModal").modal("show");
+          $('.modal-backdrop').appendTo('.etym-tab-body');
+          //@ts-ignore
+          $('#etymologyTabModal').modal({backdrop: 'static', keyboard: false})  
+          $('body').removeClass("modal-open")
+          $('body').css("padding-right", "");
         },
         error => {
           console.log(error)

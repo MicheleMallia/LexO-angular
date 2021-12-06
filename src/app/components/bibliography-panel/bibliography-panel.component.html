@@ -22,10 +22,11 @@
                                 <div class="input-group col-xl-12 p-0">
                                     
                                     <div class="card">
-                                        <a class="biblioCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'+i" aria-expanded="true" [attr.aria-controls]="'#collapse-'+i"><span class="text-id pointer"><b>Item {{i+1}}</b></span></a>
-                                        <span *ngIf="bibliographyData != undefined">
+                                        <a class="biblioCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'+i" aria-expanded="true" [attr.aria-controls]="'#collapse-'+i"><span class="text-id pointer"><b>{{biblio.get("author").value}} - {{biblio.get("date").value}} ({{biblio.get("title").value != undefined ? (biblio.get("title").value | slice:0:10) +'...' : ''}})</b></span></a>
+                                        <span *ngIf="bibliographyData != undefined" class="icons-container">
                                             <!-- {{bibliographyData[i]['url'] | json}} -->
-                                            <span *ngIf="bibliographyData[i] != undefined"><a *ngIf="bibliographyData[i]['url'] != ''" [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="add-icon"><i class="fas fa-external-link-alt"></i></span></a></span> <!-- (click)="addRelation(i)" -->
+                                            <span ><a href="https://www.zotero.org/groups/2552746/prin_italia_antica/items/{{bibliographyData[i]['id']}}/library" target="_blank" class="pointer text-primary"><span class="external-icon"><i class="fas fa-external-link-alt"></i></span></a></span>
+                                            <span><a *ngIf="bibliographyData[i]['url'] != ''" [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="download-icon"><i class="fas fa-download"></i></span></a></span>
                                         </span>
                                         
                                         <a class="pointer" (click)="removeItem(i)"><span class="trash-icon"><i class="fa fa-trash text-danger"></i></span></a> 

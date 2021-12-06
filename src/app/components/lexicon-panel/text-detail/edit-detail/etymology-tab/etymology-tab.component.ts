@@ -91,10 +91,28 @@ export class EtymologyTabComponent implements OnInit {
         this.object = object
         //console.log(this.object)
         if (this.object != null) {
+          
           this.creator = this.object['etymology'].creator;
           this.revisor = this.object.revisor;
           this.etymologyData = object;
           this.isEtymology = true;
+          setTimeout(() => {
+            //@ts-ignore
+            $('#etymologyTabModal').modal('hide');
+            $('.modal-backdrop').remove();
+            var timer = setInterval((val)=>{                 
+              try{
+                  //@ts-ignore
+                  $('#etymologyTabModal').modal('hide');
+                  if(!$('#etymologyTabModal').is(':visible')){
+                    clearInterval(timer)
+                  }
+                  
+              }catch(e){
+                  console.log(e)
+              }    
+            }, 10)
+          }, 500);
         }
       }
     );

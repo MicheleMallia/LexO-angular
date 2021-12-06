@@ -83,10 +83,29 @@ export class CoreTabComponent implements OnInit {
           this.lexicalEntryData = null;
           this.formData = null;
           this.senseData = null;
+          
+          
         }
         this.object = object
         /* console.log(this.object) */
         if(this.object != null){
+          setTimeout(() => {
+            //@ts-ignore
+            $('#coreTabModal').modal('hide');
+            $('.modal-backdrop').remove();
+            var timer = setInterval((val)=>{                 
+              try{
+                  //@ts-ignore
+                  $('#coreTabModal').modal('hide');
+                  if(!$('#coreTabModal').is(':visible')){
+                    clearInterval(timer)
+                  }
+                  
+              }catch(e){
+                  console.log(e)
+              }    
+            }, 10)
+          }, 500);
           this.creator = this.object.creator;
           this.revisor = this.object.revisor;
           
@@ -645,15 +664,35 @@ export class CoreTabComponent implements OnInit {
             //@ts-ignore
             $('#biblioModal').modal('hide');
             $('.modal-backdrop').remove();
+            this.toastr.success('Item added, check bibliography panel', '', {
+              timeOut: 5000,
+            });
+            this.biblioService.triggerPanel(data)
+            setTimeout(() => {
+              this.modal.hide();
+            }, 10);
           }, 300);
           this.biblioService.sendDataToBibliographyPanel(data);
         },error=>{
           console.log(error)
+          if(typeof(error.error) == 'string' && error.error.length < 1000){
+            this.toastr.error(error.error, '', {
+              timeOut: 5000,
+            });
+          }else{
+            this.toastr.error(error.statusText, '', {
+              timeOut: 5000,
+            });
+          }
           
           setTimeout(() => {
             //@ts-ignore
             $('#biblioModal').modal('hide');
             $('.modal-backdrop').remove();
+
+            setTimeout(() => {
+              this.modal.hide();
+            }, 10);
           }, 300);
           
         }

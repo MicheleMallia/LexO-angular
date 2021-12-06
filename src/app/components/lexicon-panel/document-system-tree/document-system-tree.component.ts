@@ -495,13 +495,18 @@ export class DocumentSystemTreeComponent implements OnInit {
           "name" : "new-file_"+ Math.floor(Math.random() * (99999 - 10) + 10),
           "type" : "file"
         }
-
+        this.toastr.info('New file added', '', {
+          timeOut: 5000,
+        });
         this.textTree.nodes.push(new_node);
         this.textTree.updateTreeView();
         this.textTree.treeText.treeModel.update();
         
       },error=>{
-        console.log(error)
+        console.log(error);
+        this.toastr.error('Error when adding new file', '', {
+          timeOut: 5000,
+        });
       }
     )
     console.log(evt);
@@ -530,12 +535,17 @@ export class DocumentSystemTreeComponent implements OnInit {
           "name" : "new-folder_"+ Math.floor(Math.random() * (99999 - 10) + 10),
           "type" : "directory"
         }
-
+        this.toastr.info('New folder added', '', {
+          timeOut: 5000,
+        });
         this.textTree.nodes.push(new_node);
         this.textTree.updateTreeView();
         this.textTree.treeText.treeModel.update();
       },error=>{
-
+        console.log(error);
+        this.toastr.error('Error when creating new folder', '', {
+          timeOut: 5000,
+        });
       }
     )
     

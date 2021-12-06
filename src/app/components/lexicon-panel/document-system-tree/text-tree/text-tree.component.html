@@ -89,7 +89,8 @@
   <tree-root #treeText [nodes]="nodes" [options]="options" [focused]="true" (activate)="onEvent($event)"
     (moveNode)="onMoveNode($event)">
     <ng-template #treeNodeTemplate let-node let-index="index">
-      <div *ngIf="node.data.rename_mode" class="input-group" [ngClass]="node?.data.rename_mode ? 'disablePointer' : ''">
+      
+      <div *ngIf="node.data.rename_mode" class="input-group">
         <input autofocus #renameNodeInput class="form-control" type="text" [value]="node.data.name" (keyup)="onRenamingNode($event, node, renameNodeInput.value)" style="height: 22px; border-right: transparent;" />
         <div class="input-group-append input-tooltip"  data-toggle="tooltip"
         data-placement="top" data-html="true" title="Click enter to rename; Click ESC to exit">

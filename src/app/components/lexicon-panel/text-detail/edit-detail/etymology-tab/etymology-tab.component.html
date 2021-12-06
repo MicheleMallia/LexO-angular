@@ -17,8 +17,23 @@
                 </div>
             </h5>
         </div>
-        <div #expander [@slideInOut]="exp_trig" class="card-body">
-            
+        <div #expander [@slideInOut]="exp_trig" class="card-body etym-tab-body">
+            <div id="etymologyTabModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <app-etymology-form [etymData]="etymologyData"></app-etymology-form>
 
         </div>
