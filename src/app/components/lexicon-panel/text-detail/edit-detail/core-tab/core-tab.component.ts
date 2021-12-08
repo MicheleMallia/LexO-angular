@@ -396,6 +396,9 @@ export class CoreTabComponent implements OnInit {
         this.lexicalService.sendToCoreTab(null);
         this.lexicalService.sendToRightTab(null);
         this.biblioService.sendDataToBibliographyPanel(null);
+        this.toastr.success(lexicalId + 'deleted correctly', '', {
+          timeOut: 5000,
+        });
       },error=> {
         this.searchIconSpinner = false;
         //this.lexicalService.deleteRequest(this.object);
@@ -417,6 +420,9 @@ export class CoreTabComponent implements OnInit {
         this.lexicalService.deleteRequest(this.object);
         this.isForm = false;
         this.object = null;
+        this.toastr.success(lexicalId + 'deleted correctly', '', {
+          timeOut: 5000,
+        });
       },error=> {
         this.searchIconSpinner = false;
         this.lexicalService.deleteRequest(this.object);
@@ -434,6 +440,9 @@ export class CoreTabComponent implements OnInit {
         this.lexicalService.deleteRequest(this.object);
         this.isSense = false;
         this.object = null;
+        this.toastr.success(lexicalId + 'deleted correctly', '', {
+          timeOut: 5000,
+        });
       },error=> {
         this.searchIconSpinner = false;
         this.lexicalService.deleteRequest(this.object);
@@ -449,7 +458,10 @@ export class CoreTabComponent implements OnInit {
       let lexicalId = this.object.lexicalEntryInstanceName;
       this.lexicalService.createNewForm(lexicalId).subscribe(
         data=>{
-          //console.log(data);
+          this.toastr.success('Form added correctly', '', {
+            timeOut: 5000,
+          });
+          console.log(data);
           if(data['creator'] == this.object.creator){
             data['flagAuthor'] = false;
           }else{
@@ -458,7 +470,7 @@ export class CoreTabComponent implements OnInit {
           this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
         },error=> {
-          //console.log(error)
+          console.log(error)
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
           });
@@ -479,9 +491,15 @@ export class CoreTabComponent implements OnInit {
           }
           this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
+          this.toastr.success('Form added correctly', '', {
+            timeOut: 5000,
+          });
         },error=> {
           //console.log(error)
           this.searchIconSpinner = false;
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
         }
       )
     }else if(this.isSense){
@@ -498,7 +516,13 @@ export class CoreTabComponent implements OnInit {
           }
           this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
+          this.toastr.success('Form added correctly', '', {
+            timeOut: 5000,
+          });
         },error=> {
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
           this.searchIconSpinner = false;
         }
       )
@@ -520,6 +544,9 @@ export class CoreTabComponent implements OnInit {
           }
           this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
+          this.toastr.success('Sense added correctly', '', {
+            timeOut: 5000,
+          });
         },error=> {
           this.searchIconSpinner = false;
           this.toastr.error(error.error, 'Error', {
@@ -542,8 +569,14 @@ export class CoreTabComponent implements OnInit {
           }
           this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
+          this.toastr.success('Sense added correctly', '', {
+            timeOut: 5000,
+          });
         },error=> {
           this.searchIconSpinner = false;
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
         }
       )
     }else if(this.isForm){
@@ -560,9 +593,15 @@ export class CoreTabComponent implements OnInit {
           }
           this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
           this.searchIconSpinner = false;
+          this.toastr.success('Sense added correctly', '', {
+            timeOut: 5000,
+          });
           //this.lexicalService.refreshLexEntryTree();
         },error=> {
           this.searchIconSpinner = false;
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
           //this.lexicalService.refreshLexEntryTree();
         }
       )
@@ -597,6 +636,9 @@ export class CoreTabComponent implements OnInit {
         }
         this.lexicalService.addSubElementRequest({'lex' : this.object, 'data' : data});
         this.searchIconSpinner = false;
+        this.toastr.success('Etymology added correctly', '', {
+          timeOut: 5000,
+        });
       },error=> {
         this.searchIconSpinner = false;
       }

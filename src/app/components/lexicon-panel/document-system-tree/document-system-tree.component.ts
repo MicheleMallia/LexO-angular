@@ -440,6 +440,11 @@ export class DocumentSystemTreeComponent implements OnInit {
     this.lexicalService.newLexicalEntry().subscribe(
       data => {
         console.log(data);
+        
+        this.toastr.success(data['lexicalEntryInstanceName'] + 'added correctly', '', {
+            timeOut: 5000,
+        });
+      
         setTimeout(() => {
           let newLexEntryLabel = data['label'];
           let parameters = this.lexTree.getParameters();

@@ -150,6 +150,9 @@ export class SeeAlsoComponent implements OnInit {
             });
             if(error.statusText == 'OK'){
               this.memorySeeAlso.push(selectedValues)
+              this.toastr.success('SeeAlso updated', '', {
+                timeOut: 5000,
+              });
             }
           }
         )
@@ -161,7 +164,7 @@ export class SeeAlsoComponent implements OnInit {
           value: selectedValues,
           currentValue: oldValue
         }
-        //console.log(parameters)
+        console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
             //console.log(data)
@@ -172,6 +175,9 @@ export class SeeAlsoComponent implements OnInit {
             });
             if(error.statusText == 'OK'){
               this.memorySeeAlso.push(selectedValues)
+              this.toastr.success('SeeAlso updated', '', {
+                timeOut: 5000,
+              });
             }
           }
         )
@@ -206,10 +212,16 @@ export class SeeAlsoComponent implements OnInit {
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
             console.log(data)
+            this.toastr.success('SeeAlso updated', '', {
+              timeOut: 5000,
+            });
           }, error => {
            console.log(error);
            if(error.statusText == 'OK'){
               this.memorySeeAlso[index] = selectedValues
+              this.toastr.success('SeeAlso updated', '', {
+                timeOut: 5000,
+              });
             }
           }
         )
@@ -225,10 +237,16 @@ export class SeeAlsoComponent implements OnInit {
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
             console.log(data)
+            this.toastr.success('SeeAlso updated', '', {
+              timeOut: 5000,
+            });
           }, error => {
             console.log(error)
             if(error.statusText == 'OK'){
               this.memorySeeAlso[index] = selectedValues
+              this.toastr.success('SeeAlso updated', '', {
+                timeOut: 5000,
+              });
             }
           }
         )
@@ -430,6 +448,9 @@ export class SeeAlsoComponent implements OnInit {
         data => {
           //console.log(data)
           this.lexicalService.updateLexCard(this.object)
+          this.toastr.success('SeeAlso deleted', '', {
+            timeOut: 5000,
+          });
         }, error => {
           console.log(error)
           this.toastr.error(error.error, 'Error', {
@@ -451,6 +472,9 @@ export class SeeAlsoComponent implements OnInit {
         data => {
           //console.log(data)
           this.lexicalService.updateLexCard(this.object)
+          this.toastr.success('SeeAlso updated', '', {
+            timeOut: 5000,
+          });
         }, error => {
           //console.log(error)
           this.toastr.error(error.error, 'Error', {
@@ -474,8 +498,11 @@ export class SeeAlsoComponent implements OnInit {
         data => {
           //console.log(data)
           this.lexicalService.updateLexCard(this.object)
+          this.toastr.success('SeeAlso updated', '', {
+            timeOut: 5000,
+          });
         }, error => {
-          //console.log(error)
+          console.log(error)
         }
       )
     } else if (this.object.etymologyInstanceName != undefined) {
@@ -493,8 +520,11 @@ export class SeeAlsoComponent implements OnInit {
         data => {
           //console.log(data)
           this.lexicalService.updateLexCard(this.object)
+          this.toastr.success('SeeAlso updated', '', {
+            timeOut: 5000,
+          });
         }, error => {
-          //console.log(error)
+          console.log(error)
         }
       )
     }

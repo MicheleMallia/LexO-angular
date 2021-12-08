@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
@@ -86,10 +87,12 @@ export class NotePanelComponent implements OnInit, OnChanges {
       ]
     ]
   };
-  constructor(private lexicalService: LexicalEntriesService) { }
+  constructor(private lexicalService: LexicalEntriesService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.editorConfig.editable = false;
+
+
     this.subject.pipe(debounceTime(1000)).subscribe(
       newNote => {
         if(this.noteData != null){
@@ -109,6 +112,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               },
               error => {
                 //console.log(error);
@@ -118,6 +124,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.updateLexCard({lastUpdate : error.error.text})
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               }
             )
           }else if(this.object.formInstanceName != undefined){
@@ -133,6 +142,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               },
               error => {
                 //console.log(error);
@@ -142,6 +154,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.updateLexCard({lastUpdate : error.error.text})
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               }
             )
           }else if(this.object.senseInstanceName != undefined){
@@ -157,6 +172,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               },
               error => {
                 //console.log(error);
@@ -166,6 +184,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.updateLexCard({lastUpdate : error.error.text})
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               }
             )
           }else if(this.object.etymologyInstanceName != undefined){
@@ -181,6 +202,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 data['new_note'] = newNote;
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               },
               error => {
                 //console.log(error);
@@ -190,6 +214,9 @@ export class NotePanelComponent implements OnInit, OnChanges {
                 this.lexicalService.refreshAfterEdit(data);
                 this.lexicalService.updateLexCard({lastUpdate : error.error.text})
                 this.lexicalService.spinnerAction('off');
+                this.toastr.success('Note updated', '', {
+                  timeOut: 5000,
+                });
               }
             )
           }
