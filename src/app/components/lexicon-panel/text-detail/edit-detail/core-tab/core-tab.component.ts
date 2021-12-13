@@ -424,6 +424,7 @@ export class CoreTabComponent implements OnInit {
           timeOut: 5000,
         });
       },error=> {
+        console.log(error)
         this.searchIconSpinner = false;
         this.lexicalService.deleteRequest(this.object);
       }
@@ -614,18 +615,20 @@ export class CoreTabComponent implements OnInit {
     this.object['request'] = 'etymology'
     let parentNodeInstanceName = '';
     if(this.object.lexicalEntryInstanceName != undefined
-      && this.object.lexicalEntryInstanceName.senseInstanceName == undefined){
+      && this.object.senseInstanceName == undefined){
+        console.log(1)
         parentNodeInstanceName = this.object.lexicalEntryInstanceName;
     }else if(this.object.formInstanceName != undefined){
-      let parentNodeInstanceName = this.object.parentNodeInstanceName;
+      parentNodeInstanceName = this.object.parentNodeInstanceName;
       this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
-      this.object['request'] = 'sense'
+      console.log(2)
     }else if(this.object.senseInstanceName != undefined){
-      let parentNodeInstanceName = this.object.parentNodeInstanceName;
+      parentNodeInstanceName = this.object.parentNodeInstanceName;
       this.object['lexicalEntryInstanceName'] = parentNodeInstanceName
-      this.object['request'] = 'sense'
+      console.log(3)
     }
 
+    console.log(parentNodeInstanceName)
     this.lexicalService.createNewEtymology(parentNodeInstanceName).subscribe(
       data=>{
         console.log(data)

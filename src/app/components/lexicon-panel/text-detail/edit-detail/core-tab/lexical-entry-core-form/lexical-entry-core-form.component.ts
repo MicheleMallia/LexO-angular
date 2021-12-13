@@ -697,7 +697,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
         } else {
 
             var that = this;
-            this.interval = setInterval((val)=>{                
+            var timer = setInterval((val)=>{                
                 
                 try{
                     var arrayValues = this.morphologyData.filter(x => {
@@ -705,7 +705,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     })['0']['propertyValues'];
                     this.valueTraits[i] = arrayValues;
                     this.memoryTraits.push(evt);
-                    clearInterval(that.interval)
+                    clearInterval(timer)
                 }catch(e){
                     console.log(e)
                 }
@@ -1002,77 +1002,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     }
 
-    /* onChangeEvokes(data) {
-        var index = data['i']
-        this.evokesArray = this.coreForm.get("evokes") as FormArray;
-        let isValid = this.evokesArray.at(index).get('entity').valid
-        if (isValid) {
-            //console.log(data)
-            if (this.memoryEvokes[index] == undefined) {
-                const newValue = data['name']
-                const parameters = {
-                    type: "conceptRef",
-                    relation: "evokes",
-                    value: newValue
-                }
-                let lexId = this.object.lexicalEntryInstanceName;
-              
-                this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
-                    data => {
-                        //console.log(data);
-                        this.lexicalService.spinnerAction('off');
-                        data['request'] = 0;
-                        this.lexicalService.refreshAfterEdit(data);
-                        this.lexicalService.updateLexCard(data)
-                    }, error => {
-                        //console.log(error)
-                        this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
-                        this.lexicalService.spinnerAction('off');
-                        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
-                        if(typeof(error.error) != 'object'){
-                            this.toastr.error(error.error, 'Error', {
-                              timeOut: 5000,
-                            });
-                        }else{
-                            this.toastr.success('Evokes changed correctly for ' + lexId, '', {
-                                timeOut: 5000,
-                            });
-                        }
-                    }
-                )
-                this.memoryEvokes[index] = data;
-
-
-            } else {
-                //console.log("c'era qualcos'altro")
-                const oldValue = this.memoryEvokes[index]['lexicalEntity']
-                const newValue = data['name']
-                const parameters = {
-                    type: "conceptRef",
-                    relation: "evokes",
-                    value: newValue,
-                    currentValue: oldValue
-                }
-                let lexId = this.object.lexicalEntryInstanceName;
-                this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
-                    data => {
-                        //console.log(data);
-                        this.lexicalService.spinnerAction('off');
-                        data['request'] = 0;
-                        this.lexicalService.refreshAfterEdit(data);
-                        this.lexicalService.updateLexCard(data)
-                    }, error => {
-                        //console.log(error)
-                        this.lexicalService.refreshAfterEdit({ request: 0, label: this.object.label });
-                        this.lexicalService.spinnerAction('off');
-                        this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
-                    }
-                )
-                this.memoryEvokes[index] = data;
-            }
-        }
-
-    } */
+    
 
     addDenotes(e?, t?) {
         this.denotesArray = this.coreForm.get("denotes") as FormArray;
@@ -1084,40 +1014,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     }
 
-    /* removeEvokes(index) {
-        this.evokesArray = this.coreForm.get('evokes') as FormArray;
-        const entity = this.evokesArray.at(index).get('entity').value;
-
-        let lexId = this.object.lexicalEntryInstanceName;
-
-        let parameters = {
-            type: 'conceptRef',
-            relation: 'evokes',
-            value: entity
-        }
-
-        this.lexicalService.deleteLinguisticRelation(lexId, parameters).subscribe(
-            data => {
-                //console.log(data)
-                this.lexicalService.updateLexCard(this.object)
-            }, error => {
-                //console.log(error)
-                this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
-            }
-        )
-
-        this.evokesArray.removeAt(index);
-        this.memoryEvokes.splice(index, 1);
-    }
- */
-   /*  addEvokes(e?) {
-        this.evokesArray = this.coreForm.get("evokes") as FormArray;
-        if (e != undefined) {
-            this.evokesArray.push(this.createEvokes(e));
-        } else {
-            this.evokesArray.push(this.createEvokes());
-        }
-    } */
+    
 
     addMorphoTraits(t?, v?, d?) {
         this.morphoTraits = this.coreForm.get('morphoTraits') as FormArray;

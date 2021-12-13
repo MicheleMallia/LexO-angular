@@ -236,6 +236,7 @@ export class FormCoreFormComponent implements OnInit {
     const parameters = { relation: "type", value: newType }
     this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(500)).subscribe(
       data => {
+        console.log(data)
         this.lexicalService.spinnerAction('off');
         data['request'] = 5;
         data['new_type'] = newType;
@@ -258,13 +259,23 @@ export class FormCoreFormComponent implements OnInit {
 
         }, 1000);
       }, error => {
-        //console.log(error);
+        console.log(error);
         const data = this.object;
         data['request'] = 5;
         data['new_type'] = newType;
         this.lexicalService.refreshAfterEdit(data);
         this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
         this.lexicalService.spinnerAction('off');
+
+        if(typeof(error.error) != 'object'){
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
+        }else{
+          this.toastr.success('Type changed', '', {
+            timeOut: 5000,
+          });
+        }
 
         setTimeout(() => {
           let type = this.formCore.get('type').value;
@@ -314,20 +325,29 @@ export class FormCoreFormComponent implements OnInit {
 
       this.staticMorpho[i] = { trait: trait, value: newValue }
       let formId = this.object.formInstanceName;
-      //console.log(parameters)
+      console.log(parameters)
 
       this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          //console.log(data)
+          console.log(data)
           //this.lexicalService.refreshAfterEdit(data);
           this.lexicalService.updateLexCard(data)
           this.lexicalService.spinnerAction('off');
         },
         error => {
-          //console.log(error)
+          console.log(error)
           //this.lexicalService.refreshAfterEdit({ label: this.object.label });
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
+          if(error.status != 200){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }else{
+            this.toastr.success('Morphologic trait changed', '', {
+              timeOut: 5000,
+            });
+          }
         }
       )
 
@@ -373,7 +393,7 @@ export class FormCoreFormComponent implements OnInit {
 
       this.lexicalService.updateLinguisticRelation(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          //console.log(data)
+          console.log(data)
           this.lexicalService.spinnerAction('off');
           this.lexicalService.updateLexCard(this.object)
           setTimeout(() => {
@@ -387,7 +407,7 @@ export class FormCoreFormComponent implements OnInit {
         }, 1000);
         },
         error => {
-          //console.log(error)
+          console.log(error)
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
           if(typeof(error.error) != 'object'){
@@ -507,16 +527,26 @@ export class FormCoreFormComponent implements OnInit {
 
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          //console.log(data)
+          console.log(data)
           this.lexicalService.spinnerAction('off');
           //this.lexicalService.refreshLexEntryTree();
           this.lexicalService.updateLexCard(data)
         }, error => {
-          //console.log(error);
+          console.log(error);
           //this.lexicalService.refreshLexEntryTree();
 
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
+
+          if(typeof(error.error) != 'object'){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }else{
+            this.toastr.success('Label changed', '', {
+              timeOut: 5000,
+            });
+          }
         }
       )
 
@@ -548,12 +578,12 @@ export class FormCoreFormComponent implements OnInit {
     if (trait != undefined && newValue != '') {
       this.lexicalService.updateForm(formId, parameters).pipe(debounceTime(1000)).subscribe(
         data => {
-          //console.log(data)
+          console.log(data)
           this.lexicalService.spinnerAction('off');
           /* this.lexicalService.refreshAfterEdit(data); */
           this.lexicalService.updateLexCard(data)
         }, error => {
-          //console.log(error);
+          console.log(error);
           this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
           this.lexicalService.spinnerAction('off');
         }
@@ -645,10 +675,18 @@ export class FormCoreFormComponent implements OnInit {
 
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {
-          //console.log(data)
+          console.log(data)
+          this.toastr.success('Element removed', '', {
+            timeOut: 5000,
+          });
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          //console.log(error)
+          console.log(error)
+          if(error.status != 200){
+            this.toastr.error(error.error, 'Error', {
+              timeOut: 5000,
+            });
+          }
         }
       )
     }
@@ -679,10 +717,10 @@ export class FormCoreFormComponent implements OnInit {
 
       this.lexicalService.deleteLinguisticRelation(formId, parameters).subscribe(
         data => {
-          //console.log(data)
+          console.log(data)
           this.lexicalService.updateLexCard(this.object)
         }, error => {
-          //console.log(error)
+          console.log(error)
         }
       )
     }

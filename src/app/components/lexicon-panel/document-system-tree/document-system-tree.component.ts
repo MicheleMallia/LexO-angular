@@ -441,7 +441,7 @@ export class DocumentSystemTreeComponent implements OnInit {
       data => {
         console.log(data);
         
-        this.toastr.success(data['lexicalEntryInstanceName'] + 'added correctly', '', {
+        this.toastr.success(data['lexicalEntryInstanceName'] + ' added correctly', '', {
             timeOut: 5000,
         });
       

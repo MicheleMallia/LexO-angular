@@ -144,6 +144,15 @@ export class LexicalEntryTreeComponent implements OnInit {
         
         if(signal != null){
 
+          this.lexicalService.getLexicalEntriesList(this.parameters).subscribe(
+            data => {
+              this.counter = data['totalHits'];
+            },
+            error => {
+              //console.log(error)
+            }
+          );
+
           
           this.lexicalService.getLanguages().subscribe(
             data => {

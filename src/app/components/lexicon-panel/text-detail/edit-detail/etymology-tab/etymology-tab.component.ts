@@ -210,6 +210,9 @@ export class EtymologyTabComponent implements OnInit {
         this.lexicalService.sendToCoreTab(null);
         this.lexicalService.sendToRightTab(null);
         this.biblioService.sendDataToBibliographyPanel(null);
+        this.toastr.success(etymId + ' deleted correctly', '', {
+          timeOut: 5000,
+        });
       }, error => {
         this.searchIconSpinner = false;
         //this.lexicalService.deleteRequest(this.object);
@@ -243,6 +246,9 @@ export class EtymologyTabComponent implements OnInit {
         }
         this.lexicalService.addSubElementRequest({ 'lex': this.object, 'data': data });
         this.searchIconSpinner = false;
+        this.toastr.success(data['etymologyInstanceName'] + ' added correctly', '', {
+          timeOut: 5000,
+        });
       }, error => {
         console.log(error)
         this.searchIconSpinner = false;
@@ -442,8 +448,14 @@ export class EtymologyTabComponent implements OnInit {
         }
         this.lexicalService.addSubElementRequest({ 'lex': this.object, 'data': data });
         this.searchIconSpinner = false;
+        this.toastr.success(data['formInstanceName'] + ' added correctly', '', {
+          timeOut: 5000,
+        });
       }, error => {
         this.searchIconSpinner = false;
+        this.toastr.error('Something goes wrong', 'Error', {
+          timeOut: 5000,
+        });
       }
     )
 
@@ -467,10 +479,16 @@ export class EtymologyTabComponent implements OnInit {
         }
         this.lexicalService.addSubElementRequest({ 'lex': this.object, 'data': data });
         this.searchIconSpinner = false;
+        this.toastr.success(data['senseInstanceName'] + ' added correctly', '', {
+          timeOut: 5000,
+        });
         //this.lexicalService.refreshLexEntryTree();
       }, error => {
         this.searchIconSpinner = false;
         //this.lexicalService.refreshLexEntryTree();
+        this.toastr.error(error.error, 'Error', {
+          timeOut: 5000,
+        });
       }
     )
 
@@ -521,15 +539,25 @@ export class EtymologyTabComponent implements OnInit {
       this.lexicalService.addBibliographyData(instance, parameters).subscribe(
         data => {
           //console.log(data);
+
           setTimeout(() => {
             //@ts-ignore
             $('#biblioModalEtym').modal('hide');
             $('.modal-backdrop').remove();
+            this.toastr.success('Item added, check bibliography panel', '', {
+              timeOut: 5000,
+            });
+            this.biblioService.triggerPanel(data)
+            setTimeout(() => {
+              this.modal.hide();
+            }, 10);
           }, 300);
           this.biblioService.sendDataToBibliographyPanel(data);
         }, error => {
           console.log(error)
-
+          this.toastr.error(error.error, 'Error', {
+            timeOut: 5000,
+          });
           setTimeout(() => {
             //@ts-ignore
             $('#biblioModalEtym').modal('hide');

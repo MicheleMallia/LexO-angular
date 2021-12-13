@@ -185,7 +185,7 @@ export class BibliographyPanelComponent implements OnInit {
         )
       }
     }else{
-      /* this.counterElement = 0; */
+      this.countElement = 0;
       this.bibliographyData = null;
     }
   }
