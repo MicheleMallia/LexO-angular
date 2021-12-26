@@ -24,9 +24,9 @@
             <div class="col-lg-3 col-form-label">
                 <label for="inputType">Type:</label>
             </div>
-            <div class="col-lg-7 input-group">
+            <div class="col-lg-9 input-group">
                 <select id="typeSelect" formControlName="type" name="type" class="form-control">
-                    <option *ngFor="let lx of lexEntryTypesData" [selected]="object.type === lx['valueId']">
+                    <option *ngFor="let lx of lexEntryTypesData" [selected]="coreForm.get('type').value === lx['valueId']">
                         {{lx['valueId']}}
                     </option>
                 </select>
@@ -37,6 +37,11 @@
                     <button *ngIf="variable.etymon" class="btn btn-secondary type-tooltip" type="button" data-toggle="tooltip"
                     data-placement="top" data-trigger="hover" title="Etymon' is a subclass of Lexical Entry that consists of individuals whose role is to describe the origin and history of another Lexical Entry."
                     style="font-size: 12px; border-radius: .25rem;"><i class="fas fa-question"></i></button>
+                </div>
+                <div class="input-group-append ml-2">
+                    <button [style.visibility]="coreForm.get('isCognate').value ? 'visible' : 'hidden'" class="btn btn-warning type-tooltip" type="button" data-toggle="tooltip"
+                    data-placement="top" data-trigger="hover" title="In linguistics, cognates, also called lexical cognates, are words that have a common etymological origin."
+                        style="font-size: 12px; border-radius: .25rem;">Cognate</button>
                 </div>
             </div>
         </div>
@@ -181,6 +186,49 @@
                             </div>
                             <div class="input-group-append ml-2">
                                 <button (click)="removeDenotes(i)" class="btn btn-danger" type="button"><i
+                                        class="fa fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row ml-2 mt-3 mr-2">
+        <div class="input-group col-lg-12">
+            <div class="card">
+                <span class="text-id"><b>COGNATES</b></span>
+                <a class="pointer" (click)="addCognates()"><span class="collapse-icon"><i
+                            class="fa fa-plus-square"></i></span></a>
+                <div class="card-body">
+                    <div class="form-group row ml-2 mt-3 mr-2" formArrayName="cognate"
+                        *ngFor="let cog of coreForm.get('cognate')['controls']; let i = index">
+                        <div class="input-group col-xl-12"  [formGroupName]="i" *ngIf="{switch : false}; let variable">
+                            <ng-select #select_cognates formControlName="entity" name="entity"
+                                (keyup)="triggerCognates($event)" (change)="handleCognates(select_cognates, i)"
+                                [items]="searchResults" bindValue="label" (focus)="deleteData()" bindLabel="label"
+                                placeholder="Search cognates" appendTo="body"
+                                *ngIf="!variable.switch && cog.get('type').value != 'external'">
+
+                            </ng-select>
+                            <input formControlName="entity" name="entity" type="text" [value]="cog.get('entity').value"
+                                class="form-control" placeholder="Insert URI"
+                                *ngIf="variable.switch || cog.get('type').value == 'external'"
+                                (keyup)="handleCognates($event, i)">
+                            <div class="input-group-append ml-3 form-check" style="align-items: center;"
+                                [hidden]="cog.get('type').value == 'external'">
+                                <input class="form-check-input cognates-tooltip" type="checkbox"
+                                    (change)="variable.switch=!variable.switch" data-toggle="tooltip"
+                                    data-placement="bottom" data-trigger="hover"
+                                    title="Clicca per inserire un URI manualmente">
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button class="btn btn-primary" type="button"><i
+                                        class="fa fa-external-link-alt"></i></button>
+                            </div>
+                            <div class="input-group-append ml-2">
+                                <button (click)="removeCognates(i)" class="btn btn-danger" type="button"><i
                                         class="fa fa-trash-alt"></i></button>
                             </div>
                         </div>

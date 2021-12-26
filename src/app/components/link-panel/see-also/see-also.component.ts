@@ -208,7 +208,7 @@ export class SeeAlsoComponent implements OnInit {
           relation: "seeAlso",
           value: selectedValues
         }
-        //console.log(parameters)
+        console.log(parameters)
         this.lexicalService.updateGenericRelation(lexicalElementId, parameters).subscribe(
           data => {
             console.log(data)
@@ -217,9 +217,13 @@ export class SeeAlsoComponent implements OnInit {
             });
           }, error => {
            console.log(error);
-           if(error.statusText == 'OK'){
+           if(error.status == 200){
               this.memorySeeAlso[index] = selectedValues
               this.toastr.success('SeeAlso updated', '', {
+                timeOut: 5000,
+              });
+            }else{
+              this.toastr.error(error.error, 'Error', {
                 timeOut: 5000,
               });
             }
