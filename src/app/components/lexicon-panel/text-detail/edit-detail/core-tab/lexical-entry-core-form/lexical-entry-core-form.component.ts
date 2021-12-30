@@ -274,15 +274,14 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     this.coreForm.get('type').enable({onlySelf: true, emitEvent: false})
                 }
 
-                /* this.object.type.forEach(element => {
+                this.object.type.forEach(element => {
                     if(element != 'Cognate'){
                         this.coreForm.get('type').setValue(element, { emitEvent: false });
                         return true;
                     }else{
-                        this.coreForm.get('isCognate').setValue(true, {emitEvent: false})
                         return false;
                     }
-                }); */
+                });
 
                 let isCognate = this.object.type.find(element => element == 'Cognate');
                 if(isCognate){

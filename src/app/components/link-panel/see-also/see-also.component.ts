@@ -170,12 +170,14 @@ export class SeeAlsoComponent implements OnInit {
             //console.log(data)
           }, error => {
             console.log(error)
-            this.toastr.error(error.error, 'Error', {
-              timeOut: 5000,
-            });
-            if(error.statusText == 'OK'){
+            
+            if(error.status == 200){
               this.memorySeeAlso.push(selectedValues)
               this.toastr.success('SeeAlso updated', '', {
+                timeOut: 5000,
+              });
+            }else{
+              this.toastr.error(error.error, 'Error', {
                 timeOut: 5000,
               });
             }
