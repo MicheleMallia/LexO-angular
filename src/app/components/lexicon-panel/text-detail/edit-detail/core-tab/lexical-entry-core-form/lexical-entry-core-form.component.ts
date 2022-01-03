@@ -168,6 +168,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
 
     triggerCognates(evt) {
         if (evt.target != undefined) {
+            
             this.subject.next(evt.target.value)
         }
     }
@@ -201,7 +202,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
             if (data != "" && data.length >= 3) {
                 this.lexicalService.getLexicalEntriesList(parameters).subscribe(
                     data => {
-                        //console.log(data)
+                        console.log(data)
                         this.searchResults = data['list']
                         this.filterLoading = false;
                     }, error => {
@@ -1123,20 +1124,18 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     console.log(error)
                     const data = this.object;
                     data['request'] = 0;
-                    this.toastr.error(error.error, 'Error', {
-                        timeOut: 5000,
-                    });
+                    
                     //this.lexicalService.refreshAfterEdit(data);
                     this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
                     this.lexicalService.spinnerAction('off');
-                    if(typeof(error.error) != 'object'){
-                        this.toastr.error(error.error, 'Error', {
-                          timeOut: 5000,
-                        });
-                    }else{
+                    if(error.status == 200){
                         this.toastr.success('Label changed correctly for ' + lexId, '', {
                             timeOut: 5000,
                         });
+                    }else{
+                        this.toastr.error(error.error, 'Error', {
+                            timeOut: 5000,
+                          });
                     }
                 }
             )
