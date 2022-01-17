@@ -8,12 +8,12 @@ import { ProfilePageComponent } from './views/profile-page/profile-page.componen
 import { SearchPageComponent } from './views/search-page/search-page.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomePageComponent},
-  {path: 'login', component: LoginPageComponent},
-  {path: 'lexicon', component: LexiconPageComponent},
-  {path: 'user', component: ProfilePageComponent},
-  {path: 'search', component: SearchPageComponent},
+  {path: '', redirectTo: 'LexO-angular/home', pathMatch: 'full'},
+  {path: 'LexO-angular/home', component: HomePageComponent},
+  {path: 'LexO-angular/login', component: LoginPageComponent},
+  {path: 'LexO-angular/lexicon', component: LexiconPageComponent},
+  {path: 'LexO-angular/user', component: ProfilePageComponent},
+  {path: 'LexO-angular/search', component: SearchPageComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 

@@ -1288,7 +1288,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     }
 
     removeCognates(index) {
-        this.cognatesArray = this.coreForm.get('cognates') as FormArray;
+        this.cognatesArray = this.coreForm.get('cognate') as FormArray;
 
         const entity = this.cognatesArray.at(index).get('entity').value;
 
@@ -1305,6 +1305,9 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 data => {
                     console.log(data)
                     this.lexicalService.updateLexCard(this.object);
+                    this.toastr.success("Cognate deleted successfully", '', {
+                        timeOut: 5000,
+                    });
                     
                 }, error => {
                     console.log(error)
