@@ -48,3 +48,5 @@ Thumbs.db
 
 /documentation
 tsconfig.doc.json
+.dockerignore
+Dockerfile.dev

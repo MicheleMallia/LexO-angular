@@ -27,7 +27,7 @@ import { debounceTime } from 'rxjs/operators';
 
       })),
       state('out', style({
-        height: 'calc(50vh - 7rem)',
+        height: 'calc(50vh - 10rem)',
       })),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out'))
@@ -117,16 +117,16 @@ export class EtymologyTabComponent implements OnInit {
       }
     );
 
-    this.expand.exp$.subscribe(
+    this.expand.expEpigraphy$.subscribe(
       trigger => {
         if (trigger) {
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 7rem)')
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 10rem)')
           this.exp_trig = 'in';
           this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 21rem)')
         } else if (trigger == null) {
           return;
         } else {
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 7rem)');
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 10rem)');
           this.exp_trig = 'out';
         }
       }

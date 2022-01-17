@@ -13,7 +13,7 @@ export class EpigraphyDetailComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  triggerExpansion(){
-    this.exp.expandCollapse();
+  triggerExpansionEpigraphy(){
+    this.exp.expandCollapseEpigraphy();
   }
 }

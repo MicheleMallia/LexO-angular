@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ExpanderService } from 'src/app/services/expander/expander.service';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class EditDetailComponent implements OnInit {
   @ViewChild('navtabs') navtabs: ElementRef; 
   @ViewChild('navcontent') navcontent: ElementRef; 
 
-  constructor(private lexicalService: LexicalEntriesService) { }
+  constructor(private lexicalService: LexicalEntriesService, private exp : ExpanderService) { }
 
   ngOnInit(): void {
     
@@ -91,6 +92,10 @@ export class EditDetailComponent implements OnInit {
         }
       }
     );
+  }
+
+  triggerExpansionEpigraphy(){
+    this.exp.expandCollapseEdit();
   }
 
 }

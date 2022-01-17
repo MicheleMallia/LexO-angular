@@ -1,15 +1,16 @@
-<div class="card container-fluid" style="height: calc(50vh - 14.9rem); overflow: auto">
-	<div class="card-body row">
+<div class="card container-fluid" style=" overflow: auto"> <!-- height: calc(50vh - 12rem); -->
+	<div #expanderEpigraphy [@slideInOut]="exp_trig" class="card-body row">
 		<div class="col-lg-4">
 			<img alt="" class="text-preview" src="//placehold.it/150" />
 		</div>
 		<div class="col-lg-8">
+			<button id="toggle-mode">MODE: ANNOTATION</button>
 			<div class="row pt-2">
 				<div class="col-md-6">
 					<h5>
 						Interpretativa
 					</h5>
-					<p>
+					<p id="pippo">
 						Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Aliquam eget sapien sapien. 
 					</p>
 				</div>
