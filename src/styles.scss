@@ -86,7 +86,8 @@ tree-node-content {
 #biblioModal,
 #biblioModalEtym,
 #coreTabModal,
-#etymologyTabModal {
+#etymologyTabModal,
+#epigraphyTabModal {
     position: absolute !important;
 
     .modal-dialog {
@@ -95,7 +96,8 @@ tree-node-content {
 }
 
 .core-tab-body,
-.etym-tab-body{
+.etym-tab-body,
+.epigraphy-tab-body{
     .modal-backdrop {
         position: absolute !important;
     }
@@ -222,3 +224,6 @@ tree-node-content {
     }
 }
 
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

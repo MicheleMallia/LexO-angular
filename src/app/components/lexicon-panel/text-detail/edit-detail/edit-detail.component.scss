@@ -12,6 +12,15 @@ $font-size-items: 12px;
     padding: 5px 18px;
 }
 
+.disabled{
+    pointer-events: none;
+
+    li > a, .fa {
+        color: #aeaeae;
+    }
+    
+}
+
 //minus
 [data-toggle="collapse"] i:before{
     content: "\f146";

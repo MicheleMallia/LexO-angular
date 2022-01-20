@@ -95,6 +95,7 @@ export class TextTreeComponent implements OnInit {
   searchIconSpinner = false;
   searchIconSpinner_input = false;
   selectedFileToCopy : any;
+  selectedNodeId;
 
   memoryMetadata = [];
   metadataForm = new FormGroup({
@@ -172,6 +173,36 @@ export class TextTreeComponent implements OnInit {
   
   onEvent = ($event: any) => {
     console.log($event);
+
+    if ($event.eventName == 'activate' && $event.node.data.type != 'directory' && this.selectedNodeId != $event.node.data['element-id']) {
+      this.selectedNodeId = $event.node.data['element-id'];
+      //@ts-ignore
+      $("#epigraphyTabModal").modal("show");
+      $('.modal-backdrop').appendTo('.epigraphy-tab-body');
+      //@ts-ignore
+      $('#epigraphyTabModal').modal({backdrop: 'static', keyboard: false})  
+      $('body').removeClass("modal-open")
+      $('body').css("padding-right", "");
+      this.documentService.sendToEpigraphyTab($event.node.data)
+      
+      
+      /* this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
+        data => {
+          
+          console.log(data);
+          this.selectedNodeId = $event.node.data.lexicalEntryInstanceName;
+          this.lexicalService.sendToCoreTab(data);
+          this.lexicalService.sendToRightTab(data);
+          this.lexicalService.sendToEtymologyTab(null);
+          //this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
+
+          
+        },
+        error => {
+
+        }
+      ) */
+    }
   }
 
   

@@ -22,7 +22,7 @@ import {
         
       })),
       state('out', style({
-        height: 'calc(50vh - 10rem)',
+        height: 'calc(50vh - 12.5rem)',
       })),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out'))
@@ -71,13 +71,13 @@ export class DecompositionTabComponent implements OnInit {
     this.expand.expEpigraphy$.subscribe(
       trigger => {
         if(trigger){
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 10rem)')
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)')
           this.exp_trig = 'in';
           this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 21rem)')
         }else if(trigger==null){
           return;
         }else{
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 10rem)');
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)');
           this.exp_trig = 'out';
         }
       }

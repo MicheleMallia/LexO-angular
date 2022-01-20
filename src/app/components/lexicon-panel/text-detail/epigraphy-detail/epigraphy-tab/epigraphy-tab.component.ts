@@ -1,6 +1,7 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import * as Recogito from '@recogito/recogito-js';
+import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
 import { ExpanderService } from 'src/app/services/expander/expander.service';
 
 
@@ -11,7 +12,7 @@ import { ExpanderService } from 'src/app/services/expander/expander.service';
   animations: [
     trigger('slideInOut', [
       state('in', style({
-        height: 'calc(100vh - 13.5rem)',
+        height: 'calc(100vh - 12.5rem)',
         
       })),
       state('out', style({
@@ -25,23 +26,69 @@ import { ExpanderService } from 'src/app/services/expander/expander.service';
 
 export class EpigraphyTabComponent implements OnInit {
   exp_trig = '';
+  name: any;
+  revisor:any;
+  object : any;
+  epigraphyData: any;
   @ViewChild('expanderEpigraphy') expander_body: ElementRef;
 
-  constructor(private expand : ExpanderService, private rend: Renderer2) { }
+  constructor(private documentService: DocumentSystemService, private expand : ExpanderService, private rend: Renderer2) { }
 
   ngOnInit(): void {
-    console.log('My Content: ' + document.getElementById('pippo'));
+
+    this.documentService.epigraphyData$.subscribe(
+      object => {
+        if(this.object != object){
+          this.epigraphyData = null; 
+        }
+
+        if(object!=null){
+          this.object = object
+
+          this.epigraphyData = object;
+          /* console.log(this.object) */
+          if(this.object != null){
+            setTimeout(() => {
+              //@ts-ignore
+              $('#epigraphyTabModal').modal('hide');
+              $('.modal-backdrop').remove();
+              var timer = setInterval((val)=>{                 
+                try{
+                    //@ts-ignore
+                    $('#epigraphyTabModal').modal('hide');
+                    if(!$('#epigraphyTabModal').is(':visible')){
+                      clearInterval(timer)
+                    }
+                    
+                }catch(e){
+                    console.log(e)
+                }    
+              }, 10)
+            }, 500);
+            this.name = this.object.name;
+  /*           this.revisor = this.object.revisor;
+   */          
+            
+          }
+        }else{
+          this.epigraphyData = null;
+        }
+        
+      }
+    );
+    
+    /* console.log('My Content: ' + document.getElementById('pippo'));
 
     var r = Recogito.init({
       content: document.getElementById('pippo'), // Element id or DOM node to attach to
       locale: 'auto',
       widgets: [
-        /* I intend to include this plugin this way.
-        { widget: Recogito.CommentsMention, userSuggestions: users }, */
+        //I intend to include this plugin this way.
+        //{ widget: Recogito.CommentsMention, userSuggestions: users },
         { widget: 'COMMENT' },
         { widget: 'TAG', vocabulary: ['Place', 'Person', 'Event', 'Organization', 'Animal'] }
       ],
-      /* relationVocabulary: ['isRelated', 'isPartOf', 'isSameAs '] */
+      //relationVocabulary: ['isRelated', 'isPartOf', 'isSameAs ']
     });
 
     // Add an event handler  
@@ -71,18 +118,18 @@ export class EpigraphyTabComponent implements OnInit {
       }
 
       r.setMode(annotationMode);
-    });
+    }); */
 
     this.expand.expEdit$.subscribe(
       trigger => {
         if(trigger){
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12rem)')
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)')
           this.exp_trig = 'in';
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 13.5rem)')
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 19rem)')
         }else if(trigger==null){
           return;
         }else{
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12rem)');
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 15rem)');
           this.exp_trig = 'out';
         }
       }

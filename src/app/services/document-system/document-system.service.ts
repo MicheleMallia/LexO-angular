@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,14 @@ export class DocumentSystemService {
 
   private baseUrl_document = "https://lari2.ilc.cnr.it/belexo/"
 
+  private _epigraphyData: BehaviorSubject<object> = new BehaviorSubject(null);
+  epigraphyData$ = this._epigraphyData.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  sendToEpigraphyTab(object: object) {
+    this._epigraphyData.next(object)
+  } 
 
   //GET /api/getDocumentSystem  ---> return document system
   getDocumentSystem(): Observable<any> {

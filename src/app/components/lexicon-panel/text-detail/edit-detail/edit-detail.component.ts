@@ -9,6 +9,7 @@ import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-
 })
 export class EditDetailComponent implements OnInit {
 
+  object : any;
   showTrigger = false;
   @ViewChild('navtabs') navtabs: ElementRef; 
   @ViewChild('navcontent') navcontent: ElementRef; 
@@ -17,6 +18,7 @@ export class EditDetailComponent implements OnInit {
 
   ngOnInit(): void {
     
+    this.object = null;
     this.lexicalService.coreData$.subscribe(
       object => {
         if(object != null){
@@ -24,7 +26,7 @@ export class EditDetailComponent implements OnInit {
              object['formInstanceName'] != undefined ||
              object['senseInstanceName'] != undefined){
             var navTabLinks = this.navtabs.nativeElement.querySelectorAll('a')
-            
+            this.object = object;
             navTabLinks.forEach(element => {
               /* //console.log(element) */
               if(element.text == 'Core'){
@@ -50,6 +52,7 @@ export class EditDetailComponent implements OnInit {
               }
             });
           }else {
+            this.object = null;
           }
         }
       }
@@ -59,7 +62,7 @@ export class EditDetailComponent implements OnInit {
       object => {
         if(object != null){
           if(object['etymology']['etymologyInstanceName'] != undefined){
-
+            this.object = object;
             var navTabLinks = this.navtabs.nativeElement.querySelectorAll('a')
             
             navTabLinks.forEach(element => {
@@ -88,6 +91,7 @@ export class EditDetailComponent implements OnInit {
             });
             
           }else {
+            this.object = null;
           }
         }
       }

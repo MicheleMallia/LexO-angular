@@ -62,6 +62,8 @@ import { MetadataPanelComponent } from './components/metadata-panel/metadata-pan
 import { FileTabComponent } from './components/metadata-panel/file-tab/file-tab.component';
 import { EpidocTabComponent } from './components/metadata-panel/epidoc-tab/epidoc-tab.component';
 import { TextTabComponent } from './components/metadata-panel/text-tab/text-tab.component';
+import { EpigraphyFormComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/epigraphy-tab/epigraphy-form/epigraphy-form.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -112,7 +114,8 @@ import { TextTabComponent } from './components/metadata-panel/text-tab/text-tab.
     MetadataPanelComponent,
     FileTabComponent,
     EpidocTabComponent,
-    TextTabComponent
+    TextTabComponent,
+    EpigraphyFormComponent
   ],
   imports: [
     ContextMenuModule.forRoot({useBootstrap4: true}),
@@ -128,7 +131,8 @@ import { TextTabComponent } from './components/metadata-panel/text-tab/text-tab.
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -14,6 +14,18 @@ a, .fa {
     text-decoration: none;
     font-size: $font-size-items;
 }
+.nav-tabs {
+    border-bottom: none;
+}
+
+.disabled{
+    pointer-events: none;
+
+    li > a, .fa {
+        color: #aeaeae;
+    }
+    
+}
 
 .fa{
     margin-top: 2px;

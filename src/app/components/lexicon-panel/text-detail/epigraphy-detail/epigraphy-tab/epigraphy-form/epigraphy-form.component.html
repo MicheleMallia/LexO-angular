@@ -1,0 +1,22 @@
+<div class="form-group row ml-2 mt-3 mr-2">
+    <h5>Tokens</h5>
+</div>
+
+<form [formGroup]="epigraphyForm" *ngIf="object != null">
+    
+    <div class="form-group row ml-2 mt-3 mr-2">
+        <span *ngFor="let token of data.tokens" class="m-1">
+        
+            <button type="button" class="btn btn-outline-primary" [container]="'body'" [placement]="'bottom'" [popoverTitle]="token.value" [autoClose]="'outside'" [ngbPopover]="token.value">
+           
+                <p class="text-dark" > {{token.value}}</p>
+
+          </button>
+        </span>
+        
+        
+    </div>
+
+   
+    
+</form>

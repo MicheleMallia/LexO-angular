@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <ul class="nav nav-tabs" id="editDictTab" role="tablist" #navtabs>
+        <ul class="nav nav-tabs" id="editDictTab" role="tablist" #navtabs [ngClass]="{'disabled': object === null}">
             <li class="nav-item">
                 <a class="nav-link" id="core-tab" data-toggle="tab" href="#core" role="tab" aria-controls="core" aria-selected="true">Core</a>
             </li>
