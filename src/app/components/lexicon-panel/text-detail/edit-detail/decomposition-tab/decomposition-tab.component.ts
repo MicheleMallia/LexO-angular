@@ -18,7 +18,7 @@ import {
   animations: [
     trigger('slideInOut', [
       state('in', style({
-        height: 'calc(100vh - 21rem)',
+        height: 'calc(100vh - 22rem)',
         
       })),
       state('out', style({
@@ -76,8 +76,8 @@ export class DecompositionTabComponent implements OnInit {
 
           if(!isEpigraphyExpanded){
             this.exp_trig = 'in';
-            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(100vh - 21rem)')
-            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 21rem)')
+            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(100vh - 22rem)')
+            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 22rem)')
           }else{
             this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)');
             this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)');
