@@ -98,8 +98,18 @@ export class EditDetailComponent implements OnInit {
     );
   }
 
-  triggerExpansionEpigraphy(){
+  triggerExpansionEdit(){
+    
     this.exp.expandCollapseEdit();
+
+    let isEditExpanded = this.exp.isEditTabExpanded();
+    let isEpigraphyExpanded = this.exp.isEpigraphyTabExpanded();
+
+    setTimeout(() => {
+      if(isEpigraphyExpanded){
+        this.exp.expandCollapseEpigraphy(true);
+      }
+    }, 200);
   }
 
 }

@@ -9,6 +9,7 @@ declare var $: JQueryStatic;
 
 
 import { debounceTime } from 'rxjs/operators';
+import { ExpanderService } from 'src/app/services/expander/expander.service';
 
 
 const actionMapping: IActionMapping = {
@@ -97,7 +98,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   initialValues = this.filterForm.value;
 
-  constructor(private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { 
+  constructor(private expander : ExpanderService, private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { 
 
     var refreshTooltip = setInterval((val)=>{
       //console.log('called'); 
@@ -555,6 +556,9 @@ export class LexicalEntryTreeComponent implements OnInit {
           this.lexicalService.sendToRightTab(data);
           this.lexicalService.sendToEtymologyTab(null);
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
+
+
+          this.expander.expandCollapseEdit(true);
 
           //@ts-ignore
           $("#coreTabModal").modal("show");

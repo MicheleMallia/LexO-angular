@@ -117,15 +117,41 @@ export class EtymologyTabComponent implements OnInit {
       }
     );
 
+    this.expand.expEdit$.subscribe(
+      trigger => {
+        if(trigger){
+          let isEditExpanded = this.expand.isEditTabExpanded();
+          let isEpigraphyExpanded = this.expand.isEpigraphyTabExpanded();
+
+          if(!isEpigraphyExpanded){
+            this.exp_trig = 'in';
+            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(100vh - 21rem)')
+            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 21rem)')
+          }else{
+            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)');
+            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)');
+            this.exp_trig = 'in';
+          }
+          
+        }else if(trigger==null){
+          return;
+        }else{
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)');
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)');
+          this.exp_trig = 'out';
+        }
+      }
+    );
+
     this.expand.expEpigraphy$.subscribe(
       trigger => {
-        if (trigger) {
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)')
+        if(trigger){
           this.exp_trig = 'in';
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 21rem)')
-        } else if (trigger == null) {
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)')
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)')
+        }else if(trigger==null){
           return;
-        } else {
+        }else{
           this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)');
           this.exp_trig = 'out';
         }

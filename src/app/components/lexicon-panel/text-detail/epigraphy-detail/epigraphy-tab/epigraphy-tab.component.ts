@@ -12,7 +12,7 @@ import { ExpanderService } from 'src/app/services/expander/expander.service';
   animations: [
     trigger('slideInOut', [
       state('in', style({
-        height: 'calc(100vh - 12.5rem)',
+        height: 'calc(100vh - 20rem)',
         
       })),
       state('out', style({
@@ -120,12 +120,42 @@ export class EpigraphyTabComponent implements OnInit {
       r.setMode(annotationMode);
     }); */
 
+    this.expand.expEpigraphy$.subscribe(
+      trigger => {
+        if(trigger){
+          let isEditExpanded = this.expand.isEditTabExpanded();
+          let isEpigraphyExpanded = this.expand.isEpigraphyTabExpanded();
+
+          if(!isEditExpanded ){
+            
+            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(100vh - 20rem)')
+            this.exp_trig = 'in';
+            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 20rem)');
+          }else{
+            
+            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)');
+            this.exp_trig = 'in';
+            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 15rem)');
+            
+          }
+          
+          
+        }else if(trigger==null){
+          return;
+        }else{
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)');
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 15rem)');
+          this.exp_trig = 'out';
+        }
+      }
+    );
+
     this.expand.expEdit$.subscribe(
       trigger => {
         if(trigger){
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)')
           this.exp_trig = 'in';
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 19rem)')
+          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)')
+          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 15rem)')
         }else if(trigger==null){
           return;
         }else{

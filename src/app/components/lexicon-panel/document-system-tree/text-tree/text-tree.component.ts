@@ -7,6 +7,7 @@ import { ContextMenuComponent } from 'ngx-contextmenu';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
+import { ExpanderService } from 'src/app/services/expander/expander.service';
 import { v4 } from 'uuid';
 
 
@@ -140,7 +141,7 @@ export class TextTreeComponent implements OnInit {
 
   
   
-  constructor(private element: ElementRef, private documentService: DocumentSystemService, private renderer: Renderer2, private formBuilder: FormBuilder, private datePipe:DatePipe, private toastr: ToastrService) { }
+  constructor(private expander : ExpanderService, private element: ElementRef, private documentService: DocumentSystemService, private renderer: Renderer2, private formBuilder: FormBuilder, private datePipe:DatePipe, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadTree();
@@ -185,6 +186,7 @@ export class TextTreeComponent implements OnInit {
       $('body').css("padding-right", "");
       this.documentService.sendToEpigraphyTab($event.node.data)
       
+      this.expander.expandCollapseEpigraphy(true);
       
       /* this.lexicalService.getLexEntryData(idLexicalEntry).subscribe(
         data => {
