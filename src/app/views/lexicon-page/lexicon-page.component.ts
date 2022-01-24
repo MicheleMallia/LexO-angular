@@ -20,6 +20,55 @@ export class LexiconPageComponent implements OnInit {
   bibliography = [];
   ngOnInit(): void {
 
+    this.lexicalService.triggerNotePanel$.subscribe(
+      boolean => {
+        if(boolean != undefined){
+          if(boolean){
+            let a_link = this.accordion.nativeElement.querySelectorAll('a[data-target="#noteCollapse"]');
+            let collapse_container = this.accordion.nativeElement.querySelectorAll('div[aria-labelledby="noteHeading"]');
+            let item_collapse = this.accordion.nativeElement.querySelectorAll('[id^="collapse-"');
+            a_link.forEach(element => {
+              if(element.classList.contains("collapsed")){
+                element.classList.remove('collapsed')
+              }else{
+                //element.classList.add('collapsed')
+              }
+            })
+
+            collapse_container.forEach(element => {
+              if(element.classList.contains("show")){
+                //element.classList.remove('collapsed')
+              }else{
+                element.classList.add('show')
+              }
+            })
+
+            item_collapse.forEach(element => {
+              if(element == item_collapse[item_collapse.length-1]){
+                element.classList.add('show')
+              }else{
+                element.classList.remove('show')
+              }
+            });
+          }else{
+            let a_link = this.accordion.nativeElement.querySelectorAll('a[data-target="#noteCollapse"]');
+            a_link.forEach(element => {
+              element.classList.add('collapsed')
+              
+            })
+
+            let collapse_container = this.accordion.nativeElement.querySelectorAll('div[aria-labelledby="noteHeading"]');
+            collapse_container.forEach(element => {
+              console.log(element)
+              if(element.classList.contains("show")){
+                element.classList.remove('show')
+              }
+            })
+          }
+        }
+      }
+    )
+
     this.biblioService.triggerPanel$.subscribe(
       object => {
         if(object != undefined){

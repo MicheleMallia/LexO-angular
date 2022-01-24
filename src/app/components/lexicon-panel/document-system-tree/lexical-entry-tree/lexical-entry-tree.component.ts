@@ -567,6 +567,14 @@ export class LexicalEntryTreeComponent implements OnInit {
           $('#coreTabModal').modal({backdrop: 'static', keyboard: false})  
           $('body').removeClass("modal-open")
           $('body').css("padding-right", "");
+
+          if(data.note != undefined){
+            if(data.note != ""){
+              this.lexicalService.triggerNodePanel(true);
+            }else{
+              this.lexicalService.triggerNodePanel(false);
+            }
+          }
         },
         error => {
 
@@ -595,6 +603,14 @@ export class LexicalEntryTreeComponent implements OnInit {
           $('#coreTabModal').modal({backdrop: 'static', keyboard: false})  
           $('body').removeClass("modal-open")
           $('body').css("padding-right", "");
+
+          if(data.note != undefined){
+            if(data.note != ""){
+              this.lexicalService.triggerNodePanel(true);
+            }else{
+              this.lexicalService.triggerNodePanel(false);
+            }
+          }
         },
         error => {
           //console.log(error)
@@ -624,6 +640,14 @@ export class LexicalEntryTreeComponent implements OnInit {
           $('#coreTabModal').modal({backdrop: 'static', keyboard: false})  
           $('body').removeClass("modal-open")
           $('body').css("padding-right", "");
+
+          if(data.note != undefined){
+            if(data.note != ""){
+              this.lexicalService.triggerNodePanel(true);
+            }else{
+              this.lexicalService.triggerNodePanel(false);
+            }
+          }
         },
         error => {
           //console.log(error)
@@ -652,6 +676,14 @@ export class LexicalEntryTreeComponent implements OnInit {
           $('#etymologyTabModal').modal({backdrop: 'static', keyboard: false})  
           $('body').removeClass("modal-open")
           $('body').css("padding-right", "");
+
+          if(data.note != undefined){
+            if(data.note != ""){
+              this.lexicalService.triggerNodePanel(true);
+            }else{
+              this.lexicalService.triggerNodePanel(false);
+            }
+          }
         },
         error => {
           console.log(error)
