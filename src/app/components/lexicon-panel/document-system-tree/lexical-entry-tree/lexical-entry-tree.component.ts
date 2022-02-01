@@ -23,6 +23,7 @@ const actionMapping: IActionMapping = {
     click: (tree, node, $event) => {
       
         TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
+        TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
     },
   }
 };
