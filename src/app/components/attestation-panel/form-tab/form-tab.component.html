@@ -1,5 +1,5 @@
-<div class="card">
-    <span class="text-id">ID TESTO</span>
+<div class="card" *ngIf="object != null">
+    <span class="text-id">{{object.name}}</span>
     <a href="#a"><span class="edit-icon"><i class="fa fa-edit"></i></span></a>
     <a href="#b"><span class="trash-icon"><i class="fa fa-trash"></i></span></a>
     <div class="card-body">

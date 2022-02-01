@@ -64,7 +64,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   status = [{ "label": "false", "count": 0 }, { "label": "true", "count": 0 }];
   parameters: LexicalEntryRequest = {
     text: "",
-    searchMode: searchModeEnum.equals,
+    searchMode: searchModeEnum.startWith,
     type: "",
     pos: "",
     formType: "entry",
@@ -87,7 +87,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   filterForm = new FormGroup({
     text: new FormControl(''),
-    searchMode: new FormControl('equals'),
+    searchMode: new FormControl('startWith'),
     type: new FormControl(''),
     pos: new FormControl(''),
     formType: new FormControl('entry'),
@@ -477,8 +477,10 @@ export class LexicalEntryTreeComponent implements OnInit {
     let parameters = newPar;
     parameters['offset'] = this.offset;
     parameters['limit'] = this.limit;
+    console.log(parameters)
     this.lexicalService.getLexicalEntriesList(newPar).subscribe(
       data => {
+        console.log(data)
         if(data['list'].length > 0){
           this.show = false;
         }else {
@@ -570,9 +572,9 @@ export class LexicalEntryTreeComponent implements OnInit {
 
           if(data.note != undefined){
             if(data.note != ""){
-              this.lexicalService.triggerNodePanel(true);
+              this.lexicalService.triggerNotePanel(true);
             }else{
-              this.lexicalService.triggerNodePanel(false);
+              this.lexicalService.triggerNotePanel(false);
             }
           }
         },
@@ -606,9 +608,9 @@ export class LexicalEntryTreeComponent implements OnInit {
 
           if(data.note != undefined){
             if(data.note != ""){
-              this.lexicalService.triggerNodePanel(true);
+              this.lexicalService.triggerNotePanel(true);
             }else{
-              this.lexicalService.triggerNodePanel(false);
+              this.lexicalService.triggerNotePanel(false);
             }
           }
         },
@@ -643,9 +645,9 @@ export class LexicalEntryTreeComponent implements OnInit {
 
           if(data.note != undefined){
             if(data.note != ""){
-              this.lexicalService.triggerNodePanel(true);
+              this.lexicalService.triggerNotePanel(true);
             }else{
-              this.lexicalService.triggerNodePanel(false);
+              this.lexicalService.triggerNotePanel(false);
             }
           }
         },
@@ -679,9 +681,9 @@ export class LexicalEntryTreeComponent implements OnInit {
 
           if(data.note != undefined){
             if(data.note != ""){
-              this.lexicalService.triggerNodePanel(true);
+              this.lexicalService.triggerNotePanel(true);
             }else{
-              this.lexicalService.triggerNodePanel(false);
+              this.lexicalService.triggerNotePanel(false);
             }
           }
         },

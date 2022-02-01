@@ -185,6 +185,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
     onSearchFilter(data) {
         this.filterLoading = true;
         this.searchResults = [];
+        
         if (this.object.lexicalEntryInstanceName != undefined) {
             let parameters = {
                 text: data,
@@ -199,10 +200,20 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                 limit: 500
             }
             
-            if (data != "" && data.length >= 3) {
+            if (data != "" ) { /* && data.length >= 3 */
                 this.lexicalService.getLexicalEntriesList(parameters).subscribe(
                     data => {
                         console.log(data)
+
+                        let filter_lang = data.list.filter(
+                            x => {
+                                return x.language != this.object.language;
+                            }
+                        )
+                        filter_lang.forEach(element => {
+                            element['label_lang'] = element.label+"@"+element.language
+                        });
+                        console.log(filter_lang)
                         this.searchResults = data['list']
                         this.filterLoading = false;
                     }, error => {
@@ -1273,7 +1284,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     
                 }, error => {
                     console.log(error)
-                    this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+                    //this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
                     this.toastr.error(error.error, 'Error', {
                         timeOut: 5000,
                     });
@@ -1311,7 +1322,7 @@ export class LexicalEntryCoreFormComponent implements OnInit {
                     
                 }, error => {
                     console.log(error)
-                    this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+                    //this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
                     this.toastr.error(error.error, 'Error', {
                         timeOut: 5000,
                     });

@@ -18,21 +18,21 @@
                     <a class="nav-link" id="sense-tab" data-toggle="tab" href="#sense" role="tab"
                         aria-controls="sense" aria-selected="false">Sense</a>
                 </li>
-                <li class="nav-item">
+               <!--  <li class="nav-item">
                     <a class="nav-link" id="frame-tab" data-toggle="tab" href="#frame" role="tab"
                         aria-controls="frame" aria-selected="false">Frame</a>
-                </li>
+                </li> -->
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="form" role="tabpanel" aria-labelledby="form-tab">
-                    <app-form-tab></app-form-tab>
+                    <app-form-tab [formData]=formData></app-form-tab>
                 </div>
                 <div class="tab-pane fade" id="sense" role="tabpanel" aria-labelledby="sense-tab">
                     <app-sense-tab></app-sense-tab>
                 </div>
-                <div class="tab-pane fade" id="frame" role="tabpanel" aria-labelledby="frame-tab">
+                <!-- <div class="tab-pane fade" id="frame" role="tabpanel" aria-labelledby="frame-tab">
                     <app-frame-tab></app-frame-tab>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

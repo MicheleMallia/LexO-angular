@@ -227,3 +227,14 @@ tree-node-content {
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+.token_modal {
+
+    width: 30% !important;
+    max-width: 30% !important;
+
+    
+}
+.ng-dropdown-panel {
+    z-index: 1065 !important;
+}

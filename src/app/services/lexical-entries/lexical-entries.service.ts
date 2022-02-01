@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class LexicalEntriesService {
 
   private _coreFormData: BehaviorSubject<object> = new BehaviorSubject(null);
+  private _attestationPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
   /* private _vartransData: BehaviorSubject<object> = new BehaviorSubject(null); */
   private _etymologyData: BehaviorSubject<object> = new BehaviorSubject(null);
   private _rightPanelData: BehaviorSubject<object> = new BehaviorSubject(null);
@@ -20,12 +21,14 @@ export class LexicalEntriesService {
   private _refreshFilter : BehaviorSubject<object> = new BehaviorSubject(null);
   private _updateLangSelect : BehaviorSubject<object> = new BehaviorSubject(null);
   private _triggerNotePanel : BehaviorSubject<boolean> = new BehaviorSubject(null);
+  private _triggerAttestationPanel : BehaviorSubject<boolean> = new BehaviorSubject(null);
 
   private baseUrl = "/LexO-backend-itant/service/"
   private key = "PRINitant19";
   private author = "michele";
 
   coreData$ = this._coreFormData.asObservable();
+  attestationPanelData$ = this._attestationPanelData.asObservable();
   /* vartransData = this._vartransData.asObservable(); */
   etymologyData$ = this._etymologyData.asObservable();
   rightPanelData$ = this._rightPanelData.asObservable();
@@ -38,11 +41,16 @@ export class LexicalEntriesService {
   refreshFilter$ = this._refreshFilter.asObservable();
   updateLangSelect$ = this._updateLangSelect.asObservable();
   triggerNotePanel$ = this._triggerNotePanel.asObservable();
+  triggerAttestationPanel$ = this._triggerAttestationPanel.asObservable();
 
   constructor(private http: HttpClient) { }
 
   sendToCoreTab(object: object) {
     this._coreFormData.next(object)
+  } 
+  
+  sendToAttestationPanel(object: object) {
+    this._attestationPanelData.next(object)
   } 
   
   /* sendToVartransTab(object: object) {
@@ -89,8 +97,12 @@ export class LexicalEntriesService {
     this._updateLangSelect.next(object);
   }
 
-  triggerNodePanel(bool: boolean){
+  triggerNotePanel(bool: boolean){
     this._triggerNotePanel.next(bool);
+  }
+
+  triggerAttestationPanel(bool: boolean){
+    this._triggerAttestationPanel.next(bool);
   }
 
   //POST: /lexicon/lexicalEntries ---> get lexical entries list

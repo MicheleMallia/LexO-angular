@@ -205,12 +205,17 @@
                     <div class="form-group row ml-2 mt-3 mr-2" formArrayName="cognate"
                         *ngFor="let cog of coreForm.get('cognate')['controls']; let i = index">
                         <div class="input-group col-xl-12"  [formGroupName]="i" *ngIf="{switch : false}; let variable">
-                            <ng-select #select_cognates formControlName="entity" name="entity"
+                            <ng-select #select_cognates formControlName="entity" name="entity" [dropdownPosition]="'top'"
                                 (keyup)="triggerCognates($event)" (change)="handleCognates(select_cognates, i)"
                                 [items]="searchResults" bindValue="label" (focus)="deleteData()" bindLabel="label"
                                 placeholder="Search cognates" appendTo="body"
                                 *ngIf="!variable.switch && cog.get('type').value != 'external'">
+                                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                    <div>
+                                        <span>{{item.label}} </span><span style="color: blue;">@{{item.language}}</span>
+                                    </div>
 
+                                </ng-template>
                             </ng-select>
                             <input formControlName="entity" name="entity" type="text" [value]="cog.get('entity').value"
                                 class="form-control" placeholder="Insert URI"

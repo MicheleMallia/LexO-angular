@@ -2,12 +2,130 @@
     <h5>Tokens</h5>
 </div>
 
+<ng-template #tokenModal> 
+    <!-- [dropdownPosition]="'top'" -->
+    <!-- formControlName="entity" name="entity"  -->
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs" id="editDictTab" role="tablist" #navtabs [ngClass]="{'disabled': object === null}">
+                <li class="nav-item">
+                    <a class="nav-link active" id="form-tab" data-toggle="tab" href="#form_token" role="tab" aria-controls="form_token" aria-selected="true">Form</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="sense-tab" data-toggle="tab" href="#sense_token" role="tab" aria-controls="sense_token" aria-selected="true">Sense</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="tab-content">
+                <div class="tab-pane fade show active" id="form_token" role="tabpanel" aria-labelledby="form-tab">
+                    <div class="input-group col-xl-12"  *ngIf="{switch : false}; let variable">
+                        <ng-select #select_form name="entity" [addTag]="true" [clearable]="true" (focus)="true"
+                        (keyup)="triggerSearch($event)" (change)="handleForm(select_form)"
+                        [items]="searchResults" bindValue="label" (focus)="deleteData()" bindLabel="label"
+                        placeholder="Search form" appendTo=".token_modal" 
+                        *ngIf="!variable.switch "> <!-- && cog.get('type').value != 'external' -->
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                        <!--     <div>
+                                <span>{{item.label}} </span><span style="color: blue;">@{{item.language}}</span>
+                            </div> -->
+                            <div class="card-body">
+                                <h6 class="card-title" [ngOptionHighlight]="search">{{item.label}}</h6>
+                                <p class="card-subtitle mb-2 text-muted">{{item.type}}</p>
+                                <small class="card-text">
+                                    <!-- <img height="15" width="15" [src]="item.avatar"/> -->
+                                    LexicalEntry: {{item.lexicalEntryInstanceName}}
+                                </small>
+                               <!--  <div *ngIf="item.name === 'Pavilnys'">
+                                    <a href="#" class="card-link">Card link</a>
+                                    <a href="#" class="card-link">Another link</a>
+                                </div> -->
+                            </div>
+                
+                        </ng-template>
+                        </ng-select>
+                        <!-- [value]="cog.get('entity').value" -->
+                        <!-- *ngIf="variable.switch || cog.get('type').value == 'external'" -->
+                        <input  name="entity" type="text"  
+                            class="form-control" placeholder="Insert URI"
+                            *ngIf="variable.switch"
+                            (keyup)="handleForm($event)">
+                
+                        <!-- [hidden]="cog.get('type').value == 'external'" -->
+                        <div class="input-group-append ml-3 form-check" style="align-items: center;"
+                            >
+                            <input class="form-check-input cognates-tooltip" type="checkbox"
+                                (change)="variable.switch=!variable.switch" data-toggle="tooltip"
+                                data-placement="bottom" data-trigger="hover"
+                                title="Clicca per inserire un URI manualmente">
+                        </div>
+                        <div class="input-group-append ml-2">
+                            <button class="btn btn-primary" type="button"><i
+                                    class="fa fa-external-link-alt"></i></button>
+                        </div>
+                        <div class="input-group-append ml-2">
+                            <button (click)="clearAll()" class="btn btn-danger" type="button"><i
+                                    class="fa fa-trash-alt"></i></button>
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="tab-pane fade" id="sense_token" role="tabpanel" aria-labelledby="sense-tab">
+                    <div class="input-group col-xl-12"  *ngIf="{switch : false}; let variable">
+                        <ng-select #select_sense name="entity" [addTag]="createNewForm"
+                        (keyup)="triggerSearch($event)" (change)="handleForm(select_sense)"
+                        [items]="searchResults" bindValue="label" (focus)="deleteData()" bindLabel="label"
+                        placeholder="Search form" appendTo=".token_modal"
+                        *ngIf="!variable.switch "> <!-- && cog.get('type').value != 'external' -->
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                            <div>
+                                <span>{{item.label}} </span><span style="color: blue;">@{{item.language}}</span>
+                            </div>
+                
+                        </ng-template>
+                        </ng-select>
+                        <!-- [value]="cog.get('entity').value" -->
+                        <!-- *ngIf="variable.switch || cog.get('type').value == 'external'" -->
+                        <input  name="entity" type="text" 
+                            class="form-control" placeholder="Insert URI"
+                            *ngIf="variable.switch"
+                            (keyup)="handleCognates($event, i)">
+                
+                        <!-- [hidden]="cog.get('type').value == 'external'" -->
+                        <div class="input-group-append ml-3 form-check" style="align-items: center;"
+                            >
+                            <input class="form-check-input cognates-tooltip" type="checkbox"
+                                (change)="variable.switch=!variable.switch" data-toggle="tooltip"
+                                data-placement="bottom" data-trigger="hover"
+                                title="Clicca per inserire un URI manualmente">
+                        </div>
+                        <div class="input-group-append ml-2">
+                            <button class="btn btn-primary" type="button"><i
+                                    class="fa fa-external-link-alt"></i></button>
+                        </div>
+                        <div class="input-group-append ml-2">
+                            <button (click)="removeCognates(i)" class="btn btn-danger" type="button"><i
+                                    class="fa fa-trash-alt"></i></button>
+                        </div>
+                    </div> 
+                </div>
+               
+            </div>
+            
+        </div>
+
+    </div>
+           
+        
+</ng-template>
+
+
 <form [formGroup]="epigraphyForm" *ngIf="object != null">
-    
+
     <div class="form-group row ml-2 mt-3 mr-2">
         <span *ngFor="let token of data.tokens" class="m-1">
-        
-            <button type="button" class="btn btn-outline-primary" [container]="'.epigraphy-tab-body'" [placement]="'bottom'" [popoverTitle]="token.value" [autoClose]="'outside'" [ngbPopover]="token.value">
+            <!--  [container]="'.epigraphy-tab-body'" -->
+            <button type="button" class="btn btn-outline-primary" container="body"  [placement]="'bottom'" [popoverTitle]="token.value" [autoClose]="'outside'" [ngbPopover]="tokenModal" (click)="selectedToken(token)" popoverClass="token_modal">
            
                 <p  > {{token.value}}</p>
 
