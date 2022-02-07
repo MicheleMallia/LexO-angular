@@ -143,12 +143,12 @@
         (activate)="onEvent($event)" (deactivate)="onEvent($event)" class="lexicalEntryTree">
         
         <ng-template #treeNodeWrapperTemplate let-node let-index="index">
-            <div class="node-wrapper"  style="justify-content: space-between; padding: 0px 15px;" (click)="node.mouseAction('click', $event)"
-            (dblclick)="node.mouseAction('dblClick', $event)"> <!-- [style.padding-left]="node.getNodePadding()" -->
+            <div class="node-wrapper"  style="justify-content: space-between; padding: 0px 15px;" > <!-- [style.padding-left]="node.getNodePadding()" -->
                 <div>
                     <tree-node-expander [node]="node"></tree-node-expander>
                     <div class="node-content-wrapper" [class.node-content-wrapper-active]="node.isActive"
-                        [class.node-content-wrapper-focused]="node.isFocused" >
+                        [class.node-content-wrapper-focused]="node.isFocused" (click)="node.mouseAction('click', $event)"
+                        (dblclick)="node.mouseAction('dblClick', $event)" [contextMenu]="basicMenu" [contextMenuSubject]="node.data">
     
                         <span
                             *ngIf="node.data.count == undefined && labelView && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined">{{
@@ -187,7 +187,14 @@
                         <span *ngIf="node.data.writtenRep != ''">{{ node.data.writtenRep }}</span>
                         <sub *ngIf="labelView && node.data.sense == undefined">{{node.data.pos}}</sub>
                         <span *ngIf="node.data.language != null && labelView" class="lang">@{{node.data.language}}</span>
+                        <!-- <span  *ngIf="node.data.count == undefined" >
+                            {{ node.data.name }}
+                        </span> -->
                     </div>
+                    <!-- <span *ngIf="node.data.count == undefined && node.data.definition == undefined && node.data.type!='canonicalForm' && node.data.sense == undefined && node.data.etymologyInstanceName == undefined">
+                        <button class="btn btn-outline-primary btn-sm" (click)="copyText(node.data.lexicalEntry)" style="padding: 0 0.25rem;"><i style="font-size: 12px;" class="fa fa-copy"></i></button>
+                    </span> -->
+                    
                 </div>
                 
                 <div class="icons-container">
@@ -232,6 +239,13 @@
                 </div>
             </div>
         </ng-template>
+        <context-menu>
+
+            <!-- FOLDER CONTEXT MENU -->
+            <ng-template contextMenuItem let-item (execute)="copyText($event.item)">
+              Copy URI
+            </ng-template>
+        </context-menu>
         <ng-template #loadingTemplate let-loadingNode>
             <div *ngIf="loadingNode.hasChildren">
                 <div class="spinner-border spinner-border-sm m-1" role="status">
@@ -240,4 +254,6 @@
             </div>
         </ng-template>
     </tree-root>
+
+    
 </div>

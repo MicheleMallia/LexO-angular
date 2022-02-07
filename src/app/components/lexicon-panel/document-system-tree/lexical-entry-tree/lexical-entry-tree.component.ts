@@ -3,6 +3,7 @@ import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, 
 import { formTypeEnum, LexicalEntryRequest, searchModeEnum, typeEnum } from './interfaces/lexical-entry-interface'
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ContextMenuComponent } from 'ngx-contextmenu';
 
 import * as _ from 'underscore';
 declare var $: JQueryStatic;
@@ -10,6 +11,8 @@ declare var $: JQueryStatic;
 
 import { debounceTime } from 'rxjs/operators';
 import { ExpanderService } from 'src/app/services/expander/expander.service';
+import { Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 
 const actionMapping: IActionMapping = {
@@ -25,6 +28,11 @@ const actionMapping: IActionMapping = {
         TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
         TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
     },
+    contextMenu: (tree, node, $event) => {
+      
+      TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
+      TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
+  },
   }
 };
 
@@ -49,6 +57,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   limit = 500;
   interval;
 
+  @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
   /* sub : Subscription; */
 
   counter = 0;
@@ -99,7 +108,9 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   initialValues = this.filterForm.value;
 
-  constructor(private expander : ExpanderService, private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService) { 
+  copySubject : Subject<string> = new Subject();
+
+  constructor(private expander : ExpanderService, private renderer: Renderer2, private element: ElementRef, private lexicalService: LexicalEntriesService, private toastr: ToastrService) { 
 
     var refreshTooltip = setInterval((val)=>{
       //console.log('called'); 
@@ -140,6 +151,24 @@ export class LexicalEntryTreeComponent implements OnInit {
         }
       }
     )
+
+    this.copySubject.pipe(debounceTime(500)).subscribe(v => {
+      let selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = v;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+
+      this.toastr.info('URI copied', 'Info', {
+        timeOut: 5000,
+      });
+    })
 
     this.lexicalService.refreshFilter$.subscribe(
       signal => {
@@ -186,6 +215,8 @@ export class LexicalEntryTreeComponent implements OnInit {
               this.status = data;
             }
           )
+
+          
         }
       }
     )
@@ -841,5 +872,23 @@ export class LexicalEntryTreeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(newNodes), 1000);
     });
+  }
+
+
+  /* To copy any Text */
+  copyText(val: string){
+    console.log(val)
+
+    let value = '';
+    if(val['lexicalEntry'] != undefined && val['sense']==undefined && val['etymology'] == undefined){
+      value = val['lexicalEntry']
+    }else if(val['form'] != undefined){
+      value = val['form']
+    }else if(val['sense'] != undefined){
+      value = val['sense']
+    }else if(val['etymology'] != undefined){
+      value = val['etymology']
+    }
+    this.copySubject.next(value);
   }
 }
