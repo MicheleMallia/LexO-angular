@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ContentChild, ElementRef, HostListener, Input, OnInit, Renderer2, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -22,18 +23,61 @@ export class EpigraphyFormComponent implements OnInit{
   tokenArray: FormArray;
   private search_subject: Subject<any> = new Subject();
   private form_subject: Subject<any> = new Subject();
+
+  private bind_subject: Subject<any> = new Subject();
   searchResults = [];
   memoryForms = [] ;
 
+  selectedPopover = {
+    htmlNodeName : '',
+    tokenId : ''
+  };
 
   data : object;
   sel_t : object;
-
+  message : string;
+  isOpen = false;
+  @ViewChild('span_modal') spanPopover: ElementRef;
   epigraphyForm = new FormGroup({
     tokens: new FormArray([this.createToken()]),
   })
 
-  constructor(private documentService : DocumentSystemService, private formBuilder: FormBuilder, private toastr: ToastrService, private lexicalService : LexicalEntriesService) { }
+  @HostListener('document:mousedown', ['$event'])
+  onGlobalClick(event): void {
+
+    setTimeout(() => {
+      /* console.log(event.path) */
+      let evtPath = Array.from(event.path)
+      let htmlNode = document.getElementById(this.selectedPopover.htmlNodeName)
+      let tokenId = this.selectedPopover.tokenId;
+      if(evtPath.includes(htmlNode)){
+
+      }else{
+        this.data['tokens'].forEach(element => {
+          if(element.id != tokenId){
+            
+            element.editing = false;
+
+            this.selectedPopover.htmlNodeName = '';
+            this.selectedPopover.tokenId = ''
+          }
+        });
+      }
+      //console.log(this.selectedPopover)
+      /* event.path.forEach(element => {
+          console.log(element == document.getElementById(this.selectedPopover))
+      }); */
+      
+      //console.log(document.getElementById(this.selectedPopover.htmlNodeName))
+    }, 17);
+    
+     /* if (!this.tokenPopover.nativeElement.contains(event.target)) {
+        // clicked outside => close dropdown list
+     this.isOpen = false;
+     } */
+  }
+
+  constructor(private renderer : Renderer2, private documentService : DocumentSystemService, private formBuilder: FormBuilder, private toastr: ToastrService, private lexicalService : LexicalEntriesService) { }
 
   ngOnInit(): void {
 
@@ -53,6 +97,12 @@ export class EpigraphyFormComponent implements OnInit{
       }
     )
 
+    this.bind_subject.pipe(debounceTime(100)).subscribe(
+      data=> {
+        /* console.log(data) */
+        this.bindSelection(data.popover, data.evt, data.i );
+      }
+    )
     
   }
 
@@ -81,104 +131,102 @@ export class EpigraphyFormComponent implements OnInit{
           tokens : [
             {
               "id": 1,
-              "value": "ligula",
-              "start": 84,
-              "end": 57
+              "value": "odio",
+              "start": 91,
+              "end": 12,
+              "selected": false,
+              "editing": false
             }, {
-              "id": 1,
-              "value": "fusce",
-              "start": 38,
-              "end": 48
+              "id": 2,
+              "value": "non",
+              "start": 52,
+              "end": 58,
+              "selected": false,
+              "editing": false
             }, {
-              "id": 1,
-              "value": "quis",
-              "start": 94,
-              "end": 5
-            }, {
-              "id": 18,
-              "value": "cras",
-              "start": 29,
-              "end": 77
-            }, {
-              "id": 16,
-              "value": "pede",
-              "start": 17,
-              "end": 73
-            }, {
-              "id": 13,
-              "value": "aliquet",
-              "start": 24,
-              "end": 90
-            }, {
-              "id": 5,
-              "value": "mi",
-              "start": 34,
-              "end": 65
-            }, {
-              "id": 18,
-              "value": "lectus",
-              "start": 64,
-              "end": 28
+              "id": 3,
+              "value": "tellus",
+              "start": 95,
+              "end": 79,
+              "selected": false,
+              "editing": false
             }, {
               "id": 4,
-              "value": "nec",
-              "start": 55,
-              "end": 20
-            }, {
-              "id": 7,
-              "value": "dui",
-              "start": 52,
-              "end": 12
-            }, {
-              "id": 14,
-              "value": "lectus",
-              "start": 61,
-              "end": 20
-            }, {
-              "id": 13,
-              "value": "eleifend",
-              "start": 30,
-              "end": 51
-            }, {
-              "id": 9,
-              "value": "eleifend",
-              "start": 53,
-              "end": 53
-            }, {
-              "id": 16,
-              "value": "justo",
-              "start": 6,
-              "end": 92
-            }, {
-              "id": 1,
-              "value": "vestibulum",
-              "start": 81,
-              "end": 7
-            }, {
-              "id": 12,
-              "value": "convallis",
-              "start": 8,
-              "end": 91
-            }, {
-              "id": 20,
-              "value": "non",
-              "start": 25,
-              "end": 5
-            }, {
-              "id": 9,
-              "value": "ullamcorper",
-              "start": 11,
-              "end": 17
-            }, {
-              "id": 8,
-              "value": "in",
-              "start": 4,
-              "end": 8
+              "value": "venenatis",
+              "start": 97,
+              "end": 7,
+              "selected": false,
+              "editing": false
             }, {
               "id": 5,
-              "value": "ultrices",
-              "start": 27,
-              "end": 27
+              "value": "eget",
+              "start": 96,
+              "end": 85,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 6,
+              "value": "ante",
+              "start": 22,
+              "end": 24,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 7,
+              "value": "tincidunt",
+              "start": 17,
+              "end": 80,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 8,
+              "value": "aliquam",
+              "start": 78,
+              "end": 10,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 9,
+              "value": "blandit",
+              "start": 100,
+              "end": 64,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 10,
+              "value": "rhoncus",
+              "start": 2,
+              "end": 71,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 11,
+              "value": "sit",
+              "start": 15,
+              "end": 58,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 12,
+              "value": "non",
+              "start": 39,
+              "end": 26,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 13,
+              "value": "vehicula",
+              "start": 64,
+              "end": 96,
+              "selected": false,
+              "editing": false
+            }, {
+              "id": 14,
+              "value": "sit",
+              "start": 29,
+              "end": 32,
+              "selected": false,
+              "editing": false
             }
           ]         
         }
@@ -332,21 +380,152 @@ export class EpigraphyFormComponent implements OnInit{
     })
   } */
 
-  selectedToken(t){
+  /* selectedToken(t){
     console.log(t);
     this.sel_t = t;
-  }
+  } */
 
   createToken(token?){
     if (token != undefined) {
       return this.formBuilder.group({
           entity: new FormControl(token)
       })
-  } else {
+    } else {
       return this.formBuilder.group({
           entity: new FormControl('')
       })
+    }
   }
+  enterCell(evt, i){
+    //console.log("enter cell " + i);
+    this.data['tokens'][i]['selected'] = true;
+    if (window.getSelection) {
+      if (window.getSelection().empty) {  // Chrome
+        window.getSelection().empty();
+      } else if (window.getSelection().removeAllRanges) {  // Firefox
+        window.getSelection().removeAllRanges();
+      }
+    }
+  }
+
+  leavingCell(evt, i ){
+    //console.log("leaving cell " + i);
+    this.data['tokens'][i]['selected'] = false;
+    
+  }
+
+  deleteSelection(popover, evt, i){
+    let popoverHtml = popover._elementRef.nativeElement;
+    popoverHtml.textContent = popoverHtml.textContent.trim();
+    let innerText = popoverHtml.innerText;
+    if(popoverHtml.querySelectorAll('.mark').length > 0){
+      const childElements = popoverHtml.children;
+      for (let child of childElements) {
+        console.log(child.innerText)
+        this.renderer.removeChild(popoverHtml, child);
+      }
+      console.log(innerText)
+      popoverHtml.innerText = innerText
+    }
+    
+  }
+
+  triggerBind(popover, evt, i){
+    this.bind_subject.next({popover, evt, i})
+  }
+
+  bindSelection(popover, evt, i) {
+
+    
+    this.message = '';
+    this.data['tokens'][i]['editing'] = true;
+    //console.log(evt)
+    setTimeout(() => {
+      
+      this.message = window.getSelection().toString();
+      
+      if(this.selectedPopover.htmlNodeName == ''){
+        this.selectedPopover.htmlNodeName = popover._ngbPopoverWindowId;
+        this.selectedPopover.tokenId = i;
+      }
+      else if(popover._ngbPopoverWindowId != this.selectedPopover){
+        this.selectedPopover.htmlNodeName = popover._ngbPopoverWindowId
+        this.selectedPopover.tokenId = i
+        this.data['tokens'].forEach(element => {
+          if(element.id != i+1){
+            //console.log(element)
+            element.editing = false;
+          }else{
+            //console.log(element)
+            element.editing = true;
+          }
+        });
+      }
+      
+      if(popover.isOpen()){
+        
+      }else if(!popover.isOpen()){
+        popover.open()
+      }
+        
+      let popoverHtml = popover._elementRef.nativeElement;
+      let innerText = popoverHtml.innerText;
+      let selection = document.getSelection();
+      let anchorNode = selection.anchorNode;
+      let focusNode = selection.focusNode;
+      let isThereMark, areThereAnnotations; 
+      isThereMark = popoverHtml.querySelectorAll('.mark').length > 0;
+      areThereAnnotations = popoverHtml.querySelectorAll('.annotation').length > 0;
+
+      if(anchorNode != null && focusNode != null){
+        let anchorNodeParent = selection.anchorNode.parentNode;
+        let focusNodeParent = selection.focusNode.parentNode;
+
+        if(anchorNodeParent == focusNodeParent && this.message != '' && !areThereAnnotations){  
+           //SITUAZIONE IN CUI STO EFFETTUANDO LA PRIMA ANNOTAZIONE
+          if(selection.anchorNode.textContent.trim().length == innerText.length && !isThereMark){
+            //c'è solo uno span, ancora non è stata effettuata alcuna annotazione e non c'è alcuna annotazione pregressa
+
+            let anchorOffset = selection.anchorOffset;
+            let focusOffset = selection.focusOffset;
+
+            
+            if(anchorOffset > focusOffset){
+              let tmp = anchorOffset;
+              anchorOffset = focusOffset;
+              focusOffset = tmp;
+            }
+
+            console.log(innerText.substring(anchorOffset, focusOffset))
+            console.log(anchorOffset)
+            console.log(focusOffset);
+
+            popoverHtml.innerText = "";
+
+            const span = this.renderer.createElement('span'); 
+            const l_text = this.renderer.createText(innerText.substring(0, anchorOffset))
+            const text = this.renderer.createText(this.message);
+            const r_text = this.renderer.createText(innerText.substring(focusOffset, innerText.length))
+
+
+            console.log("l_text:" , l_text)
+            console.log("text:" , text)
+            console.log("r_text:" , r_text)
+
+
+            this.renderer.appendChild(span, text)
+            this.renderer.appendChild(popoverHtml, span);
+            this.renderer.addClass(span, 'mark')
+            
+            this.renderer.insertBefore(popoverHtml, l_text, span);
+            this.renderer.appendChild(popoverHtml, r_text);
+            //this.renderer.addClass(span, 'unselectable')
+          } 
+        }
+      }
+          
+    }, 10);
+    
   }
 
 }

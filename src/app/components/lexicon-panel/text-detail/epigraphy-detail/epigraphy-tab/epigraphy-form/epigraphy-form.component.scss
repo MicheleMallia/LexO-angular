@@ -69,3 +69,46 @@
 form > div > span {
     font-size: 14px;
 }
+
+.panel .token{
+    padding:0px;
+    border:1px solid transparent;
+    font-size: 16px;
+    font-weight: 300;
+
+    
+      
+}
+
+.mark {
+    background-color: #fbff00;
+    padding: 0.3rem 0 !important;
+}
+
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome, Edge, Opera and Firefox */
+}
+
+.panel-body  .token.selected{
+    border-color: rgb(0, 89, 255);
+    border-width: 1px;
+    transition: border 0.2s ease;
+ }
+
+ .panel-body  .token.editing{
+    border-color: rgb(0, 89, 255);
+    border-width: 1px;
+    transition: border 0.2s ease;
+ }
+
+.panel-body:hover  .token{
+    border-color: rgb(0, 89, 255);
+    border-width: 1px;
+    transition: border 0.2s ease;
+ }

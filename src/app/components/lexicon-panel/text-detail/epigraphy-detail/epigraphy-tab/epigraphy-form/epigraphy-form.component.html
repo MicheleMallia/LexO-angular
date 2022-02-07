@@ -1,8 +1,8 @@
 <div class="form-group row ml-2 mt-3 mr-2">
     <h5>Tokens</h5>
+    
 </div>
-
-<ng-template #tokenModal> 
+<ng-template #tokenPopover> 
     <!-- [dropdownPosition]="'top'" -->
     <!-- formControlName="entity" name="entity"  -->
     <div class="card">
@@ -17,10 +17,11 @@
             </ul>
         </div>
         <div class="card-body">
+            {{message}}
             <div class="tab-content" id="tab-content">
                 <div class="tab-pane fade show active" id="form_token" role="tabpanel" aria-labelledby="form-tab">
                     <div class="input-group col-xl-12"  *ngIf="{switch : false}; let variable">
-                        <ng-select #select_form name="entity" [addTag]="true" [clearable]="true" (focus)="true"
+                        <ng-select #select_form name="entity" [addTag]="true" [clearable]="false" (focus)="true"
                         (keyup)="triggerSearch($event)" (change)="handleForm(select_form)"
                         [items]="searchResults" bindValue="label" (focus)="deleteData()" bindLabel="label"
                         placeholder="Search form" appendTo=".token_modal" 
@@ -49,7 +50,7 @@
                         <input  name="entity" type="text"  
                             class="form-control" placeholder="Insert URI"
                             *ngIf="variable.switch"
-                            (keyup)="handleForm($event)">
+                            (keyup)="handleForm($event)" (paste)="handleForm($event)">
                 
                         <!-- [hidden]="cog.get('type').value == 'external'" -->
                         <div class="input-group-append ml-3 form-check" style="align-items: center;"
@@ -120,17 +121,32 @@
 </ng-template>
 
 
-<form [formGroup]="epigraphyForm" *ngIf="object != null">
+<form [formGroup]="epigraphyForm" *ngIf="object != null"><!-- [autoClose]="'outside'" -->
 
-    <div class="form-group row ml-2 mt-3 mr-2">
-        <span *ngFor="let token of data.tokens" class="m-1">
+    <div class="form-group row ml-2 mt-3 mr-2 panel" >
+        <div *ngFor="let token of data.tokens; let i = index" class="panel-body m-2 ">
+
+                <span #span_modal="ngbPopover" [ngClass]="{'unselectable': !token.selected, 'selected' : token.selected, 'editing' : token.editing}" 
+                                class="token token-{{i}} p-2" style="display: block" container="body" [triggers]=""
+                                [placement]="'bottom'" 
+                                [popoverTitle]="token.value"  
+                                [animation]="false"
+                                [autoClose]="'outside'"
+                                [ngbPopover]="tokenPopover" 
+                                (mouseenter)="enterCell($event, i)"
+                                (mouseleave)="leavingCell($event, i)"
+                                popoverClass="token_modal" 
+                                (mousedown)="deleteSelection(span_modal, $event, i)" 
+                                (mouseup)="triggerBind(span_modal, $event, i);">
+                                {{token.value}}
+                </span>
             <!--  [container]="'.epigraphy-tab-body'" -->
-            <button type="button" class="btn btn-outline-primary" container="body"  [placement]="'bottom'" [popoverTitle]="token.value" [autoClose]="'outside'" [ngbPopover]="tokenModal" (click)="selectedToken(token)" popoverClass="token_modal">
+            <!-- <button type="button" class="btn btn-outline-primary" container="body"  [placement]="'bottom'" [popoverTitle]="token.value" [autoClose]="'outside'" [ngbPopover]="tokenPopover" (click)="selectedToken(token)" popoverClass="token_modal">
            
                 <p  > {{token.value}}</p>
 
-          </button>
-        </span>
+          </button> -->
+        </div>
         
         
     </div>
