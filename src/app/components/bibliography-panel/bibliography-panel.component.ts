@@ -18,7 +18,7 @@ export class BibliographyPanelComponent implements OnInit {
   bibliographyData : any[];
   object : any;
   countElement = 0;
-  
+  loadingSynchro = false;
   bibliographyForm = new FormGroup({
     bibliography: new FormArray([this.createBibliography()]),
   })
@@ -83,7 +83,7 @@ export class BibliographyPanelComponent implements OnInit {
             data.forEach(element => {
               this.bibliographyData.push(element);
 
-              this.addBibliographyElement(element.title, element.author, element.date, element.note, element.textualReference)
+              this.addBibliographyElement(element.id, element.title, element.author, element.date, element.note, element.textualReference)
               this.memoryNote[count] = element.note;
               this.memoryTextualRef[count] = element.textualReference
               count++;
@@ -316,18 +316,19 @@ export class BibliographyPanelComponent implements OnInit {
   }
   
 
-  addBibliographyElement(t?, a?, d?, n?, l?){
+  addBibliographyElement(i?, t?, a?, d?, n?, l?){
     this.biblioArray = this.bibliographyForm.get('bibliography') as FormArray;
     if(t == undefined){
       this.biblioArray.push(this.createBibliography());
     }else{
-      this.biblioArray.push(this.createBibliography(t, a, d, n, l));
+      this.biblioArray.push(this.createBibliography(i, t, a, d, n, l));
     }
   }
 
-  createBibliography(t?, a?, d?, n?, l?){
+  createBibliography(i?, t?, a?, d?, n?, l?){
     if(t == undefined){
       return this.formBuilder.group({
+        id : new FormControl(null),
         title: new FormControl(null),
         author: new FormControl(null),
         date: new FormControl(null),
@@ -336,6 +337,7 @@ export class BibliographyPanelComponent implements OnInit {
       })
     }else{
       return this.formBuilder.group({
+        id: new FormControl(i),
         title: new FormControl(t),
         author: new FormControl(a),
         date: new FormControl(d),
@@ -343,8 +345,39 @@ export class BibliographyPanelComponent implements OnInit {
         textualReference: new FormControl(l)
       })
     }
-  
-    
+  }
+
+  synchronizeBibliography(id){
+    console.log(id)
+    this.loadingSynchro = true;
+    let lexId = '';
+    if(this.object.lexicalEntryInstanceName != undefined
+      && this.object.senseInstanceName == undefined){
+        console.log(1)
+        lexId = this.object.lexicalEntryInstanceName;
+    }else if(this.object.formInstanceName != undefined){
+      lexId = this.object.formInstanceName;
+      console.log(2)
+    }else if(this.object.senseInstanceName != undefined){
+      lexId = this.object.senseInstanceName;
+      console.log(3)
+    }else if(this.object.etymologyInstanceName != undefined){
+      lexId = this.object.etymologyInstanceName;
+    }
+
+    this.lexicalService.synchronizeBibliographyItem(lexId, id).pipe(debounceTime(500)).subscribe(
+      data => {
+        console.log(data);
+        this.loadingSynchro = false;
+      },error=>{
+        console.log(error);
+        if(error.status == 200){
+          this.lexicalService.updateLexCard({ lastUpdate: error.error.text })
+          this.toastr.success('Item n°'+id+' synchronized', '')
+        }
+        this.loadingSynchro = false;
+      }
+    );  
   }
 
 }

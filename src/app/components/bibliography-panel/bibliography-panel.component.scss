@@ -133,6 +133,26 @@ textarea.form-control{
     width: 100%;
 }
 
+.rotate {
+    -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {-webkit-transform: rotate(0deg);}
+    to   {-webkit-transform: rotate(359deg);}
+}
+
+
+.synchro-icon {
+    position: absolute;
+    right: 52px;
+    top: -14px;
+    background: white;
+    text-align: center;
+    color: #212529;
+    padding: 5px 5px;
+    font-size: 14px;
+}
 
 
 .download-icon {
