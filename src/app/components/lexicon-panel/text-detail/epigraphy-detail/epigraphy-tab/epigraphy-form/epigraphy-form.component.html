@@ -2,6 +2,8 @@
     <h5>Tokens</h5>
     
 </div>
+
+{{selectedPopover | json}}
 <ng-template #tokenPopover> 
     <!-- [dropdownPosition]="'top'" -->
     <!-- formControlName="entity" name="entity"  -->
@@ -120,18 +122,24 @@
         
 </ng-template>
 
-
+<p>
+    Click ctrl-left + alt to enable Multiword Selection<br>
+    Multi-word mode: {{multiWordMode}}
+</p>
 <form [formGroup]="epigraphyForm" *ngIf="object != null"><!-- [autoClose]="'outside'" -->
 
     <div class="form-group row ml-2 mt-3 mr-2 panel" >
-        <div *ngFor="let token of data.tokens; let i = index" class="panel-body m-2 ">
+        
+        <div *ngFor="let token of data.tokens; let i = index" class="panel-body">
+                
 
                 <span #span_modal="ngbPopover" [ngClass]="{'unselectable': !token.selected, 'selected' : token.selected, 'editing' : token.editing}" 
-                                class="token token-{{i}} p-2" style="display: block" container="body" [triggers]=""
+                                class="token token-{{i}} p-2" style="display: block" container="body" [triggers]="manual"
                                 [placement]="'bottom'" 
                                 [popoverTitle]="token.value"  
                                 [animation]="false"
                                 [autoClose]="'outside'"
+                                [disablePopover]="multiWordMode"
                                 [ngbPopover]="tokenPopover" 
                                 (mouseenter)="enterCell($event, i)"
                                 (mouseleave)="leavingCell($event, i)"

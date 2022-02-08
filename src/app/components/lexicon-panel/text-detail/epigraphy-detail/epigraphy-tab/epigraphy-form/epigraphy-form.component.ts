@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ContentChild, ElementRef, HostListener, Input, OnInit, Renderer2, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ContentChild, ElementRef, HostListener, Input, OnInit, QueryList, Renderer2, SimpleChanges, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -37,13 +37,37 @@ export class EpigraphyFormComponent implements OnInit{
   sel_t : object;
   message : string;
   isOpen = false;
-  @ViewChild('span_modal') spanPopover: ElementRef;
+  @ViewChildren('span_modal') spanPopovers:QueryList<any>;
+  //@ViewChild('span_modal') spanPopover: ElementRef;
   epigraphyForm = new FormGroup({
     tokens: new FormArray([this.createToken()]),
   })
 
+  multiWordMode = false;
+
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event): void {
+
+    setTimeout(() => {
+
+      //PREVENIRE CHE I POPOVER SI CHIUDANO SE CLICCATI FUORI DAL COMPONENTE
+      let index  = this.selectedPopover.tokenId
+      
+      //SE IL CLICK AVVIENE FUORI QUESTO COMPONENTE, L'EVENTUALE POPOVER DEVE RESTARE APERTO, 
+      //SE SI CLICCA QUESTO COMPONENTE IL POPOVER VA CHIUSO E RIATTIVATO L'AUTOCLOSE
+      if(index != ''){
+        console.log(this.config)
+        let popover = this.spanPopovers.toArray()[index];
+        if(popover.isOpen()){
+          console.log(popover.isOpen())
+          console.log(popover)
+          /* popover.autoClose = false; */
+        }
+      }
+      
+
+      
+    }, 17);
 
     setTimeout(() => {
       /* console.log(event.path) */
@@ -62,6 +86,22 @@ export class EpigraphyFormComponent implements OnInit{
             this.selectedPopover.tokenId = ''
           }
         });
+
+        let parentMarkElement = document.getElementsByClassName('token-'+tokenId)[0];
+        if(parentMarkElement != null){
+          let children = parentMarkElement.children;
+          parentMarkElement.textContent = parentMarkElement.textContent.trim();
+          let innerText = parentMarkElement.textContent;
+          Array.from(parentMarkElement.children).forEach(
+            element => {
+              if(element.classList.contains('mark')){
+                this.renderer.removeChild(parentMarkElement, element);
+              }
+            }
+          );
+          parentMarkElement.textContent = innerText
+        }
+       
       }
       //console.log(this.selectedPopover)
       /* event.path.forEach(element => {
@@ -70,16 +110,46 @@ export class EpigraphyFormComponent implements OnInit{
       
       //console.log(document.getElementById(this.selectedPopover.htmlNodeName))
     }, 17);
+
+    if(!this.multiWordMode){
+      //console.log(document.querySelectorAll('.token'))
+      document.querySelectorAll('.multiword').forEach(element => {
+        this.renderer.removeClass(element, 'multiword')
+        this.renderer.removeClass(element, 'border-right-0');
+      });
+    }
     
-     /* if (!this.tokenPopover.nativeElement.contains(event.target)) {
-        // clicked outside => close dropdown list
-     this.isOpen = false;
-     } */
+  
   }
 
-  constructor(private renderer : Renderer2, private documentService : DocumentSystemService, private formBuilder: FormBuilder, private toastr: ToastrService, private lexicalService : LexicalEntriesService) { }
+
+
+  @HostListener('window:keydown', ['$event'])
+  enableMultiword(event: KeyboardEvent) {
+    console.log(event)
+    if(event.altKey && event.ctrlKey){
+      this.multiWordMode = true;
+      this.data['tokens'].forEach(element => {
+        element.editing = false;
+        this.selectedPopover.htmlNodeName = '';
+        this.selectedPopover.tokenId = ''        
+      });
+    }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  disableMultiword(event: KeyboardEvent) {
+    if(!event.altKey && !event.ctrlKey){
+      this.multiWordMode = false;
+    }
+  }
+
+  constructor(private renderer : Renderer2, private documentService : DocumentSystemService, private formBuilder: FormBuilder, private toastr: ToastrService, private lexicalService : LexicalEntriesService, private config: NgbPopoverConfig) { }
 
   ngOnInit(): void {
+
+    /* this.config.autoClose = false */
+    
 
     this.epigraphyForm = this.formBuilder.group({
       tokens: this.formBuilder.array([this.createToken()])
@@ -431,17 +501,66 @@ export class EpigraphyFormComponent implements OnInit{
   }
 
   triggerBind(popover, evt, i){
-    this.bind_subject.next({popover, evt, i})
+    if(!this.multiWordMode){
+      this.bind_subject.next({popover, evt, i})
+    }else{
+      //console.log("multiword mode", i)
+      console.log(popover);
+      this.multiWordCreator(popover, evt, i);
+    }
+  }
+
+  multiWordCreator(popover, evt, i){
+    let span = popover._elementRef.nativeElement.parentNode.parentNode.childNodes[i]; 
+    let prevSibling, nextSibling;
+    prevSibling = popover._elementRef.nativeElement.parentNode.previousSibling;
+    nextSibling = popover._elementRef.nativeElement.parentNode.nextSibling;
+    
+    if(span.classList.contains('multiword')){
+      this.renderer.removeClass(span, 'multiword')
+      if(prevSibling != null){
+        if(prevSibling.classList.contains('multiword')){
+          this.renderer.removeClass(prevSibling, 'border-right-0')
+        }
+        if(nextSibling != null){
+          if(nextSibling.classList.contains('multiword')){
+            this.renderer.removeClass(span, 'border-right-0')
+          }
+        }
+      } 
+      
+      
+    }else{
+      this.renderer.addClass(span, 'multiword');
+      if(prevSibling != null){
+        if(prevSibling.classList.contains('multiword')){
+          this.renderer.addClass(prevSibling, 'border-right-0')
+        }
+      }
+      if(nextSibling != null){
+        if(nextSibling.classList.contains('multiword')){
+          this.renderer.addClass(span, 'border-right-0')
+        }
+      }
+      
+      
+    }
+    
+    console.log(span)
+
+    
+    
+    
   }
 
   bindSelection(popover, evt, i) {
 
     
-    this.message = '';
-    this.data['tokens'][i]['editing'] = true;
+    
     //console.log(evt)
     setTimeout(() => {
-      
+      this.message = '';
+      this.data['tokens'][i]['editing'] = true;
       this.message = window.getSelection().toString();
       
       if(this.selectedPopover.htmlNodeName == ''){
@@ -483,7 +602,8 @@ export class EpigraphyFormComponent implements OnInit{
 
         if(anchorNodeParent == focusNodeParent && this.message != '' && !areThereAnnotations){  
            //SITUAZIONE IN CUI STO EFFETTUANDO LA PRIMA ANNOTAZIONE
-          if(selection.anchorNode.textContent.trim().length == innerText.length && !isThereMark){
+          if(selection.anchorNode.textContent.trim().length == innerText.length && !isThereMark 
+                                                                                && this.message != innerText){
             //c'è solo uno span, ancora non è stata effettuata alcuna annotazione e non c'è alcuna annotazione pregressa
 
             let anchorOffset = selection.anchorOffset;

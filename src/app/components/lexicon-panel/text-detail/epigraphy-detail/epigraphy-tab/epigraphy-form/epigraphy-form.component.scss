@@ -7,9 +7,9 @@
     align-items: baseline;
 }
 
-.btn{
+.btn {
     height: 38px;
-    border-radius: .25rem !important;
+    border-radius: 0.25rem !important;
 }
 
 .form-control {
@@ -24,7 +24,6 @@
 .form-check-input {
     margin-top: 0;
 }
-
 
 /* .card {
     margin-top: 20px;
@@ -70,14 +69,11 @@ form > div > span {
     font-size: 14px;
 }
 
-.panel .token{
-    padding:0px;
-    border:1px solid transparent;
+.panel .token {
+    padding: 0px;
+    border: 1px solid transparent;
     font-size: 16px;
     font-weight: 300;
-
-    
-      
 }
 
 .mark {
@@ -95,20 +91,32 @@ form > div > span {
                         supported by Chrome, Edge, Opera and Firefox */
 }
 
-.panel-body  .token.selected{
+.panel-body .token.selected {
     border-color: rgb(0, 89, 255);
     border-width: 1px;
     transition: border 0.2s ease;
- }
+}
 
- .panel-body  .token.editing{
+.panel-body .token.editing {
     border-color: rgb(0, 89, 255);
     border-width: 1px;
     transition: border 0.2s ease;
- }
+}
 
-.panel-body:hover  .token{
+.panel-body.multiword {
+    border: 1px solid;
+    border-color: #ff7300;
+    transition: border 0.2s ease;
+}
+
+.panel-body.multiword + .panel-body.multiword {
+    border-color: #ff7300;
+    border-left: none;
+    transition: border 0.2s ease;
+}
+
+.panel-body:hover .token {
     border-color: rgb(0, 89, 255);
     border-width: 1px;
     transition: border 0.2s ease;
- }
+}
