@@ -146,6 +146,50 @@ export class EpigraphyFormComponent implements OnInit{
         this.selectedPopover.htmlNodeName = '';
         this.selectedPopover.tokenId = ''        
       });
+    }else if(event.code == 'Escape'){
+      
+      let htmlNode = document.getElementById(this.selectedPopover.htmlNodeName)
+      let tokenId = this.selectedPopover.tokenId;
+      
+      this.data['tokens'].forEach(element => {
+        if(element.id != tokenId){
+          
+          element.editing = false;
+
+          this.selectedPopover.htmlNodeName = '';
+          this.selectedPopover.tokenId = ''
+        }
+      });
+
+      let parentMarkElement = document.getElementsByClassName('token-'+tokenId)[0];
+      if(parentMarkElement != null){
+        let i = 0;
+        Array.from(parentMarkElement.children).forEach(
+          element => {
+            console.log(element)
+            if(element.classList.contains('mark')){
+
+              //TODO: eliminazione mirata degli elementi di marcatura
+              let textMarkElement = element.textContent;
+              const text = this.renderer.createText(textMarkElement)
+              //parentMarkElement.textContent = parentMarkElement.textContent.trim();
+              //let innerText = parentMarkElement.textContent;
+              this.renderer.insertBefore(parentMarkElement, text, element)
+              this.renderer.removeChild(parentMarkElement, element);
+              //parentMarkElement.insertBefore(text, parentMarkElement.childNodes[i+1]);
+              //let children = parentMarkElement.children;
+              //parentMarkElement.textContent = innerText
+              i++;
+              return;
+            }
+            i++;
+          }
+        );
+        
+      }
+       
+      
+      
     }
   }
 
@@ -690,7 +734,9 @@ export class EpigraphyFormComponent implements OnInit{
             focusOffset = tmp;
           }
 
-          
+
+          let startContainer = range.startContainer;
+          let endContainer = range.endContainer;
           let textStartContainer = range.startContainer.textContent;
           let textEndContainer = range.endContainer.textContent;
           let annotations = popoverHtml.querySelectorAll('.annotation')
@@ -759,7 +805,8 @@ export class EpigraphyFormComponent implements OnInit{
             this.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1]) */
 
           }else if(range.startContainer != range.endContainer){
-
+            console.log(startContainer);
+            console.log(endContainer)
           }
 
           
