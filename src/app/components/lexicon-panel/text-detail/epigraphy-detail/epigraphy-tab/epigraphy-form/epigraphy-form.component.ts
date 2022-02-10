@@ -89,17 +89,29 @@ export class EpigraphyFormComponent implements OnInit{
 
         let parentMarkElement = document.getElementsByClassName('token-'+tokenId)[0];
         if(parentMarkElement != null){
-          let children = parentMarkElement.children;
-          parentMarkElement.textContent = parentMarkElement.textContent.trim();
-          let innerText = parentMarkElement.textContent;
+          let i = 0;
           Array.from(parentMarkElement.children).forEach(
             element => {
+              console.log(element)
               if(element.classList.contains('mark')){
+
+                //TODO: eliminazione mirata degli elementi di marcatura
+                let textMarkElement = element.textContent;
+                const text = this.renderer.createText(textMarkElement)
+                //parentMarkElement.textContent = parentMarkElement.textContent.trim();
+                //let innerText = parentMarkElement.textContent;
+                this.renderer.insertBefore(parentMarkElement, text, element)
                 this.renderer.removeChild(parentMarkElement, element);
+                //parentMarkElement.insertBefore(text, parentMarkElement.childNodes[i+1]);
+                //let children = parentMarkElement.children;
+                //parentMarkElement.textContent = innerText
+                i++;
+                return;
               }
+              i++;
             }
           );
-          parentMarkElement.textContent = innerText
+          
         }
        
       }
@@ -352,6 +364,18 @@ export class EpigraphyFormComponent implements OnInit{
 
     this.lexicalService.triggerAttestationPanel(true);
     this.lexicalService.sendToAttestationPanel(data);
+
+    //TODO INSERIRE MODO PER CREARE SPAN ANNOTATION SE C'È UN ELEMENTO MARK
+    let markElement = Array.from(document.getElementsByClassName('mark'))[0];
+    if(markElement != null){
+      this.renderer.removeClass(markElement, 'mark');
+      this.renderer.addClass(markElement, 'annotation');
+      this.renderer.addClass(markElement, 'unselectable')
+    }else{
+      //QUI SE NON C'È ALCUN MARK SPAN E VIENE SELEZIONATA LA PAROLA INTERA
+    }
+    
+
     //let lexId = this.object.lexicalEntryInstanceName;
     /* this.lexicalService.updateLinguisticRelation(lexId, parameters).subscribe(
         data => {
@@ -486,17 +510,24 @@ export class EpigraphyFormComponent implements OnInit{
 
   deleteSelection(popover, evt, i){
     let popoverHtml = popover._elementRef.nativeElement;
-    popoverHtml.textContent = popoverHtml.textContent.trim();
-    let innerText = popoverHtml.innerText;
-    if(popoverHtml.querySelectorAll('.mark').length > 0){
+    console.log(popoverHtml.querySelectorAll('.annotation'))
+    if(popoverHtml.querySelectorAll('.annotation').length > 0){
+
+    }else{
+      popoverHtml.textContent = popoverHtml.textContent.trim();
+    }
+    /* if(popoverHtml.querySelectorAll('.mark').length > 0){
+      let innerText = popoverHtml.innerText;
       const childElements = popoverHtml.children;
       for (let child of childElements) {
-        console.log(child.innerText)
+        console.log(child)
         this.renderer.removeChild(popoverHtml, child);
       }
       console.log(innerText)
       popoverHtml.innerText = innerText
-    }
+    }else if(popoverHtml.querySelectorAll('.mark').length == 0){
+      
+    } */
     
   }
 
@@ -635,12 +666,103 @@ export class EpigraphyFormComponent implements OnInit{
 
             this.renderer.appendChild(span, text)
             this.renderer.appendChild(popoverHtml, span);
-            this.renderer.addClass(span, 'mark')
+            this.renderer.addClass(span, 'mark'),
+            this.renderer.setAttribute(span, 'startoffset', anchorOffset.toString());
+            this.renderer.setAttribute(span, 'endoffset', focusOffset.toString())
             
-            this.renderer.insertBefore(popoverHtml, l_text, span);
-            this.renderer.appendChild(popoverHtml, r_text);
-            //this.renderer.addClass(span, 'unselectable')
+            if(l_text.textContent != ""){
+              this.renderer.insertBefore(popoverHtml, l_text, span);
+            }
+            
+            if(r_text.textContent != ""){
+              this.renderer.appendChild(popoverHtml, r_text);
+            } 
+            console.log(popoverHtml.childNodes)
           } 
+        }else if(this.message != '' && areThereAnnotations){
+          let anchorOffset = selection.anchorOffset;
+          let focusOffset = selection.focusOffset;
+          let range = selection.getRangeAt(0)
+          
+          if(anchorOffset > focusOffset){
+            let tmp = anchorOffset;
+            anchorOffset = focusOffset;
+            focusOffset = tmp;
+          }
+
+          
+          let textStartContainer = range.startContainer.textContent;
+          let textEndContainer = range.endContainer.textContent;
+          let annotations = popoverHtml.querySelectorAll('.annotation')
+          
+          console.log(range.startContainer == range.endContainer)
+          if(range.startContainer == range.endContainer){            
+            this.message = textStartContainer.substring(range.startOffset, range.endOffset);
+            const span = this.renderer.createElement('span'); 
+
+            const l_text = this.renderer.createText(textStartContainer.substring(0, range.startOffset))
+            const text = this.renderer.createText(this.message);
+            const r_text = this.renderer.createText(textStartContainer.substring(range.endOffset, textStartContainer.length))
+
+            console.log("l_text:" , l_text)
+            console.log("text:" , text)
+            console.log("r_text:" , r_text)
+
+            //range.startContainer.textContent = '';
+            
+            
+            this.renderer.appendChild(span, text)
+            this.renderer.addClass(span, 'mark');
+
+            //TODO: perfezionare posizione inserimento
+            console.log(popoverHtml.childNodes)
+            let i = 0;
+            const getStartEnd = (str, sub) => [str.indexOf(sub), str.indexOf(sub) + sub.length - 1];
+            let generalStartEndOffset = getStartEnd(popoverHtml.textContent, this.message);
+            let children = Array.from(popoverHtml.childNodes).forEach(
+              x => {
+                if(range.startContainer == x){
+                  range.startContainer.textContent = '';
+                  
+                  if(l_text.textContent != ""){
+                    this.renderer.insertBefore(popoverHtml, l_text, x)
+                  }
+                  
+
+
+                  this.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
+                  this.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1])
+
+                  popoverHtml.insertBefore(span, popoverHtml.childNodes[i+1]);
+
+                  if(r_text.textContent != ""){
+                    popoverHtml.insertBefore(r_text, popoverHtml.childNodes[i+2]);
+                  }
+
+                }
+
+                i++;
+              }
+            )
+
+            //this.renderer.appendChild(popoverHtml, span);
+            
+            
+           
+
+           /*  console.log(popoverHtml.textContent)
+            const getStartEnd = (str, sub) => [str.indexOf(sub), str.indexOf(sub) + sub.length - 1];
+            let generalStartEndOffset = getStartEnd(popoverHtml.textContent, this.message);
+
+
+            this.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
+            this.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1]) */
+
+          }else if(range.startContainer != range.endContainer){
+
+          }
+
+          
         }
       }
           
