@@ -88,26 +88,50 @@ export class EpigraphyFormComponent implements OnInit{
         });
 
         let parentMarkElement = document.getElementsByClassName('token-'+tokenId)[0];
+        console.log(document.getElementsByClassName('token-'+tokenId))
         if(parentMarkElement != null){
           let i = 0;
-          Array.from(parentMarkElement.children).forEach(
+          Array.from(parentMarkElement.childNodes).forEach(
             element => {
               console.log(element)
-              if(element.classList.contains('mark')){
+              let textMarkElement = element.textContent;
+              let prev, next;
+              if(element['classList'] != undefined){
 
-                //TODO: eliminazione mirata degli elementi di marcatura
-                let textMarkElement = element.textContent;
-                const text = this.renderer.createText(textMarkElement)
-                //parentMarkElement.textContent = parentMarkElement.textContent.trim();
-                //let innerText = parentMarkElement.textContent;
-                this.renderer.insertBefore(parentMarkElement, text, element)
-                this.renderer.removeChild(parentMarkElement, element);
-                //parentMarkElement.insertBefore(text, parentMarkElement.childNodes[i+1]);
-                //let children = parentMarkElement.children;
-                //parentMarkElement.textContent = innerText
-                i++;
-                return;
+                if(element['classList'].contains('mark') || element['classList'].contains('mark_test')){
+                  
+                  prev = Array.from(parentMarkElement.childNodes)[i-1];
+                  next = Array.from(parentMarkElement.childNodes)[i];
+
+                  if(next == element){
+                    next = Array.from(parentMarkElement.childNodes)[i+1];
+                  }
+
+                  if(prev != undefined){
+                    if(prev.nodeName == '#text'){
+                      textMarkElement = prev.textContent += textMarkElement;
+                      prev.remove();
+                    }
+                  }
+
+                  if(next !=undefined){
+                    if(next.nodeName == '#text'){
+                      textMarkElement += next.textContent;
+                      next.remove()
+                    }
+                  }
+
+                  const text = this.renderer.createText(textMarkElement)
+                  
+                  this.renderer.insertBefore(parentMarkElement, text, element)
+                  //this.renderer.removeChild(parentMarkElement, element);
+
+                  element.remove();
+
+                  
+                }
               }
+              
               i++;
             }
           );
@@ -418,6 +442,24 @@ export class EpigraphyFormComponent implements OnInit{
     }else{
       //QUI SE NON C'È ALCUN MARK SPAN E VIENE SELEZIONATA LA PAROLA INTERA
     }
+
+    let parentMarkElement = document.getElementsByClassName('token-'+this.selectedPopover.tokenId)[0];
+    console.log("parent mark element", parentMarkElement.children)
+    if(parentMarkElement != null){
+      Array.from(parentMarkElement.children).forEach(
+        element => {
+          console.log(element.classList)
+          if(element.classList.contains('mark_test')){
+
+            this.renderer.removeClass(element, 'mark_test');
+            this.renderer.addClass(element, 'annotation_ultra');
+            this.renderer.addClass(element, 'unselectable')
+            return;
+          }
+        }
+      );
+      
+    }
     
 
     //let lexId = this.object.lexicalEntryInstanceName;
@@ -553,6 +595,9 @@ export class EpigraphyFormComponent implements OnInit{
   }
 
   deleteSelection(popover, evt, i){
+    setTimeout(() => {
+      
+    }, 10);
     let popoverHtml = popover._elementRef.nativeElement;
     console.log(popoverHtml.querySelectorAll('.annotation'))
     if(popoverHtml.querySelectorAll('.annotation').length > 0){
@@ -728,12 +773,15 @@ export class EpigraphyFormComponent implements OnInit{
           let focusOffset = selection.focusOffset;
           let range = selection.getRangeAt(0)
           
-          if(anchorOffset > focusOffset){
-            let tmp = anchorOffset;
-            anchorOffset = focusOffset;
-            focusOffset = tmp;
+          var sel = getSelection(),
+          position = sel.anchorNode.compareDocumentPosition(sel.focusNode),
+          backward = false;
+          // position == 0 if nodes are the same
+          if (!position && sel.anchorOffset > sel.focusOffset || position === Node.DOCUMENT_POSITION_PRECEDING){
+              backward = true; 
           }
-
+            
+          console.log(backward)
 
           let startContainer = range.startContainer;
           let endContainer = range.endContainer;
@@ -741,8 +789,13 @@ export class EpigraphyFormComponent implements OnInit{
           let textEndContainer = range.endContainer.textContent;
           let annotations = popoverHtml.querySelectorAll('.annotation')
           
-          console.log(range.startContainer == range.endContainer)
+          //console.log(range.startContainer == range.endContainer)
           if(range.startContainer == range.endContainer){            
+            if(anchorOffset > focusOffset){
+              let tmp = anchorOffset;
+              anchorOffset = focusOffset;
+              focusOffset = tmp;
+            }
             this.message = textStartContainer.substring(range.startOffset, range.endOffset);
             const span = this.renderer.createElement('span'); 
 
@@ -750,9 +803,10 @@ export class EpigraphyFormComponent implements OnInit{
             const text = this.renderer.createText(this.message);
             const r_text = this.renderer.createText(textStartContainer.substring(range.endOffset, textStartContainer.length))
 
-            console.log("l_text:" , l_text)
+            console.log(anchorOffset, focusOffset)
+            /* console.log("l_text:" , l_text)
             console.log("text:" , text)
-            console.log("r_text:" , r_text)
+            console.log("r_text:" , r_text) */
 
             //range.startContainer.textContent = '';
             
@@ -776,37 +830,155 @@ export class EpigraphyFormComponent implements OnInit{
                   
 
 
-                  this.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
-                  this.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1])
+                  this.renderer.setAttribute(span, 'startoffset', anchorOffset.toString());
+                  this.renderer.setAttribute(span, 'endoffset', focusOffset.toString())
 
                   popoverHtml.insertBefore(span, popoverHtml.childNodes[i+1]);
-
+                  
                   if(r_text.textContent != ""){
                     popoverHtml.insertBefore(r_text, popoverHtml.childNodes[i+2]);
                   }
-
+                  //@ts-ignore
+                  x.remove()
                 }
 
                 i++;
               }
             )
-
-            //this.renderer.appendChild(popoverHtml, span);
-            
-            
-           
-
-           /*  console.log(popoverHtml.textContent)
-            const getStartEnd = (str, sub) => [str.indexOf(sub), str.indexOf(sub) + sub.length - 1];
-            let generalStartEndOffset = getStartEnd(popoverHtml.textContent, this.message);
-
-
-            this.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
-            this.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1]) */
-
           }else if(range.startContainer != range.endContainer){
+            console.log(range)
             console.log(startContainer);
             console.log(endContainer)
+
+            if(backward){
+              let tmp = anchorOffset;
+              anchorOffset = focusOffset;
+              focusOffset = tmp;
+            }
+
+            console.log(anchorOffset, focusOffset)
+            
+            this.message = '';
+            let walker = function foo(element, that){
+
+              let textElement = element.textContent
+              let nextSibling = element.nextSibling;
+              if(element == endContainer){
+                console.log("end container", endContainer)
+                that.message += textElement.substring(0, focusOffset)
+
+                const span = that.renderer.createElement('span'); 
+                const text = that.renderer.createText(textElement.substring(0, focusOffset));
+                const r_text = that.renderer.createText(textElement.substring(focusOffset, textElement.length))
+
+
+                that.renderer.appendChild(span, text)
+                that.renderer.addClass(span, 'mark_test');
+
+                let i = 0;
+                const getStartEnd = (str, sub) => [str.indexOf(sub), str.indexOf(sub) + sub.length - 1];
+                let generalStartEndOffset = getStartEnd(popoverHtml.textContent, that.message);
+                let children = Array.from(popoverHtml.childNodes).forEach(
+                  x => {
+                    console.log(i, x)
+                    if(element == x){
+                      element.textContent = '';
+
+                      /* that.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
+                      that.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1]) */
+
+                      popoverHtml.insertBefore(span, popoverHtml.childNodes[i+1]);
+                      
+                      if(r_text.textContent != ""){
+                        popoverHtml.insertBefore(r_text, popoverHtml.childNodes[i+2]);
+                      }
+
+                      //@ts-ignore
+                      x.remove();
+
+                    }
+
+                    i++;
+                  }
+                )
+                return;
+              }else{
+                console.log("current element", element);
+
+               
+                if(element == startContainer){
+                  that.message = textElement.substring(anchorOffset, textElement.length);
+                  const span = that.renderer.createElement('span'); 
+                  const l_text = that.renderer.createText(textStartContainer.substring(0, anchorOffset))
+                  const text = that.renderer.createText(that.message);
+
+                  that.renderer.appendChild(span, text)
+                  that.renderer.addClass(span, 'mark_test');
+
+                  let i = 0;
+                  const getStartEnd = (str, sub) => [str.indexOf(sub), str.indexOf(sub) + sub.length - 1];
+                  let generalStartEndOffset = getStartEnd(popoverHtml.textContent, that.message);
+                  let children = Array.from(popoverHtml.childNodes).forEach(
+                    x => {
+                      if(element == x){
+                        element.textContent = '';
+                        
+                        if(l_text.textContent != ""){
+                          that.renderer.insertBefore(popoverHtml, l_text, x)
+                        }
+                        
+                        //that.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
+                        popoverHtml.insertBefore(span, popoverHtml.childNodes[i+1]);
+                        //@ts-ignore
+                        x.remove();
+                      }
+
+                      i++;
+                    }
+                  )
+                }
+
+                if(element.classList == undefined && element != startContainer){
+                  that.message += element.textContent;
+                  const span = that.renderer.createElement('span'); 
+                  const text = that.renderer.createText(element.textContent);
+
+                  that.renderer.appendChild(span, text)
+                  that.renderer.addClass(span, 'mark_test');
+
+                  let i = 0;
+                  const getStartEnd = (str, sub) => [str.indexOf(sub), str.indexOf(sub) + sub.length - 1];
+                  let generalStartEndOffset = getStartEnd(popoverHtml.textContent, that.message);
+                  let children = Array.from(popoverHtml.childNodes).forEach(
+                    x => {
+                      if(element == x){
+                        element.textContent = '';
+                        /* that.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
+                        that.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1]) */
+                        popoverHtml.insertBefore(span, popoverHtml.childNodes[i+1]);
+                        //@ts-ignore
+                        x.remove();
+                      }
+
+                      i++;
+                    }
+                  )
+
+                }
+
+               /*  if(element.classList != undefined){
+                  if(element.classList.contains('annotation')){
+                    
+                  }
+                } */
+
+                if(nextSibling != null){
+                  foo(nextSibling, that)
+                }
+              }
+            }
+
+            walker(startContainer, this)
           }
 
           
