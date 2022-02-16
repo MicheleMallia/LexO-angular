@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DocumentSystemService } from 'src/app/services/document-system/document-system.service';
+import { ExpanderService } from 'src/app/services/expander/expander.service';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 declare var $: JQueryStatic;
 
@@ -38,6 +39,7 @@ export class EpigraphyFormComponent implements OnInit{
   message : string;
   isOpen = false;
   @ViewChildren('span_modal') spanPopovers:QueryList<any>;
+  
   //@ViewChild('span_modal') spanPopover: ElementRef;
   epigraphyForm = new FormGroup({
     tokens: new FormArray([this.createToken()]),
@@ -224,7 +226,8 @@ export class EpigraphyFormComponent implements OnInit{
     }
   }
 
-  constructor(private renderer : Renderer2, private documentService : DocumentSystemService, private formBuilder: FormBuilder, private toastr: ToastrService, private lexicalService : LexicalEntriesService, private config: NgbPopoverConfig) { }
+  constructor(private expander : ExpanderService, private renderer : Renderer2, private documentService : DocumentSystemService, private formBuilder: FormBuilder, private toastr: ToastrService, private lexicalService : LexicalEntriesService, private config: NgbPopoverConfig) { }
+
 
   ngOnInit(): void {
 
@@ -433,6 +436,16 @@ export class EpigraphyFormComponent implements OnInit{
     this.lexicalService.triggerAttestationPanel(true);
     this.lexicalService.sendToAttestationPanel(data);
 
+    this.lexicalService.getFormData(data.name, 'core').subscribe(
+      data => {
+        console.log(data)
+        this.lexicalService.sendToCoreTab(data);
+        this.expander.expandCollapseEdit(true);
+      }, error=> {
+
+      }
+    )
+
     //TODO INSERIRE MODO PER CREARE SPAN ANNOTATION SE C'È UN ELEMENTO MARK
     let markElement = Array.from(document.getElementsByClassName('mark'))[0];
     if(markElement != null){
@@ -489,6 +502,21 @@ export class EpigraphyFormComponent implements OnInit{
     ) */
 
     this.memoryForms[0] = data;
+  }
+
+  sendToAttestationPanel(evt){
+    console.log(evt);
+    const data = {name : evt};
+    this.lexicalService.triggerAttestationPanel(true);
+    this.lexicalService.sendToAttestationPanel(data);
+    this.lexicalService.getLexEntryData(data.name).subscribe(
+      data => {
+        this.lexicalService.sendToCoreTab(data);
+        this.expander.expandCollapseEdit(true);
+      }, error=> {
+
+      }
+    )
   }
 
   clearAll(){
