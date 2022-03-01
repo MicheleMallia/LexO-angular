@@ -65,7 +65,7 @@ export class EpigraphyTabComponent implements OnInit {
                 }    
               }, 10)
             }, 500);
-            this.name = this.object.name;
+            /* this.name = this.object.name; */
   /*           this.revisor = this.object.revisor;
    */          
             

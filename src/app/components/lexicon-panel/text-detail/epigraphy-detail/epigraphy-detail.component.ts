@@ -19,12 +19,12 @@ export class EpigraphyDetailComponent implements OnInit {
 
     this.documentService.epigraphyData$.subscribe(
       object => {
-        console.log(object)
+       /*  console.log(object) */
         if(object != null){
           setTimeout(() => {
             var navTabLinks = this.navtabs.nativeElement.querySelectorAll('a')
             this.object = object;
-            console.log(this.object)
+            /* console.log(this.object) */
             navTabLinks.forEach(element => {
               /* //console.log(element) */
               if(element.text == 'Epigraphy'){

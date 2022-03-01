@@ -42,7 +42,7 @@ export class SearchFormComponent implements OnInit {
       },error => {
 
       } 
-    )
+    ).unsubscribe();
   }
 
 
@@ -55,7 +55,7 @@ export class SearchFormComponent implements OnInit {
 
   onSearchFilter(data) {
     this.searchResults = [];
-    console.log(data)
+    /* console.log(data) */
     let parameters = {
         text: data,
         searchMode: "startsWith",
@@ -66,6 +66,7 @@ export class SearchFormComponent implements OnInit {
     }
     console.log(parameters)
     if (data != "") { /* && data.length >= 3 */
+      console.log("CIAO")
       this.lexicalService.getFormList(parameters).subscribe(
           data => {
               console.log(data)
@@ -91,6 +92,10 @@ export class SearchFormComponent implements OnInit {
     }, 100);
     
   }
+
+  /* ngOnDestroy(){
+    this.lexicalService.
+  } */
 
   handleForm(evt) {
 
@@ -217,6 +222,10 @@ export class SearchFormComponent implements OnInit {
     ) */
 
     this.bind.memoryForms[0] = data;
+  }
+
+  ngOnDestroy(){
+    this.annotatorService.triggerSearch
   }
 
 }

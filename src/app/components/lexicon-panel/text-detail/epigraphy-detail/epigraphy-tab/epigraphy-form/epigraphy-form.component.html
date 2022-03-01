@@ -15,7 +15,7 @@
 
     <div class="form-group row ml-2 mt-3 mr-2 panel">
 
-        <div *ngFor="let token of data.tokens; let i = index" class="panel-body">
+        <div *ngFor="let token of object; let i = index" class="panel-body">
 
             <span #span_modal="ngbPopover"
                 [ngClass]="{'unselectable': !token.selected, 'selected' : token.selected, 'editing' : token.editing}"
@@ -24,7 +24,7 @@
                 [disablePopover]="multiWordMode" [ngbPopover]="tokenPopover" (mouseenter)="enterCell($event, i)"
                 (mouseleave)="leavingCell($event, i)" popoverClass="token_modal"
                 (mousedown)="deleteSelection(span_modal, $event, i)" (mouseup)="triggerBind(span_modal, $event, i);">
-                {{token.value}}
+                {{token.text}}
             </span>
             <!--  [container]="'.epigraphy-tab-body'" -->
             <!-- <button type="button" class="btn btn-outline-primary" container="body"  [placement]="'bottom'" [popoverTitle]="token.value" [autoClose]="'outside'" [ngbPopover]="tokenPopover" (click)="selectedToken(token)" popoverClass="token_modal">

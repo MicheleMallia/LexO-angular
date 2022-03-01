@@ -82,15 +82,18 @@ export class EpigraphyFormComponent implements OnInit {
       if (evtPath.includes(htmlNode)) {
 
       } else {
-        this.data['tokens'].forEach(element => {
-          if (element.id != tokenId) {
-
-            element.editing = false;
-
-            this.selectedPopover.htmlNodeName = '';
-            this.selectedPopover.tokenId = ''
-          }
-        });
+        if(this.object != null){
+          this.object.forEach(element => {
+            if (element.id != tokenId) {
+  
+              element.editing = false;
+  
+              this.selectedPopover.htmlNodeName = '';
+              this.selectedPopover.tokenId = ''
+            }
+          });
+        }
+        
 
         let parentMarkElement = document.getElementsByClassName('token-' + tokenId)[0];
         //console.log(document.getElementsByClassName('token-'+tokenId))
@@ -228,7 +231,7 @@ export class EpigraphyFormComponent implements OnInit {
     console.log(event)
     if (event.altKey && event.ctrlKey) {
       this.multiWordMode = true;
-      this.data['tokens'].forEach(element => {
+      this.object.forEach(element => {
         element.editing = false;
         this.selectedPopover.htmlNodeName = '';
         this.selectedPopover.tokenId = ''
@@ -238,7 +241,7 @@ export class EpigraphyFormComponent implements OnInit {
       let htmlNode = document.getElementById(this.selectedPopover.htmlNodeName)
       let tokenId = this.selectedPopover.tokenId;
 
-      this.data['tokens'].forEach(element => {
+      this.object.forEach(element => {
         if (element.id != tokenId) {
 
           element.editing = false;
@@ -330,123 +333,24 @@ export class EpigraphyFormComponent implements OnInit {
 
         this.staticMorpho = [] */
       }
-      this.data = {
-        tokens: [
-          {
-            "id": 1,
-            "value": "odio",
-            "start": 91,
-            "end": 12,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 2,
-            "value": "non",
-            "start": 52,
-            "end": 58,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 3,
-            "value": "tellus",
-            "start": 95,
-            "end": 79,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 4,
-            "value": "venenatis",
-            "start": 97,
-            "end": 7,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 5,
-            "value": "eget",
-            "start": 96,
-            "end": 85,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 6,
-            "value": "ante",
-            "start": 22,
-            "end": 24,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 7,
-            "value": "tincidunt",
-            "start": 17,
-            "end": 80,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 8,
-            "value": "aliquam",
-            "start": 78,
-            "end": 10,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 9,
-            "value": "blandit",
-            "start": 100,
-            "end": 64,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 10,
-            "value": "rhoncus",
-            "start": 2,
-            "end": 71,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 11,
-            "value": "sit",
-            "start": 15,
-            "end": 58,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 12,
-            "value": "non",
-            "start": 39,
-            "end": 26,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 13,
-            "value": "vehicula",
-            "start": 64,
-            "end": 96,
-            "selected": false,
-            "editing": false
-          }, {
-            "id": 14,
-            "value": "sit",
-            "start": 29,
-            "end": 32,
-            "selected": false,
-            "editing": false
-          }
-        ]
-      }
 
       this.object = changes.epiData.currentValue;
 
-      console.log(this.object)
+      /* console.log(this.object) */
       if (this.object != null) {
 
         //TODO: popolare array form con tokens
-
+        console.log(this.object)
 
       }
 
 
     }, 10)
 
+  }
+
+  ngOnDestroy(){
+    
   }
 
 
@@ -473,7 +377,7 @@ export class EpigraphyFormComponent implements OnInit {
       if (matchTest) {
         //TODO: highlight su div che contiene multiword
       } else {
-        this.data['tokens'][i]['selected'] = true;
+        this.object[i]['selected'] = true;
         if (window.getSelection) {
           if (window.getSelection().empty) {  // Chrome
             window.getSelection().empty();
@@ -490,7 +394,7 @@ export class EpigraphyFormComponent implements OnInit {
 
   leavingCell(evt, i) {
     //console.log("leaving cell " + i);
-    this.data['tokens'][i]['selected'] = false;
+    this.object[i]['selected'] = false;
 
   }
 
@@ -650,7 +554,7 @@ export class EpigraphyFormComponent implements OnInit {
     setTimeout(() => {
       
       this.message = '';
-      this.data['tokens'][i]['editing'] = true;
+      this.object[i]['editing'] = true;
       this.message = window.getSelection().toString();
 
       if (this.selectedPopover.htmlNodeName == '') {
@@ -660,7 +564,7 @@ export class EpigraphyFormComponent implements OnInit {
       else if (popover._ngbPopoverWindowId != this.selectedPopover) {
         this.selectedPopover.htmlNodeName = popover._ngbPopoverWindowId
         this.selectedPopover.tokenId = i
-        this.data['tokens'].forEach(element => {
+        this.object.forEach(element => {
           if (element.id != i + 1) {
             //console.log(element)
             element.editing = false;
@@ -956,8 +860,10 @@ export class EpigraphyFormComponent implements OnInit {
 
 
       if(this.message != ''){
+        console.log(1)
         this.annotatorService.triggerSearch(this.message);
       }else{
+        console.log(2)
         this.annotatorService.triggerSearch(innerText);
       }
 
@@ -973,6 +879,7 @@ export class EpigraphyFormComponent implements OnInit {
           console.log(element)
           text += element.textContent + ' ';
         })
+        console.log(3)
         this.annotatorService.triggerSearch(text);
       }
     }, 10);
