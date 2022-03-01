@@ -1,15 +1,15 @@
 <div class="card">
     <div class="card-header" id="attestationHeading">
         <h5 class="mb-0">
-            <a class="btn btn-link w-100 d-flex align-self-center collapsed" data-toggle="collapse"
+            <a class="btn btn-link w-100 d-flex align-self-center collapsed " data-toggle="collapse"
                 data-target="#attestationCollapse" aria-expanded="true" aria-controls="attestationCollapse">
                 Attestation Panel<i class="fa ml-auto"></i>
             </a>
         </h5>
     </div>
-    <div id="attestationCollapse" class="collapse" aria-labelledby="attestationHeading"  >
+    <div id="attestationCollapse" class="collapse" aria-labelledby="attestationHeading">
         <div class="card-body">
-            <!-- <ul class="nav nav-tabs" id="myTab" role="tablist"  *ngIf="formData != null">
+            <!-- <ul class="nav nav-tabs" id="myTab" role="tablist"  >
                 <li class="nav-item">
                     <a class="nav-link active" id="form-tab" data-toggle="tab" href="#form" role="tab"
                         aria-controls="form" aria-selected="true">Form</a>
@@ -18,7 +18,7 @@
                     <a class="nav-link" id="sense-tab" data-toggle="tab" href="#sense" role="tab"
                         aria-controls="sense" aria-selected="false">Sense</a>
                 </li> -->
-               <!--  <li class="nav-item">
+            <!--  <li class="nav-item">
                     <a class="nav-link" id="frame-tab" data-toggle="tab" href="#frame" role="tab"
                         aria-controls="frame" aria-selected="false">Frame</a>
                 </li> -->
@@ -30,59 +30,57 @@
                 <div class="tab-pane fade" id="sense" role="tabpanel" aria-labelledby="sense-tab">
                     <app-sense-tab></app-sense-tab>
                 </div> -->
-                <!-- <div class="tab-pane fade" id="frame" role="tabpanel" aria-labelledby="frame-tab">
+            <!-- <div class="tab-pane fade" id="frame" role="tabpanel" aria-labelledby="frame-tab">
                     <app-frame-tab></app-frame-tab>
                 </div> -->
-           <!--  </div> -->
+            <!--  </div> -->
 
-           <div class="card">
-            <a class="attestationCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'" aria-expanded="true" [attr.aria-controls]="'#collapse-'"><span class="text-id pointer"><b>Attestation title</b></span></a>
-            <!-- <span *ngIf="bibliographyData != undefined" class="icons-container"> -->
-                <!-- {{bibliographyData[i]['url'] | json}} -->
-                <!-- <span><a target="_blank" class="pointer text-primary" (click)="synchronizeBibliography(biblio.get('id').value)"><span class="synchro-icon"><i class="fas fa-sync-alt" *ngIf="!loadingSynchro"></i> <i class="fas fa-sync fa-spin" *ngIf="loadingSynchro"></i></span></a></span>
-                <span ><a href="https://www.zotero.org/groups/2552746/prin_italia_antica/items/{{bibliographyData[i]['id']}}/library" target="_blank" class="pointer text-primary"><span class="external-icon"><i class="fas fa-external-link-alt"></i></span></a></span>
-                <span><a [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="download-icon"><i class="fas fa-download"></i></span></a></span>
-            </span> -->
-            
-            <a class="pointer" ><span class="trash-icon"><i class="fa fa-trash text-danger"></i></span></a> 
-            
-            <div id="collapse-" class="collapse" data-parent="#accordion">
-                <div class="card-body">
-                    <div class="form-group row ml-2 mr-2 mb-0">
-                        <label for="inputLabel" class="col-lg-4 col-form-label">Title:</label>
-                        <div class="input-group col-lg-8 pl-0">
-                            <input id="title" formControlName="title" name="title" type="text" class="form-control" placeholder="" disabled>
-                        </div>
-                    </div>           
-                    <div class="form-group row ml-2 mr-2 mb-0">
-                        <label for="inputLabel" class="col-lg-4 col-form-label">Author:</label>
-                        <div class="input-group col-lg-8 pl-0">
-                            <input id="author"  formControlName="author" name="author" type="text" class="form-control" placeholder="" disabled>
-                        </div>
-                    </div>   
-                    <div class="form-group row ml-2 mr-2 mb-0">
-                        <label for="inputLabel" class="col-lg-4 col-form-label">Date:</label>
-                        <div class="input-group col-lg-8 pl-0">
-                            <input id="date"  formControlName="date" name="date" type="text" class="form-control" placeholder="" disabled>
+            <div *ngIf="formData != null">
+                <div class="card" *ngFor="let item of formData">
+                    <a class="attestationCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'"
+                        aria-expanded="true" [attr.aria-controls]="'#collapse-'"><span class="text-id pointer"><b
+                                class="badge badge-primary">Attestation title</b></span></a>
+                    <!-- <span *ngIf="bibliographyData != undefined" class="icons-container"> -->
+                    <!-- {{bibliographyData[i]['url'] | json}} -->
+                    <!-- <span><a target="_blank" class="pointer text-primary" (click)="synchronizeBibliography(biblio.get('id').value)"><span class="synchro-icon"><i class="fas fa-sync-alt" *ngIf="!loadingSynchro"></i> <i class="fas fa-sync fa-spin" *ngIf="loadingSynchro"></i></span></a></span>
+                    <span ><a href="https://www.zotero.org/groups/2552746/prin_italia_antica/items/{{bibliographyData[i]['id']}}/library" target="_blank" class="pointer text-primary"><span class="external-icon"><i class="fas fa-external-link-alt"></i></span></a></span>
+                    <span><a [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="download-icon"><i class="fas fa-download"></i></span></a></span>
+                </span> -->
+    
+                    <a class="pointer"><span class="trash-icon"><i class="fa fa-trash"></i></span></a>
+    
+                    <div id="collapse-" class="collapse show" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="form-group row ml-2 mr-2 mb-0">
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Author:</label>
+                                <div class="input-group col-lg-8 pl-0 pr-0">
+                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="item?.creator">
+                                </div>
+                            </div>
+                            <div class="form-group row ml-2 mr-2 mb-0">
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Confidence:</label>
+                                <div class="input-group col-lg-8 pl-0 pr-0">
+                                    <input id="date" name="date" type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group row ml-2 mr-2">
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Note:</label>
+                                <div class="input-group col-lg-8 pl-0 pr-0">
+                                    <!-- <input id="note"   name="note" type="text" class="form-control" placeholder=""> -->
+                                    <textarea name="note" class="form-control" style="resize: none;"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row ml-2 mr-2">
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Bibliography:</label>
+                                <div class="input-group col-lg-8 pl-0 pr-0">
+                                    <!-- <input id="note"   name="note" type="text" class="form-control" placeholder=""> -->
+                                    <!--  <textarea name="bibliography" class="form-control" style="resize: none;"></textarea> -->
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row ml-2 mr-2">
-                        <label for="inputLabel" class="col-lg-4 col-form-label">Note:</label>
-                        <div class="input-group col-lg-8 pl-0">
-                            <!-- <input id="note"  formControlName="note" name="note" type="text" class="form-control" placeholder=""> -->
-                            <textarea name="note" class="form-control" style="resize: none;"></textarea>
-                        </div>
-                    </div>  
-                    <div class="form-group row ml-2 mr-2">
-                        <label for="inputLabel" class="col-lg-4 col-form-label">TextualRef:</label>
-                        <div class="input-group col-lg-8 pl-0">
-                            <!-- <input id="note"  formControlName="note" name="note" type="text" class="form-control" placeholder=""> -->
-                            <textarea name="textualReference" class="form-control" style="resize: none;"></textarea>
-                        </div>
-                    </div>     
                 </div>
-            </div>                                            
+            </div>
+           
         </div>
     </div>
-</div>
-

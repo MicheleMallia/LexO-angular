@@ -20,6 +20,8 @@ export class AttestationPanelComponent implements OnInit,OnChanges {
     if(changes.attestationData.currentValue[0] != null){
       this.formData = changes.attestationData.currentValue;
 
+    }else{
+      this.formData = null;
     }
   
 }

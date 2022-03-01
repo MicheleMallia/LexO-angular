@@ -1,0 +1,33 @@
+<div class="input-group col-xl-12" *ngIf="{switch : false}; let variable">
+    <ng-select #select_form name="entity" [addTag]="true" [clearable]="false" (focus)="true" bindValue="label"
+        bindLabel="label" placeholder="Search form" appendTo=".token_modal" (keyup)="triggerSearch($event)" [items]="searchResults" 
+        (change)="handleForm(select_form)" [loading]="loader">
+        <!-- && cog.get('type').value != 'external' -->
+        <!-- "
+     -->
+        <!-- (focus)="deleteData()" -->
+        <!-- -->
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <!--     <div>
+    <span>{{item.label}} </span><span style="color: blue;">@{{item.language}}</span>
+</div> -->
+            <div class="card-body">
+                <h6 class="card-title" [ngOptionHighlight]="search">{{item.label}}</h6>
+                <p class="card-subtitle mb-2 text-muted">{{item.type}}</p>
+                <small class="card-text">
+                    <!-- <img height="15" width="15" [src]="item.avatar"/> -->
+                    LexicalEntry: {{item.lexicalEntryInstanceName}}
+                </small>
+                <!--  <div *ngIf="item.name === 'Pavilnys'">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+    </div> -->
+            </div>
+
+        </ng-template>
+    </ng-select>
+
+    <div class="input-group-append ml-2">
+        <button (click)="clearAll()" class="btn btn-danger" type="button">Clear</button>
+    </div>
+</div>

@@ -16,7 +16,7 @@
 
 .form-control {
     font-size: 12px;
-    height: 1.25rem;
+    height: 2rem;
 }
 
 
@@ -121,16 +121,29 @@ form > div > span {
     border: 1px solid;
     border-color: #ff7300;
     transition: border 0.2s ease;
+    position: relative;
 }
 
 .panel-body.multiword + .panel-body.multiword {
     border-color: #ff7300;
     border-left: none;
     transition: border 0.2s ease;
+    position: relative;
 }
 
-.panel-body:hover .token {
+.panel-body:hover.token {
     border-color: rgb(0, 89, 255);
     border-width: 1px;
     transition: border 0.2s ease;
+}
+
+div[class*="multiword-span-"]{
+    border: 1px solid;
+    border-color: #66ff00;
+}
+
+div[class*="multiword-span-"] + div[class*="multiword-span-"]{
+    border: 1px solid;
+    border-left: none;
+    border-color: #66ff00;
 }

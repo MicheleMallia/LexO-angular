@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -45,8 +45,8 @@ export class DocumentSystemService {
 
 
   //POST ​/api​/crud​/uploadFile --> upload text
-  uploadFile(parameters): Observable<any> {
-    return this.http.post(this.baseUrl_document + "api/crud/uploadFile", parameters)
+  uploadFile(parameters, element_id, request_uuid): Observable<any> {
+    return this.http.post(this.baseUrl_document + "api/crud/uploadFile?requestUUID="+request_uuid+"&element-id="+element_id+"", parameters)
   }
 
   //POST ​/api​/crud​/removeFile --> upload text

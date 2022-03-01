@@ -487,7 +487,10 @@ export class DocumentSystemTreeComponent implements OnInit {
       "file-name" : file_name
     }
     
-    this.documentService.uploadFile(parameters).subscribe(
+    const formData = new FormData();
+    formData.append('file', evt.target.files[0])
+
+    this.documentService.uploadFile(formData, element_id, 11).subscribe(
       data=>{
         console.log(data)
         let id_new_node = 243;

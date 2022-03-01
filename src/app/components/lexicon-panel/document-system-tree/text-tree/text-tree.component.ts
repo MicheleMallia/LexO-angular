@@ -224,15 +224,18 @@ export class TextTreeComponent implements OnInit {
   loadTree(){
     this.documentService.getDocumentSystem().subscribe(
       data => {
-        //console.log(data)
-        this.nodes = data['documentSystem'][0]['children'];
-        setTimeout(() => {
-          this.treeText.treeModel.getNodeBy(
-            item => {
-              item.data.rename_mode = false;
-            }
-          )
-        }, 100);
+        console.log(data)
+        if(data['documentSystem'].length != 0){
+          this.nodes = data['documentSystem'];
+          setTimeout(() => {
+            this.treeText.treeModel.getNodeBy(
+              item => {
+                item.data.rename_mode = false;
+              }
+            )
+          }, 100);
+        }
+        
         
         this.counter = data['results'];
       },
@@ -328,8 +331,11 @@ export class TextTreeComponent implements OnInit {
     
     console.log(parameters)
     const expandedNodes = this.treeText.treeModel.expandedNodes;
+
+    const formData = new FormData();
+    formData.append('file', evt.target.files[0])
     
-    this.documentService.uploadFile(parameters).subscribe(
+    this.documentService.uploadFile(formData, element_id, 11).subscribe(
       data=>{
         console.log(data)
        
@@ -397,7 +403,7 @@ export class TextTreeComponent implements OnInit {
     this.documentService.copyFileTo(parameters).subscribe(
       data=>{
         console.log(data);
-        this.nodes = data['documentSystem'][0]['children'];
+        this.nodes = data['documentSystem'];
         this.toastr.info('File '+ evt['name'] +' copied', '', {
           timeOut: 5000,
         });
@@ -459,8 +465,8 @@ export class TextTreeComponent implements OnInit {
           this.toastr.info('File '+ evt['name'] +' deleted', '', {
             timeOut: 5000,
           });
-          this.nodes = data['documentSystem'][0]['children'];
-          expandedNodes.forEach( (node: TreeNode) => {
+          this.nodes = data['documentSystem'];
+          /* expandedNodes.forEach( (node: TreeNode) => {
           
             setTimeout(() => {
               this.treeText.treeModel.getNodeBy(x => {
@@ -469,7 +475,15 @@ export class TextTreeComponent implements OnInit {
                 }
               })              
             }, 300);
+          }) */
+
+          this.treeText.treeModel.getNodeBy(x => {
+            if(x.data['element-id'] === element_id){
+              x.parent.data.children.splice(x.parent.data.children.indexOf(x.data), 1)
+            }
           })
+
+          this.treeText.treeModel.update()
           
           
         },error=>{
@@ -502,10 +516,10 @@ export class TextTreeComponent implements OnInit {
 
       this.documentService.removeFolder(parameters).subscribe(
         data=>{
-          //console.log(data);
+          console.log(data);
           
-          this.nodes = data['documentSystem'][0]['children'];
-          expandedNodes.forEach( (node: TreeNode) => {
+          //this.nodes = data['documentSystem'];
+          /* expandedNodes.forEach( (node: TreeNode) => {
           
             setTimeout(() => {
               this.treeText.treeModel.getNodeBy(x => {
@@ -514,7 +528,15 @@ export class TextTreeComponent implements OnInit {
                 }
               })              
             }, 300);
+          }) */
+
+          this.treeText.treeModel.getNodeBy(x => {
+            if(x.data['element-id'] === element_id){
+              x.parent.data.children.splice(x.parent.data.children.indexOf(x.data), 1)
+            }
           })
+
+          this.treeText.treeModel.update()
           
           
         },error=>{
@@ -773,7 +795,7 @@ export class TextTreeComponent implements OnInit {
           timeOut: 5000,
         });
         //console.log(data);
-        this.nodes = data['documentSystem'][0]['children'];
+        this.nodes = data['documentSystem'];
         expandedNodes.forEach( (node: TreeNode) => {
           
           setTimeout(() => {
@@ -833,7 +855,7 @@ export class TextTreeComponent implements OnInit {
         this.toastr.info('Metadata deleted for ' + name + ' node' , '', {
           timeOut: 5000,
         });
-        this.nodes = data['documentSystem'][0]['children'];
+        this.nodes = data['documentSystem'];
         expandedNodes.forEach( (node: TreeNode) => {
           
           setTimeout(() => {

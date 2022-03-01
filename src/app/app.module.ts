@@ -64,6 +64,7 @@ import { EpidocTabComponent } from './components/metadata-panel/epidoc-tab/epido
 import { TextTabComponent } from './components/metadata-panel/text-tab/text-tab.component';
 import { EpigraphyFormComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/epigraphy-tab/epigraphy-form/epigraphy-form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SearchFormComponent } from './components/lexicon-panel/text-detail/epigraphy-detail/epigraphy-tab/epigraphy-form/search-form/search-form.component';
 
 
 @NgModule({
@@ -115,7 +116,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FileTabComponent,
     EpidocTabComponent,
     TextTabComponent,
-    EpigraphyFormComponent
+    EpigraphyFormComponent,
+    SearchFormComponent
   ],
   imports: [
     ContextMenuModule.forRoot({useBootstrap4: true}),

@@ -86,54 +86,29 @@
                             <div class="tab-pane fade show active" id="form_token" role="tabpanel"
                                 aria-labelledby="form-tab">
                                 <p>Add a form:</p>
-                                <div class="input-group col-xl-12" *ngIf="{switch : false}; let variable">
-                                    <ng-select #select_form name="entity" [addTag]="true" [clearable]="false"
-                                        (focus)="true" (keyup)="triggerSearch($event)"
-                                        (change)="handleForm(select_form)" [items]="searchResults" bindValue="label"
-                                        (focus)="deleteData()" bindLabel="label" placeholder="Search form"
-                                        appendTo=".token_modal" *ngIf="!variable.switch ">
-                                        <!-- && cog.get('type').value != 'external' -->
-                                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                                            <!--     <div>
-                                        <span>{{item.label}} </span><span style="color: blue;">@{{item.language}}</span>
-                                    </div> -->
-                                            <div class="card-body">
-                                                <h6 class="card-title" [ngOptionHighlight]="search">{{item.label}}</h6>
-                                                <p class="card-subtitle mb-2 text-muted">{{item.type}}</p>
-                                                <small class="card-text">
-                                                    <!-- <img height="15" width="15" [src]="item.avatar"/> -->
-                                                    LexicalEntry: {{item.lexicalEntryInstanceName}}
-                                                </small>
-                                                <!--  <div *ngIf="item.name === 'Pavilnys'">
-                                            <a href="#" class="card-link">Card link</a>
-                                            <a href="#" class="card-link">Another link</a>
-                                        </div> -->
-                                            </div>
-
-                                        </ng-template>
-                                    </ng-select>
+                                
+                                    <app-search-form [bind]="bind" #search_form></app-search-form> <!-- *ngIf="!variable.switch" -->
                                     <!-- [value]="cog.get('entity').value" -->
                                     <!-- *ngIf="variable.switch || cog.get('type').value == 'external'" -->
-                                    <input name="entity" type="text" class="form-control" placeholder="Insert URI"
+                                    <!-- <input name="entity" type="text" class="form-control" placeholder="Insert URI"
                                         *ngIf="variable.switch" (keyup)="handleForm($event)"
-                                        (paste)="handleForm($event)">
+                                        (paste)="handleForm($event)"> -->
 
                                     <!-- [hidden]="cog.get('type').value == 'external'" -->
-                                    <div class="input-group-append ml-3 form-check" style="align-items: center;">
+                                    <!-- <div class="input-group-append ml-3 form-check" style="align-items: center;">
                                         <input class="form-check-input cognates-tooltip" type="checkbox"
                                             (change)="variable.switch=!variable.switch" data-toggle="tooltip"
                                             data-placement="bottom" data-trigger="hover"
                                             title="Clicca per inserire un URI manualmente">
-                                    </div>
+                                    </div> -->
                                     <!-- <div class="input-group-append ml-2">
                                         <button class="btn btn-primary" type="button"><i
                                                 class="fa fa-external-link-alt"></i></button>
                                     </div> -->
-                                    <div class="input-group-append ml-2">
+                                    <!-- <div class="input-group-append ml-2">
                                         <button (click)="clearAll()" class="btn btn-danger" type="button"><i
                                                 class="fa fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
+                                    </div> -->
                             </div>
 
                             <div class="tab-pane fade" id="sense_token" role="tabpanel" aria-labelledby="sense-tab">
