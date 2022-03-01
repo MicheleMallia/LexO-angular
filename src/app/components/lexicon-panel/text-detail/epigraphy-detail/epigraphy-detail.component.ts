@@ -19,34 +19,38 @@ export class EpigraphyDetailComponent implements OnInit {
 
     this.documentService.epigraphyData$.subscribe(
       object => {
+        console.log(object)
         if(object != null){
-          var navTabLinks = this.navtabs.nativeElement.querySelectorAll('a')
-          this.object = object;
-          console.log(this.object)
-          navTabLinks.forEach(element => {
-            /* //console.log(element) */
-            if(element.text == 'Epigraphy'){
-              element.classList.add('active')
-            }else{
-              element.classList.remove('active')
-              //console.log(element.id)
-            }
-          });
+          setTimeout(() => {
+            var navTabLinks = this.navtabs.nativeElement.querySelectorAll('a')
+            this.object = object;
+            console.log(this.object)
+            navTabLinks.forEach(element => {
+              /* //console.log(element) */
+              if(element.text == 'Epigraphy'){
+                element.classList.add('active')
+              }else{
+                element.classList.remove('active')
+                //console.log(element.id)
+              }
+            });
 
-          var navContent = this.navcontent.nativeElement.querySelectorAll('.tab-pane');
-          
-          navContent.forEach(element => {
+            var navContent = this.navcontent.nativeElement.querySelectorAll('.tab-pane');
             
-            if(element.id == 'epigraphy'){
-              element.classList.add('active')
-              element.classList.add('show')
-            }else{
+            navContent.forEach(element => {
               
-              element.classList.remove('active')
-              element.classList.remove('show')
-              //console.log(element)
-            }
-          });
+              if(element.id == 'epigraphy'){
+                element.classList.add('active')
+                element.classList.add('show')
+              }else{
+                
+                element.classList.remove('active')
+                element.classList.remove('show')
+                //console.log(element)
+              }
+            });
+          }, 200);
+          
         }else{
           this.object = null
         }

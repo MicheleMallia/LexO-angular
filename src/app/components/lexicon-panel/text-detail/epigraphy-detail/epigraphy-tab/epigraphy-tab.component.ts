@@ -122,31 +122,34 @@ export class EpigraphyTabComponent implements OnInit {
 
     this.expand.expEpigraphy$.subscribe(
       trigger => {
-        if(trigger){
-          let isEditExpanded = this.expand.isEditTabExpanded();
-          let isEpigraphyExpanded = this.expand.isEpigraphyTabExpanded();
-
-          if(!isEditExpanded ){
+        setTimeout(() => {
+          if(trigger){
+            let isEditExpanded = this.expand.isEditTabExpanded();
+            let isEpigraphyExpanded = this.expand.isEpigraphyTabExpanded();
+  
+            if(!isEditExpanded ){
+              
+              this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(100vh - 20rem)')
+              this.exp_trig = 'in';
+              this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 20rem)');
+            }else{
+              
+              this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)');
+              this.exp_trig = 'in';
+              this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 15rem)');
+              
+            }
             
-            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(100vh - 20rem)')
-            this.exp_trig = 'in';
-            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(100vh - 20rem)');
+            
+          }else if(trigger==null){
+            return;
           }else{
-            
             this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)');
-            this.exp_trig = 'in';
             this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 15rem)');
-            
+            this.exp_trig = 'out';
           }
-          
-          
-        }else if(trigger==null){
-          return;
-        }else{
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 15rem)');
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 15rem)');
-          this.exp_trig = 'out';
-        }
+        }, 100);
+        
       }
     );
 

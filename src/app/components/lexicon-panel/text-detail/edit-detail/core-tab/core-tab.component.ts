@@ -212,16 +212,19 @@ export class CoreTabComponent implements OnInit {
 
     this.expand.expEpigraphy$.subscribe(
       trigger => {
-        if(trigger){
-          this.exp_trig = 'in';
-          this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)')
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)')
-        }else if(trigger==null){
-          return;
-        }else{
-          this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)');
-          this.exp_trig = 'out';
-        }
+        setTimeout(() => {
+          if(trigger){
+            this.exp_trig = 'in';
+            this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(50vh - 12.5rem)')
+            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)')
+          }else if(trigger==null){
+            return;
+          }else{
+            this.rend.setStyle(this.expander_body.nativeElement, 'max-height', 'calc(50vh - 12.5rem)');
+            this.exp_trig = 'out';
+          }
+        }, 100);
+        
       }
     );
 

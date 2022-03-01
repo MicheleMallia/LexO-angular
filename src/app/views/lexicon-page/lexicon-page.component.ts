@@ -23,7 +23,7 @@ export class LexiconPageComponent implements OnInit {
 
     this.lexicalService.triggerNotePanel$.subscribe(
       boolean => {
-        if(boolean != undefined){
+        if(boolean != null){
           if(boolean){
             let a_link = this.accordion.nativeElement.querySelectorAll('a[data-target="#noteCollapse"]');
             let collapse_container = this.accordion.nativeElement.querySelectorAll('div[aria-labelledby="noteHeading"]');
