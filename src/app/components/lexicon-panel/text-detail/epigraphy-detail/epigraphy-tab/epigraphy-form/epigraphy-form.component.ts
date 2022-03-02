@@ -49,6 +49,7 @@ export class EpigraphyFormComponent implements OnInit {
   })
 
   multiWordMode = false;
+  annotationArray = [];
 
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event): void {
@@ -61,11 +62,11 @@ export class EpigraphyFormComponent implements OnInit {
       //SE IL CLICK AVVIENE FUORI QUESTO COMPONENTE, L'EVENTUALE POPOVER DEVE RESTARE APERTO, 
       //SE SI CLICCA QUESTO COMPONENTE IL POPOVER VA CHIUSO E RIATTIVATO L'AUTOCLOSE
       if (index != '') {
-        console.log(this.config)
+        //console.log(this.config)
         let popover = this.spanPopovers.toArray()[index];
         if (popover.isOpen()) {
-          console.log(popover.isOpen())
-          console.log(popover)
+          //console.log(popover.isOpen())
+          //console.log(popover)
           /* popover.autoClose = false; */
         }
       }
@@ -369,7 +370,7 @@ export class EpigraphyFormComponent implements OnInit {
 
   enterCell(evt, i) {
     //console.log("enter cell " + i);
-    console.log(evt);
+    /* console.log(evt); */
     let parentNode = evt.target.parentElement
     if (parentNode != undefined) {
       let classNames = parentNode.className;
@@ -549,6 +550,13 @@ export class EpigraphyFormComponent implements OnInit {
   bindSelection(popover, evt, i) {
 
 
+    this.annotatorService.getAnnotation(this.object[i].id).subscribe(
+      data=> {
+        console.log(data)
+      },error=> {
+        console.log(error)
+      }
+    )
 
     //console.log(evt)
     setTimeout(() => {

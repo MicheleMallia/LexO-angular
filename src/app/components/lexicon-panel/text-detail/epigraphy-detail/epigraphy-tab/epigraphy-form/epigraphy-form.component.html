@@ -45,27 +45,44 @@
 
                 
                 <!-- ATTESTATION LIST -->
-               <!--  <div class="card">
-                    <div class="card-body">
-                        <div class="form-group row m-2 panel">
-                            <span>List:</span>
-                        </div>
+                <div class="card">
+                    <div class="card-body" *ngIf="annotationArray.length > 0">
                         <div class="form-group row ml-2 mt-0 mb-0 mr-2 panel">
-                            <label for="inputPassword" class="col-sm-2 col-form-label p-0">*h2es-</label>
+                            <label for="inputPassword" class="col-sm-2 col-form-label p-0">XML ID:</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputPassword" disabled value="http://lexica/mylexicon#PIE_427417">
-                            </div>
-                            <div class="input-group-append btn-sm p-0">
-                                <button (click)="sendToAttestationPanel('PIE_427417')" class="btn btn-primary" type="button"><i
-                                        class="fa fa-external-link-alt fa-xs"></i></button>
-                            </div>
-                            <div class="input-group-append btn-sm pr-0">
-                                <button (click)="clearAll()" class="btn btn-danger" type="button"><i
-                                        class="fa fa-trash-alt fa-xs"></i></button>
+                                <input type="text" class="form-control" id="inputPassword" disabled [value]="token.xmlid">
                             </div>
                         </div>
                     </div>
-                </div> -->
+                    <div class="card-body" *ngIf="annotationArray.length == 0">
+                        <div class="form-group row ml-2 mt-0 mb-0 mr-2 panel">
+                            <label for="inputPassword" class="col-sm-6 col-form-label p-0 font-italic">No annotations</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group row ml-2 mt-0 mb-0 mr-2 panel">
+                            <label for="inputPassword" class="col-sm-2 col-form-label p-0">XML ID:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="inputPassword" disabled [value]="token.xmlid">
+                            </div>
+                        </div>
+                        <div class="form-group row ml-2 mt-0 mb-0 mr-2 panel">
+                            <label for="inputPassword" class="col-sm-2 col-form-label p-0">Source:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="inputPassword" disabled [value]="token.source">
+                            </div>
+                        </div>
+                        <div class="form-group row ml-2 mt-0 mb-0 mr-2 panel">
+                            <label for="inputPassword" class="col-sm-2 col-form-label p-0">Imported:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="inputPassword" disabled [value]="token.imported">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-header">

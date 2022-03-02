@@ -23,8 +23,8 @@ export class SearchFormComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      console.log(this.select_form);
-      console.log(this.bind)
+      //console.log(this.select_form);
+      //console.log(this.bind)
     }, 1000);
 
     this.search_subject.pipe(debounceTime(1000)).subscribe(
@@ -108,7 +108,6 @@ export class SearchFormComponent implements OnInit {
             }else{
               label = evt.selectedItems[0].label;
             }
-            
             this.onChangeForm(evt.selectedItems[0]['value'])
         }
     } /* else {
@@ -167,17 +166,18 @@ export class SearchFormComponent implements OnInit {
 
     //TODO INSERIRE MODO PER CREARE SPAN ANNOTATION SE C'È UN ELEMENTO MARK
     let markElement = Array.from(document.getElementsByClassName('mark'))[0];
-    console.log(markElement)
+    let parentMarkElement = document.getElementsByClassName('token-'+this.bind.selectedPopover.tokenId)[0];
     if(markElement != null){
       this.renderer.removeClass(markElement, 'mark');
       this.renderer.addClass(markElement, 'annotation');
       this.renderer.addClass(markElement, 'unselectable')
     }else{
       //QUI SE NON C'È ALCUN MARK SPAN E VIENE SELEZIONATA LA PAROLA INTERA
+      this.renderer.addClass(parentMarkElement, 'annotation_entire');
+      this.renderer.addClass(parentMarkElement, 'unselectable');
     }
 
-    let parentMarkElement = document.getElementsByClassName('token-'+this.bind.selectedPopover.tokenId)[0];
-    console.log("parent mark element", parentMarkElement.children)
+    
     if(parentMarkElement != null){
       Array.from(parentMarkElement.children).forEach(
         element => {
@@ -220,12 +220,11 @@ export class SearchFormComponent implements OnInit {
             }
         }
     ) */
-
-    this.bind.memoryForms[0] = data;
   }
 
-  ngOnDestroy(){
-    this.annotatorService.triggerSearch
-  }
+  /* addNewForm = (form:string) => {
+    let text = form;
+    
+  } */
 
 }

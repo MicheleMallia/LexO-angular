@@ -21,4 +21,12 @@ export class AnnotatorService {
     return this.http.get(this.baseUrl + 'token?nodeid='+id);
   }
 
+  addAnnotation(parameters : object, id : number) : Observable<any>{
+    return this.http.post(this.baseUrl + 'annotation?nodeid='+id, parameters);
+  }
+
+  getAnnotation(id : number){
+    return this.http.get(this.baseUrl + 'annotation?nodeid='+id);
+  }
+
 }
