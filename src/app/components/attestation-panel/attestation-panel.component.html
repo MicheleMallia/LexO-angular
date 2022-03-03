@@ -9,37 +9,11 @@
     </div>
     <div id="attestationCollapse" class="collapse" aria-labelledby="attestationHeading">
         <div class="card-body">
-            <!-- <ul class="nav nav-tabs" id="myTab" role="tablist"  >
-                <li class="nav-item">
-                    <a class="nav-link active" id="form-tab" data-toggle="tab" href="#form" role="tab"
-                        aria-controls="form" aria-selected="true">Form</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="sense-tab" data-toggle="tab" href="#sense" role="tab"
-                        aria-controls="sense" aria-selected="false">Sense</a>
-                </li> -->
-            <!--  <li class="nav-item">
-                    <a class="nav-link" id="frame-tab" data-toggle="tab" href="#frame" role="tab"
-                        aria-controls="frame" aria-selected="false">Frame</a>
-                </li> -->
-            <!-- </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="form" role="tabpanel" aria-labelledby="form-tab">
-                    <app-form-tab [formData]=formData></app-form-tab>
-                </div>
-                <div class="tab-pane fade" id="sense" role="tabpanel" aria-labelledby="sense-tab">
-                    <app-sense-tab></app-sense-tab>
-                </div> -->
-            <!-- <div class="tab-pane fade" id="frame" role="tabpanel" aria-labelledby="frame-tab">
-                    <app-frame-tab></app-frame-tab>
-                </div> -->
-            <!--  </div> -->
-
             <div *ngIf="formData != null">
-                <div class="card" *ngFor="let item of formData">
+                <div class="card" *ngFor="let item of formData; let i = index">
                     <a class="attestationCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'"
                         aria-expanded="true" [attr.aria-controls]="'#collapse-'"><span class="text-id pointer"><b
-                                class="badge badge-primary">Attestation title</b></span></a>
+                                class="badge badge-primary">ID:{{item?.id}}</b></span></a>
                     <!-- <span *ngIf="bibliographyData != undefined" class="icons-container"> -->
                     <!-- {{bibliographyData[i]['url'] | json}} -->
                     <!-- <span><a target="_blank" class="pointer text-primary" (click)="synchronizeBibliography(biblio.get('id').value)"><span class="synchro-icon"><i class="fas fa-sync-alt" *ngIf="!loadingSynchro"></i> <i class="fas fa-sync fa-spin" *ngIf="loadingSynchro"></i></span></a></span>
@@ -47,34 +21,26 @@
                     <span><a [href]="bibliographyData[i]['url']" target="_blank" class="pointer text-primary"><span class="download-icon"><i class="fas fa-download"></i></span></a></span>
                 </span> -->
     
-                    <a class="pointer"><span class="trash-icon"><i class="fa fa-trash"></i></span></a>
+                    <a (click)="cancelAttestation(i)" class="pointer"><span class="trash-icon"><i class="fa fa-trash"></i></span></a>
     
                     <div id="collapse-" class="collapse show" data-parent="#accordion">
                         <div class="card-body">
                             <div class="form-group row ml-2 mr-2 mb-0">
-                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Author:</label>
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Value:</label>
                                 <div class="input-group col-lg-8 pl-0 pr-0">
-                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="item?.creator">
+                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="item?.value">
                                 </div>
                             </div>
                             <div class="form-group row ml-2 mr-2 mb-0">
-                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Confidence:</label>
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Layer:</label>
                                 <div class="input-group col-lg-8 pl-0 pr-0">
-                                    <input id="date" name="date" type="text" class="form-control" placeholder="">
+                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="item?.layer">
                                 </div>
                             </div>
-                            <div class="form-group row ml-2 mr-2">
-                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Note:</label>
+                            <div class="form-group row ml-2 mr-2 mb-0" *ngFor="let subprop of item.attributes | keyvalue">
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">{{subprop.key}}:</label>
                                 <div class="input-group col-lg-8 pl-0 pr-0">
-                                    <!-- <input id="note"   name="note" type="text" class="form-control" placeholder=""> -->
-                                    <textarea name="note" class="form-control" style="resize: none;"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row ml-2 mr-2">
-                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Bibliography:</label>
-                                <div class="input-group col-lg-8 pl-0 pr-0">
-                                    <!-- <input id="note"   name="note" type="text" class="form-control" placeholder=""> -->
-                                    <!--  <textarea name="bibliography" class="form-control" style="resize: none;"></textarea> -->
+                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="subprop?.value">
                                 </div>
                             </div>
                         </div>

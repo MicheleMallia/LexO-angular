@@ -25,8 +25,12 @@ export class AnnotatorService {
     return this.http.post(this.baseUrl + 'annotation?nodeid='+id, parameters);
   }
 
-  getAnnotation(id : number){
+  getAnnotation(id : number) : Observable<any>{
     return this.http.get(this.baseUrl + 'annotation?nodeid='+id);
+  }
+
+  deleteAnnotation(id: number) : Observable<any> {
+    return this.http.delete(this.baseUrl + 'annotate?annotationID='+id);
   }
 
 }

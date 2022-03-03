@@ -343,6 +343,30 @@ export class EpigraphyFormComponent implements OnInit {
         //TODO: popolare array form con tokens
         console.log(this.object)
 
+        if(this.object.length > 0){
+          this.object.forEach(element => {
+            this.annotatorService.getAnnotation(element.id).subscribe(
+              data => {
+                console.log(data);
+                if(data != undefined){
+                  if(data.length > 0){
+                    
+                    
+                    let popover = document.getElementsByClassName('token-'+(element.position -1))[0]
+                    
+                    this.renderer.addClass(popover, "annotation_entire");
+                    this.renderer.addClass(popover, "unselectable")
+                  }
+                } 
+              },error=> {
+                console.log(error)
+              }
+            )
+          });
+        }
+        
+        
+
       }
 
 
@@ -378,7 +402,12 @@ export class EpigraphyFormComponent implements OnInit {
       if (matchTest) {
         //TODO: highlight su div che contiene multiword
       } else {
-        this.object[i]['selected'] = true;
+        if(evt.target.classList.contains('annotation_entire')){
+          this.object[i]['selected'] = false;
+        }else{
+          this.object[i]['selected'] = true;
+        }
+        
         if (window.getSelection) {
           if (window.getSelection().empty) {  // Chrome
             window.getSelection().empty();
@@ -551,8 +580,17 @@ export class EpigraphyFormComponent implements OnInit {
 
 
     this.annotatorService.getAnnotation(this.object[i].id).subscribe(
-      data=> {
-        console.log(data)
+      data => {
+        console.log(data);
+        if(data != undefined){
+          if(data.length > 0){
+            this.annotationArray = data;
+            this.lexicalService.triggerAttestationPanel(true);
+            this.lexicalService.sendToAttestationPanel(data)
+          }else{
+            this.annotationArray = [];
+          }
+        } 
       },error=> {
         console.log(error)
       }
@@ -892,6 +930,25 @@ export class EpigraphyFormComponent implements OnInit {
       }
     }, 10);
 
+  }
+
+  deleteAnnotation(annotation, index, token){
+    let anno_id = annotation.id;
+    let token_position = token.position;
+    this.annotatorService.deleteAnnotation(anno_id).subscribe(
+      data=> {
+        console.log(data);
+        let popover = document.getElementsByClassName('token-'+(token_position -1))[0]      
+        this.renderer.removeClass(popover, "annotation_entire");
+        this.renderer.removeClass(popover, "unselectable");
+
+        this.lexicalService.triggerAttestationPanel(false)
+      },
+      error => {
+        console.log(error)
+      }
+    )
+    this.annotationArray.splice(index, 1);
   }
 
 }

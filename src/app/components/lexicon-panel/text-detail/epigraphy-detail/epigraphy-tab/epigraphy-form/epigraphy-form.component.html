@@ -47,10 +47,15 @@
                 <!-- ATTESTATION LIST -->
                 <div class="card">
                     <div class="card-body" *ngIf="annotationArray.length > 0">
-                        <div class="form-group row ml-2 mt-0 mb-0 mr-2 panel">
-                            <label for="inputPassword" class="col-sm-2 col-form-label p-0">XML ID:</label>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputPassword" disabled [value]="token.xmlid">
+                        <div class="form-group row ml-2 mt-0 mb-0 mr-2 panel" *ngFor="let anno of annotationArray; let i = index">
+                            <label for="inputPassword" class="col-sm-2 col-form-label p-0">Id: {{anno.id}}</label>
+                            <div class="input-group col-sm-10">
+                                <input type="text" class="form-control" id="inputPassword" disabled [value]="anno.value">
+                                <div class="input-group-append ml-2">
+                                    <button (click)="deleteAnnotation(anno, i, token)" class="btn btn-danger" type="button" title="Delete annotation">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,7 +89,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" *ngIf="annotationArray.length == 0">
                     <div class="card-header">
                         <ul class="nav nav-tabs nav-pills nav-fill" id="editDictTab" role="tablist" #navtabs
                             [ngClass]="{'disabled': object === null}">

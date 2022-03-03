@@ -101,7 +101,7 @@ export class SearchFormComponent implements OnInit {
 
     if (evt instanceof NgSelectComponent) {
         if (evt.selectedItems.length > 0) {
-            console.log(evt.selectedItems[0])
+            /* console.log(evt.selectedItems[0]) */
             let label;
             if(evt.selectedItems[0]['value']['formInstanceName'] != undefined){
               label = evt.selectedItems[0]['value']['formInstanceName'];
@@ -119,14 +119,9 @@ export class SearchFormComponent implements OnInit {
 
   onChangeForm(data) {
     /* var index = data['i']; */
-    let parameters;
+   
     //this.cognatesArray = this.coreForm.get("cognate") as FormArray;
-    const newValue = data['label']
-    parameters = {
-        type: "lexicalRel",
-        relation: "cognate",
-        value: newValue
-    }
+    
     /* if (this.memoryForms == undefined) {
         const newValue = data['name']
         parameters = {
@@ -149,12 +144,55 @@ export class SearchFormComponent implements OnInit {
         this.memoryForms[0] = data;
     } */
 
-    console.log(parameters)
-    console.log(data)
-    this.lexicalService.triggerAttestationPanel(true);
-    this.lexicalService.sendToAttestationPanel(data);
+    /* console.log(data) */
+    /* this.lexicalService.triggerAttestationPanel(true);
+    this.lexicalService.sendToAttestationPanel(data); */
 
-    this.lexicalService.getFormData(data.name, 'core').subscribe(
+   
+    let parameters = {}
+    let idPopover = this.bind.selectedPopover.tokenId;
+    let tokenData = this.bind.object[idPopover];
+    let textSelection = this.bind.message;
+    let formValue = data.form;
+
+    if(textSelection != ''){
+
+    }else{
+      parameters["value"] = formValue;
+      parameters["layer"] = "syntax";
+      parameters["attributes"] = {
+        author : "prova",
+        note: "",
+        confidence : "",
+        timestamp : new Date().getTime().toString(),
+        bibliography: [],
+        validity : "",
+        externalRef : ""
+
+      };
+      parameters["spans"] = [
+        {
+          start : tokenData.begin,
+          end : tokenData.end
+        }
+      ];
+      parameters["id"] = tokenData.id;
+    }
+    console.log(idPopover, tokenData, data)
+
+    this.annotatorService.addAnnotation(parameters, tokenData.id).subscribe(
+      data=> {
+        console.log(data);
+        this.bind.annotationArray.push(data);
+        this.lexicalService.triggerAttestationPanel(true);
+        this.lexicalService.sendToAttestationPanel(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+
+    /* this.lexicalService.getFormData(data.name, 'core').subscribe(
       data => {
         console.log(data)
         this.lexicalService.sendToCoreTab(data);
@@ -162,7 +200,7 @@ export class SearchFormComponent implements OnInit {
       }, error=> {
 
       }
-    )
+    ) */
 
     //TODO INSERIRE MODO PER CREARE SPAN ANNOTATION SE C'È UN ELEMENTO MARK
     let markElement = Array.from(document.getElementsByClassName('mark'))[0];
@@ -222,9 +260,9 @@ export class SearchFormComponent implements OnInit {
     ) */
   }
 
-  /* addNewForm = (form:string) => {
+  addNewForm = (form:string) => {
     let text = form;
     
-  } */
+  }
 
 }

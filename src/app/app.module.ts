@@ -41,9 +41,6 @@ import { ProfilesTableComponent } from './components/profiles-table/profiles-tab
 import { HttpClientModule } from '@angular/common/http';
 import { BibliographyPanelComponent } from './components/bibliography-panel/bibliography-panel.component';
 import { AttestationPanelComponent } from './components/attestation-panel/attestation-panel.component';
-import { FormTabComponent } from './components/attestation-panel/form-tab/form-tab.component';
-import { SenseTabComponent } from './components/attestation-panel/sense-tab/sense-tab.component';
-import { FrameTabComponent } from './components/attestation-panel/frame-tab/frame-tab.component';
 import { LexicalEntryCoreFormComponent } from './components/lexicon-panel/text-detail/edit-detail/core-tab/lexical-entry-core-form/lexical-entry-core-form.component';
 import { ModalModule } from 'ng-modal-lib';
 import { SeeAlsoComponent } from './components/link-panel/see-also/see-also.component';
@@ -96,9 +93,6 @@ import { SearchFormComponent } from './components/lexicon-panel/text-detail/epig
     ProfilesTableComponent,
     BibliographyPanelComponent,
     AttestationPanelComponent,
-    FormTabComponent,
-    SenseTabComponent,
-    FrameTabComponent,
     LexicalEntryCoreFormComponent,
     SeeAlsoComponent,
     SameAsComponent,
