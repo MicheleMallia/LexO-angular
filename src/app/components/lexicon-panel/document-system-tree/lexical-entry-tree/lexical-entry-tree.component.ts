@@ -74,7 +74,7 @@ export class LexicalEntryTreeComponent implements OnInit {
   status = [{ "label": "false", "count": 0 }, { "label": "true", "count": 0 }];
   parameters: LexicalEntryRequest = {
     text: "",
-    searchMode: searchModeEnum.startWith,
+    searchMode: searchModeEnum.startsWith,
     type: "",
     pos: "",
     formType: "entry",
@@ -97,7 +97,7 @@ export class LexicalEntryTreeComponent implements OnInit {
 
   filterForm = new FormGroup({
     text: new FormControl(''),
-    searchMode: new FormControl('startWith'),
+    searchMode: new FormControl('startsWith'),
     type: new FormControl(''),
     pos: new FormControl(''),
     formType: new FormControl('entry'),

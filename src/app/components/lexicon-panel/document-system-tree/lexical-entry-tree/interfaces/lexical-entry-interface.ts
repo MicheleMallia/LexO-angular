@@ -13,7 +13,7 @@ export interface LexicalEntryRequest {
 
 export enum searchModeEnum {
   equals = "equals",
-  startWith = "startWith",
+  startsWith = "startsWith",
   contains = "contains",
   endsWith = "endsWith"
 }
