@@ -18,7 +18,7 @@ export class LexiconPageComponent implements OnInit {
   notes = '';
   link = [];
   bibliography = [];
-  attestation = [];
+  attestation : any;
   ngOnInit(): void {
 
     this.lexicalService.triggerNotePanel$.subscribe(
@@ -155,8 +155,12 @@ export class LexiconPageComponent implements OnInit {
 
     this.lexicalService.attestationPanelData$.subscribe(
       data => {
-        console.log(data);
-        this.attestation = [data];
+        if(Array.isArray(data)){
+          this.attestation = data;
+        }else{
+          this.attestation = [data];
+        }
+        
       }
     )
 

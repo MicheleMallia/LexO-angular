@@ -10,19 +10,20 @@ export class AttestationPanelComponent implements OnInit,OnChanges {
   @Input() attestationData: any;
   constructor() { }
 
-  formData : any;
+  formData = [];
   ngOnInit(): void {
   }
+  
 
   ngOnChanges(changes: SimpleChanges) { 
     
     
-    if(changes.attestationData.currentValue[0] != null){
-      this.formData = changes.attestationData.currentValue[0];
-      console.log(this.formData)
+    if(changes.attestationData.currentValue != undefined){
+      
+      this.formData = changes.attestationData.currentValue;
 
     }else{
-      this.formData = null;
+      this.formData = [];
     }
   }
 

@@ -188,7 +188,13 @@ export class TextTreeComponent implements OnInit {
 
       this.annotatorService.getTokens(this.selectedNodeId).subscribe(
         data => {
-          this.documentService.sendToEpigraphyTab(data)
+
+          let element_id = this.selectedNodeId;
+          let tokens = data;
+          this.documentService.sendToEpigraphyTab({
+            tokens : tokens,
+            element_id : element_id
+          })
           this.expander.expandCollapseEpigraphy(true);
         },
         error => {

@@ -1,6 +1,6 @@
 {
     "/LexO-backend-itant/service/*": {
-        "target": "https://licodemo.ilc.cnr.it",
+        "target": "https://lari2.ilc.cnr.it",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"

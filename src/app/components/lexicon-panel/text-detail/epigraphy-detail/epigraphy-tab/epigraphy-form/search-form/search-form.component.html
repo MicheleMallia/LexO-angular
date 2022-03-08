@@ -1,4 +1,4 @@
-<div class="input-group col-xl-12" *ngIf="{switch : false}; let variable">
+<div class="input-group col-xl-12">
     <ng-select #select_form name="entity" [addTag]="addNewForm" [clearable]="false" (focus)="true" bindValue="label"
         bindLabel="label" placeholder="Search form" appendTo=".token_modal" (keyup)="triggerSearch($event)" [items]="searchResults" 
         (change)="handleForm(select_form)" [loading]="loader">

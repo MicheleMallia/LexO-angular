@@ -37,8 +37,8 @@
                                     <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="item?.layer">
                                 </div>
                             </div>
-                            <div class="form-group row ml-2 mr-2 mb-0" *ngFor="let subprop of item.attributes | keyvalue">
-                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">{{subprop.key}}:</label>
+                            <div class="form-group row ml-2 mr-2 mb-0" *ngFor="let subprop of item?.attributes | keyvalue">
+                                <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">{{subprop?.key}}:</label>
                                 <div class="input-group col-lg-8 pl-0 pr-0">
                                     <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="subprop?.value">
                                 </div>

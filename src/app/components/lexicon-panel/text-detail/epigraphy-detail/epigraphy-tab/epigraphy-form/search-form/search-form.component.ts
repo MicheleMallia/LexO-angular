@@ -24,7 +24,6 @@ export class SearchFormComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       //console.log(this.select_form);
-      //console.log(this.bind)
     }, 1000);
 
     this.search_subject.pipe(debounceTime(1000)).subscribe(
@@ -159,28 +158,32 @@ export class SearchFormComponent implements OnInit {
 
     }else{
       parameters["value"] = formValue;
-      parameters["layer"] = "syntax";
+      parameters["layer"] = "attestation";
       parameters["attributes"] = {
-        author : "prova",
+        author : "",
+        creator : "",
         note: "",
-        confidence : "",
+        confidence : 1,
         timestamp : new Date().getTime().toString(),
         bibliography: [],
         validity : "",
-        externalRef : ""
-
+        externalRef : "",
+        node_id : tokenData.id,
+        annotation_label : data.label
       };
       parameters["spans"] = [
         {
-          start : tokenData.begin,
-          end : tokenData.end
+          start : tokenData.begin.toString(),
+          end : tokenData.end.toString()
         }
       ];
-      parameters["id"] = tokenData.id;
+      parameters["id"] = tokenData.node;
     }
-    console.log(idPopover, tokenData, data)
+    console.log(idPopover, tokenData, data);
 
-    this.annotatorService.addAnnotation(parameters, tokenData.id).subscribe(
+    console.log(parameters)
+
+    this.annotatorService.addAnnotation(parameters, tokenData.node).subscribe(
       data=> {
         console.log(data);
         this.bind.annotationArray.push(data);
@@ -203,7 +206,7 @@ export class SearchFormComponent implements OnInit {
     ) */
 
     //TODO INSERIRE MODO PER CREARE SPAN ANNOTATION SE C'È UN ELEMENTO MARK
-    let markElement = Array.from(document.getElementsByClassName('mark'))[0];
+    /* let markElement = Array.from(document.getElementsByClassName('mark'))[0];
     let parentMarkElement = document.getElementsByClassName('token-'+this.bind.selectedPopover.tokenId)[0];
     if(markElement != null){
       this.renderer.removeClass(markElement, 'mark');
@@ -230,7 +233,7 @@ export class SearchFormComponent implements OnInit {
         }
       );
       
-    }
+    } */
     
 
     //let lexId = this.object.lexicalEntryInstanceName;

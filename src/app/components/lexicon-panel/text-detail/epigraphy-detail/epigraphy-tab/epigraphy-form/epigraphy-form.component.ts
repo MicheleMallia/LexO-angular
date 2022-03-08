@@ -316,58 +316,44 @@ export class EpigraphyFormComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     setTimeout(() => {
-      if (this.object != changes.epiData.currentValue) {
-        this.tokenArray = this.epigraphyForm.get('tokens') as FormArray;
-        this.tokenArray.clear();
-        /* 
-
-        this.denotesArray = this.coreForm.get('denotes') as FormArray;
-        this.denotesArray.clear();
-
-        this.cognatesArray = this.coreForm.get('cognate') as FormArray;
-        this.cognatesArray.clear();
-
-        this.evokesArray = this.coreForm.get('evokes') as FormArray;
-        this.evokesArray.clear();
-
-        this.memoryPos = '';
-
-        this.staticMorpho = [] */
-      }
-
-      this.object = changes.epiData.currentValue;
-
-      /* console.log(this.object) */
-      if (this.object != null) {
-
-        //TODO: popolare array form con tokens
-        console.log(this.object)
-
-        if(this.object.length > 0){
-          this.object.forEach(element => {
-            this.annotatorService.getAnnotation(element.id).subscribe(
-              data => {
-                console.log(data);
-                if(data != undefined){
-                  if(data.length > 0){
-                    
-                    
-                    let popover = document.getElementsByClassName('token-'+(element.position -1))[0]
-                    
-                    this.renderer.addClass(popover, "annotation_entire");
-                    this.renderer.addClass(popover, "unselectable")
-                  }
-                } 
-              },error=> {
-                console.log(error)
-              }
-            )
-          });
+      if(changes.epiData.currentValue != null){
+        if (this.object != changes.epiData.currentValue) {
+          this.tokenArray = this.epigraphyForm.get('tokens') as FormArray;
+          this.tokenArray.clear();
+          /* 
+  
+          this.denotesArray = this.coreForm.get('denotes') as FormArray;
+          this.denotesArray.clear();
+  
+          this.cognatesArray = this.coreForm.get('cognate') as FormArray;
+          this.cognatesArray.clear();
+  
+          this.evokesArray = this.coreForm.get('evokes') as FormArray;
+          this.evokesArray.clear();
+  
+          this.memoryPos = '';
+  
+          this.staticMorpho = [] */
         }
-        
-        
-
+  
+        this.object = changes.epiData.currentValue['tokens'];
+        let element_id = changes.epiData.currentValue['element_id']
+        /* console.log(this.object) */
+        if (this.object != null) {
+  
+          //TODO: popolare array form con tokens
+          console.log(this.object)
+          
+          this.annotatorService.getAnnotation(element_id).subscribe(
+            data=>{
+              console.log(data)
+            },error=>{
+              console.log(error)
+            }
+          )
+        }
       }
+      
 
 
     }, 10)
@@ -578,8 +564,9 @@ export class EpigraphyFormComponent implements OnInit {
 
   bindSelection(popover, evt, i) {
 
+    console.log(this.object[i])
 
-    this.annotatorService.getAnnotation(this.object[i].id).subscribe(
+    this.annotatorService.getAnnotation(this.object[i].node).subscribe(
       data => {
         console.log(data);
         if(data != undefined){

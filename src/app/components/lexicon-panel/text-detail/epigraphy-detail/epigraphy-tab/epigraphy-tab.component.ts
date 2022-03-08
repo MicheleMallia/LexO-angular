@@ -45,8 +45,7 @@ export class EpigraphyTabComponent implements OnInit {
         if(object!=null){
           this.object = object
 
-          this.epigraphyData = object;
-          /* console.log(this.object) */
+          this.epigraphyData = this.object;
           if(this.object != null){
             setTimeout(() => {
               //@ts-ignore
