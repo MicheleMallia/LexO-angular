@@ -35,6 +35,11 @@ export class EpigraphyFormComponent implements OnInit {
     tokenId: ''
   };
 
+  spanSelection = {
+    start : 0,
+    end : 0
+  }
+
   data: object;
   sel_t: object;
   message: string;
@@ -50,6 +55,7 @@ export class EpigraphyFormComponent implements OnInit {
 
   multiWordMode = false;
   annotationArray = [];
+  token_annotationArray = [];
 
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event): void {
@@ -311,6 +317,19 @@ export class EpigraphyFormComponent implements OnInit {
       }
     )
 
+    this.annotatorService.deleteAnnoReq$.subscribe(
+      data=> {
+        if(data != null){
+          this.annotationArray = this.annotationArray.filter(
+            element => {
+              return element.id != data
+            }
+          )
+          console.log(this.annotationArray)
+        }
+      }
+    )
+
   }
 
 
@@ -320,6 +339,8 @@ export class EpigraphyFormComponent implements OnInit {
         if (this.object != changes.epiData.currentValue) {
           this.tokenArray = this.epigraphyForm.get('tokens') as FormArray;
           this.tokenArray.clear();
+          this.spanSelection.start = 0;
+          this.spanSelection.end = 0;
           /* 
   
           this.denotesArray = this.coreForm.get('denotes') as FormArray;
@@ -346,7 +367,8 @@ export class EpigraphyFormComponent implements OnInit {
           
           this.annotatorService.getAnnotation(element_id).subscribe(
             data=>{
-              console.log(data)
+              console.log(data);
+              this.annotationArray = data;
             },error=>{
               console.log(error)
             }
@@ -388,11 +410,7 @@ export class EpigraphyFormComponent implements OnInit {
       if (matchTest) {
         //TODO: highlight su div che contiene multiword
       } else {
-        if(evt.target.classList.contains('annotation_entire')){
-          this.object[i]['selected'] = false;
-        }else{
-          this.object[i]['selected'] = true;
-        }
+        this.object[i]['selected'] = true;
         
         if (window.getSelection) {
           if (window.getSelection().empty) {  // Chrome
@@ -565,21 +583,26 @@ export class EpigraphyFormComponent implements OnInit {
   bindSelection(popover, evt, i) {
 
     console.log(this.object[i])
+    this.token_annotationArray = [];
+    this.annotationArray.forEach(
+      annotation => {
 
-    this.annotatorService.getAnnotation(this.object[i].node).subscribe(
-      data => {
-        console.log(data);
-        if(data != undefined){
-          if(data.length > 0){
-            this.annotationArray = data;
-            this.lexicalService.triggerAttestationPanel(true);
-            this.lexicalService.sendToAttestationPanel(data)
-          }else{
-            this.annotationArray = [];
+        let start_token = this.object[i].begin;
+        let end_token = this.object[i].end;
+
+        annotation.spans.forEach(element => {
+          if(element.start >= start_token && element.end <= end_token){
+            this.token_annotationArray.push(annotation);
           }
-        } 
-      },error=> {
-        console.log(error)
+        });
+
+        if(this.token_annotationArray.length > 0){
+          this.lexicalService.triggerAttestationPanel(true)
+          this.lexicalService.sendToAttestationPanel(this.token_annotationArray);
+        }else{
+          this.lexicalService.triggerAttestationPanel(false)
+          this.lexicalService.sendToAttestationPanel(null);
+        }
       }
     )
 
@@ -589,7 +612,6 @@ export class EpigraphyFormComponent implements OnInit {
       this.message = '';
       this.object[i]['editing'] = true;
       this.message = window.getSelection().toString();
-
       if (this.selectedPopover.htmlNodeName == '') {
         this.selectedPopover.htmlNodeName = popover._ngbPopoverWindowId;
         this.selectedPopover.tokenId = i;
@@ -620,19 +642,18 @@ export class EpigraphyFormComponent implements OnInit {
       let anchorNode = selection.anchorNode;
       let focusNode = selection.focusNode;
       let isThereMark, areThereAnnotations;
-      isThereMark = popoverHtml.querySelectorAll('.mark').length > 0;
-      areThereAnnotations = popoverHtml.querySelectorAll('.annotation').length > 0;
+      //isThereMark = popoverHtml.querySelectorAll('.mark').length > 0;
+      //areThereAnnotations = popoverHtml.querySelectorAll('.annotation').length > 0;
 
       if (anchorNode != null && focusNode != null) {
         let anchorNodeParent = selection.anchorNode.parentNode;
         let focusNodeParent = selection.focusNode.parentNode;
 
-        if (anchorNodeParent == focusNodeParent && this.message != '' && !areThereAnnotations) {
-          //SITUAZIONE IN CUI STO EFFETTUANDO LA PRIMA ANNOTAZIONE
-          if (selection.anchorNode.textContent.trim().length == innerText.length && !isThereMark
-            && this.message != innerText) {
-            //c'è solo uno span, ancora non è stata effettuata alcuna annotazione e non c'è alcuna annotazione pregressa
-
+        if (anchorNodeParent == focusNodeParent && this.message != '' ) { /* && !areThereAnnotations */
+          //SE SELEZIONO UNA PARTE DEL TOKEN
+        
+          if (selection.anchorNode.textContent.trim().length == innerText.length && this.message != innerText) { //!isThereMark && 
+            
             let anchorOffset = selection.anchorOffset;
             let focusOffset = selection.focusOffset;
 
@@ -643,7 +664,7 @@ export class EpigraphyFormComponent implements OnInit {
               focusOffset = tmp;
             }
 
-            console.log(innerText.substring(anchorOffset, focusOffset))
+            //console.log(innerText.substring(anchorOffset, focusOffset))
             console.log(anchorOffset)
             console.log(focusOffset);
 
@@ -655,15 +676,15 @@ export class EpigraphyFormComponent implements OnInit {
             const r_text = this.renderer.createText(innerText.substring(focusOffset, innerText.length))
 
 
-            console.log("l_text:", l_text)
+            /* console.log("l_text:", l_text)
             console.log("text:", text)
-            console.log("r_text:", r_text)
+            console.log("r_text:", r_text) */
 
 
             this.renderer.appendChild(span, text)
             this.renderer.appendChild(popoverHtml, span);
             this.renderer.addClass(span, 'mark'),
-              this.renderer.setAttribute(span, 'startoffset', anchorOffset.toString());
+            this.renderer.setAttribute(span, 'startoffset', anchorOffset.toString());
             this.renderer.setAttribute(span, 'endoffset', focusOffset.toString())
 
             if (l_text.textContent != "") {
@@ -673,9 +694,23 @@ export class EpigraphyFormComponent implements OnInit {
             if (r_text.textContent != "") {
               this.renderer.appendChild(popoverHtml, r_text);
             }
-            console.log(popoverHtml.childNodes)
+            //console.log(popoverHtml.childNodes)
+            this.spanSelection.start = this.object[i].begin + anchorOffset;
+            this.spanSelection.end = this.object[i].begin + focusOffset -1;
+            this.annotatorService.triggerSearch(this.message);
+          }else if(selection.anchorNode.textContent.trim().length == innerText.length && this.message == innerText){
+            this.message = '';
+            this.annotatorService.triggerSearch(innerText);
           }
-        } else if (this.message != '' && areThereAnnotations) {
+        } 
+        //SE SELEZIONO L'INTERO TOKEN
+        
+        else if(this.message == ''){
+          this.annotatorService.triggerSearch(innerText);
+          this.spanSelection.start = 0;
+          this.spanSelection.end = 0;
+        }
+        /* else if (this.message != '' ) { //&& areThereAnnotations
           let anchorOffset = selection.anchorOffset;
           let focusOffset = selection.focusOffset;
           let range = selection.getRangeAt(0)
@@ -710,10 +745,10 @@ export class EpigraphyFormComponent implements OnInit {
             const text = this.renderer.createText(this.message);
             const r_text = this.renderer.createText(textStartContainer.substring(range.endOffset, textStartContainer.length))
 
-            console.log(anchorOffset, focusOffset)
-            /* console.log("l_text:" , l_text)
-            console.log("text:" , text)
-            console.log("r_text:" , r_text) */
+            //console.log(anchorOffset, focusOffset)
+            //console.log("l_text:" , l_text)
+            //console.log("text:" , text)
+            //console.log("r_text:" , r_text)
 
             //range.startContainer.textContent = '';
 
@@ -790,8 +825,8 @@ export class EpigraphyFormComponent implements OnInit {
                     if (element == x) {
                       element.textContent = '';
 
-                      /* that.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
-                      that.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1]) */
+                      //that.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
+                      //that.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1])
 
                       popoverHtml.insertBefore(span, popoverHtml.childNodes[i + 1]);
 
@@ -859,8 +894,8 @@ export class EpigraphyFormComponent implements OnInit {
                     x => {
                       if (element == x) {
                         element.textContent = '';
-                        /* that.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
-                        that.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1]) */
+                        //that.renderer.setAttribute(span, 'startoffset', generalStartEndOffset[0]);
+                        //that.renderer.setAttribute(span, 'endoffset', generalStartEndOffset[1])
                         popoverHtml.insertBefore(span, popoverHtml.childNodes[i + 1]);
                         //@ts-ignore
                         x.remove();
@@ -872,11 +907,11 @@ export class EpigraphyFormComponent implements OnInit {
 
                 }
 
-                /*  if(element.classList != undefined){
-                   if(element.classList.contains('annotation')){
+                 //if(element.classList != undefined){
+                   //if(element.classList.contains('annotation')){
                      
-                   }
-                 } */
+                   //}
+                // }
 
                 if (nextSibling != null) {
                   foo(nextSibling, that)
@@ -888,17 +923,10 @@ export class EpigraphyFormComponent implements OnInit {
           }
 
 
-        }
+        } */
       }
 
-
-      if(this.message != ''){
-        console.log(1)
-        this.annotatorService.triggerSearch(this.message);
-      }else{
-        console.log(2)
-        this.annotatorService.triggerSearch(innerText);
-      }
+      
 
 
       //TODO: inserire gestione di selezione per le multiword

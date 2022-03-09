@@ -65,7 +65,7 @@ export class SearchFormComponent implements OnInit {
     }
     console.log(parameters)
     if (data != "") { /* && data.length >= 3 */
-      console.log("CIAO")
+      
       this.lexicalService.getFormList(parameters).subscribe(
           data => {
               console.log(data)
@@ -152,10 +152,31 @@ export class SearchFormComponent implements OnInit {
     let idPopover = this.bind.selectedPopover.tokenId;
     let tokenData = this.bind.object[idPopover];
     let textSelection = this.bind.message;
+    let selectionSpan = this.bind.spanSelection;
     let formValue = data.form;
 
     if(textSelection != ''){
-
+      parameters["value"] = formValue;
+      parameters["layer"] = "attestation";
+      parameters["attributes"] = {
+        author : "",
+        creator : "",
+        note: "",
+        confidence : 1,
+        timestamp : new Date().getTime().toString(),
+        bibliography: [],
+        validity : "",
+        externalRef : "",
+        node_id : tokenData.id,
+        label : data.label
+      };
+      parameters["spans"] = [
+        {
+          start : selectionSpan.start.toString(),
+          end : selectionSpan.end.toString()
+        }
+      ];
+      parameters["id"] = tokenData.node;
     }else{
       parameters["value"] = formValue;
       parameters["layer"] = "attestation";
@@ -169,7 +190,7 @@ export class SearchFormComponent implements OnInit {
         validity : "",
         externalRef : "",
         node_id : tokenData.id,
-        annotation_label : data.label
+        label : data.label
       };
       parameters["spans"] = [
         {
@@ -195,31 +216,22 @@ export class SearchFormComponent implements OnInit {
       }
     )
 
-    /* this.lexicalService.getFormData(data.name, 'core').subscribe(
-      data => {
-        console.log(data)
-        this.lexicalService.sendToCoreTab(data);
-        this.expander.expandCollapseEdit(true);
-      }, error=> {
 
-      }
-    ) */
-
-    //TODO INSERIRE MODO PER CREARE SPAN ANNOTATION SE C'È UN ELEMENTO MARK
-    /* let markElement = Array.from(document.getElementsByClassName('mark'))[0];
+    /* //TODO INSERIRE MODO PER CREARE SPAN ANNOTATION SE C'È UN ELEMENTO MARK
+    let markElement = Array.from(document.getElementsByClassName('mark'))[0];
     let parentMarkElement = document.getElementsByClassName('token-'+this.bind.selectedPopover.tokenId)[0];
     if(markElement != null){
       this.renderer.removeClass(markElement, 'mark');
       this.renderer.addClass(markElement, 'annotation');
-      this.renderer.addClass(markElement, 'unselectable')
+      //this.renderer.addClass(markElement, 'unselectable')
     }else{
       //QUI SE NON C'È ALCUN MARK SPAN E VIENE SELEZIONATA LA PAROLA INTERA
       this.renderer.addClass(parentMarkElement, 'annotation_entire');
-      this.renderer.addClass(parentMarkElement, 'unselectable');
-    }
+      //this.renderer.addClass(parentMarkElement, 'unselectable');
+    } */
 
     
-    if(parentMarkElement != null){
+    /* if(parentMarkElement != null){
       Array.from(parentMarkElement.children).forEach(
         element => {
           console.log(element.classList)

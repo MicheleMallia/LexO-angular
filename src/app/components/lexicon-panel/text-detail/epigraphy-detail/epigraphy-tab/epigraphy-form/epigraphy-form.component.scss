@@ -91,8 +91,9 @@ form > div > span {
 }
 
 .annotation_entire {
-    background-color: #00ff158e;
+    /* background-color: #00ff158e; */
     /* padding: 0.3rem 0 !important; */
+    border: 2px dashed #006a6a !important
 }
 
 .annotation_ultra {

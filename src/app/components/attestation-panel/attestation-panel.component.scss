@@ -71,7 +71,11 @@ textarea.form-control{
 #attestationCollapse {
 
     .card-body {
-        padding: 1.25rem !important;
+        padding: 1rem !important;
+
+        .card-body{
+            padding: 0.5rem !important;
+        }
     }
 }
 

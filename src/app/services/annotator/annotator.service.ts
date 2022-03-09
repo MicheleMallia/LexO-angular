@@ -11,11 +11,17 @@ export class AnnotatorService {
   constructor(private http: HttpClient) { }
 
   private _triggerSearch: BehaviorSubject<any> = new BehaviorSubject(null);
+  private _deleteAnnoRequest: BehaviorSubject<any> = new BehaviorSubject(null);
   triggerSearch$ = this._triggerSearch.asObservable();
+  deleteAnnoReq$ = this._deleteAnnoRequest.asObservable();
 
   triggerSearch(string : string) {
     this._triggerSearch.next(string)
   } 
+
+  deleteAnnotationRequest(id : number){
+    this._deleteAnnoRequest.next(id)
+  }
 
   getTokens(id: number) : Observable<any> {
     return this.http.get(this.baseUrl + 'token?nodeid='+id);

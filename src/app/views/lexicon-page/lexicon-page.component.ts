@@ -93,13 +93,13 @@ export class LexiconPageComponent implements OnInit {
               }
             })
 
-            item_collapse.forEach(element => {
+            /* item_collapse.forEach(element => {
               if(element == item_collapse[item_collapse.length-1]){
                 element.classList.add('show')
               }else{
                 element.classList.remove('show')
               }
-            });
+            }); */
           }else{
             let a_link = this.accordion.nativeElement.querySelectorAll('a[data-target="#attestationCollapse"]');
             a_link.forEach(element => {
@@ -155,12 +155,14 @@ export class LexiconPageComponent implements OnInit {
 
     this.lexicalService.attestationPanelData$.subscribe(
       data => {
-        if(Array.isArray(data)){
-          this.attestation = data;
-        }else{
-          this.attestation = [data];
+        console.log(data)
+        if(data != null){
+          if(Array.isArray(data)){
+            this.attestation = data;
+          }else{
+            this.attestation = [data];
+          }
         }
-        
       }
     )
 
