@@ -13,7 +13,7 @@
                 <div class="card mb-3 p-1" *ngFor="let item of formData; let i = index">
                     <a class="attestationCollapse" data-toggle="collapse" [attr.data-target]="'#collapse-'+i"
                         aria-expanded="true" [attr.aria-controls]="'#collapse-'+i"><span class="text-id pointer"><b
-                                class="badge badge-primary">ID:{{item?.id}}</b></span></a>
+                                class="badge badge-primary">ID:{{item?.id}} - {{item?.attributes.label}}</b></span></a>
                     <!-- <span *ngIf="bibliographyData != undefined" class="icons-container"> -->
                     <!-- {{bibliographyData[i]['url'] | json}} -->
                     <!-- <span><a target="_blank" class="pointer text-primary" (click)="synchronizeBibliography(biblio.get('id').value)"><span class="synchro-icon"><i class="fas fa-sync-alt" *ngIf="!loadingSynchro"></i> <i class="fas fa-sync fa-spin" *ngIf="loadingSynchro"></i></span></a></span>
@@ -28,19 +28,29 @@
                             <div class="form-group row ml-2 mr-2 mb-0">
                                 <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Value:</label>
                                 <div class="input-group col-lg-8 pl-0 pr-0">
-                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="item?.value">
+                                    <span class="font-italic overflow-auto p-1">{{item?.value}}</span>
                                 </div>
                             </div>
                             <div class="form-group row ml-2 mr-2 mb-0">
                                 <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">Layer:</label>
                                 <div class="input-group col-lg-8 pl-0 pr-0">
-                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="item?.layer">
+                                    <span class="font-italic overflow-auto p-1">{{item?.layer}}</span>
                                 </div>
                             </div>
                             <div class="form-group row ml-2 mr-2 mb-0" *ngFor="let subprop of item?.attributes | keyvalue">
                                 <label for="inputLabel" class="col-lg-4 pl-0 pr-0 col-form-label">{{subprop?.key}}:</label>
+                                
                                 <div class="input-group col-lg-8 pl-0 pr-0">
-                                    <input id="author" name="author" type="text" class="form-control" placeholder="" [value]="subprop?.value">
+                                    <span class="font-italic overflow-auto p-1" *ngIf="subprop?.key == 'creator' || subprop?.key == 'label' || subprop?.key == 'node_id'">{{subprop?.value}}</span>
+                                    <!-- <input *ngIf="subprop?.key == 'creator' || subprop?.key == 'label'" id="attributes" name="attributes" type="text" class="form-control" placeholder="No info" [value]="subprop?.value" readonly> -->
+                                    <input *ngIf="subprop?.key != 'creator' && 
+                                                  subprop?.key != 'label' && 
+                                                  subprop?.key != 'note' &&
+                                                  subprop?.key != 'timestamp' &&
+                                                  subprop?.key != 'node_id'" 
+                                                  id="attributes" name="attributes" type="text" class="form-control" placeholder="No info" [value]="subprop?.value">
+                                    <span class="font-italic overflow-auto" *ngIf="subprop?.key == 'timestamp'">{{subprop?.value | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                                    <textarea *ngIf="subprop?.key == 'note'" id="attributes" name="attributes" type="text" class="form-control" placeholder="No info" style="resize: none;">{{subprop?.value}}</textarea>
                                 </div>
                             </div>
                         </div>

@@ -182,7 +182,7 @@ export class SearchFormComponent implements OnInit {
       parameters["layer"] = "attestation";
       parameters["attributes"] = {
         author : "",
-        creator : "",
+        creator : "prova",
         note: "",
         confidence : 1,
         timestamp : new Date().getTime().toString(),

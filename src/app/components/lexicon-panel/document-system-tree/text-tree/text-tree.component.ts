@@ -200,7 +200,7 @@ export class TextTreeComponent implements OnInit {
         error => {
           console.log(error)
         }
-      )
+      );
       
       
       

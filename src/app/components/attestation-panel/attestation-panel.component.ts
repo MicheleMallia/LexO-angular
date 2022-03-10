@@ -20,16 +20,22 @@ export class AttestationPanelComponent implements OnInit,OnChanges {
   ngOnChanges(changes: SimpleChanges) { 
     
     console.log(changes)
-    if(changes.attestationData.currentValue != undefined){
+    if(changes.attestationData.currentValue != null){
       
-      if(changes.attestationData.currentValue.length == 1){
-        changes.attestationData.currentValue.forEach(element => {
-          this.formData.push(element)
-        });
-      }else if(changes.attestationData.currentValue.length > 1){
-        this.formData = changes.attestationData.currentValue;
-      }
-
+      setTimeout(() => {
+        console.log(changes.attestationData.currentValue)
+        if(changes.attestationData.currentValue.length == 1 && changes.attestationData.currentValue[0] != this.formData[0]){
+          changes.attestationData.currentValue.forEach(element => {
+            this.formData.push(element)
+          });
+        }else if(changes.attestationData.currentValue.length > 1){
+          this.formData = changes.attestationData.currentValue;
+        }else if(changes.attestationData.currentValue.length == 0){
+          this.formData = [];
+          this.lexicalService.triggerAttestationPanel(false);
+        }
+      }, 10);
+      
     }
   }
 

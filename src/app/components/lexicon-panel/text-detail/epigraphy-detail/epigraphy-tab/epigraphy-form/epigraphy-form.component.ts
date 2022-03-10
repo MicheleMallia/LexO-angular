@@ -235,7 +235,7 @@ export class EpigraphyFormComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   enableMultiword(event: KeyboardEvent) {
-    console.log(event)
+    /* console.log(event) */
     if (event.altKey && event.ctrlKey) {
       this.multiWordMode = true;
       this.object.forEach(element => {
@@ -369,6 +369,8 @@ export class EpigraphyFormComponent implements OnInit {
             data=>{
               console.log(data);
               this.annotationArray = data;
+              this.lexicalService.triggerAttestationPanel(true);
+              this.lexicalService.sendToAttestationPanel(data);
             },error=>{
               console.log(error)
             }
