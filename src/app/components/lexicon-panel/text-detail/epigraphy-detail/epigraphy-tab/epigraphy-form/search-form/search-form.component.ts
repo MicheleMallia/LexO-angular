@@ -168,7 +168,8 @@ export class SearchFormComponent implements OnInit {
         validity : "",
         externalRef : "",
         node_id : tokenData.id,
-        label : data.label
+        label : data.label,
+        form_id : data.formInstanceName
       };
       parameters["spans"] = [
         {
@@ -190,7 +191,8 @@ export class SearchFormComponent implements OnInit {
         validity : "",
         externalRef : "",
         node_id : tokenData.id,
-        label : data.label
+        label : data.label,
+        form_id : data.formInstanceName
       };
       parameters["spans"] = [
         {
@@ -208,8 +210,9 @@ export class SearchFormComponent implements OnInit {
       data=> {
         console.log(data);
         this.bind.annotationArray.push(data);
-        this.lexicalService.triggerAttestationPanel(true);
-        this.lexicalService.sendToAttestationPanel(data);
+        this.bind.populateLocalAnnotation(data)
+        
+        /* this.lexicalService.sendToAttestationPanel(data); */
       },
       error => {
         console.log(error);

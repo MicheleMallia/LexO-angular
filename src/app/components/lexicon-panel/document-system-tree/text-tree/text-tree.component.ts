@@ -195,7 +195,19 @@ export class TextTreeComponent implements OnInit {
             tokens : tokens,
             element_id : element_id
           })
-          this.expander.expandCollapseEpigraphy(true);
+
+          if(!this.expander.isEditTabOpen() && !this.expander.isEpigraphyTabOpen()){
+            if(!this.expander.isEditTabExpanded() && !this.expander.isEpigraphyTabExpanded()){
+              
+              this.expander.expandCollapseEpigraphy(true);
+              this.expander.openCollapseEpigraphy(true);
+            }
+          }else if(this.expander.isEditTabOpen() && !this.expander.isEpigraphyTabOpen()){
+            if(this.expander.isEditTabExpanded() && !this.expander.isEpigraphyTabExpanded()){
+              this.expander.openCollapseEpigraphy(true);
+              this.expander.expandCollapseEdit(false);
+            }
+          }
         },
         error => {
           console.log(error)

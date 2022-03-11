@@ -592,7 +592,26 @@ export class LexicalEntryTreeComponent implements OnInit {
           this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
 
 
-          this.expander.expandCollapseEdit(true);
+          /* if(this.expander.isEpigraphyTabExpanded() && !this.expander.isEditTabExpanded()){
+            this.expander.expandCollapseEdit(false);
+            this.expander.expandCollapseEpigraphy(false);
+          }else if(!this.expander.isEpigraphyTabExpanded() && !this.expander.isEditTabExpanded()){
+            this.expander.expandCollapseEdit(true);
+          } */
+
+          if(!this.expander.isEditTabOpen() && !this.expander.isEpigraphyTabOpen()){
+            if(!this.expander.isEditTabExpanded() && !this.expander.isEpigraphyTabExpanded()){
+              
+              this.expander.expandCollapseEdit(true);
+              this.expander.openCollapseEdit(true);
+            }
+          }else if(!this.expander.isEditTabOpen() && this.expander.isEpigraphyTabOpen()){
+            if(!this.expander.isEditTabExpanded() && this.expander.isEpigraphyTabExpanded()){
+              this.expander.expandCollapseEpigraphy(false);
+              this.expander.openCollapseEdit(true)
+            }
+          }
+          
 
           //@ts-ignore
           $("#coreTabModal").modal("show");

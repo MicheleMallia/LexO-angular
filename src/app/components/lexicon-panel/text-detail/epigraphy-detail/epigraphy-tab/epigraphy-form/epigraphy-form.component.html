@@ -52,6 +52,11 @@
                             <div class="input-group col-sm-10">
                                 <input type="text" class="form-control" id="inputPassword" disabled [value]="anno.value">
                                 <div class="input-group-append ml-2">
+                                    <button (click)="getForm(anno?.attributes.form_id)" class="btn btn-primary" type="button" title="Open form">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group-append ml-2">
                                     <button (click)="deleteAnnotation(anno, i, token)" class="btn btn-danger" type="button" title="Delete annotation">
                                         <i class="fas fa-trash"></i>
                                     </button>

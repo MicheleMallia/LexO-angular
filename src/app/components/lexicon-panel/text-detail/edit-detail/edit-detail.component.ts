@@ -37,6 +37,8 @@ export class EditDetailComponent implements OnInit {
               }
             });
 
+            
+
             var navContent = this.navcontent.nativeElement.querySelectorAll('.tab-pane');
             
             navContent.forEach(element => {
@@ -44,13 +46,17 @@ export class EditDetailComponent implements OnInit {
               if(element.id == 'core'){
                 element.classList.add('active')
                 element.classList.add('show')
+                console.log("picchio");
+                console.log(element)
               }else{
                 
                 element.classList.remove('active')
                 element.classList.remove('show')
-                //console.log(element)
+                console.log("picchio21")
+                console.log(element)
               }
             });
+
           }else {
             this.object = null;
           }
@@ -99,16 +105,30 @@ export class EditDetailComponent implements OnInit {
   }
 
   triggerExpansionEdit(){
-    
-    this.exp.expandCollapseEdit();
-
-    let isEditExpanded = this.exp.isEditTabExpanded();
-    let isEpigraphyExpanded = this.exp.isEpigraphyTabExpanded();
-
+ 
     setTimeout(() => {
-      if(isEpigraphyExpanded){
+
+      if(this.exp.isEditTabOpen() && !this.exp.isEpigraphyTabOpen()){
+        if(this.exp.isEditTabExpanded() && !this.exp.isEpigraphyTabExpanded()){
+          this.exp.openCollapseEdit();
+          this.exp.expandCollapseEdit();
+        }
+      }else if(!this.exp.isEditTabOpen() && !this.exp.isEpigraphyTabOpen()){
+        if(!this.exp.isEditTabExpanded() && !this.exp.isEpigraphyTabExpanded()){
+          this.exp.openCollapseEdit();
+          this.exp.expandCollapseEdit();
+        }
+      }else if(this.exp.isEditTabOpen() && this.exp.isEpigraphyTabOpen()){
+        this.exp.openCollapseEdit();
         this.exp.expandCollapseEpigraphy(true);
+      }else if(!this.exp.isEditTabOpen() && this.exp.isEpigraphyTabOpen()){
+        if(!this.exp.isEditTabExpanded() && this.exp.isEpigraphyTabExpanded()){
+          this.exp.expandCollapseEpigraphy(false);
+          this.exp.openCollapseEdit(true)
+        }
+        
       }
+      
     }, 200);
   }
 

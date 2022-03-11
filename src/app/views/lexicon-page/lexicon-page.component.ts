@@ -155,7 +155,7 @@ export class LexiconPageComponent implements OnInit {
 
     this.lexicalService.attestationPanelData$.subscribe(
       data => {
-        console.log(data)
+        /* console.log(data) */
         if(data != null){
           if(Array.isArray(data)){
             this.attestation = data;

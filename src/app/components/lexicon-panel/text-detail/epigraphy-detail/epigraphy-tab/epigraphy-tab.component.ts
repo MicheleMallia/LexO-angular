@@ -122,11 +122,13 @@ export class EpigraphyTabComponent implements OnInit {
     this.expand.expEpigraphy$.subscribe(
       trigger => {
         setTimeout(() => {
+          console.log("trigger epigraphy-tab: ", trigger)
           if(trigger){
             let isEditExpanded = this.expand.isEditTabExpanded();
             let isEpigraphyExpanded = this.expand.isEpigraphyTabExpanded();
-  
-            if(!isEditExpanded ){
+            console.log(isEditExpanded, isEpigraphyExpanded)
+            
+            if(!isEditExpanded){
               
               this.rend.setStyle(this.expander_body.nativeElement, 'height', 'calc(100vh - 20rem)')
               this.exp_trig = 'in';

@@ -8,6 +8,10 @@ export class ExpanderService {
   
   isEpigraphyExpanded = false;
   isEditExpanded = false;
+
+  isEditOpen = false;
+  isEpigraphyOpen = false;
+
   private _expandEpigraphy: BehaviorSubject<boolean> = new BehaviorSubject(null);
   private _expandEdit: BehaviorSubject<boolean> = new BehaviorSubject(null);
   expEpigraphy$ = this._expandEpigraphy.asObservable();
@@ -35,12 +39,36 @@ export class ExpanderService {
     }
   }
 
+  openCollapseEdit(trigger?){
+    if(trigger != undefined){
+      this.isEditOpen = trigger;
+    }else{
+      this.isEditOpen = !this.isEditOpen
+    }
+  }
+
+  openCollapseEpigraphy(trigger?){
+    if(trigger != undefined){
+      this.isEpigraphyOpen = trigger;
+    }else{
+      this.isEpigraphyOpen = !this.isEpigraphyOpen
+    }
+  }
+
   isEditTabExpanded(){
     return this.isEditExpanded;
   }
 
   isEpigraphyTabExpanded(){
     return this.isEpigraphyExpanded;
+  }
+
+  isEditTabOpen(){
+    return this.isEditOpen;
+  }
+
+  isEpigraphyTabOpen(){
+    return this.isEpigraphyOpen;
   }
 
 }

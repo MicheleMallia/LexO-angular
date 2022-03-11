@@ -21,10 +21,17 @@ export class AttestationPanelComponent implements OnInit,OnChanges {
     
     console.log(changes)
     if(changes.attestationData.currentValue != null){
-      
       setTimeout(() => {
-        console.log(changes.attestationData.currentValue)
-        if(changes.attestationData.currentValue.length == 1 && changes.attestationData.currentValue[0] != this.formData[0]){
+
+        if(changes.attestationData.currentValue != this.formData){
+          this.formData = [];
+        }
+        this.formData = changes.attestationData.currentValue;
+
+        if(this.formData.length == 0){
+          this.lexicalService.triggerAttestationPanel(false)
+        }
+        /* if(changes.attestationData.currentValue.length == 1 && changes.attestationData.currentValue[0] != this.formData[0]){
           changes.attestationData.currentValue.forEach(element => {
             this.formData.push(element)
           });
@@ -33,7 +40,7 @@ export class AttestationPanelComponent implements OnInit,OnChanges {
         }else if(changes.attestationData.currentValue.length == 0){
           this.formData = [];
           this.lexicalService.triggerAttestationPanel(false);
-        }
+        } */
       }, 10);
       
     }

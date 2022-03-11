@@ -59,14 +59,28 @@ export class EpigraphyDetailComponent implements OnInit {
   }
 
   triggerExpansionEpigraphy(){
-    this.exp.expandCollapseEpigraphy();
 
-    let isEditExpanded = this.exp.isEditTabExpanded();
-    let isEpigraphyExpanded = this.exp.isEpigraphyTabExpanded();
 
     setTimeout(() => {
-      if(isEditExpanded){
+      if(!this.exp.isEditTabOpen() && this.exp.isEpigraphyTabOpen()){
+        if(!this.exp.isEditTabExpanded() && this.exp.isEpigraphyTabExpanded()){
+          this.exp.openCollapseEpigraphy();
+          this.exp.expandCollapseEpigraphy();
+        }
+      }else if(!this.exp.isEditTabOpen() && !this.exp.isEpigraphyTabOpen()){
+        if(!this.exp.isEditTabExpanded() && !this.exp.isEpigraphyTabExpanded()){
+          this.exp.openCollapseEpigraphy();
+          this.exp.expandCollapseEpigraphy();
+        }
+      }else if(this.exp.isEditTabOpen() && this.exp.isEpigraphyTabOpen()){
+        this.exp.openCollapseEpigraphy();
         this.exp.expandCollapseEdit(true);
+      }else if(this.exp.isEditTabOpen() && !this.exp.isEpigraphyTabOpen()){
+        if(this.exp.isEditTabExpanded() && !this.exp.isEpigraphyTabExpanded()){
+          this.exp.expandCollapseEdit(false);
+          this.exp.openCollapseEpigraphy(true)
+        }
+        
       }
     }, 200);
   }

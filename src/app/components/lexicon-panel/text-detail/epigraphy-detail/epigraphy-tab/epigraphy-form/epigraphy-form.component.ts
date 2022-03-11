@@ -582,6 +582,27 @@ export class EpigraphyFormComponent implements OnInit {
     this.renderer.appendChild(span, div);
   }
 
+  populateLocalAnnotation(anno){
+    this.token_annotationArray = [];
+    this.annotationArray.forEach(
+      annotation => {
+
+        let start_token = anno.spans[0].start;
+        let end_token = anno.spans[0].end;
+
+        annotation.spans.forEach(element => {
+          if(element.start >= start_token && element.end <= end_token){
+            this.token_annotationArray.push(annotation);
+          }
+        });
+      }
+    )
+    if(this.token_annotationArray.length > 0){
+      this.lexicalService.triggerAttestationPanel(true);
+      this.lexicalService.sendToAttestationPanel(this.token_annotationArray)
+    }
+  }
+
   bindSelection(popover, evt, i) {
 
     console.log(this.object[i])
@@ -965,7 +986,38 @@ export class EpigraphyFormComponent implements OnInit {
         console.log(error)
       }
     )
+    this.token_annotationArray.splice(index, 1)
     this.annotationArray.splice(index, 1);
+  }
+
+  getForm(formId){
+    
+    this.lexicalService.getFormData(formId, 'core').subscribe(
+      data=>{
+        console.log(data);
+        this.lexicalService.sendToCoreTab(data)
+        this.lexicalService.sendToEtymologyTab(null);
+        this.lexicalService.sendToRightTab(data);
+        this.lexicalService.updateLexCard({lastUpdate : data['lastUpdate'], creationDate : data['creationDate']});
+        
+        if(this.expander.isEpigraphyTabOpen() && !this.expander.isEditTabOpen()){
+          if(this.expander.isEpigraphyTabExpanded() && !this.expander.isEditTabExpanded()){
+            this.expander.openCollapseEdit(true);
+            this.expander.expandCollapseEpigraphy(false)
+          }
+        }
+        
+        var text_detail = document.querySelectorAll('#text-dettaglio');
+        text_detail.forEach(element => {
+          if(!element.classList.contains('show')){
+            element.classList.add('show')
+          }
+        })
+      },
+      error=>{
+        console.log(error)
+      }
+    )
   }
 
 }
