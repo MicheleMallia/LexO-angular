@@ -39,4 +39,8 @@ export class AnnotatorService {
     return this.http.delete(this.baseUrl + 'annotate?annotationID='+id);
   }
 
+  updateAnnotation(annotation : object) : Observable<any>{
+    return this.http.put(this.baseUrl + 'annotation', annotation);
+  }
+
 }

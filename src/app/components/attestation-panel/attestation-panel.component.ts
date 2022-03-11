@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { AnnotatorService } from 'src/app/services/annotator/annotator.service';
 import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-entries.service';
 
@@ -10,10 +12,19 @@ import { LexicalEntriesService } from 'src/app/services/lexical-entries/lexical-
 export class AttestationPanelComponent implements OnInit,OnChanges {
 
   @Input() attestationData: any;
+  private update_anno_subject: Subject<any> = new Subject();
   constructor(private annotatorService : AnnotatorService, private lexicalService : LexicalEntriesService) { }
 
   formData = [];
   ngOnInit(): void {
+
+    this.update_anno_subject.pipe(debounceTime(1000)).subscribe(
+      data => {
+        if(data != null){
+          this.updateAnnotation(data)
+        }
+      }
+    )
   }
   
 
@@ -31,16 +42,7 @@ export class AttestationPanelComponent implements OnInit,OnChanges {
         if(this.formData.length == 0){
           this.lexicalService.triggerAttestationPanel(false)
         }
-        /* if(changes.attestationData.currentValue.length == 1 && changes.attestationData.currentValue[0] != this.formData[0]){
-          changes.attestationData.currentValue.forEach(element => {
-            this.formData.push(element)
-          });
-        }else if(changes.attestationData.currentValue.length > 1){
-          this.formData = changes.attestationData.currentValue;
-        }else if(changes.attestationData.currentValue.length == 0){
-          this.formData = [];
-          this.lexicalService.triggerAttestationPanel(false);
-        } */
+        
       }, 10);
       
     }
@@ -59,6 +61,31 @@ export class AttestationPanelComponent implements OnInit,OnChanges {
     if(this.formData.length == 0){
       this.lexicalService.triggerAttestationPanel(false)
     }
+  }
+
+  triggerUpdateAttestation(evt, newValue, propKey, annotation){
+    this.update_anno_subject.next({event : evt, newValue : newValue, propKey: propKey, annotation : annotation})
+  }
+
+  updateAnnotation(data){
+    if(data !=null){
+      let id_annotation = data?.annotation?.id;
+      let newValue = data?.newValue;
+      let property = data?.propKey;
+
+      let annotation = data?.annotation; 
+
+      annotation.attributes[property] = newValue;
+
+      this.annotatorService.updateAnnotation(annotation).subscribe(
+        data=> {
+          console.log(data)
+        },error =>{
+          console.log(error)
+        }
+      )
+
+    } 
   }
 
 }
