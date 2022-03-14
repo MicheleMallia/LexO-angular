@@ -201,7 +201,7 @@ export class EpigraphyFormComponent implements OnInit {
           }
         } else if (next != undefined) {
           if (next.classList != undefined) {
-            let classNames = prev.className;
+            let classNames = next.className;
             let matchTest = /(^|\s)(multiword-span-\d)(\s|$)/.test(classNames)
             if (matchTest) {
               this.renderer.addClass(element, 'border-right-0')
