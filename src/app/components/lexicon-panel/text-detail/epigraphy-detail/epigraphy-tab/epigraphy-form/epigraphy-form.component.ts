@@ -210,6 +210,8 @@ export class EpigraphyFormComponent implements OnInit {
         }
       })
 
+      console.log(this.spanPopovers)
+
     } else {
       if (!this.multiWordMode) {
 
@@ -963,7 +965,6 @@ export class EpigraphyFormComponent implements OnInit {
           console.log(element)
           text += element.textContent + ' ';
         })
-        console.log(3)
         this.annotatorService.triggerSearch(text);
       }
     }, 10);
